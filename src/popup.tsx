@@ -60,7 +60,7 @@ function IndexPopup() {
   }
 
   return (
-    <div className="px-5 pt-3 pb-4 w-[300px]">
+    <div className="px-5 pt-3 pb-4 w-[330px]">
       <h1 className="text-primary text-2xl font-thin flex gap-2 items-center"><svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path stroke-linecap="round" d="M36 8H13c-3 0-9 2-9 8s6 8 9 8h22c3 0 9 2 9 8s-6 8-9 8H12"/><path d="M40 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8ZM8 44a4 4 0 1 0 0-8a4 4 0 0 0 0 8Z"/></g></svg>Sky Follower Bridge</h1>
       <form onSubmit={searchBskyUser} className="mt-2">
         <label className="input-group input-group-lg">
