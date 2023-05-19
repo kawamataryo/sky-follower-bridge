@@ -4,29 +4,40 @@
   "version": "0.0.1",
   "description": "A basic Plasmo extension.",
   "author": "kawamataryou",
-  "packageManager": "pnpm@7.16.1",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package"
   },
   "dependencies": {
+    "@atproto/api": "^0.3.3",
+    "@plasmohq/messaging": "^0.3.0",
+    "@plasmohq/storage": "^1.6.0",
+    "daisyui": "^2.51.6",
+    "lit": "^2.7.4",
     "plasmo": "0.67.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.6.4",
     "@types/chrome": "0.0.210",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
     "prettier": "2.8.3",
-    "typescript": "4.9.4",
-    "@plasmohq/prettier-plugin-sort-imports": "3.6.4"
+    "tailwindcss": "^3.3.2",
+    "typescript": "4.9.4"
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://bsky.social/*",
+      "https://twitter.com/*"
     ]
+  },
+  "volta": {
+    "node": "16.20.0"
   }
 }
