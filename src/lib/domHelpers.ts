@@ -11,6 +11,36 @@ export const getUserCells = () => {
   })
 }
 
+export const insertReloadEl = (clickAction: () => void) => {
+  removeReloadEl()
+  const primaryColumn = document.querySelector('[data-testid="primaryColumn"]') as HTMLElement
+  primaryColumn.insertAdjacentHTML('afterbegin', `
+    <button class="bsky-reload">
+      Find More
+    </button>
+  `)
+  const reloadBtn =  document.querySelector(".bsky-reload") as HTMLElement
+  const rectLeft = primaryColumn.getBoundingClientRect().left
+  reloadBtn.style.left = `${rectLeft + 15}px`
+
+  reloadBtn.addEventListener("click", async (e) => {
+    const target = e.target as HTMLButtonElement
+    if(target.classList.contains('bsky-reload__processing')) {
+      return
+    }
+    target.textContent = "Processing..."
+    target.classList.add('bsky-reload__processing')
+    await clickAction()
+    target.textContent = "Find More"
+    target.classList.remove('bsky-reload__processing')
+  })
+}
+
+export const removeReloadEl = () => {
+  const reloadBtn =  document.querySelector(".bsky-reload") as HTMLElement
+  reloadBtn?.remove()
+}
+
 export const getAccountNameAndDisplayName = (userCell: Element) => {
     const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
     const twAccountName =  avatarEl?.getAttribute("href")?.replace("/", "")
@@ -41,6 +71,7 @@ export const insertBskyProfileEl = ({dom, profile, abortController, clickAction}
   </div>
   `)
   dom.nextElementSibling?.addEventListener('click', async (e) => {
+    // TODO: Add unfollow action
     const target = e.target as Element
     const classList = target.classList
     if(classList.contains('follow-button') && !classList.contains('follow-button__following')) {
@@ -72,11 +103,4 @@ export const cleanBskyUserElements = () => {
       el.remove()
     })
    }
-}
-
-export const isOutOfView = (el: Element) => {
-  const rect = el.getBoundingClientRect();
-  return (
-      rect.top < 50 // out of scroll view
-  );
 }

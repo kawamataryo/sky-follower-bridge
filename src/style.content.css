@@ -1,6 +1,6 @@
 /* base */
 
-.bsky-user-content {
+:root {
   --bsky-primary-color: rgb(29, 78, 216);
 }
 
@@ -90,4 +90,23 @@
 
 .bsky-user-content__not-found svg {
   width: 16px;
+}
+
+/* reload btn */
+.bsky-reload {
+  position: fixed;
+  z-index: 1000;
+  padding: 4px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--bsky-primary-color);
+  color: #fff;
+  top: 60px;
+  cursor: pointer;
+}
+
+.bsky-reload__processing {
+  opacity: rgba(var(--bsky-primary-color), 0.8);
+  cursor: auto;
 }

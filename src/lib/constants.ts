@@ -12,3 +12,8 @@ export const TARGET_URLS_REGEX = [
   /^https:\/\/twitter\.com\/[^/]+\/following$/,
   /^https:\/\/twitter\.com\/[^/]+\/followers$/,
 ]
+
+export const MESSAGE_TYPE = {
+  ERROR: "error",
+  SUCCESS: "success",
+} as const

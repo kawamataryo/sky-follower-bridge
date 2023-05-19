@@ -1,9 +1,10 @@
 import { BskyClient } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { MESSAGE_NAMES } from "~lib/constants";
-import { cleanBskyUserElements, getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, isOutOfView } from "~lib/domHelpers";
+import { getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, insertReloadEl, isOutOfView } from "~lib/domHelpers";
 import { isSimilarUser } from "~lib/bskyHelpers";
+import "./style.content.css"
+import { debugLog } from "~lib/utils";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*"],
@@ -11,6 +12,8 @@ export const config: PlasmoCSConfig = {
 }
 
 let abortController = new AbortController();
+
+const notFoundUserCache = new Set<string>()
 
 const initialize = async () => {
   abortController.abort()
@@ -22,19 +25,20 @@ const searchBskyUsers = async ({
   userId,
   password
 }) => {
-  initialize()
-
   const agent = await BskyClient.createAgent({
     identifier: userId,
     password: password,
   });
 
   const userCells = getUserCells()
+  debugLog(`userCells length: ${userCells.length}`)
 
   for(const [index, userCell] of userCells.entries()) {
-    if(isOutOfView(userCell)) { continue }
-
     const { twAccountName, twDisplayName } = getAccountNameAndDisplayName(userCell)
+    if(notFoundUserCache.has(twAccountName)) {
+      insertNotFoundEl(userCell)
+      continue
+     }
 
     const [searchResultByAccountName] = await agent.searchUser({
       term: twAccountName,
@@ -64,6 +68,7 @@ const searchBskyUsers = async ({
         })
       } else {
         insertNotFoundEl(userCell)
+        notFoundUserCache.add(twAccountName)
       }
     }
 
@@ -76,13 +81,21 @@ const searchBskyUsers = async ({
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if(message.name === MESSAGE_NAMES.SEARCH_BSKY_USER) {
+      initialize()
+
       searchBskyUsers({
         userId: message.body.userId,
         password: message.body.password
       }).then(() => {
-        sendResponse({ error: false })
+        insertReloadEl(async () => {
+          await searchBskyUsers({
+            userId: message.body.userId,
+            password: message.body.password
+          })
+        })
+        sendResponse({ hasError: false })
       }).catch((e) => {
-        sendResponse({ error: true, message: e})
+        sendResponse({ hasError: true, message: e.toString()})
       })
       return true
    }
