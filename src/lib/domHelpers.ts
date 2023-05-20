@@ -1,64 +1,65 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs"
 
-export const getUserCells = () => {
+export const getUserCells = ({ filterInsertedElement }: { filterInsertedElement: boolean } = { filterInsertedElement: true }) => {
   const userCells = document.querySelectorAll('[data-testid="primaryColumn"] [data-testid="UserCell"]');
 
   // filter out already inserted elements
-  return Array.from(userCells).filter((userCell) => {
-    const nextElement = userCell.nextElementSibling
-    if (!nextElement) { return true }
-    return nextElement.classList.contains("bsky-user-content") === false
-  })
+  if (filterInsertedElement) {
+    return Array.from(userCells).filter((userCell) => {
+      const nextElement = userCell.nextElementSibling
+      if (!nextElement) { return true }
+      return nextElement.classList.contains("bsky-user-content") === false
+    })
+  } else {
+    return Array.from(userCells)
+  }
 }
 
 export const insertReloadEl = (clickAction: () => void) => {
-  removeReloadEl()
-  const primaryColumn = document.querySelector('[data-testid="primaryColumn"]') as HTMLElement
-  primaryColumn.insertAdjacentHTML('afterbegin', `
-    <button class="bsky-reload">
+  const lastInsertedEl = Array.from(document.querySelectorAll('.bsky-user-content')).at(-1)
+  lastInsertedEl.insertAdjacentHTML('afterend', `
+  <div class="bsky-reload-btn-wrapper">
+    <button class="bsky-reload-btn">
       Find More
     </button>
+  </div>
   `)
-  const reloadBtn =  document.querySelector(".bsky-reload") as HTMLElement
-  const rectLeft = primaryColumn.getBoundingClientRect().left
-  reloadBtn.style.left = `${rectLeft + 15}px`
 
+  const reloadBtn = document.querySelector(".bsky-reload-btn") as HTMLElement
   reloadBtn.addEventListener("click", async (e) => {
     const target = e.target as HTMLButtonElement
-    if(target.classList.contains('bsky-reload__processing')) {
+    if (target.classList.contains('bsky-reload-btn__processing')) {
       return
     }
-    target.textContent = "Processing..."
-    target.classList.add('bsky-reload__processing')
     await clickAction()
-    target.textContent = "Find More"
-    target.classList.remove('bsky-reload__processing')
   })
 }
 
-export const removeReloadEl = () => {
-  const reloadBtn =  document.querySelector(".bsky-reload") as HTMLElement
-  reloadBtn?.remove()
+export const removeReloadElIfExists = () => {
+  const reloadBtnWrapper = document.querySelector(".bsky-reload-btn-wrapper") as HTMLElement
+  reloadBtnWrapper?.remove()
 }
 
 export const getAccountNameAndDisplayName = (userCell: Element) => {
-    const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
-    const twAccountName =  avatarEl?.getAttribute("href")?.replace("/", "")
-    const twDisplayName =  displayNameEl?.textContent
-    return {twAccountName, twDisplayName}
+  const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
+  const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "")
+  const twDisplayName = displayNameEl?.textContent
+  return { twAccountName, twDisplayName }
 }
-export const insertBskyProfileEl = ({dom, profile, abortController, clickAction}:  {dom: Element, profile: ProfileView, abortController: AbortController, clickAction: () => void}) => {
+export const insertBskyProfileEl = ({ dom, profile, abortController, clickAction }: { dom: Element, profile: ProfileView, abortController: AbortController, clickAction: () => void }) => {
   const avatarEl = profile.avatar ? `<img src="${profile.avatar}" width="48" />` : "<div class='no-avatar'></div>"
   const followButtonEl = profile.viewer?.following ? "<button class='follow-button follow-button__following'>Following on Bluesky</button>" : "<button class='follow-button'>Follow on Bluesky</button>"
   dom.insertAdjacentHTML('afterend', `
   <div class="bsky-user-content">
     <div class="icon-section">
-      ${avatarEl}
+      <a href="https://bsky.app/profile/${profile.handle}" target="_blank" rel="noopener">
+        ${avatarEl}
+      </a>
     </div>
     <div class="content">
       <div class="name-and-controller">
         <div>
-          <p class="display-name"><a href="https://staging.bsky.app/profile/${profile.handle}" target="_blank" rel="noopener">${profile.displayName ?? profile.handle}</a></p>
+          <p class="display-name"><a href="https://bsky.app/profile/${profile.handle}" target="_blank" rel="noopener">${profile.displayName ?? profile.handle}</a></p>
           <p class="handle">@${profile.handle}</p>
         </div>
         <div>
@@ -74,7 +75,7 @@ export const insertBskyProfileEl = ({dom, profile, abortController, clickAction}
     // TODO: Add unfollow action
     const target = e.target as Element
     const classList = target.classList
-    if(classList.contains('follow-button') && !classList.contains('follow-button__following')) {
+    if (classList.contains('follow-button') && !classList.contains('follow-button__following')) {
       target.textContent = "processing..."
       target.classList.add('follow-button__processing')
       await clickAction()
@@ -98,9 +99,9 @@ export const insertNotFoundEl = (dom: Element) => {
 
 export const cleanBskyUserElements = () => {
   const bskyUserContent = document.querySelectorAll('.bsky-user-content');
-  if(bskyUserContent.length > 0) {
+  if (bskyUserContent.length > 0) {
     bskyUserContent.forEach((el) => {
       el.remove()
     })
-   }
+  }
 }
