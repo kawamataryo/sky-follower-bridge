@@ -1,4 +1,4 @@
-import { AppBskyFeedPost, AppBskyRichtextFacet, BskyAgent } from "@atproto/api";
+import {  BskyAgent } from "@atproto/api";
 
 export class BskyClient {
   private service = "https://bsky.social";
@@ -34,6 +34,10 @@ export class BskyClient {
   };
 
   public follow = async (subjectDid: string) => {
-    await this.agent.follow(subjectDid);
+    return await this.agent.follow(subjectDid);
+  }
+
+  public unfollow = async (followUri: string) => {
+    return await this.agent.deleteFollow(followUri);
   }
 }

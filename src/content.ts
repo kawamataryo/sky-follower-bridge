@@ -15,6 +15,8 @@ let abortController = new AbortController();
 
 const notFoundUserCache = new Set<string>()
 
+const followerUrlMap = new Map<string, string>()
+
 const initialize = async () => {
   abortController.abort()
   abortController = new AbortController()
@@ -47,13 +49,24 @@ const searchBskyUsers = async ({
       limit: 1,
     })
 
+    // TODO: Refactor, this is duplicated
     // first, search by account name
     if (isSimilarUser(twDisplayName, searchResultByAccountName) || isSimilarUser(twAccountName, searchResultByAccountName)) {
       insertBskyProfileEl({
         dom: userCell,
         profile: searchResultByAccountName,
         abortController,
-        clickAction: async () => { await agent.follow(searchResultByAccountName.did) }
+          followAction: async () => {
+            const result = await agent.follow(searchResultByAccountName.did);
+            followerUrlMap.set(searchResultByAccountName.did, result.uri)
+          },
+          unfollowAction: async () => {
+            if(searchResultByAccountName?.viewer?.following) {
+              await agent.unfollow(searchResultByAccountName?.viewer?.following);
+            } else {
+              await agent.unfollow(followerUrlMap.get(searchResultByAccountName.did));
+            }
+          },
       })
     } else {
       // if not found, search by display name
@@ -66,30 +79,35 @@ const searchBskyUsers = async ({
           dom: userCell,
           profile: searchResultByDisplayName,
           abortController,
-          clickAction: async () => { await agent.follow(searchResultByAccountName.did) }
+          followAction: async () => {
+            const result = await agent.follow(searchResultByDisplayName.did);
+            followerUrlMap.set(searchResultByDisplayName.did, result.uri)
+          },
+          unfollowAction: async () => {
+            if(searchResultByDisplayName?.viewer?.following) {
+              await agent.unfollow(searchResultByDisplayName?.viewer?.following);
+            } else {
+              await agent.unfollow(followerUrlMap.get(searchResultByDisplayName.did));
+            }
+          },
         })
       } else {
         insertNotFoundEl(userCell)
         notFoundUserCache.add(twAccountName)
       }
     }
-    if (process.env.NODE_ENV === "development" && index > 100) {
+    if (process.env.NODE_ENV === "development" && index > 5) {
       break
     }
   }
 
-  // if there are more users, insert reload button
-  const finishedUserCells = getUserCells({
-    filterInsertedElement: false
-  })
-  if (finishedUserCells.at(-1) !== userCells.at(-1)) {
-    insertReloadEl(async () => {
-      await searchBskyUsers({
-        userId,
-        password,
-      })
+  // TODO: if there are more users, insert reload button
+  insertReloadEl(async () => {
+    await searchBskyUsers({
+      userId,
+      password,
     })
-  }
+  })
 }
 
 

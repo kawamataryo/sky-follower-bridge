@@ -46,7 +46,7 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   const twDisplayName = displayNameEl?.textContent
   return { twAccountName, twDisplayName }
 }
-export const insertBskyProfileEl = ({ dom, profile, abortController, clickAction }: { dom: Element, profile: ProfileView, abortController: AbortController, clickAction: () => void }) => {
+export const insertBskyProfileEl = ({ dom, profile, abortController, followAction, unfollowAction }: { dom: Element, profile: ProfileView, abortController: AbortController, followAction: () => void, unfollowAction: () => void }) => {
   const avatarEl = profile.avatar ? `<img src="${profile.avatar}" width="48" />` : "<div class='no-avatar'></div>"
   const followButtonEl = profile.viewer?.following ? "<button class='follow-button follow-button__following'>Following on Bluesky</button>" : "<button class='follow-button'>Follow on Bluesky</button>"
   dom.insertAdjacentHTML('afterend', `
@@ -68,20 +68,55 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, clickAction
       </div>
       ${profile.description ? `<p class="description">${profile.description}</p>` : ""}
     </div>
-    <simple-greeting></simple-greeting>
   </div>
   `)
-  dom.nextElementSibling?.addEventListener('click', async (e) => {
-    // TODO: Add unfollow action
+  const bskyUserContentDom = dom.nextElementSibling as Element
+
+  // register a click action
+  bskyUserContentDom?.addEventListener('click', async (e) => {
     const target = e.target as Element
     const classList = target.classList
+
+    // follow action
     if (classList.contains('follow-button') && !classList.contains('follow-button__following')) {
       target.textContent = "processing..."
       target.classList.add('follow-button__processing')
-      await clickAction()
+      await followAction()
       target.textContent = "Following on Bluesky"
       target.classList.remove('follow-button__processing')
       target.classList.add('follow-button__following')
+      return
+    }
+
+    // unfollow action
+    if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
+      target.textContent = "processing..."
+      target.classList.add('follow-button__processing')
+      await unfollowAction()
+      target.textContent = "Follow on Bluesky"
+      target.classList.remove('follow-button__processing')
+      target.classList.remove('follow-button__following')
+      return
+    }
+  }, {
+    signal: abortController.signal
+  })
+
+  // register a hover action
+  bskyUserContentDom?.addEventListener('mouseover', async (e) => {
+    const target = e.target as Element
+    const classList = target.classList
+    if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
+      target.textContent = "Unfollow on Bluesky"
+    }
+  }, {
+    signal: abortController.signal
+  })
+  bskyUserContentDom?.addEventListener('mouseout', async (e) => {
+    const target = e.target as Element
+    const classList = target.classList
+    if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
+      target.textContent = "Following on Bluesky"
     }
   }, {
     signal: abortController.signal

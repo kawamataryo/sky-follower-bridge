@@ -78,12 +78,20 @@
 .name-and-controller .follow-button__following {
   background: transparent;
   color: #fff;
-  cursor: auto;
+  cursor: pointer;
+}
+
+.name-and-controller .follow-button__following:hover {
+  background: rgba(255, 0, 0, 0.1);
+  color: red;
+  border: 1px solid red;
+  cursor: pointer;
 }
 
 .name-and-controller .follow-button__processing {
   background: rgb(255,255,255, 0.3);;
   color: #fff;
+  border: 1px solid #fff;
   cursor: auto;
 }
 
