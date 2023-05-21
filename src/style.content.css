@@ -1,7 +1,6 @@
 /* ----------------- */
 /* base */
 /* ----------------- */
-
 :root {
   --bsky-primary-color: rgb(29, 78, 216);
   --bsky-primary-hover-color: #2563eb;
@@ -88,10 +87,17 @@
   cursor: pointer;
 }
 
+.name-and-controller .follow-button__following.follow-button__just-followed:hover {
+  background: transparent !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  cursor: pointer;
+}
+
 .name-and-controller .follow-button__processing {
-  background: rgb(255,255,255, 0.3);;
-  color: #fff;
-  border: 1px solid #fff;
+  background: rgb(255,255,255, 0.3) !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
   cursor: auto;
 }
 

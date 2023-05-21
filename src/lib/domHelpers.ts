@@ -96,6 +96,7 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
       target.textContent = "Follow on Bluesky"
       target.classList.remove('follow-button__processing')
       target.classList.remove('follow-button__following')
+      target.classList.add('follow-button__just-followed')
       return
     }
   }, {
@@ -115,6 +116,9 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
   bskyUserContentDom?.addEventListener('mouseout', async (e) => {
     const target = e.target as Element
     const classList = target.classList
+    if(classList.contains('follow-button__just-followed')) {
+      target.classList.remove('follow-button__just-followed')
+    }
     if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
       target.textContent = "Following on Bluesky"
     }
