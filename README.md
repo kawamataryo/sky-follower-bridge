@@ -1,4 +1,4 @@
-# Sky Follower Bridge（Wip）
+# Sky Follower Bridge
 
 Instantly find and follow the same users from your Twitter follower on Bluesky.
 
@@ -6,8 +6,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 
 
 ## 📦 Installation
-- [Chrome Web Store]()
-- [Edge Add Ons]()
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)
 
 ## 🚀 How to use
 1.	Open your Twitter [Follower](https://twitter.com/following) or [Follow](https://twitter.com/followers) page.
