@@ -144,3 +144,8 @@ export const cleanBskyUserElements = () => {
     })
   }
 }
+
+export const isOutOfTopViewport = (el: Element) => {
+  const rect = el.getBoundingClientRect();
+  return rect.top < 0
+}

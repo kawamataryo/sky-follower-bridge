@@ -1,3 +1,4 @@
+import { isOutOfTopViewport } from './lib/domHelpers';
 import { BskyClient } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
 import { MESSAGE_NAMES } from "~lib/constants";
@@ -37,7 +38,11 @@ const searchBskyUsers = async ({
   const userCells = getUserCells()
   debugLog(`userCells length: ${userCells.length}`)
 
-  for (const [index, userCell] of userCells.entries()) {
+  let index = 0
+  for (const userCell of userCells) {
+    if(isOutOfTopViewport(userCell)) {
+      continue
+    }
     const { twAccountName, twDisplayName } = getAccountNameAndDisplayName(userCell)
     if (notFoundUserCache.has(twAccountName)) {
       insertNotFoundEl(userCell)
@@ -96,6 +101,8 @@ const searchBskyUsers = async ({
         notFoundUserCache.add(twAccountName)
       }
     }
+
+    index++
     if (process.env.NODE_ENV === "development" && index > 5) {
       break
     }
