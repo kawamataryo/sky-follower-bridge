@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "build:firefox": "plasmo build --target=firefox-mv3",
+    "package": "plasmo package",
+    "package:firefox": "plasmo package --target=firefox-mv3"
   },
   "dependencies": {
     "@atproto/api": "^0.3.3",
@@ -34,7 +36,12 @@
     "host_permissions": [
       "https://bsky.social/*",
       "https://twitter.com/*"
-    ]
+    ],
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "sky-follower-bridge@ryo.kawamata"
+      }
+    }
   },
   "volta": {
     "node": "16.20.0"
