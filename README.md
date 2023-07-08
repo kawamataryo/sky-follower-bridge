@@ -20,6 +20,9 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 5.	Bluesky users will appear in the Follower list.
 6.	Click the Follow button to follow them on Bluesky.
 
+## 🔧 Troubleshooting
+- If you get the error "there isn't a receiving...", **please reload the page** and then click on the extension icon again.
+
 ## 🚨 Limitations
 Note that due to Twitter’s limitations, it’s not possible to search all Followers at once. If you want to search for more, click the Find More button that appears on the screen.
 
