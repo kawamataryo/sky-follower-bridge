@@ -53,7 +53,8 @@ function IndexPopup() {
         setMessage({ type: MESSAGE_TYPE.SUCCESS, message: "Completed. Try again if no results found.”" })
       }
     } catch(e) {
-        setErrorMessage(e.toString())
+        setErrorMessage('Error: Something went wrong. Please reload the web page and try again.')
+        console.error(e)
     } finally {
       setIsLoading(false)
     }
