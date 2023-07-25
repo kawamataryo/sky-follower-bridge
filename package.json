@@ -35,7 +35,8 @@
   "manifest": {
     "host_permissions": [
       "https://bsky.social/*",
-      "https://twitter.com/*"
+      "https://twitter.com/*",
+      "https://x.com/*"
     ],
     "browser_specific_settings": {
       "gecko": {

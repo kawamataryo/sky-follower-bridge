@@ -11,6 +11,8 @@ export const STORAGE_KEYS = {
 export const TARGET_URLS_REGEX = [
   /^https:\/\/twitter\.com\/[^/]+\/following$/,
   /^https:\/\/twitter\.com\/[^/]+\/followers$/,
+  /^https:\/\/x\.com\/[^/]+\/following$/,
+  /^https:\/\/x\.com\/[^/]+\/followers$/,
 ]
 
 export const MESSAGE_TYPE = {
