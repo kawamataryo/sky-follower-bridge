@@ -8,7 +8,7 @@ import "./style.content.css"
 import { debugLog } from "~lib/utils";
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://twitter.com/*"],
+  matches: ["https://twitter.com/*", "https://x.com/*"],
   all_frames: true
 }
 
