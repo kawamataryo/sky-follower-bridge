@@ -1,7 +1,7 @@
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs"
+import type { ProfileView, ViewerState } from "@atproto/api/dist/client/types/app/bsky/actor/defs"
 
-export const getUserCells = ({ filterInsertedElement }: { filterInsertedElement: boolean } = { filterInsertedElement: true }) => {
-  const userCells = document.querySelectorAll('[data-testid="primaryColumn"] [data-testid="UserCell"]');
+export const getUserCells = ({ queryParam, filterInsertedElement }: { queryParam: string, filterInsertedElement: boolean }) => {
+  const userCells = document.querySelectorAll(queryParam);
 
   // filter out already inserted elements
   if (filterInsertedElement) {
@@ -46,9 +46,10 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   const twDisplayName = displayNameEl?.textContent
   return { twAccountName, twDisplayName }
 }
-export const insertBskyProfileEl = ({ dom, profile, abortController, followAction, unfollowAction }: { dom: Element, profile: ProfileView, abortController: AbortController, followAction: () => void, unfollowAction: () => void }) => {
+export const insertBskyProfileEl = ({ dom, profile, statusKey, btnLabel, abortController, followAction, unfollowAction }: { dom: Element, profile: ProfileView, statusKey: keyof ViewerState, btnLabel: string, abortController: AbortController, followAction: () => void, unfollowAction: () => void }) => {
   const avatarEl = profile.avatar ? `<img src="${profile.avatar}" width="48" />` : "<div class='no-avatar'></div>"
-  const followButtonEl = profile.viewer?.following ? "<button class='follow-button follow-button__following'>Following on Bluesky</button>" : "<button class='follow-button'>Follow on Bluesky</button>"
+  const initialUpperLabel = btnLabel.charAt(0).toUpperCase() + btnLabel.slice(1)
+  const actionBtnEl = profile.viewer[statusKey] ? `<button class='follow-button follow-button__following'>${initialUpperLabel}ing on Bluesky</button>` : `<button class='follow-button'>${initialUpperLabel} on Bluesky</button>`
   dom.insertAdjacentHTML('afterend', `
   <div class="bsky-user-content">
     <div class="icon-section">
@@ -63,7 +64,7 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
           <p class="handle">@${profile.handle}</p>
         </div>
         <div>
-          ${followButtonEl}
+          ${actionBtnEl}
         </div>
       </div>
       ${profile.description ? `<p class="description">${profile.description}</p>` : ""}
@@ -82,9 +83,10 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
       target.textContent = "processing..."
       target.classList.add('follow-button__processing')
       await followAction()
-      target.textContent = "Following on Bluesky"
+      target.textContent = `${initialUpperLabel}ing on Bluesky`
       target.classList.remove('follow-button__processing')
       target.classList.add('follow-button__following')
+      target.classList.add('follow-button__just-followed')
       return
     }
 
@@ -93,22 +95,20 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
       target.textContent = "processing..."
       target.classList.add('follow-button__processing')
       await unfollowAction()
-      target.textContent = "Follow on Bluesky"
+      target.textContent = `${initialUpperLabel} on Bluesky`
       target.classList.remove('follow-button__processing')
       target.classList.remove('follow-button__following')
-      target.classList.add('follow-button__just-followed')
       return
     }
   }, {
     signal: abortController.signal
   })
 
-  // register a hover action
   bskyUserContentDom?.addEventListener('mouseover', async (e) => {
     const target = e.target as Element
     const classList = target.classList
     if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
-      target.textContent = "Unfollow on Bluesky"
+      target.textContent = `Un${btnLabel} on Bluesky`
     }
   }, {
     signal: abortController.signal
@@ -120,7 +120,7 @@ export const insertBskyProfileEl = ({ dom, profile, abortController, followActio
       target.classList.remove('follow-button__just-followed')
     }
     if (classList.contains('follow-button') && classList.contains('follow-button__following')) {
-      target.textContent = "Following on Bluesky"
+      target.textContent = `${initialUpperLabel}ing on Bluesky`
     }
   }, {
     signal: abortController.signal

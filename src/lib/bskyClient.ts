@@ -1,5 +1,10 @@
 import {  BskyAgent } from "@atproto/api";
 
+export type BskyLoginParams = {
+  identifier: string;
+  password: string;
+}
+
 export class BskyClient {
   private service = "https://bsky.social";
   agent: BskyAgent;
@@ -10,10 +15,7 @@ export class BskyClient {
   public static async createAgent({
     identifier,
     password,
-  }: {
-    identifier: string;
-    password: string;
-  }): Promise<BskyClient> {
+  }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
     await client.agent.login({ identifier, password });
     return client;
