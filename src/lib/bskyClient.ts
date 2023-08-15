@@ -1,8 +1,19 @@
-import {  BskyAgent } from "@atproto/api";
+import {  AtUri, BskyAgent } from "@atproto/api";
+
+export type BskyLoginParams = {
+  identifier: string;
+  password: string;
+}
 
 export class BskyClient {
   private service = "https://bsky.social";
+  me: {
+    did: string;
+    handle: string;
+    email: string;
+  };
   agent: BskyAgent;
+
   private constructor() {
     this.agent = new BskyAgent({ service: this.service });
   }
@@ -10,12 +21,14 @@ export class BskyClient {
   public static async createAgent({
     identifier,
     password,
-  }: {
-    identifier: string;
-    password: string;
-  }): Promise<BskyClient> {
+  }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
-    await client.agent.login({ identifier, password });
+    const {data} = await client.agent.login({ identifier, password });
+    client.me = {
+      did: data.did,
+      handle: data.handle,
+      email: data.email,
+    }
     return client;
   }
 
@@ -39,5 +52,26 @@ export class BskyClient {
 
   public unfollow = async (followUri: string) => {
     return await this.agent.deleteFollow(followUri);
+  }
+
+  public block = async (subjectDid: string) => {
+    return await this.agent.app.bsky.graph.block.create({
+      repo: this.me.did,
+      collection: "app.bsky.graph.block",
+    },
+    {
+      subject: subjectDid,
+      createdAt: new Date().toISOString(),
+    })
+  }
+
+  public unblock = async (blockUri: string) => {
+    // TODO: unblock is not working. Need to fix it.
+    const {rkey} = new AtUri(blockUri)
+    return await this.agent.app.bsky.graph.block.delete({
+      repo: this.me.did,
+      collection: "app.bsky.graph.block",
+      rkey,
+    });
   }
 }
