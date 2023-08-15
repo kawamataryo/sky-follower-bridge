@@ -1,4 +1,4 @@
-import { isOutOfTopViewport } from './domHelpers';
+import { UserCellBtnLabel, isOutOfTopViewport } from './domHelpers';
 import { getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, insertReloadEl, removeReloadElIfExists } from "~lib/domHelpers";
 import { isSimilarUser } from "~lib/bskyHelpers";
 import { debugLog } from "~lib/utils";
@@ -28,7 +28,7 @@ export const searchBskyUsers = async (
   }: {
     agent: BskyClient,
     userCellQueryParam: string,
-    btnLabel: string,
+    btnLabel: UserCellBtnLabel,
     statusKey: keyof ViewerState,
     addQuery: (arg: string) => Promise<any>,
     removeQuery: (arg: string) => Promise<any>,
