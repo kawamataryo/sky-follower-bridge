@@ -156,39 +156,35 @@ function IndexPopup() {
             placeholder="Bluesky app password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className=" input input-bordered input-sm w-full max-w-xs"
+            className="input input-bordered input-sm w-full max-w-xs"
           />
         </label>
         <button
           type="submit"
-          className={`disabled:text-gray-600 mt-3 normal-case btn btn-primary btn-sm w-full ${
-            isLoading ? "loading" : ""
-          }`}
+          className={`disabled:text-gray-600 mt-3 normal-case btn btn-primary btn-sm w-full`}
           disabled={isDisabled}>
-          Find Bluesky Users
+          { isLoading && <span className="w-4 loading loading-spinner"></span> }
+          { isLoading ? "Finding Bluesky Users" : "Find Bluesky Users" }
         </button>
         {isShowErrorMessage && (
-          <div className="alert text-red-600 border border-red-600 p-2 rounded-md mt-2">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current flex-shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  stroke-linejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>{message.message}</span>
-            </div>
+          <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                stroke-linejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{message.message}</span>
           </div>
         )}
         {isShowSuccessMessage && (
-          <div className="alert text-green-600 border border-green-600 p-1 rounded-md mt-2">
-            <div>
+          <div className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="stroke-current flex-shrink-0 h-6 w-6"
@@ -202,7 +198,6 @@ function IndexPopup() {
                 />
               </svg>
               <span>Success. Try again if no results found.</span>
-            </div>
           </div>
         )}
       </form>
