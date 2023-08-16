@@ -10,7 +10,7 @@ module.exports = {
     themes: [
       {
         winter: {
-          ...require("daisyui/src/colors/themes")["[data-theme=winter]"],
+          ...require("daisyui/src/theming/themes")["[data-theme=winter]"],
           primary: "#1D4ED8"
         }
       },

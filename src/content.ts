@@ -1,135 +1,71 @@
-import { isOutOfTopViewport } from './lib/domHelpers';
-import { BskyClient } from "./lib/bskyClient";
+import { BskyClient, BskyLoginParams } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
-import { MESSAGE_NAMES } from "~lib/constants";
-import { getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, insertReloadEl, removeReloadElIfExists } from "~lib/domHelpers";
-import { isSimilarUser } from "~lib/bskyHelpers";
+import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
 import "./style.content.css"
-import { debugLog } from "~lib/utils";
+import { initialize, searchBskyUsers } from '~lib/searchAndInsertBskyUsers';
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],
   all_frames: true
 }
 
-let abortController = new AbortController();
-
-const notFoundUserCache = new Set<string>()
-
-const followerUrlMap = new Map<string, string>()
-
-const initialize = async () => {
-  abortController.abort()
-  abortController = new AbortController()
-}
-
-
-const searchBskyUsers = async ({
-  userId,
-  password
-}) => {
-  removeReloadElIfExists()
+const searchAndShowBskyUsers = async ({
+  identifier,
+  password,
+  messageName,
+}: BskyLoginParams & { messageName: string }) => {
 
   const agent = await BskyClient.createAgent({
-    identifier: userId,
-    password: password,
-  });
-
-  const userCells = getUserCells()
-  debugLog(`userCells length: ${userCells.length}`)
-
-  let index = 0
-  for (const userCell of userCells) {
-    if(isOutOfTopViewport(userCell)) {
-      continue
-    }
-    const { twAccountName, twDisplayName } = getAccountNameAndDisplayName(userCell)
-    if (notFoundUserCache.has(twAccountName)) {
-      insertNotFoundEl(userCell)
-      continue
-    }
-
-    const [searchResultByAccountName] = await agent.searchUser({
-      term: twAccountName,
-      limit: 1,
-    })
-
-    // TODO: Refactor, this is duplicated
-    // first, search by account name
-    if (isSimilarUser(twDisplayName, searchResultByAccountName) || isSimilarUser(twAccountName, searchResultByAccountName)) {
-      insertBskyProfileEl({
-        dom: userCell,
-        profile: searchResultByAccountName,
-        abortController,
-          followAction: async () => {
-            const result = await agent.follow(searchResultByAccountName.did);
-            followerUrlMap.set(searchResultByAccountName.did, result.uri)
-          },
-          unfollowAction: async () => {
-            if(searchResultByAccountName?.viewer?.following) {
-              await agent.unfollow(searchResultByAccountName?.viewer?.following);
-            } else {
-              await agent.unfollow(followerUrlMap.get(searchResultByAccountName.did));
-            }
-          },
-      })
-    } else {
-      // if not found, search by display name
-      const [searchResultByDisplayName] = await agent.searchUser({
-        term: twDisplayName,
-        limit: 1,
-      })
-      if (isSimilarUser(twDisplayName, searchResultByDisplayName) || isSimilarUser(twAccountName, searchResultByDisplayName)) {
-        insertBskyProfileEl({
-          dom: userCell,
-          profile: searchResultByDisplayName,
-          abortController,
-          followAction: async () => {
-            const result = await agent.follow(searchResultByDisplayName.did);
-            followerUrlMap.set(searchResultByDisplayName.did, result.uri)
-          },
-          unfollowAction: async () => {
-            if(searchResultByDisplayName?.viewer?.following) {
-              await agent.unfollow(searchResultByDisplayName?.viewer?.following);
-            } else {
-              await agent.unfollow(followerUrlMap.get(searchResultByDisplayName.did));
-            }
-          },
-        })
-      } else {
-        insertNotFoundEl(userCell)
-        notFoundUserCache.add(twAccountName)
-      }
-    }
-
-    index++
-    if (process.env.NODE_ENV === "development" && index > 5) {
-      break
-    }
-  }
-
-  // TODO: if there are more users, insert reload button
-  insertReloadEl(async () => {
-    await searchBskyUsers({
-      userId,
-      password,
-    })
+    identifier,
+    password,
   })
+  switch (messageName) {
+    case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE:
+      await searchBskyUsers({
+        agent,
+        btnLabel: {
+          add: "Follow",
+          remove: "Unfollow",
+          progressive: "Following",
+        },
+        statusKey: VIEWER_STATE.FOLLOWING,
+        userCellQueryParam: '[data-testid="primaryColumn"] [data-testid="UserCell"]',
+        addQuery: async (arg: string) => await agent.follow(arg),
+        removeQuery: async (arg: string) => await agent.unfollow(arg),
+      })
+      break
+    case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE:
+      // TODO: If already blocked, don't show blocking state. because blocking user can't find.
+      await searchBskyUsers({
+        agent,
+        btnLabel: {
+          add: "Block",
+          remove: "Unblock",
+          progressive: "Blocking",
+        },
+        statusKey: VIEWER_STATE.BLOCKING,
+        userCellQueryParam: '[data-testid="UserCell"]',
+        addQuery: async (arg: string) => await agent.block(arg),
+        removeQuery: async (arg: string) => await agent.unblock(arg),
+      })
+      break
+  }
 }
 
-
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
-  if (message.name === MESSAGE_NAMES.SEARCH_BSKY_USER) {
+  if (Object.values(MESSAGE_NAMES).includes(message.name)) {
     initialize()
-
-    searchBskyUsers({
-      userId: message.body.userId,
-      password: message.body.password
-    }).then(() => {
-      sendResponse({ hasError: false })
-    }).catch((e) => {
-      sendResponse({ hasError: true, message: e.toString() })
+    searchAndShowBskyUsers({
+      identifier: message.body.userId,
+      password: message.body.password,
+      messageName: message.name,
     })
+      .then(() => {
+        sendResponse({ hasError: false })
+      })
+      .catch((e) => {
+        sendResponse({ hasError: true, message: e.toString() })
+      });
     return true
   }
   return false
