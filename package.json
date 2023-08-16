@@ -18,7 +18,8 @@
     "plasmo": "^0.82.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "ts-pattern": "^5.0.5"
+    "ts-pattern": "^5.0.5",
+    "vanjs-core": "^1.0.2"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "4.0.1",

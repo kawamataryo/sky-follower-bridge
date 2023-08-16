@@ -27,13 +27,14 @@
 }
 .bsky-user-content .icon-section a{
   text-decoration: none;
+  width: 40px;
 }
 .bsky-user-content .icon-section img {
   border-radius: 50%;
 }
 .bsky-user-content .icon-section .no-avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: #ccc;
   border-radius: 50%;
 }
@@ -63,7 +64,7 @@
   justify-content: space-between;
 }
 
-.name-and-controller .follow-button {
+.name-and-controller .action-button {
   border: 1px solid #fff;
   padding: 6px 30px;
   font-size: 14px;
@@ -74,27 +75,27 @@
   cursor: pointer;
 }
 
-.name-and-controller .follow-button__following {
+.name-and-controller .action-button__being {
   background: transparent;
   color: #fff;
   cursor: pointer;
 }
 
-.name-and-controller .follow-button__following:hover {
+.name-and-controller .action-button__being:hover {
   background: rgba(255, 0, 0, 0.1);
   color: red;
   border: 1px solid red;
   cursor: pointer;
 }
 
-.name-and-controller .follow-button__following.follow-button__just-followed:hover {
+.name-and-controller .action-button__being.action-button__just-applied:hover {
   background: transparent !important;
   color: #fff !important;
   border: 1px solid #fff !important;
   cursor: pointer;
 }
 
-.name-and-controller .follow-button__processing {
+.name-and-controller .action-button__processing {
   background: rgb(255,255,255, 0.3) !important;
   color: #fff !important;
   border: 1px solid #fff !important;

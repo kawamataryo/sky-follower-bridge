@@ -1,8 +1,8 @@
-import { BskyClient, BskyLoginParams } from "./lib/bskyClient";
+import { BskyClient, type BskyLoginParams } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
 import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
 import "./style.content.css"
-import { initialize, searchBskyUsers } from '~lib/searchAndInsertBskyUsers';
+import { searchBskyUsers } from '~lib/searchAndInsertBskyUsers';
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],
@@ -54,7 +54,6 @@ const searchAndShowBskyUsers = async ({
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (Object.values(MESSAGE_NAMES).includes(message.name)) {
-    initialize()
     searchAndShowBskyUsers({
       identifier: message.body.userId,
       password: message.body.password,
@@ -64,6 +63,7 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
         sendResponse({ hasError: false })
       })
       .catch((e) => {
+        console.error(e)
         sendResponse({ hasError: true, message: e.toString() })
       });
     return true
