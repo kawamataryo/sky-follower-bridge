@@ -13,7 +13,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)
 
 ## 🚀 How to use
-1.	Open your Twitter [Follower](https://twitter.com/following) or [Follow](https://twitter.com/followers) page.
+1.	Open your Twitter [Follower](https://twitter.com/following) or [Follow](https://twitter.com/followers), [blocking](https://twitter.com/settings/blocked/all) page.
 2.	Launch the Sky Follower Bridge Chrome extension.
 3.	Input your Bluesky login email or handle(without @) and [App password](https://bsky.app/settings/app-passwords).
 4.	Execute the user search.
