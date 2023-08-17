@@ -1,7 +1,8 @@
 import type { ProfileView, ViewerState } from "@atproto/api/dist/client/types/app/bsky/actor/defs"
 import van from 'vanjs-core'
 
-const { a, div, p, img, button } = van.tags
+
+const { a, div, p, img, button, span } = van.tags
 
 export type UserCellBtnLabel = {
   add: string,
@@ -46,7 +47,7 @@ const ActionButton = ({ statusKey, profile, btnLabel, addAction, removeAction }:
   }
 
   const onMouseover = () => {
-    if(
+    if (
       isProcessing.val ||
       isJustApplied.val ||
       !isStateOfBeing.val
@@ -59,18 +60,18 @@ const ActionButton = ({ statusKey, profile, btnLabel, addAction, removeAction }:
     if (isJustApplied.val) {
       isJustApplied.val = false
     }
-    if(!isStateOfBeing.val) return
+    if (!isStateOfBeing.val) return
 
     label.val = `${btnLabel.progressive} on Bluesky`
   }
 
-  return () => button({
-    class: `action-button ${beingClass.val} ${processingClass.val} ${justAppliedClass.val}`,
+  return button({
+    class: () => `action-button ${beingClass.val} ${processingClass.val} ${justAppliedClass.val}`,
     onclick: onClick,
     onmouseover: onMouseover,
     onmouseout: onMouseout,
   },
-    label.val,
+    () => label.val,
   )
 }
 
@@ -92,7 +93,7 @@ export const BskyUserCell = ({
   removeAction: () => Promise<void>
 }) => {
   return div({ class: "bsky-user-content" },
-    div({ class: "icon-section"},
+    div({ class: "icon-section" },
       a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
         Avatar({ avatar: profile.avatar }),
       ),
