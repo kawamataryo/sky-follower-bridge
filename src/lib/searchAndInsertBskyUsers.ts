@@ -101,7 +101,7 @@ export const searchAndInsertBskyUsers = async (
 
     index++
 
-    if (process.env.NODE_ENV === "development" && index > 20) {
+    if (process.env.NODE_ENV === "development" && index > 5) {
       break
     }
   }
