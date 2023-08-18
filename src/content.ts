@@ -2,7 +2,7 @@ import { BskyClient, type BskyLoginParams } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
 import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
 import "./style.content.css"
-import { searchBskyUsers } from '~lib/searchAndInsertBskyUsers';
+import { searchAndInsertBskyUsers } from '~lib/searchAndInsertBskyUsers';
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],
@@ -21,7 +21,7 @@ const searchAndShowBskyUsers = async ({
   })
   switch (messageName) {
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE:
-      await searchBskyUsers({
+      await searchAndInsertBskyUsers({
         agent,
         btnLabel: {
           add: "Follow",
@@ -36,7 +36,7 @@ const searchAndShowBskyUsers = async ({
       break
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE:
       // TODO: If already blocked, don't show blocking state. because blocking user can't find.
-      await searchBskyUsers({
+      await searchAndInsertBskyUsers({
         agent,
         btnLabel: {
           add: "Block",

@@ -27,8 +27,9 @@ export const insertReloadEl = (clickAction: () => void) => {
 export const getAccountNameAndDisplayName = (userCell: Element) => {
   const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
   const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "")
+  const twAccountNameRemoveUnderscore = twAccountName.replace("_", "") // bsky does not allow underscore in handle. so remove it.
   const twDisplayName = displayNameEl?.textContent
-  return { twAccountName, twDisplayName }
+  return { twAccountName, twDisplayName, twAccountNameRemoveUnderscore }
 }
 
 export const insertBskyProfileEl = ({ dom, profile, statusKey, btnLabel, addAction, removeAction }: {

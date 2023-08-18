@@ -9,9 +9,9 @@ import type { UserCellBtnLabel } from './components/BskyUserCell';
 
 const notFoundUserCache = new Set<string>()
 
-const followerUrlMap = new Map<string, string>()
+const bskyUserUrlMap = new Map<string, string>()
 
-export const searchBskyUsers = async (
+export const searchAndInsertBskyUsers = async (
   {
     agent,
     btnLabel,
@@ -35,80 +35,80 @@ export const searchBskyUsers = async (
   debugLog(`userCells length: ${userCells.length}`)
 
   let index = 0
+
+  // loop over twitter user profile cells and search and insert bsky user
   for (const userCell of userCells) {
     if (isOutOfTopViewport(userCell)) {
       continue
     }
-    const { twAccountName, twDisplayName } = getAccountNameAndDisplayName(userCell)
+
+    const { twAccountName, twDisplayName, twAccountNameRemoveUnderscore } = getAccountNameAndDisplayName(userCell)
+
     if (notFoundUserCache.has(twAccountName)) {
       insertNotFoundEl(userCell)
       continue
     }
 
-    const [searchResultByAccountName] = await agent.searchUser({
-      term: twAccountName,
-      limit: 1,
-    })
+    const searchTerms = [
+      twAccountNameRemoveUnderscore,
+      twDisplayName,
+    ]
 
-    // TODO: Refactor, this is duplicated
-    // first, search by account name
-    if (isSimilarUser(twDisplayName, searchResultByAccountName) || isSimilarUser(twAccountName, searchResultByAccountName)) {
+    let targetAccount = null
+
+    // Loop over search parameters and break if a user is found
+    for (const term of searchTerms) {
+      const [searchResult] = await agent.searchUser({
+        term: term,
+        limit: 1,
+      })
+
+      const isUserFound = isSimilarUser([
+        twAccountName,
+        twAccountNameRemoveUnderscore,
+        twDisplayName,
+      ], searchResult)
+
+      if (isUserFound) {
+        targetAccount = searchResult
+        break; // Stop searching when a user is found
+      }
+    }
+
+    // insert bsky profile or not found element
+    if (targetAccount) {
       insertBskyProfileEl({
         dom: userCell,
-        profile: searchResultByAccountName,
+        profile: targetAccount,
         statusKey,
         btnLabel,
         addAction: async () => {
-          const result = await addQuery(searchResultByAccountName.did);
-          followerUrlMap.set(searchResultByAccountName.did, result.uri)
+          const result = await addQuery(targetAccount.did);
+          bskyUserUrlMap.set(targetAccount.did, result.uri)
         },
         removeAction: async () => {
-          if (searchResultByAccountName?.viewer?.following) {
-            await removeQuery(searchResultByAccountName?.viewer?.following);
+          if (targetAccount?.viewer?.following) {
+            await removeQuery(targetAccount?.viewer?.following);
           } else {
-            await removeQuery(followerUrlMap.get(searchResultByAccountName.did));
+            await removeQuery(bskyUserUrlMap.get(targetAccount.did));
           }
         },
       })
     } else {
-      // if not found, search by display name
-      const [searchResultByDisplayName] = await agent.searchUser({
-        term: twDisplayName,
-        limit: 1,
-      })
-      if (isSimilarUser(twDisplayName, searchResultByDisplayName) || isSimilarUser(twAccountName, searchResultByDisplayName)) {
-        insertBskyProfileEl({
-          dom: userCell,
-          profile: searchResultByDisplayName,
-          statusKey,
-          btnLabel,
-          addAction: async () => {
-            const result = await addQuery(searchResultByDisplayName.did);
-            followerUrlMap.set(searchResultByDisplayName.did, result.uri)
-          },
-          removeAction: async () => {
-            if (searchResultByDisplayName?.viewer?.following) {
-              await removeQuery(searchResultByDisplayName?.viewer?.following);
-            } else {
-              await removeQuery(followerUrlMap.get(searchResultByDisplayName.did));
-            }
-          },
-        })
-      } else {
-        insertNotFoundEl(userCell)
-        notFoundUserCache.add(twAccountName)
-      }
+      insertNotFoundEl(userCell)
+      notFoundUserCache.add(twAccountName)
     }
 
     index++
-    if (process.env.NODE_ENV === "development" && index > 5) {
+
+    if (process.env.NODE_ENV === "development" && index > 20) {
       break
     }
   }
 
   // TODO: if there are more users, insert reload button
   insertReloadEl(async () => {
-    await searchBskyUsers({
+    await searchAndInsertBskyUsers({
       agent,
       btnLabel,
       userCellQueryParam,
