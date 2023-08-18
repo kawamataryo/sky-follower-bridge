@@ -9,7 +9,8 @@
     "build": "plasmo build",
     "build:firefox": "plasmo build --target=firefox-mv3",
     "package": "plasmo package",
-    "package:firefox": "plasmo package --target=firefox-mv3"
+    "package:firefox": "plasmo package --target=firefox-mv3",
+    "run-client": "ts-node --project tsconfig.script.json scripts/client.ts"
   },
   "dependencies": {
     "@atproto/api": "^0.6.4",
