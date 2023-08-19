@@ -3,6 +3,7 @@ import van from "vanjs-core"
 import { ReloadButton } from "./components/ReloadBtn"
 import { NotFoundCell } from "./components/NotFoundCell"
 import { BskyUserCell, type UserCellBtnLabel } from "./components/BskyUserCell"
+import type { BSKY_USER_MATCH_TYPE } from "./constants"
 
 export const getUserCells = ({ queryParam, filterInsertedElement }: { queryParam: string, filterInsertedElement: boolean }) => {
   const userCells = document.querySelectorAll(queryParam);
@@ -12,7 +13,7 @@ export const getUserCells = ({ queryParam, filterInsertedElement }: { queryParam
     return Array.from(userCells).filter((userCell) => {
       const nextElement = userCell.nextElementSibling
       if (!nextElement) { return true }
-      return nextElement.classList.contains("bsky-user-content") === false
+      return nextElement.classList.contains("bsky-user-content-wrapper") === false
     })
   } else {
     return Array.from(userCells)
@@ -32,11 +33,12 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   return { twAccountName, twDisplayName, twAccountNameRemoveUnderscore }
 }
 
-export const insertBskyProfileEl = ({ dom, profile, statusKey, btnLabel, addAction, removeAction }: {
+export const insertBskyProfileEl = ({ dom, profile, statusKey, btnLabel, matchType, addAction, removeAction }: {
   dom: Element,
   profile: ProfileView,
   statusKey: keyof ViewerState,
   btnLabel: UserCellBtnLabel,
+  matchType: typeof BSKY_USER_MATCH_TYPE[keyof typeof BSKY_USER_MATCH_TYPE],
   addAction: () => Promise<void>,
   removeAction: () => Promise<void>
 }) => {
@@ -44,6 +46,7 @@ export const insertBskyProfileEl = ({ dom, profile, statusKey, btnLabel, addActi
     profile,
     statusKey,
     btnLabel,
+    matchType,
     addAction,
     removeAction,
   }))

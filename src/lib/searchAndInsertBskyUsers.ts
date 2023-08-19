@@ -55,6 +55,7 @@ export const searchAndInsertBskyUsers = async (
     ]
 
     let targetAccount = null
+    let matchType = null
 
     // Loop over search parameters and break if a user is found
     for (const term of searchTerms) {
@@ -63,7 +64,7 @@ export const searchAndInsertBskyUsers = async (
         limit: 1,
       })
 
-      const isUserFound = isSimilarUser([
+      const { isSimilar: isUserFound, type } = isSimilarUser([
         twAccountName,
         twAccountNameRemoveUnderscore,
         twDisplayName,
@@ -71,6 +72,7 @@ export const searchAndInsertBskyUsers = async (
 
       if (isUserFound) {
         targetAccount = searchResult
+        matchType = type
         break; // Stop searching when a user is found
       }
     }
@@ -82,6 +84,7 @@ export const searchAndInsertBskyUsers = async (
         profile: targetAccount,
         statusKey,
         btnLabel,
+        matchType,
         addAction: async () => {
           const result = await addQuery(targetAccount.did);
           bskyUserUrlMap.set(targetAccount.did, result.uri)

@@ -1,8 +1,11 @@
 import type { ProfileView, ViewerState } from "@atproto/api/dist/client/types/app/bsky/actor/defs"
+import { P, match } from "ts-pattern"
 import van from 'vanjs-core'
+import { BSKY_USER_MATCH_TYPE } from "~lib/constants"
 
 
 const { a, div, p, img, button, span } = van.tags
+const { svg, path } = van.tagsNS("http://www.w3.org/2000/svg")
 
 export type UserCellBtnLabel = {
   add: string,
@@ -79,48 +82,76 @@ const Avatar = ({ avatar }: { avatar?: string }) => {
   return avatar ? img({ src: avatar, width: "40" }) : div({ class: "no-avatar" })
 }
 
+const MatchTypeLabel = ({ matchType }: { matchType: typeof BSKY_USER_MATCH_TYPE[keyof typeof BSKY_USER_MATCH_TYPE] }) => {
+  const [text, labelClass] = match(matchType)
+    .with(
+      BSKY_USER_MATCH_TYPE.HANDLE,
+      () => ["Same handle", "match-type__handle"]
+    )
+    .with(
+      BSKY_USER_MATCH_TYPE.DISPLAY_NAME,
+      () => ["Same display name", "match-type__display-name"]
+    )
+    .with(
+      BSKY_USER_MATCH_TYPE.DESCRIPTION,
+      () => ["Included handle or display name in description", "match-type__description"]
+    )
+    .run()
+
+  return div({ class: `match-type ${labelClass}` },
+    svg({ fill: "none", width: "12", viewBox: "0 0 24 24", "stroke-width": "3", stroke: "currentColor", class: "w-6 h-6" },
+      path({ "stroke-linecap": "round", "stroke-linejoin": "round", "d": "M4.5 12.75l6 6 9-13.5" }),
+    ),
+    text
+  )
+}
+
 export const BskyUserCell = ({
   profile,
   statusKey,
   btnLabel,
+  matchType,
   addAction,
   removeAction,
 }: {
   profile: ProfileView,
   statusKey: keyof ViewerState,
   btnLabel: UserCellBtnLabel,
+  matchType: typeof BSKY_USER_MATCH_TYPE[keyof typeof BSKY_USER_MATCH_TYPE],
   addAction: () => Promise<void>,
   removeAction: () => Promise<void>
 }) => {
-  return div({ class: "bsky-user-content" },
-    div({ class: "icon-section" },
-      a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
-        Avatar({ avatar: profile.avatar }),
+  return div({ class: "bsky-user-content-wrapper" },
+    MatchTypeLabel({ matchType }),
+    div({ class: "bsky-user-content" },
+      div({ class: "icon-section" },
+        a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
+          Avatar({ avatar: profile.avatar }),
+        ),
       ),
-    ),
-    div({ class: "content" },
-      div({ class: "name-and-controller" },
-        div(
-          p({ class: "display-name" },
-            a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
-              profile.displayName ?? profile.handle,
+      div({ class: "content" },
+        div({ class: "name-and-controller" },
+          div(
+            p({ class: "display-name" },
+              a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
+                profile.displayName ?? profile.handle,
+              ),
+            ),
+            p({ class: "handle" },
+              `@${profile.handle}`,
             ),
           ),
-          p({ class: "handle" },
-            `@${profile.handle}`,
+          div(
+            ActionButton({
+              profile,
+              statusKey,
+              btnLabel,
+              addAction,
+              removeAction,
+            })
           ),
         ),
-        div(
-          ActionButton({
-            profile,
-            statusKey,
-            btnLabel,
-            addAction,
-            removeAction,
-          })
-        ),
+        profile.description ? p({ class: "description" }, profile.description) : "",
       ),
-      profile.description ? p({ class: "description" }, profile.description) : "",
-    ),
-  )
+    ))
 }

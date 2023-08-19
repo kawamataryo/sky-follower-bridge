@@ -4,7 +4,7 @@ import van from "vanjs-core"
 const { div, p } = van.tags
 const { svg, path } = van.tagsNS("http://www.w3.org/2000/svg")
 
-const WarningIcon = () =>  svg(
+const WarningIcon = () => svg(
   {
     fill: "none",
     "stroke-width": "1.5",
@@ -19,11 +19,12 @@ const WarningIcon = () =>  svg(
   }),
 )
 
-export const NotFoundCell = () => div({ class: "bsky-user-content bsky-user-content__not-found" },
-  WarningIcon(),
-  p({
-    class: "not-found"
-  },
-    "No similar users found."
-  )
-)
+export const NotFoundCell = () => div({ class: "bsky-user-content-wrapper" },
+  div({ class: "bsky-user-content bsky-user-content__not-found" },
+    WarningIcon(),
+    p({
+      class: "not-found"
+    },
+      "No similar users found."
+    )
+  ))

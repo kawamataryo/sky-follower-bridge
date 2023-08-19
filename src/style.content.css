@@ -6,6 +6,29 @@
   --bsky-primary-hover-color: #2563eb;
 }
 
+.bsky-user-content-wrapper .match-type {
+  color: var(--bsky-primary-color);
+  padding: 2px 14px 2px 14px;
+  font-size: 10px;
+  font-weight: bold;
+  width: fit-content;
+  display: flex;
+  gap: 4px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.bsky-user-content-wrapper .match-type.match-type__handle {
+  background-color: #ffd700;
+}
+
+.bsky-user-content-wrapper .match-type.match-type__display-name {
+  background-color: #FFA07A;
+}
+
+.bsky-user-content-wrapper .match-type.match-type__description {
+  background-color: #D3D3D3;
+}
+
 .bsky-user-content {
   background: rgb(2,0,36);
   background: var(--bsky-primary-color);

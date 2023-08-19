@@ -23,3 +23,11 @@ export const VIEWER_STATE = {
   BLOCKING: "blocking",
   FOLLOWING: "following",
 } as const
+
+
+export const BSKY_USER_MATCH_TYPE = {
+  HANDLE: "handle",
+  DISPLAY_NAME: "display_name",
+  DESCRIPTION: "description",
+  NONE: "none",
+} as const
