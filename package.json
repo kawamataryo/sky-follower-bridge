@@ -1,7 +1,7 @@
 {
   "name": "sky-follower-bridge",
   "displayName": "Sky Follower Bridge",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Instantly find and follow the same users from your Twitter follower on Bluesky.",
   "author": "kawamataryou",
   "scripts": {
