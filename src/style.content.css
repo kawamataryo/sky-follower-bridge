@@ -80,6 +80,7 @@
 }
 .bsky-user-content .content .description {
   font-size: 14px;
+  word-break: break-all;
 }
 .name-and-controller {
   display: flex;
