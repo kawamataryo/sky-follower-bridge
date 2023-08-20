@@ -86,7 +86,7 @@ const MatchTypeLabel = ({ matchType }: { matchType: typeof BSKY_USER_MATCH_TYPE[
   const [text, labelClass] = match(matchType)
     .with(
       BSKY_USER_MATCH_TYPE.HANDLE,
-      () => ["Same handle", "match-type__handle"]
+      () => ["Same handle name", "match-type__handle"]
     )
     .with(
       BSKY_USER_MATCH_TYPE.DISPLAY_NAME,
@@ -94,7 +94,7 @@ const MatchTypeLabel = ({ matchType }: { matchType: typeof BSKY_USER_MATCH_TYPE[
     )
     .with(
       BSKY_USER_MATCH_TYPE.DESCRIPTION,
-      () => ["Included handle or display name in description", "match-type__description"]
+      () => ["Included handle name in description", "match-type__description"]
     )
     .run()
 

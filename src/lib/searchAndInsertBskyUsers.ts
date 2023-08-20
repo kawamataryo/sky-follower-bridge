@@ -64,11 +64,11 @@ export const searchAndInsertBskyUsers = async (
         limit: 1,
       })
 
-      const { isSimilar: isUserFound, type } = isSimilarUser([
-        twAccountName,
-        twAccountNameRemoveUnderscore,
-        twDisplayName,
-      ], searchResult)
+      const { isSimilar: isUserFound, type } = isSimilarUser({
+        accountName: twAccountName,
+        accountNameRemoveUnderscore: twAccountNameRemoveUnderscore,
+        displayName: twDisplayName,
+      }, searchResult)
 
       if (isUserFound) {
         targetAccount = searchResult
