@@ -43,7 +43,7 @@ const searchAndShowBskyUsers = async ({
           progressive: "Following",
         },
         statusKey: VIEWER_STATE.FOLLOWING,
-        userCellQueryParam: '[data-testid="UserCell"]',
+        userCellQueryParam: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
         addQuery: async (arg: string) => await agent.follow(arg),
         removeQuery: async (arg: string) => await agent.unfollow(arg),
       })
