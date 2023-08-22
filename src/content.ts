@@ -34,6 +34,20 @@ const searchAndShowBskyUsers = async ({
         removeQuery: async (arg: string) => await agent.unfollow(arg),
       })
       break
+    case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE:
+      await searchAndInsertBskyUsers({
+        agent,
+        btnLabel: {
+          add: "Follow",
+          remove: "Unfollow",
+          progressive: "Following",
+        },
+        statusKey: VIEWER_STATE.FOLLOWING,
+        userCellQueryParam: '[data-testid="UserCell"]',
+        addQuery: async (arg: string) => await agent.follow(arg),
+        removeQuery: async (arg: string) => await agent.unfollow(arg),
+      })
+      break
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE:
       // TODO: If already blocked, don't show blocking state. because blocking user can't find.
       await searchAndInsertBskyUsers({
