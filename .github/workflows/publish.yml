@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  build:
+  check-release-requirement:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,15 +27,37 @@ jobs:
         run: npm ci
 
       - name: Check if release is required
-        run: ls .changeset/*.md > /dev/null 2>&1 || exit 1
+        run: ls .changeset/*.md > /dev/null 2>&1 && echo "release-required" || echo "no-release-required"
+        id: check_release
         continue-on-error: true
 
-      - name: If there is no need to release
-        if: ${{ failure() }}
-        run: echo "No need to release"
+    outputs:
+      release: ${{ steps.check_release.outputs.result }}
+
+  build-and-publish:
+    needs: check-release-requirement
+    if: needs.check-release-requirement.outputs.release == 'release-required'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          check-latest: true
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Update version
-        if: ${{ success() }}
         run: npx changeset version
 
       - name: Build the extension
