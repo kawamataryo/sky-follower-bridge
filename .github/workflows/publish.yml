@@ -26,6 +26,7 @@ jobs:
         run: echo "No need to release"
 
       - name: Update version
+        if: ${{ success() }}
         run: npx changeset version
 
       - name: Build the extension
