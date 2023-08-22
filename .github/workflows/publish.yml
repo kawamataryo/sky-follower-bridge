@@ -1,0 +1,47 @@
+name: "Publish to Chrome Web Store"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          check-latest: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if release is required
+        run: npx changeset status
+
+      - name: If there is no need to release
+        if: ${{ failure() }}
+        run: echo "No need to release"
+
+      - name: Update version
+        run: npx changeset version
+
+      - name: Build the extension
+        run: npm run build
+
+      - name: Package the extension into a zip artifact
+        run: npm run package
+
+      - name: Publish to Chrome Web Store
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: ${{ secrets.PUBLISH_KEYS }}
+          artifact: build/chrome-mv3-prod.zip
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: "🔖 bump version"
