@@ -19,7 +19,7 @@ jobs:
         run: npm ci
 
       - name: Check if release is required
-        run: npx changeset status
+        run: ls .changeset/*.md > /dev/null 2>&1 || exit 1
 
       - name: If there is no need to release
         if: ${{ failure() }}
