@@ -1,5 +1,6 @@
 export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_FOLLOW_PAGE: "search_bsky_user_on_follow_page",
+  SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE: "search_bsky_user_on_list_members_page",
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
 }
 
@@ -11,6 +12,7 @@ export const STORAGE_KEYS = {
 
 export const TARGET_URLS_REGEX = {
   FOLLOW: /^https:\/\/(twitter|x)\.com\/[^/]+\/follow/,
+  LIST: /^https:\/\/(twitter|x)\.com\/[^/]+\/lists\/[^/]+\/members/,
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
 } as const
 

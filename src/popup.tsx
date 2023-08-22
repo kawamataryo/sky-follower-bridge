@@ -55,6 +55,10 @@ function IndexPopup() {
         P.when((url) => TARGET_URLS_REGEX.BLOCK.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE
       )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.LIST.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE
+      )
       .run()
 
     setMessage(null)
