@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Check if release is required
-        run: ls .changeset/*.md > /dev/null 2>&1 && echo "release-required" || echo "no-release-required"
+        run: ls .changeset/*.md > /dev/null 2>&1 && echo "result=release-required" >> $GITHUB_OUTPUT || echo "result=no-release-required" >> $GITHUB_OUTPUT
         id: check_release
         continue-on-error: true
 
