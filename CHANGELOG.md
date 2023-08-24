@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.4.2
+
+### Patch Changes
+
+- 82096d3: - fixed to work even if @ is in login handle name
+
 ## 0.4.1
 
 ### Patch Changes
