@@ -23,7 +23,10 @@ export class BskyClient {
     password,
   }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
-    const {data} = await client.agent.login({ identifier, password });
+    const {data} = await client.agent.login({
+      identifier: identifier.replace(/^@/, ""), // if identifier is a handle name, @ is not required
+      password
+    });
     client.me = {
       did: data.did,
       handle: data.handle,

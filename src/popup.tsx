@@ -133,7 +133,7 @@ function IndexPopup() {
           </span>
           <input
             type="text"
-            placeholder="Bluesky login email or handle(without @)"
+            placeholder="Bluesky handle or login email"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             className="input input-bordered input-sm w-full max-w-xs"
