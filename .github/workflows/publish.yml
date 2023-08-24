@@ -60,6 +60,9 @@ jobs:
       - name: Update version
         run: npx changeset version
 
+      - name: Tag version
+        run: npx changeset tag
+
       - name: Build the extension
         run: npm run build
 
@@ -77,3 +80,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "🔖 bump version"
+          tags: true
