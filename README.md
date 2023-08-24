@@ -21,6 +21,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 6.	Click the Follow button to follow them on Bluesky.
 
 ## 🔧 Troubleshooting
+- Please feel free to mention @kawamataryo.bsky.social on Bluesky. They will provide support to ensure the tool is functioning properly.
 - If you get the error "Error: Something went wrong. ...", **please reload the page** and then click on the extension icon again.
 
 ## 🚨 Limitations
