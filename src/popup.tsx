@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { type FormEvent, useState } from "react"
 import { P, match } from "ts-pattern"
 
 import "./style.css"
