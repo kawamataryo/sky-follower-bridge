@@ -11,6 +11,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 
 ## 📦 Installation
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)
+- [Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/sky-follower-bridge/)
 
 ## 🚀 How to use
 1.	Open your Twitter [Follower](https://twitter.com/following) or [Follow](https://twitter.com/followers) or [list members](), [blocking](https://twitter.com/settings/blocked/all) page.

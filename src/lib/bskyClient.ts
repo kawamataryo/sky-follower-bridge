@@ -1,4 +1,4 @@
-import {  AtUri, BskyAgent } from "@atproto/api";
+import {  AtUri, BskyAgent, type AtpSessionData } from "@atproto/api";
 
 export type BskyLoginParams = {
   identifier: string;
@@ -13,9 +13,24 @@ export class BskyClient {
     email: string;
   };
   agent: BskyAgent;
+  session = {}
 
   private constructor() {
-    this.agent = new BskyAgent({ service: this.service });
+    this.agent = new BskyAgent({ service: this.service, persistSession: (evt, session) => {
+      this.session = session
+    } });
+  }
+
+  public static createAgentFromSession(session: AtpSessionData): BskyClient {
+    const client = new BskyClient();
+    client.agent.resumeSession(session);
+    client.me = {
+      did: session.did,
+      handle: session.handle,
+      email: session.email,
+    }
+
+    return client;
   }
 
   public static async createAgent({

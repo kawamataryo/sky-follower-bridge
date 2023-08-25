@@ -1,8 +1,9 @@
-import { BskyClient, type BskyLoginParams } from "./lib/bskyClient";
+import { type BskyLoginParams } from "./lib/bskyClient";
 import type { PlasmoCSConfig } from "plasmo"
 import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
 import "./style.content.css"
 import { searchAndInsertBskyUsers } from '~lib/searchAndInsertBskyUsers';
+import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],
@@ -15,10 +16,11 @@ const searchAndShowBskyUsers = async ({
   messageName,
 }: BskyLoginParams & { messageName: string }) => {
 
-  const agent = await BskyClient.createAgent({
+  const agent = await BskyServiceWorkerClient.createAgent({
     identifier,
     password,
-  })
+  });
+
   switch (messageName) {
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE:
       await searchAndInsertBskyUsers({
