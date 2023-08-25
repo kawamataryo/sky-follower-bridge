@@ -6,6 +6,10 @@
   --bsky-primary-hover-color: #2563eb;
 }
 
+.bsky-user-content-wrapper {
+  font-family: "TwitterChirp",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;;
+}
+
 .bsky-user-content-wrapper .match-type {
   color: var(--bsky-primary-color);
   padding: 2px 14px 2px 14px;
@@ -130,6 +134,7 @@
 /* not found card */
 /* ----------------- */
 .bsky-user-content__not-found {
+  font-family: "TwitterChirp",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;;
   padding: 4px 16px;
   background: #333;
   font-size: 12px;
