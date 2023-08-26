@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.5.1
+
+### Patch Changes
+
+- 506dde7: - fixed a bug that reload button was duplicated.
+
 ## 0.5.0
 
 ### Minor Changes
