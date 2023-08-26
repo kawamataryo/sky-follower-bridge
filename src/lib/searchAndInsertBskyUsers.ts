@@ -1,4 +1,4 @@
-import { isOutOfTopViewport } from './domHelpers';
+import { isOutOfTopViewport, removeReloadEl } from './domHelpers';
 import { getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, insertReloadEl } from "~lib/domHelpers";
 import { isSimilarUser } from "~lib/bskyHelpers";
 import { debugLog } from "~lib/utils";
@@ -28,6 +28,8 @@ export const searchAndInsertBskyUsers = async (
     addQuery: (arg: string) => Promise<any>,
     removeQuery: (arg: string) => Promise<any>,
   }) => {
+
+  removeReloadEl()
 
   const userCells = getUserCells({
     queryParam: userCellQueryParam,

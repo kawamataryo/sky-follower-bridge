@@ -25,6 +25,11 @@ export const insertReloadEl = (clickAction: () => void) => {
   van.add(lastInsertedEl.parentElement, ReloadButton({clickAction}))
 }
 
+export const removeReloadEl = () => {
+  const reloadEl = document.querySelectorAll('.bsky-reload-btn-wrapper')
+  reloadEl.forEach(el => el.remove())
+}
+
 export const getAccountNameAndDisplayName = (userCell: Element) => {
   const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
   const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "")
