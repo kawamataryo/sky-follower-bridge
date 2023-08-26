@@ -5,6 +5,7 @@ import { debugLog } from "~lib/utils";
 import type { BskyClient } from './bskyClient';
 import type { ViewerState } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 import type { UserCellBtnLabel } from './components/BskyUserCell';
+import type { BskyServiceWorkerClient } from './bskyServiceWorkerClient';
 
 
 const notFoundUserCache = new Set<string>()
@@ -20,7 +21,7 @@ export const searchAndInsertBskyUsers = async (
     addQuery,
     removeQuery,
   }: {
-    agent: BskyClient,
+    agent: BskyServiceWorkerClient | BskyClient,
     userCellQueryParam: string,
     btnLabel: UserCellBtnLabel,
     statusKey: keyof ViewerState,
