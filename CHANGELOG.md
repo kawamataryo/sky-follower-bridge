@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.5.0
+
+### Minor Changes
+
+- 69e2d01: - support for Firefox
+
 ## 0.4.2
 
 ### Patch Changes
