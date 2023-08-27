@@ -4,14 +4,22 @@ import { BskyClient } from "../../lib/bskyClient";
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { identifier, password }  = req.body
 
-  const agent = await BskyClient.createAgent({
-    identifier,
-    password,
-  })
+  try {
+    const agent = await BskyClient.createAgent({
+      identifier,
+      password,
+    })
 
-  res.send({
-    session: agent.session,
-  })
+    res.send({
+      session: agent.session,
+    })
+  } catch (e) {
+    res.send({
+      error: {
+        message: e.message,
+      }
+    })
+  }
 }
 
 export default handler

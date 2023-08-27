@@ -16,13 +16,15 @@ export class BskyServiceWorkerClient {
     password,
   }: BskyLoginParams): Promise<BskyServiceWorkerClient> {
     const client = new BskyServiceWorkerClient();
-    const { session } = await sendToBackground({
+    const { session, error } = await sendToBackground({
       name: "login",
       body: {
         identifier,
         password,
       }
     })
+    if(error) throw new Error(error.message)
+
     client.session = session
     return client;
   }
@@ -34,7 +36,7 @@ export class BskyServiceWorkerClient {
     term: string;
     limit: number;
   }) => {
-    const { actors } = await sendToBackground({
+    const { actors, error } = await sendToBackground({
       name: "searchUser",
       body: {
         session: this.session,
@@ -42,51 +44,61 @@ export class BskyServiceWorkerClient {
         limit,
       }
     })
+    if(error) throw new Error(error.message)
+
     return actors;
   };
 
   public follow = async (subjectDid: string) => {
-    const { result } = await sendToBackground({
+    const { result, error } = await sendToBackground({
       name: "follow",
       body: {
         session: this.session,
         subjectDid
       }
     })
+    if(error) throw new Error(error.message)
+
     return result;
   }
 
   public unfollow = async (followUri: string) => {
-    const { result } = await sendToBackground({
+    const { result, error } = await sendToBackground({
       name: "unfollow",
       body: {
         session: this.session,
         followUri
       }
     })
+    if(error) throw new Error(error.message)
+
     return result;
   }
 
   public block = async (subjectDid: string) => {
-    const { result } = await sendToBackground({
+    const { result, error } = await sendToBackground({
       name: "block",
       body: {
         session: this.session,
         subjectDid
       }
     })
+    if(error) throw new Error(error.message)
+
     return result;
   }
 
   public unblock = async (blockUri: string) => {
     // TODO: unblock is not working. Need to fix it.
-    const { result } = await sendToBackground({
+    const { result, error } = await sendToBackground({
       name: "unblock",
       body: {
         session: this.session,
         blockUri
       }
     })
+    if(error) throw new Error(error.message)
+
     return result;
   }
 }
