@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.5.2
+
+### Patch Changes
+
+- 91dec26: - Fixed a bug that results were not returned in case of error
+
 ## 0.5.1
 
 ### Patch Changes
