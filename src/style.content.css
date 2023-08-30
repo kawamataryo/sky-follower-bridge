@@ -13,7 +13,7 @@
 .bsky-user-content-wrapper .match-type {
   color: var(--bsky-primary-color);
   padding: 2px 14px 2px 14px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   width: fit-content;
   display: flex;
@@ -83,6 +83,7 @@
   color: #ccc;
 }
 .bsky-user-content .content .description {
+  margin-top: 5px;
   font-size: 14px;
   word-break: break-all;
 }
