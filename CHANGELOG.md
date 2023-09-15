@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.6.0
+
+### Minor Changes
+
+- bcc3233: - add launch command
+
 ## 0.5.3
 
 ### Patch Changes
