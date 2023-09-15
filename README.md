@@ -15,7 +15,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 
 ## 🚀 How to use
 1.	Open your Twitter [Follower](https://twitter.com/following) or [Follow](https://twitter.com/followers) or [list members](), [blocking](https://twitter.com/settings/blocked/all) page.
-2.	Launch the Sky Follower Bridge Chrome extension.
+2.	Press `Alt + L` shortcut or click on the toolbar icon to launch the Sky Follower Bridge.
 3.	Input your Bluesky login email or handle and [App password](https://bsky.app/settings/app-passwords).
 4.	Execute the user search.
 5.	Bluesky users will appear in the Follower list.

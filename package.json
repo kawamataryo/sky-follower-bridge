@@ -46,6 +46,14 @@
       "gecko": {
         "id": "sky-follower-bridge@ryo.kawamata"
       }
+    },
+    "commands": {
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Alt+B",
+          "mac": "Alt+B"
+        }
+      }
     }
   },
   "volta": {
