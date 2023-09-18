@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.6.1
+
+### Patch Changes
+
+- 0a4138c: - accommodate verified following
+
 ## 0.6.0
 
 ### Minor Changes
