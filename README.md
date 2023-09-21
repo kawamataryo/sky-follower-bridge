@@ -4,7 +4,7 @@
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome Web Store users" src="https://img.shields.io/chrome-web-store/users/behhbpbpmailcnfbjagknjngnfdojpko"></a>
 
 
-Instantly find and follow the same users from your Twitter follower on Bluesky.
+Instantly find and follow the same users from your X(Twitter) follower on Bluesky.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f-48c3-b7ba-f54e0e30a7e7
 
