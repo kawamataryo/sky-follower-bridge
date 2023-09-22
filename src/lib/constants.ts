@@ -33,3 +33,5 @@ export const BSKY_USER_MATCH_TYPE = {
   DESCRIPTION: "description",
   NONE: "none",
 } as const
+
+export const MAX_RELOAD_COUNT = 1

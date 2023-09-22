@@ -7,6 +7,7 @@ import { sendToContentScript } from "@plasmohq/messaging"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import {
+  MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
   STORAGE_KEYS,
@@ -14,11 +15,13 @@ import {
 } from "~lib/constants"
 
 import { debugLog } from "./lib/utils"
+import { ReloadButton } from "~lib/components/ReloadBtn"
 
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(false)
   const [password, setPassword] = useStorage(STORAGE_KEYS.BSKY_PASSWORD, "")
   const [userId, setUserId] = useStorage(STORAGE_KEYS.BSKY_USER_ID, "")
+  const [reloadCount, setReloadCount] = useState(0)
   const [message, setMessage] = useState<null | {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE]
     message: string
@@ -31,8 +34,18 @@ function IndexPopup() {
     setMessage({ type: MESSAGE_TYPE.ERROR, message })
   }
 
-  const searchBskyUser = async (e: FormEvent) => {
-    e.preventDefault()
+  const reloadActiveTab = async () => {
+    const [{ id: tabId }] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    })
+    await chrome.tabs.reload(tabId)
+  }
+
+  const searchBskyUser = async (e?: FormEvent) => {
+    if(e) {
+      e.preventDefault()
+    }
 
     const [{ url: currentUrl }] = await chrome.tabs.query({
       active: true,
@@ -82,10 +95,17 @@ function IndexPopup() {
         })
       }
     } catch (e) {
-      setErrorMessage(
-        "Error: Something went wrong. Please reload the web page and try again."
-      )
-      console.error(e)
+      if(e.message && e.message.includes("Could not establish connection") && reloadCount < MAX_RELOAD_COUNT) {
+        setReloadCount((prev) => prev + 1)
+        await reloadActiveTab()
+        await new Promise(r => setTimeout(r, 3000))
+        await searchBskyUser()
+      } else {
+        setErrorMessage(
+          "Error: Something went wrong. Please reload the web page and try again."
+        )
+        console.error(e)
+      }
     } finally {
       setIsLoading(false)
     }
