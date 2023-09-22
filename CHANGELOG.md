@@ -1,5 +1,12 @@
 # sky-follower-bridge
 
+## 0.6.2
+
+### Patch Changes
+
+- 788547c: - fix link design
+  - fix connection error
+
 ## 0.6.1
 
 ### Patch Changes
