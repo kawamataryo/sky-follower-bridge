@@ -78,6 +78,9 @@
   color: #fff;
   text-decoration: none;
 }
+.bsky-user-content .content .display-name a:hover {
+  text-decoration: underline;
+}
 .bsky-user-content .content .handle {
   font-size: 14px;
   color: #ccc;
