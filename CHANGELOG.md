@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.6.3
+
+### Patch Changes
+
+- 58281f7: - skip when there is no search term. #15
+
 ## 0.6.2
 
 ### Patch Changes
