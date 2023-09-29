@@ -62,6 +62,9 @@ export const searchAndInsertBskyUsers = async (
 
     // Loop over search parameters and break if a user is found
     for (const term of searchTerms) {
+      if (!term) {
+        continue
+      }
       const [searchResult] = await agent.searchUser({
         term: term,
         limit: 1,
