@@ -3,3 +3,7 @@ export const debugLog = (message: string) => {
     console.log(`🔷 [Sky Follower Bridge] ${message}`)
   }
 }
+
+export const isOneSymbol = (str: string) => {
+  return /^[^\w\s]$/.test(str);
+}

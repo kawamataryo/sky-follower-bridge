@@ -1,7 +1,7 @@
 import { isOutOfTopViewport, removeReloadEl } from './domHelpers';
 import { getAccountNameAndDisplayName, getUserCells, insertBskyProfileEl, insertNotFoundEl, insertReloadEl } from "~lib/domHelpers";
 import { isSimilarUser } from "~lib/bskyHelpers";
-import { debugLog } from "~lib/utils";
+import { debugLog, isOneSymbol } from "~lib/utils";
 import type { BskyClient } from './bskyClient';
 import type { ViewerState } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 import type { UserCellBtnLabel } from './components/BskyUserCell';
@@ -62,24 +62,29 @@ export const searchAndInsertBskyUsers = async (
 
     // Loop over search parameters and break if a user is found
     for (const term of searchTerms) {
-      if (!term) {
+      // one symbol is not a valid search term for bsky
+      if (!term || isOneSymbol(term)) {
         continue
       }
-      const [searchResult] = await agent.searchUser({
-        term: term,
-        limit: 1,
-      })
+      try {
+        const [searchResult] = await agent.searchUser({
+          term: term,
+          limit: 1,
+        })
 
-      const { isSimilar: isUserFound, type } = isSimilarUser({
-        accountName: twAccountName,
-        accountNameRemoveUnderscore: twAccountNameRemoveUnderscore,
-        displayName: twDisplayName,
-      }, searchResult)
+        const { isSimilar: isUserFound, type } = isSimilarUser({
+          accountName: twAccountName,
+          accountNameRemoveUnderscore: twAccountNameRemoveUnderscore,
+          displayName: twDisplayName,
+        }, searchResult)
 
-      if (isUserFound) {
-        targetAccount = searchResult
-        matchType = type
-        break; // Stop searching when a user is found
+        if (isUserFound) {
+          targetAccount = searchResult
+          matchType = type
+          break; // Stop searching when a user is found
+        }
+      } catch (e) {
+        console.error(e)
       }
     }
 
