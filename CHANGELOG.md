@@ -1,5 +1,12 @@
 # sky-follower-bridge
 
+## 0.6.4
+
+### Patch Changes
+
+- 6a83846: - fix non query error
+  - add insert animation
+
 ## 0.6.3
 
 ### Patch Changes
