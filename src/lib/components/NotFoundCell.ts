@@ -20,7 +20,7 @@ const WarningIcon = () => svg(
 )
 
 export const NotFoundCell = () => div({ class: "bsky-user-content-wrapper" },
-  div({ class: "bsky-user-content bsky-user-content__not-found" },
+  div({ class: "bsky-user-content bsky-user-content__not-found bsky-fade-in" },
     WarningIcon(),
     p({
       class: "not-found"

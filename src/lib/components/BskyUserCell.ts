@@ -123,7 +123,7 @@ export const BskyUserCell = ({
 }) => {
   return div({ class: "bsky-user-content-wrapper" },
     MatchTypeLabel({ matchType }),
-    div({ class: "bsky-user-content" },
+    div({ class: "bsky-user-content bsky-fade-in" },
       div({ class: "icon-section" },
         a({ href: `https://bsky.app/profile/${profile.handle}`, target: "_blank", rel: "noopener" },
           Avatar({ avatar: profile.avatar }),

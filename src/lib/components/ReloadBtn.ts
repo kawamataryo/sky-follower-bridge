@@ -8,7 +8,7 @@ export const ReloadButton = ({clickAction}: {clickAction: () => void}) => {
   return () => deleted.val ? null : div({ class: "bsky-reload-btn-wrapper" },
   button(
     {
-      class: "bsky-reload-btn",
+      class: "bsky-reload-btn bsky-fade-in",
       onclick: () => {
         clickAction()
         deleted.val = true

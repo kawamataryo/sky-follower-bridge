@@ -193,3 +193,18 @@
       box-shadow: 0 0 0 0 rgba(233, 30, 99, 0);
   }
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bsky-fade-in {
+  animation: fade-in 0.5s ease-in-out;
+}
