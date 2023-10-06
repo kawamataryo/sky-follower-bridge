@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.6.5
+
+### Patch Changes
+
+- ded6d19: - fix word break
+
 ## 0.6.4
 
 ### Patch Changes
