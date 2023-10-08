@@ -1,4 +1,3 @@
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -9,7 +8,7 @@
 # testing
 /coverage
 
-#cache
+# cache
 .turbo
 .next
 .vercel
@@ -24,9 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-
 # local env files
 .env*
+.idea
 
 out/
 build/
