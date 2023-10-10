@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.6.6
+
+### Patch Changes
+
+- e85e475: - remove unnecessary files
+
 ## 0.6.5
 
 ### Patch Changes
