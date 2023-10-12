@@ -61,27 +61,29 @@ export const searchAndInsertBskyUsers = async (
     let matchType = null
 
     // Loop over search parameters and break if a user is found
-    for (const term of searchTerms) {
+    searchLoop: for (const term of searchTerms) {
       // one symbol is not a valid search term for bsky
       if (!term || isOneSymbol(term)) {
         continue
       }
       try {
-        const [searchResult] = await agent.searchUser({
+        const searchResults = await agent.searchUser({
           term: term,
-          limit: 1,
+          limit: 3,
         })
 
-        const { isSimilar: isUserFound, type } = isSimilarUser({
-          accountName: twAccountName,
-          accountNameRemoveUnderscore: twAccountNameRemoveUnderscore,
-          displayName: twDisplayName,
-        }, searchResult)
+        for (const searchResult of searchResults) {
+          const { isSimilar: isUserFound, type } = isSimilarUser({
+            accountName: twAccountName,
+            accountNameRemoveUnderscore: twAccountNameRemoveUnderscore,
+            displayName: twDisplayName,
+          }, searchResult)
 
-        if (isUserFound) {
-          targetAccount = searchResult
-          matchType = type
-          break; // Stop searching when a user is found
+          if (isUserFound) {
+            targetAccount = searchResult
+            matchType = type
+            break searchLoop; // Stop searching when a user is found
+          }
         }
       } catch (e) {
         console.error(e)
