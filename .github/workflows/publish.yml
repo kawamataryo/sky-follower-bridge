@@ -67,7 +67,7 @@ jobs:
         run: npm run build && npm run build:firefox
 
       - name: Package the extension into a zip artifact
-        run: npm run package
+        run: npm run package && npm run package:firefox
 
       - name: Publish to Extension Store
         uses: PlasmoHQ/bpp@v3
