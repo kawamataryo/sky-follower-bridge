@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.0
+
+### Minor Changes
+
+- e2845c4: - improve search logic
+
 ## 0.6.6
 
 ### Patch Changes
