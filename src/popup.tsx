@@ -59,6 +59,7 @@ function IndexPopup() {
     if(e) {
       e.preventDefault()
     }
+    saveCredentialsToStorage()
 
     const [{ url: currentUrl }] = await chrome.tabs.query({
       active: true,
@@ -121,7 +122,6 @@ function IndexPopup() {
       }
     } finally {
       setIsLoading(false)
-      saveCredentialsToStorage()
     }
   }
 
