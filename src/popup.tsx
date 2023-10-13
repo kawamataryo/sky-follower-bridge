@@ -1,10 +1,9 @@
-import { type FormEvent, useState } from "react"
+import { type FormEvent, useState, useEffect } from "react"
 import { P, match } from "ts-pattern"
 
 import "./style.css"
 
 import { sendToContentScript } from "@plasmohq/messaging"
-import { useStorage } from "@plasmohq/storage/hook"
 
 import {
   MAX_RELOAD_COUNT,
@@ -14,13 +13,10 @@ import {
   TARGET_URLS_REGEX
 } from "~lib/constants"
 
-import { debugLog } from "./lib/utils"
-import { ReloadButton } from "~lib/components/ReloadBtn"
-
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(false)
-  const [password, setPassword] = useStorage(STORAGE_KEYS.BSKY_PASSWORD, "")
-  const [userId, setUserId] = useStorage(STORAGE_KEYS.BSKY_USER_ID, "")
+  const [password, setPassword] = useState("")
+  const [userId, setUserId] = useState("")
   const [reloadCount, setReloadCount] = useState(0)
   const [message, setMessage] = useState<null | {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE]
@@ -40,6 +36,23 @@ function IndexPopup() {
       currentWindow: true
     })
     await chrome.tabs.reload(tabId)
+  }
+
+  const saveCredentialsToStorage = () => {
+    chrome.storage.local.set({
+      [STORAGE_KEYS.BSKY_PASSWORD]: password,
+      [STORAGE_KEYS.BSKY_USER_ID]: userId
+    })
+  }
+
+  const loadCredentialsFromStorage = async () => {
+    chrome.storage.local.get(
+      [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID],
+      (result) => {
+        setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "")
+        setUserId(result[STORAGE_KEYS.BSKY_USER_ID] || "")
+      }
+    )
   }
 
   const searchBskyUser = async (e?: FormEvent) => {
@@ -108,8 +121,13 @@ function IndexPopup() {
       }
     } finally {
       setIsLoading(false)
+      saveCredentialsToStorage()
     }
   }
+
+  useEffect(() => {
+    loadCredentialsFromStorage()
+  }, [])
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">
