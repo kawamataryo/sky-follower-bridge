@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.2
+
+### Patch Changes
+
+- 7040d1c: - fixed a bug that prevented credentials from being saved
+
 ## 0.7.1
 
 ### Patch Changes
