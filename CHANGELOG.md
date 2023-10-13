@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.1
+
+### Patch Changes
+
+- 46891c9: - fixed a bug that prevented typing
+
 ## 0.7.0
 
 ### Minor Changes
