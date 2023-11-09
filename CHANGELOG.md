@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.3
+
+### Patch Changes
+
+- ea68829: replace all underscores in a handle, not just the first. #29 thanks @lowercase-donkey
+
 ## 0.7.2
 
 ### Patch Changes
