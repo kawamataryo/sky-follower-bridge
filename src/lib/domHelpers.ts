@@ -33,7 +33,7 @@ export const removeReloadEl = () => {
 export const getAccountNameAndDisplayName = (userCell: Element) => {
   const [avatarEl, displayNameEl] = userCell?.querySelectorAll("a")
   const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "")
-  const twAccountNameRemoveUnderscore = twAccountName.replace("_", "") // bsky does not allow underscore in handle. so remove it.
+  const twAccountNameRemoveUnderscore = twAccountName.replaceAll("_", "") // bsky does not allow underscores in handle, so remove them.
   const twDisplayName = displayNameEl?.textContent
   return { twAccountName, twDisplayName, twAccountNameRemoveUnderscore }
 }
