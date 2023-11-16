@@ -17,7 +17,7 @@
     "@changesets/cli": "^2.26.2",
     "@plasmohq/messaging": "^0.5.0",
     "@plasmohq/storage": "^1.7.2",
-    "plasmo": "^0.82.1",
+    "plasmo": "^0.84.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "ts-pattern": "^5.0.5",
