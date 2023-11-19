@@ -39,7 +39,7 @@ export const isSimilarUser = (names: Names, bskyProfile: ProfileView | undefined
     }
   }
 
-  if (bskyProfile.description?.toLocaleLowerCase().includes(`@${lowerCaseNames.accountName}`)) {
+  if (bskyProfile.description?.toLocaleLowerCase().includes(`@${lowerCaseNames.accountName}`) && !bskyProfile.description?.toLocaleLowerCase().includes(`pfp @${lowerCaseNames.accountName}`)) {
     return {
       isSimilar: true,
       type: BSKY_USER_MATCH_TYPE.DESCRIPTION,
