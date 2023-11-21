@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.4
+
+### Patch Changes
+
+- 4338429: "handle name in description", drop matches preceeded by "pfp". thanks @lowercase-donkey
+
 ## 0.7.3
 
 ### Patch Changes
