@@ -153,8 +153,8 @@ function IndexPopup() {
         Sky Follower Bridge
       </h1>
       <form onSubmit={searchBskyUser} className="mt-2">
-        <label className="input-group input-group-lg">
-          <span>
+        <label className="join w-full" htmlFor="userId">
+          <span className="join-item btn btn-sm btn-active cursor-default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -171,14 +171,15 @@ function IndexPopup() {
           </span>
           <input
             type="text"
-            placeholder="Bluesky handle or login email"
+            name="userId"
+            placeholder="@you.bsky.social"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
-            className="input input-bordered input-sm w-full max-w-xs"
+            className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none"
           />
         </label>
-        <label className="input-group input-group-lg mt-2">
-          <span>
+        <label className="join mt-2 w-full" htmlFor="password">
+          <span className="join-item btn btn-sm btn-active cursor-default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -195,10 +196,11 @@ function IndexPopup() {
           </span>
           <input
             type="password"
-            placeholder="Bluesky app password"
+            name="password"
+            placeholder="your app password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered input-sm w-full max-w-xs"
+            className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none"
           />
         </label>
         <button
