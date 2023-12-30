@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.7.5
+
+### Patch Changes
+
+- e9e9206: bump dependencies
+
 ## 0.7.4
 
 ### Patch Changes
