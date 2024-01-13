@@ -1,95 +1,95 @@
-import { type FormEvent, useState, useEffect } from "react"
-import { P, match } from "ts-pattern"
+import { type FormEvent, useEffect, useState } from "react";
+import { P, match } from "ts-pattern";
 
-import "./style.css"
+import "./style.css";
 
-import { sendToContentScript } from "@plasmohq/messaging"
+import { sendToContentScript } from "@plasmohq/messaging";
 
 import {
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
   STORAGE_KEYS,
-  TARGET_URLS_REGEX
-} from "~lib/constants"
+  TARGET_URLS_REGEX,
+} from "~lib/constants";
 
 function IndexPopup() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [password, setPassword] = useState("")
-  const [userId, setUserId] = useState("")
-  const [reloadCount, setReloadCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+  const [reloadCount, setReloadCount] = useState(0);
   const [message, setMessage] = useState<null | {
-    type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE]
-    message: string
-  }>(null)
-  const isDisabled = !password || !userId || isLoading
-  const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR
-  const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS
+    type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
+    message: string;
+  }>(null);
+  const isDisabled = !password || !userId || isLoading;
+  const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
+  const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
   const setErrorMessage = (message: string) => {
-    setMessage({ type: MESSAGE_TYPE.ERROR, message })
-  }
+    setMessage({ type: MESSAGE_TYPE.ERROR, message });
+  };
 
   const reloadActiveTab = async () => {
     const [{ id: tabId }] = await chrome.tabs.query({
       active: true,
-      currentWindow: true
-    })
-    await chrome.tabs.reload(tabId)
-  }
+      currentWindow: true,
+    });
+    await chrome.tabs.reload(tabId);
+  };
 
   const saveCredentialsToStorage = () => {
     chrome.storage.local.set({
       [STORAGE_KEYS.BSKY_PASSWORD]: password,
-      [STORAGE_KEYS.BSKY_USER_ID]: userId
-    })
-  }
+      [STORAGE_KEYS.BSKY_USER_ID]: userId,
+    });
+  };
 
   const loadCredentialsFromStorage = async () => {
     chrome.storage.local.get(
       [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID],
       (result) => {
-        setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "")
-        setUserId(result[STORAGE_KEYS.BSKY_USER_ID] || "")
-      }
-    )
-  }
+        setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
+        setUserId(result[STORAGE_KEYS.BSKY_USER_ID] || "");
+      },
+    );
+  };
 
   const searchBskyUser = async (e?: FormEvent) => {
-    if(e) {
-      e.preventDefault()
+    if (e) {
+      e.preventDefault();
     }
-    saveCredentialsToStorage()
+    saveCredentialsToStorage();
 
     const [{ url: currentUrl }] = await chrome.tabs.query({
       active: true,
-      currentWindow: true
-    })
+      currentWindow: true,
+    });
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
-        "Error: Invalid page. please open the Twitter following or blocking page."
-      )
-      return
+        "Error: Invalid page. please open the Twitter following or blocking page.",
+      );
+      return;
     }
 
     const messageName = match(currentUrl)
       .with(
         P.when((url) => TARGET_URLS_REGEX.FOLLOW.test(url)),
-        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
       )
       .with(
         P.when((url) => TARGET_URLS_REGEX.BLOCK.test(url)),
-        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
       )
       .with(
         P.when((url) => TARGET_URLS_REGEX.LIST.test(url)),
-        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
       )
-      .run()
+      .run();
 
-    setMessage(null)
-    setIsLoading(true)
+    setMessage(null);
+    setIsLoading(true);
 
     try {
       const res: { hasError: boolean; message: string } =
@@ -97,37 +97,40 @@ function IndexPopup() {
           name: messageName,
           body: {
             password,
-            userId
-          }
-        })
+            userId,
+          },
+        });
       if (res.hasError) {
-        setErrorMessage(res.message)
+        setErrorMessage(res.message);
       } else {
         setMessage({
           type: MESSAGE_TYPE.SUCCESS,
-          message: "Completed. Try again if no results found.”"
-        })
+          message: "Completed. Try again if no results found.”",
+        });
       }
     } catch (e) {
-      if(e.message && e.message.includes("Could not establish connection") && reloadCount < MAX_RELOAD_COUNT) {
-        setReloadCount((prev) => prev + 1)
-        await reloadActiveTab()
-        await new Promise(r => setTimeout(r, 3000))
-        await searchBskyUser()
+      if (
+        e.message?.includes("Could not establish connection") &&
+        reloadCount < MAX_RELOAD_COUNT
+      ) {
+        setReloadCount((prev) => prev + 1);
+        await reloadActiveTab();
+        await new Promise((r) => setTimeout(r, 3000));
+        await searchBskyUser();
       } else {
         setErrorMessage(
-          "Error: Something went wrong. Please reload the web page and try again."
-        )
-        console.error(e)
+          "Error: Something went wrong. Please reload the web page and try again.",
+        );
+        console.error(e);
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    loadCredentialsFromStorage()
-  }, [])
+    loadCredentialsFromStorage();
+  }, [loadCredentialsFromStorage]);
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">
@@ -137,12 +140,14 @@ function IndexPopup() {
           xmlns="http://www.w3.org/2000/svg"
           width="48"
           height="48"
-          viewBox="0 0 48 48">
+          viewBox="0 0 48 48"
+        >
           <g
             fill="none"
             stroke="currentColor"
             strokeLinejoin="round"
-            strokeWidth="4">
+            strokeWidth="4"
+          >
             <path
               strokeLinecap="round"
               d="M36 8H13c-3 0-9 2-9 8s6 8 9 8h22c3 0 9 2 9 8s-6 8-9 8H12"
@@ -161,7 +166,8 @@ function IndexPopup() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4">
+              className="w-4 h-4"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -186,7 +192,8 @@ function IndexPopup() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4">
+              className="w-4 h-4"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -205,10 +212,13 @@ function IndexPopup() {
         </label>
         <button
           type="submit"
-          className={`disabled:text-gray-600 mt-3 normal-case btn btn-primary btn-sm w-full`}
-          disabled={isDisabled}>
-          { isLoading && <span className="w-4 loading loading-spinner"></span> }
-          { isLoading ? "Finding Bluesky Users" : "Find Bluesky Users" }
+          className={
+            "disabled:text-gray-600 mt-3 normal-case btn btn-primary btn-sm w-full"
+          }
+          disabled={isDisabled}
+        >
+          {isLoading && <span className="w-4 loading loading-spinner" />}
+          {isLoading ? "Finding Bluesky Users" : "Find Bluesky Users"}
         </button>
         {isShowErrorMessage && (
           <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2">
@@ -216,7 +226,8 @@ function IndexPopup() {
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
               fill="none"
-              viewBox="0 0 24 24">
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 stroke-linejoin="round"
@@ -229,24 +240,25 @@ function IndexPopup() {
         )}
         {isShowSuccessMessage && (
           <div className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current flex-shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>Success. Try again if no results found.</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>Success. Try again if no results found.</span>
           </div>
         )}
       </form>
     </div>
-  )
+  );
 }
 
-export default IndexPopup
+export default IndexPopup;

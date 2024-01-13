@@ -1,21 +1,20 @@
-import { type BskyLoginParams } from "./lib/bskyClient";
-import type { PlasmoCSConfig } from "plasmo"
-import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
-import "./style.content.css"
-import { searchAndInsertBskyUsers } from '~lib/searchAndInsertBskyUsers';
+import type { PlasmoCSConfig } from "plasmo";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
+import { MESSAGE_NAMES, VIEWER_STATE } from "~lib/constants";
+import { searchAndInsertBskyUsers } from "~lib/searchAndInsertBskyUsers";
+import { type BskyLoginParams } from "./lib/bskyClient";
+import "./style.content.css";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],
-  all_frames: true
-}
+  all_frames: true,
+};
 
 const searchAndShowBskyUsers = async ({
   identifier,
   password,
   messageName,
 }: BskyLoginParams & { messageName: string }) => {
-
   const agent = await BskyServiceWorkerClient.createAgent({
     identifier,
     password,
@@ -31,11 +30,12 @@ const searchAndShowBskyUsers = async ({
           progressive: "Following",
         },
         statusKey: VIEWER_STATE.FOLLOWING,
-        userCellQueryParam: '[data-testid="primaryColumn"] [data-testid="UserCell"]',
+        userCellQueryParam:
+          '[data-testid="primaryColumn"] [data-testid="UserCell"]',
         addQuery: async (arg: string) => await agent.follow(arg),
         removeQuery: async (arg: string) => await agent.unfollow(arg),
-      })
-      break
+      });
+      break;
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE:
       await searchAndInsertBskyUsers({
         agent,
@@ -45,11 +45,12 @@ const searchAndShowBskyUsers = async ({
           progressive: "Following",
         },
         statusKey: VIEWER_STATE.FOLLOWING,
-        userCellQueryParam: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
+        userCellQueryParam:
+          '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
         addQuery: async (arg: string) => await agent.follow(arg),
         removeQuery: async (arg: string) => await agent.unfollow(arg),
-      })
-      break
+      });
+      break;
     case MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE:
       // TODO: If already blocked, don't show blocking state. because blocking user can't find.
       await searchAndInsertBskyUsers({
@@ -63,10 +64,10 @@ const searchAndShowBskyUsers = async ({
         userCellQueryParam: '[data-testid="UserCell"]',
         addQuery: async (arg: string) => await agent.block(arg),
         removeQuery: async (arg: string) => await agent.unblock(arg),
-      })
-      break
+      });
+      break;
   }
-}
+};
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (Object.values(MESSAGE_NAMES).includes(message.name)) {
@@ -76,13 +77,13 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
       messageName: message.name,
     })
       .then(() => {
-        sendResponse({ hasError: false })
+        sendResponse({ hasError: false });
       })
       .catch((e) => {
-        console.error(e)
-        sendResponse({ hasError: true, message: e.toString() })
+        console.error(e);
+        sendResponse({ hasError: true, message: e.toString() });
       });
-    return true
+    return true;
   }
-  return false
-})
+  return false;
+});

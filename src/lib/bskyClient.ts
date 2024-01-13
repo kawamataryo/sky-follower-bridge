@@ -1,9 +1,9 @@
-import {  AtUri, BskyAgent, type AtpSessionData } from "@atproto/api";
+import { AtUri, type AtpSessionData, BskyAgent } from "@atproto/api";
 
 export type BskyLoginParams = {
   identifier: string;
   password: string;
-}
+};
 
 export class BskyClient {
   private service = "https://bsky.social";
@@ -13,12 +13,15 @@ export class BskyClient {
     email: string;
   };
   agent: BskyAgent;
-  session = {}
+  session = {};
 
   private constructor() {
-    this.agent = new BskyAgent({ service: this.service, persistSession: (evt, session) => {
-      this.session = session
-    } });
+    this.agent = new BskyAgent({
+      service: this.service,
+      persistSession: (evt, session) => {
+        this.session = session;
+      },
+    });
   }
 
   public static createAgentFromSession(session: AtpSessionData): BskyClient {
@@ -28,7 +31,7 @@ export class BskyClient {
       did: session.did,
       handle: session.handle,
       email: session.email,
-    }
+    };
 
     return client;
   }
@@ -38,15 +41,15 @@ export class BskyClient {
     password,
   }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
-    const {data} = await client.agent.login({
+    const { data } = await client.agent.login({
       identifier: identifier.replace(/^@/, ""), // if identifier is a handle name, @ is not required
-      password
+      password,
     });
     client.me = {
       did: data.did,
       handle: data.handle,
       email: data.email,
-    }
+    };
     return client;
   }
 
@@ -66,30 +69,32 @@ export class BskyClient {
 
   public follow = async (subjectDid: string) => {
     return await this.agent.follow(subjectDid);
-  }
+  };
 
   public unfollow = async (followUri: string) => {
     return await this.agent.deleteFollow(followUri);
-  }
+  };
 
   public block = async (subjectDid: string) => {
-    return await this.agent.app.bsky.graph.block.create({
-      repo: this.me.did,
-      collection: "app.bsky.graph.block",
-    },
-    {
-      subject: subjectDid,
-      createdAt: new Date().toISOString(),
-    })
-  }
+    return await this.agent.app.bsky.graph.block.create(
+      {
+        repo: this.me.did,
+        collection: "app.bsky.graph.block",
+      },
+      {
+        subject: subjectDid,
+        createdAt: new Date().toISOString(),
+      },
+    );
+  };
 
   public unblock = async (blockUri: string) => {
     // TODO: unblock is not working. Need to fix it.
-    const {rkey} = new AtUri(blockUri)
+    const { rkey } = new AtUri(blockUri);
     return await this.agent.app.bsky.graph.block.delete({
       repo: this.me.did,
       collection: "app.bsky.graph.block",
       rkey,
     });
-  }
+  };
 }

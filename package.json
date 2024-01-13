@@ -10,7 +10,8 @@
     "build:firefox": "plasmo build --target=firefox-mv3",
     "package": "plasmo package",
     "package:firefox": "plasmo package --target=firefox-mv3",
-    "run-client": "ts-node --project tsconfig.script.json scripts/client.ts"
+    "run-client": "ts-node --project tsconfig.script.json scripts/client.ts",
+    "check": "npx @biomejs/biome check --apply-unsafe ./src"
   },
   "dependencies": {
     "@atproto/api": "^0.7.4",
@@ -24,6 +25,7 @@
     "vanjs-core": "^1.2.7"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.1",
     "@plasmohq/prettier-plugin-sort-imports": "4.0.1",
     "@types/chrome": "0.0.254",
     "@types/node": "20.10.6",

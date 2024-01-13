@@ -3,13 +3,12 @@ import { sendToBackground } from "@plasmohq/messaging";
 export type BskyLoginParams = {
   identifier: string;
   password: string;
-}
+};
 
 export class BskyServiceWorkerClient {
-  private session = {}
+  private session = {};
 
-  private constructor() {
-  }
+  private constructor() {}
 
   public static async createAgent({
     identifier,
@@ -21,11 +20,11 @@ export class BskyServiceWorkerClient {
       body: {
         identifier,
         password,
-      }
-    })
-    if(error) throw new Error(error.message)
+      },
+    });
+    if (error) throw new Error(error.message);
 
-    client.session = session
+    client.session = session;
     return client;
   }
 
@@ -42,9 +41,9 @@ export class BskyServiceWorkerClient {
         session: this.session,
         term,
         limit,
-      }
-    })
-    if(error) throw new Error(error.message)
+      },
+    });
+    if (error) throw new Error(error.message);
 
     return actors;
   };
@@ -54,39 +53,39 @@ export class BskyServiceWorkerClient {
       name: "follow",
       body: {
         session: this.session,
-        subjectDid
-      }
-    })
-    if(error) throw new Error(error.message)
+        subjectDid,
+      },
+    });
+    if (error) throw new Error(error.message);
 
     return result;
-  }
+  };
 
   public unfollow = async (followUri: string) => {
     const { result, error } = await sendToBackground({
       name: "unfollow",
       body: {
         session: this.session,
-        followUri
-      }
-    })
-    if(error) throw new Error(error.message)
+        followUri,
+      },
+    });
+    if (error) throw new Error(error.message);
 
     return result;
-  }
+  };
 
   public block = async (subjectDid: string) => {
     const { result, error } = await sendToBackground({
       name: "block",
       body: {
         session: this.session,
-        subjectDid
-      }
-    })
-    if(error) throw new Error(error.message)
+        subjectDid,
+      },
+    });
+    if (error) throw new Error(error.message);
 
     return result;
-  }
+  };
 
   public unblock = async (blockUri: string) => {
     // TODO: unblock is not working. Need to fix it.
@@ -94,11 +93,11 @@ export class BskyServiceWorkerClient {
       name: "unblock",
       body: {
         session: this.session,
-        blockUri
-      }
-    })
-    if(error) throw new Error(error.message)
+        blockUri,
+      },
+    });
+    if (error) throw new Error(error.message);
 
     return result;
-  }
+  };
 }
