@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useCallback, useEffect, useState } from "react";
 import { P, match } from "ts-pattern";
 
 import "./style.css";
@@ -45,7 +45,7 @@ function IndexPopup() {
     });
   };
 
-  const loadCredentialsFromStorage = async () => {
+  const loadCredentialsFromStorage = useCallback(async () => {
     chrome.storage.local.get(
       [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID],
       (result) => {
@@ -53,7 +53,7 @@ function IndexPopup() {
         setUserId(result[STORAGE_KEYS.BSKY_USER_ID] || "");
       },
     );
-  };
+  }, []);
 
   const searchBskyUser = async (e?: FormEvent) => {
     if (e) {
@@ -103,10 +103,7 @@ function IndexPopup() {
       if (res.hasError) {
         setErrorMessage(res.message);
       } else {
-        setMessage({
-          type: MESSAGE_TYPE.SUCCESS,
-          message: "Completed. Try again if no results found.”",
-        });
+        window.close();
       }
     } catch (e) {
       if (

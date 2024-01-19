@@ -7,3 +7,7 @@ export const debugLog = (message: string) => {
 export const isOneSymbol = (str: string) => {
   return /^[^\w\s]$/.test(str);
 };
+
+export const wait = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
