@@ -3,6 +3,29 @@ export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE:
     "search_bsky_user_on_list_members_page",
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
+} as const;
+
+export const QUERY_PARAMS = {
+  FOLLOW: '[data-testid="primaryColumn"] [data-testid="UserCell"]',
+  BLOCK: '[data-testid="UserCell"]',
+  LIST: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
+} as const;
+
+export const MESSAGE_NAME_TO_QUERY_PARAM_MAP = {
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE]: QUERY_PARAMS.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]: QUERY_PARAMS.LIST,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: QUERY_PARAMS.BLOCK,
+};
+
+export const ACTION_MODE = {
+  FOLLOW: "follow",
+  BLOCK: "block",
+};
+
+export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: ACTION_MODE.BLOCK,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -35,3 +58,18 @@ export const BSKY_USER_MATCH_TYPE = {
 } as const;
 
 export const MAX_RELOAD_COUNT = 1;
+
+export const MATCH_TYPE_LABEL_AND_COLOR = {
+  [BSKY_USER_MATCH_TYPE.HANDLE]: {
+    label: "Same handle name",
+    color: "info",
+  },
+  [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: {
+    label: "Same display name",
+    color: "warning",
+  },
+  [BSKY_USER_MATCH_TYPE.DESCRIPTION]: {
+    label: "Included handle name in description",
+    color: "neutral",
+  },
+};

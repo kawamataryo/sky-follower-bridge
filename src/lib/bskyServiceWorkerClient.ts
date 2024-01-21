@@ -1,3 +1,4 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
 
 export type BskyLoginParams = {
@@ -45,7 +46,7 @@ export class BskyServiceWorkerClient {
     });
     if (error) throw new Error(error.message);
 
-    return actors;
+    return actors as ProfileView[];
   };
 
   public follow = async (subjectDid: string) => {

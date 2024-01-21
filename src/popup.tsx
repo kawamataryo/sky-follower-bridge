@@ -103,10 +103,7 @@ function IndexPopup() {
       if (res.hasError) {
         setErrorMessage(res.message);
       } else {
-        setMessage({
-          type: MESSAGE_TYPE.SUCCESS,
-          message: "Completed. Try again if no results found.”",
-        });
+        window.close();
       }
     } catch (e) {
       if (

@@ -11,7 +11,9 @@
     "package": "plasmo package",
     "package:firefox": "plasmo package --target=firefox-mv3",
     "run-client": "ts-node --project tsconfig.script.json scripts/client.ts",
-    "check": "npx @biomejs/biome check --apply-unsafe ./src"
+    "check": "npx @biomejs/biome check --apply-unsafe ./src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@atproto/api": "^0.7.4",
@@ -27,6 +29,14 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.1",
     "@plasmohq/prettier-plugin-sort-imports": "4.0.1",
+    "@storybook/addon-essentials": "^7.6.8",
+    "@storybook/addon-interactions": "^7.6.8",
+    "@storybook/addon-links": "^7.6.8",
+    "@storybook/addon-onboarding": "^1.0.10",
+    "@storybook/blocks": "^7.6.8",
+    "@storybook/react": "^7.6.8",
+    "@storybook/react-vite": "^7.6.8",
+    "@storybook/test": "^7.6.8",
     "@types/chrome": "0.0.254",
     "@types/node": "20.10.6",
     "@types/react": "18.2.46",
@@ -35,6 +45,7 @@
     "daisyui": "^4.4.24",
     "postcss": "^8.4.32",
     "prettier": "3.1.1",
+    "storybook": "^7.6.8",
     "tailwindcss": "^3.4.0",
     "typescript": "5.3.3"
   },

@@ -6,7 +6,7 @@
 
 Instantly find and follow the same users from your X(Twitter) follows on Bluesky.
 
-https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f-48c3-b7ba-f54e0e30a7e7
+https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
 
 ## 📦 Installation
 
@@ -18,8 +18,8 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 1. On Twitter open Your [Following](https://twitter.com/following), [Followers](https://twitter.com/followers), or [Blocked](https://twitter.com/settings/blocked/all) users list, or the Members page of a public List.
 2. Use the `Alt + B` shortcut or click on the toolbar icon to launch the Sky Follower Bridge extension.
 3. Input your Bluesky login email or handle and an [app password](https://bsky.app/settings/app-passwords).
-4. Execute the user search.
-5. Bluesky users will appear in the Follower list.
+4. Press the `Finding Bluesky Users` btn.
+5. Bluesky users will appear in the Modal.
 6. Click the "Follow" button to follow them on Bluesky.
 
 ## 🔧 Troubleshooting
@@ -29,6 +29,4 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/0c87f9b9-573f
 
 ## 🚨 Limitations
 
-Note that due to Twitter’s limitations, it’s not possible to search all Followers at once. If you want to search for more, click the "Find More" button that appears on the screen.
-
-![](https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/98759f94-9d24-4ddc-bf7f-9ea94f577ede)
+- User search may fail due to late limit in Bluesky's API. In this case, please wait for 2 to 3 minutes and execute the search again.
