@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.8.0
+
+### Minor Changes
+
+- 2049044: implement batch search feature
+
 ## 0.7.5
 
 ### Patch Changes
