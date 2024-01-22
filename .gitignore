@@ -39,3 +39,6 @@ keys.json
 
 # typescript
 .tsbuildinfo
+
+key.json
+publish_keys.json
