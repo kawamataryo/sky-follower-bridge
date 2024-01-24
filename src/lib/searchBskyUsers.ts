@@ -1,9 +1,6 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { isSimilarUser } from "~lib/bskyHelpers";
-import {
-  getAccountNameAndDisplayName,
-  getUserCells,
-} from "~lib/domHelpers";
+import { getAccountNameAndDisplayName, getUserCells } from "~lib/domHelpers";
 import { debugLog, isOneSymbol } from "~lib/utils";
 import type { BskyClient } from "./bskyClient";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
