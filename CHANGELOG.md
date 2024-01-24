@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.8.2
+
+### Patch Changes
+
+- c2e1beb: re fixed unnecessary permission requests
+
 ## 0.8.1
 
 ### Patch Changes
