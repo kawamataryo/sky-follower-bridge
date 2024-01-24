@@ -13,7 +13,8 @@
     "run-client": "ts-node --project tsconfig.script.json scripts/client.ts",
     "check": "npx @biomejs/biome check --apply-unsafe ./src",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "remove-permissions": "node scripts/remove_web_accessible_resources.js"
   },
   "dependencies": {
     "@atproto/api": "^0.7.4",
@@ -67,7 +68,8 @@
           "mac": "Alt+B"
         }
       }
-    }
+    },
+    "web_accessible_resources": []
   },
   "volta": {
     "node": "16.20.0"
