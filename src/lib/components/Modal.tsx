@@ -10,7 +10,7 @@ const Modal = ({ children, anchorRef, open = false }: Props) => {
   return (
     <>
       <dialog className="modal" ref={anchorRef} open={open}>
-        <div className="modal-box p-10 bg-white w-[750px] max-w-none text-gray-800">
+        <div className="modal-box p-10 bg-base-100 w-[750px] max-w-none text-base-content">
           {children}
         </div>
         <form method="dialog" className="modal-backdrop">

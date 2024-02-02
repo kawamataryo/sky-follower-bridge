@@ -70,6 +70,6 @@ export const MATCH_TYPE_LABEL_AND_COLOR = {
   },
   [BSKY_USER_MATCH_TYPE.DESCRIPTION]: {
     label: "Included handle name in description",
-    color: "neutral",
+    color: "secondary",
   },
 };

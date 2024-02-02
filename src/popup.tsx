@@ -131,7 +131,7 @@ function IndexPopup() {
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">
-      <h1 className="text-primary text-2xl font-thin flex gap-2 items-center">
+      <h1 className="text-primary dark:text-white text-2xl font-thin flex gap-2 items-center">
         <svg
           className="w-5 h-5"
           xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +210,7 @@ function IndexPopup() {
         <button
           type="submit"
           className={
-            "disabled:text-gray-600 mt-3 normal-case btn btn-primary btn-sm w-full"
+            "disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-300 mt-3 normal-case btn btn-primary btn-sm w-full"
           }
           disabled={isDisabled}
         >
