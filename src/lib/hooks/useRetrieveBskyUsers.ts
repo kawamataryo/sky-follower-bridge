@@ -257,6 +257,7 @@ export const useRetrieveBskyUsers = () => {
     [],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const filteredUsers = React.useMemo(() => {
     return users.filter((user) => {
       return matchTypeFilter[user.matchType];
