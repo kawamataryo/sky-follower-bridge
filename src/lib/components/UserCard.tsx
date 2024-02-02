@@ -117,7 +117,7 @@ const UserCard = ({ user, actionMode, clickAction }: Props) => {
                   {user.displayName}
                 </a>
               </h2>
-              <p className="whitespace-nowrap w-fit break-all text-gray-500 text-sm">
+              <p className="whitespace-nowrap w-fit break-all text-gray-500 dark:text-gray-400 text-sm">
                 <a
                   href={`https://bsky.app/profile/${user.handle}`}
                   target="_blank"

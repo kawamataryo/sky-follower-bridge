@@ -18,7 +18,12 @@ module.exports = {
           primary: "#1D4ED8"
         }
       },
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes").night,
+          primary: "#1D4ED8"
+        }
+      }
     ],
   },
-  darkMode: ['class', '[data-theme="night"]']
 }
