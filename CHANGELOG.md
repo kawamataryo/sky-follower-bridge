@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.9.0
+
+### Minor Changes
+
+- 5528400: Add darkmode
+
 ## 0.8.2
 
 ### Patch Changes
