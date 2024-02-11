@@ -91,7 +91,9 @@ function IndexPopup() {
     setMessage(null);
     setIsLoading(true);
 
-    const formattedIdentifier = (identifier.includes(".") ? identifier : `${identifier}.bsky.social`).replace(/^@/, "")
+    const formattedIdentifier = (
+      identifier.includes(".") ? identifier : `${identifier}.bsky.social`
+    ).replace(/^@/, "");
     try {
       const res: { hasError: boolean; message: string } =
         await sendToContentScript({
