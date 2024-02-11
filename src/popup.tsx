@@ -16,13 +16,13 @@ import {
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const [userId, setUserId] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [reloadCount, setReloadCount] = useState(0);
   const [message, setMessage] = useState<null | {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
     message: string;
   }>(null);
-  const isDisabled = !password || !userId || isLoading;
+  const isDisabled = !password || !identifier || isLoading;
   const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
   const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
@@ -41,7 +41,7 @@ function IndexPopup() {
   const saveCredentialsToStorage = () => {
     chrome.storage.local.set({
       [STORAGE_KEYS.BSKY_PASSWORD]: password,
-      [STORAGE_KEYS.BSKY_USER_ID]: userId,
+      [STORAGE_KEYS.BSKY_USER_ID]: identifier,
     });
   };
 
@@ -50,7 +50,7 @@ function IndexPopup() {
       [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID],
       (result) => {
         setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
-        setUserId(result[STORAGE_KEYS.BSKY_USER_ID] || "");
+        setIdentifier(result[STORAGE_KEYS.BSKY_USER_ID] || "");
       },
     );
   }, []);
@@ -91,13 +91,14 @@ function IndexPopup() {
     setMessage(null);
     setIsLoading(true);
 
+    const formattedIdentifier = (identifier.includes(".") ? identifier : `${identifier}.bsky.social`).replace(/^@/, "")
     try {
       const res: { hasError: boolean; message: string } =
         await sendToContentScript({
           name: messageName,
           body: {
+            identifier: formattedIdentifier,
             password,
-            userId,
           },
         });
       if (res.hasError) {
@@ -155,7 +156,7 @@ function IndexPopup() {
         Sky Follower Bridge
       </h1>
       <form onSubmit={searchBskyUser} className="mt-2">
-        <label className="join w-full" htmlFor="userId">
+        <label className="join w-full" htmlFor="identifier">
           <span className="join-item btn btn-sm btn-active cursor-default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -174,10 +175,10 @@ function IndexPopup() {
           </span>
           <input
             type="text"
-            name="userId"
+            name="identifier"
             placeholder="@you.bsky.social"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
             className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none"
           />
         </label>

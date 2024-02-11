@@ -44,7 +44,7 @@ const App = () => {
       message: {
         name: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
         body: {
-          userId: string;
+          identifier: string;
           password: string;
         };
       },
@@ -53,7 +53,7 @@ const App = () => {
     ) => {
       if (Object.values(MESSAGE_NAMES).includes(message.name)) {
         initialize({
-          identifier: message.body.userId,
+          identifier: message.body.identifier,
           password: message.body.password,
           messageName: message.name,
         })

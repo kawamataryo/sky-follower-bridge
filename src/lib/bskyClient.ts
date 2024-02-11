@@ -42,7 +42,7 @@ export class BskyClient {
   }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
     const { data } = await client.agent.login({
-      identifier: identifier.replace(/^@/, ""), // if identifier is a handle name, @ is not required
+      identifier,
       password,
     });
     client.me = {
