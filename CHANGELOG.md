@@ -1,5 +1,11 @@
 # sky-follower-bridge
 
+## 0.9.1
+
+### Patch Changes
+
+- c0d62de: prevent id entry error
+
 ## 0.9.0
 
 ### Minor Changes
