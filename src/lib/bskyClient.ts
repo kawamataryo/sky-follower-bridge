@@ -1,7 +1,7 @@
-import { AtUri, type AtpSessionData, AtpAgent } from "@atproto/api";
+import { AtUri, AtpAgent, type AtpSessionData } from "@atproto/api";
 
 // try and cut down the amount of session resumes by caching the clients
-const clientCache = new Map<string, BskyClient>()
+const clientCache = new Map<string, BskyClient>();
 
 export type BskyLoginParams = {
   identifier: string;
@@ -29,20 +29,19 @@ export class BskyClient {
 
   public static createAgentFromSession(session: AtpSessionData): BskyClient {
     if (clientCache.has(session.did)) {
-      return clientCache.get(session.did)
-    } else {
-      const client = new BskyClient();
-      client.agent.resumeSession(session);
-      client.me = {
-        did: session.did,
-        handle: session.handle,
-        email: session.email,
-      };
-
-      clientCache.set(session.did, client);
-
-      return client;
+      return clientCache.get(session.did);
     }
+    const client = new BskyClient();
+    client.agent.resumeSession(session);
+    client.me = {
+      did: session.did,
+      handle: session.handle,
+      email: session.email,
+    };
+
+    clientCache.set(session.did, client);
+
+    return client;
   }
 
   public static async createAgent({

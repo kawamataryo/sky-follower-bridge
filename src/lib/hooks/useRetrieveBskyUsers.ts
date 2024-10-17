@@ -3,7 +3,7 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
   ACTION_MODE,
   BSKY_USER_MATCH_TYPE,
-  MESSAGE_NAMES,
+  type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   MESSAGE_NAME_TO_QUERY_PARAM_MAP,
 } from "~lib/constants";
@@ -222,6 +222,7 @@ export const useRetrieveBskyUsers = () => {
       setLoading(true);
       showModal();
     },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: todo
     [startRetrieveLoop, showModal],
   );
 
@@ -257,7 +258,7 @@ export const useRetrieveBskyUsers = () => {
     [],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: todo
   const filteredUsers = React.useMemo(() => {
     return users.filter((user) => {
       return matchTypeFilter[user.matchType];

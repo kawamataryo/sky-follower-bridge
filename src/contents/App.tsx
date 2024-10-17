@@ -1,3 +1,4 @@
+import cssText from "data-text:~style.content.css";
 import type { PlasmoCSConfig } from "plasmo";
 import React from "react";
 import AlertError from "~lib/components/AlertError";
@@ -8,7 +9,6 @@ import UserCard from "~lib/components/UserCard";
 import UserCardSkeleton from "~lib/components/UserCardSkeleton";
 import { MESSAGE_NAMES } from "~lib/constants";
 import { useRetrieveBskyUsers } from "~lib/hooks/useRetrieveBskyUsers";
-import cssText from "data-text:~style.content.css";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*", "https://x.com/*"],

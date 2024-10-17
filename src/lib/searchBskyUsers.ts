@@ -1,5 +1,5 @@
 import { isSimilarUser } from "~lib/bskyHelpers";
-import { getAccountNameAndDisplayName } from "~lib/domHelpers";
+import type { getAccountNameAndDisplayName } from "~lib/domHelpers";
 import { isOneSymbol } from "~lib/utils";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 

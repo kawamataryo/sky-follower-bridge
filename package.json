@@ -11,7 +11,7 @@
     "package": "plasmo package",
     "package:firefox": "plasmo package --target=firefox-mv3",
     "run-client": "ts-node --project tsconfig.script.json scripts/client.ts",
-    "check": "npx @biomejs/biome check --apply-unsafe ./src",
+    "check": "npx @biomejs/biome check  --write --unsafe ./src",
     "check:ci": "npx @biomejs/biome ci ./src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -29,7 +29,7 @@
     "vanjs-core": "^1.2.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
+    "@biomejs/biome": "1.9.3",
     "@plasmohq/prettier-plugin-sort-imports": "4.0.1",
     "@storybook/addon-essentials": "^7.6.12",
     "@storybook/addon-interactions": "^7.6.12",
