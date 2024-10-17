@@ -7,12 +7,15 @@ export type BskyLoginParams = {
 
 export class BskyClient {
   private service = "https://bsky.social";
+  // cached AppView API
+  private publicApi = "https://public.api.bsky.app"
   me: {
     did: string;
     handle: string;
     email: string;
   };
   agent: BskyAgent;
+  publicAgent: BskyAgent;
   session = {};
 
   private constructor() {
@@ -21,6 +24,9 @@ export class BskyClient {
       persistSession: (evt, session) => {
         this.session = session;
       },
+    });
+    this.publicAgent = new BskyAgent({
+      service: this.publicApi
     });
   }
 
@@ -60,7 +66,7 @@ export class BskyClient {
     term: string;
     limit: number;
   }) => {
-    const result = await this.agent.searchActors({
+    const result = await this.publicAgent.searchActors({
       term,
       limit,
     });
