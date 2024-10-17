@@ -4,6 +4,9 @@
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome web store rating" src="https://img.shields.io/chrome-web-store/stars/behhbpbpmailcnfbjagknjngnfdojpko.svg"></a>
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome Web Store users" src="https://img.shields.io/chrome-web-store/users/behhbpbpmailcnfbjagknjngnfdojpko"></a>
 
+<a href="https://www.buymeacoffee.com/kawamata" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+
 Instantly find and follow the same users from your X(Twitter) follows on Bluesky.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
