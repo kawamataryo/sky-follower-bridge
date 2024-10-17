@@ -27,12 +27,14 @@ export class BskyClient {
     });
   }
 
-  public static createAgentFromSession(session: AtpSessionData): BskyClient {
+  public static async createAgentFromSession(
+    session: AtpSessionData,
+  ): Promise<BskyClient> {
     if (clientCache.has(session.did)) {
       return clientCache.get(session.did);
     }
     const client = new BskyClient();
-    client.agent.resumeSession(session);
+    await client.agent.resumeSession(session);
     client.me = {
       did: session.did,
       handle: session.handle,
