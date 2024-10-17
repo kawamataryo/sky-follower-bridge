@@ -12,6 +12,7 @@
     "package:firefox": "plasmo package --target=firefox-mv3",
     "run-client": "ts-node --project tsconfig.script.json scripts/client.ts",
     "check": "npx @biomejs/biome check --apply-unsafe ./src",
+    "check:ci": "npx @biomejs/biome ci ./src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "remove-permissions": "node scripts/remove_web_accessible_resources.js"
