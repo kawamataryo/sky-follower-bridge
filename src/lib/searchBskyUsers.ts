@@ -12,6 +12,7 @@ export const searchBskyUser = async ({
 }) => {
   const searchTerms = [
     userData.twAccountNameRemoveUnderscore,
+    userData.twAccountNameReplaceUnderscore,
     userData.twDisplayName,
   ];
 
@@ -32,6 +33,8 @@ export const searchBskyUser = async ({
           {
             accountName: userData.twAccountName,
             accountNameRemoveUnderscore: userData.twAccountNameRemoveUnderscore,
+            accountNameReplaceUnderscore:
+              userData.twAccountNameReplaceUnderscore,
             displayName: userData.twDisplayName,
           },
           searchResult,

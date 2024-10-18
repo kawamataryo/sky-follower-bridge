@@ -6,6 +6,7 @@ import "./style.css";
 import { sendToContentScript } from "@plasmohq/messaging";
 
 import {
+  AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
@@ -18,6 +19,9 @@ function IndexPopup() {
   const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [reloadCount, setReloadCount] = useState(0);
+  const [authFactorToken, setAuthFactorToken] = useState("");
+  const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
+    useState(false);
   const [message, setMessage] = useState<null | {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
     message: string;
@@ -68,7 +72,7 @@ function IndexPopup() {
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
-        "Error: Invalid page. please open the Twitter following or blocking page.",
+        "Error: Invalid page. please open the 𝕏 following or blocking or list page.",
       );
       return;
     }
@@ -101,10 +105,15 @@ function IndexPopup() {
           body: {
             identifier: formattedIdentifier,
             password,
+            ...(authFactorToken && { authFactorToken: authFactorToken.trim() }),
           },
         });
       if (res.hasError) {
-        setErrorMessage(res.message);
+        if (res.message === AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE) {
+          setIsShowAuthFactorTokenInput(true);
+        } else {
+          setErrorMessage(res.message);
+        }
       } else {
         window.close();
       }
@@ -210,6 +219,40 @@ function IndexPopup() {
             className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none"
           />
         </label>
+        {isShowAuthFactorTokenInput && (
+          <>
+            <label className="join mt-2 w-full" htmlFor="authFactorToken">
+              <span className="join-item btn btn-sm btn-active cursor-default">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
+                  />
+                </svg>
+              </span>
+              <input
+                type="text"
+                name="authFactorToken"
+                placeholder="2FA token"
+                value={authFactorToken}
+                onChange={(e) => setAuthFactorToken(e.target.value)}
+                className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none"
+              />
+            </label>
+            <p className="mt-2 text-warning">
+              A 2FA token has been sent to your email. Please enter the token
+              above.
+            </p>
+          </>
+        )}
         <button
           type="submit"
           className={

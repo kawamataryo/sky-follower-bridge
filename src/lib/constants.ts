@@ -73,3 +73,6 @@ export const MATCH_TYPE_LABEL_AND_COLOR = {
     color: "secondary",
   },
 };
+
+export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
+  "AuthFactorTokenRequiredError";

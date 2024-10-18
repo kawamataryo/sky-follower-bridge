@@ -4,6 +4,7 @@ import { BSKY_USER_MATCH_TYPE } from "./constants";
 type Names = {
   accountName: string;
   accountNameRemoveUnderscore: string;
+  accountNameReplaceUnderscore: string;
   displayName: string;
 };
 
@@ -36,7 +37,8 @@ export const isSimilarUser = (
 
   if (
     lowerCaseNames.accountName === bskyHandle ||
-    lowerCaseNames.accountNameRemoveUnderscore === bskyHandle
+    lowerCaseNames.accountNameRemoveUnderscore === bskyHandle ||
+    lowerCaseNames.accountNameReplaceUnderscore === bskyHandle
   ) {
     return {
       isSimilar: true,

@@ -7,7 +7,7 @@
 <a href="https://www.buymeacoffee.com/kawamata" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 
-Instantly find and follow the same users from your X(Twitter) follows on Bluesky.
+Instantly find and follow the same users from your 𝕏(Twitter) follows on Bluesky.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
 
@@ -18,7 +18,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 
 ## 🚀 How to use
 
-1. On Twitter open Your [Following](https://twitter.com/following), [Followers](https://twitter.com/followers), or [Blocked](https://twitter.com/settings/blocked/all) users list, or the Members page of a public List.
+1. On 𝕏 open Your [Following](https://x.com/following), [Followers](https://x.com/followers), or [Blocked](https://x.com/settings/blocked/all) users list, or the Members page of a public List.
 2. Use the `Alt + B` shortcut or click on the toolbar icon to launch the Sky Follower Bridge extension.
 3. Input your Bluesky login email or handle and an [app password](https://bsky.app/settings/app-passwords).
 4. Press the `Finding Bluesky Users` btn.
