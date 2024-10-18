@@ -23,6 +23,7 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   const [avatarEl, displayNameEl] = userCell.querySelectorAll("a");
   const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "");
   const twAccountNameRemoveUnderscore = twAccountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
+  const twAccountNameReplaceUnderscore = twAccountName.replaceAll("_", "-");
   const twDisplayName = displayNameEl?.textContent;
-  return { twAccountName, twDisplayName, twAccountNameRemoveUnderscore };
+  return { twAccountName, twDisplayName, twAccountNameRemoveUnderscore, twAccountNameReplaceUnderscore };
 };
