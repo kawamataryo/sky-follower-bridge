@@ -28,7 +28,8 @@ const App = () => {
     modalRef,
     users,
     loading,
-    handleClickAction,
+    searching,
+    autoFollowing,
     actionMode,
     errorMessage,
     restart,
@@ -37,6 +38,12 @@ const App = () => {
     matchTypeFilter,
     changeMatchTypeFilter,
     filteredUsers,
+    loadTwitterFollowing,
+    searchBlueskyUsers,
+    autoFollowUsers,
+    exportResults,
+    importResults,
+    detectedXUsers,
   } = useRetrieveBskyUsers();
 
   React.useEffect(() => {
@@ -80,14 +87,49 @@ const App = () => {
       <Modal anchorRef={modalRef}>
         <div className="flex flex-col gap-6">
           <div className="flex justify-between">
-            <h1 className="text-2xl font-bold">Find Bluesky Users</h1>
+            <h1 className="text-2xl font-bold">Find and Auto-Follow Bluesky Users</h1>
             <div className="flex gap-3 items-center">
-              {loading && (
-                <p className="loading loading-spinner loading-md text-primary" />
-              )}
-              <p className="text-sm">Detected:</p>
-              <p className="font-bold text-xl">{users.length}</p>
+              <p className="text-sm">Detected X Users:</p>
+              <p className="font-bold text-xl">{detectedXUsers.length}</p>
             </div>
+          </div>
+          <div className="flex gap-2">
+            <button 
+              className={`btn btn-primary ${loading ? 'loading' : ''}`} 
+              onClick={() => loadTwitterFollowing(MESSAGE_NAME_TO_QUERY_PARAM_MAP[retrievalParams.messageName])}
+              disabled={loading}
+            >
+              {loading ? 'Loading X Following' : 'Load X Following'}
+            </button>
+            <button 
+              className={`btn btn-secondary ${searching ? 'loading' : ''}`} 
+              onClick={searchBlueskyUsers}
+              disabled={searching || detectedXUsers.length === 0}
+            >
+              {searching ? 'Searching Bluesky' : 'Search Bluesky Users'}
+            </button>
+            <button 
+              className={`btn btn-accent ${autoFollowing ? 'loading' : ''}`} 
+              onClick={autoFollowUsers}
+              disabled={autoFollowing || users.length === 0}
+            >
+              {autoFollowing ? 'Auto-Following' : 'Auto-Follow Users'}
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button className="btn btn-outline" onClick={exportResults}>
+              Export Results
+            </button>
+            <input
+              type="file"
+              accept=".csv"
+              onChange={(e) => {
+                if (e.target.files) {
+                  importResults(e.target.files[0]);
+                }
+              }}
+              className="file-input file-input-bordered w-full max-w-xs"
+            />
           </div>
           <MatchTypeFilter
             value={matchTypeFilter}
@@ -95,8 +137,7 @@ const App = () => {
           />
           {isSucceeded && (
             <AlertSuccess>
-              <span className="font-bold">{users.length}</span> Bluesky accounts
-              detected.
+              <span className="font-bold">{users.length}</span> Bluesky accounts found.
             </AlertSuccess>
           )}
           {errorMessage && (
@@ -111,13 +152,12 @@ const App = () => {
                   <UserCard
                     key={user.handle}
                     user={user}
-                    clickAction={handleClickAction}
                     actionMode={actionMode}
                   />
                 ))}
               </div>
             ) : (
-              loading && <UserCardSkeleton />
+              (loading || searching) && <UserCardSkeleton />
             )}
           </div>
         </div>

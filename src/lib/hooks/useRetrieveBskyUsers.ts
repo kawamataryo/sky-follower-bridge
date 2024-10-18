@@ -46,7 +46,9 @@ export const useRetrieveBskyUsers = () => {
     ReturnType<typeof detectXUsers>
   >([]);
   const [users, setUsers] = React.useState<BskyUser[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+  const [searching, setSearching] = React.useState(false);
+  const [autoFollowing, setAutoFollowing] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [matchTypeFilter, setMatchTypeFilter] = React.useState({
     [BSKY_USER_MATCH_TYPE.HANDLE]: true,
@@ -66,33 +68,23 @@ export const useRetrieveBskyUsers = () => {
   };
 
   const handleClickAction = React.useCallback(
-    async (user: (typeof users)[0]) => {
+    async (user: BskyUser) => {
       if (!bskyClient.current) return;
       let resultUri: string | null = null;
 
-      // follow
-      if (actionMode === ACTION_MODE.FOLLOW) {
-        if (user.isFollowing) {
-          await bskyClient.current.unfollow(user.followingUri);
-        } else {
-          const result = await bskyClient.current.follow(user.did);
-          resultUri = result.uri;
-        }
+      if (actionMode === ACTION_MODE.FOLLOW && !user.isFollowing) {
+        const result = await bskyClient.current.follow(user.did);
+        resultUri = result.uri;
         setUsers((prev) =>
-          prev.map((prevUser) => {
-            if (prevUser.did === user.did) {
-              return {
-                ...prevUser,
-                isFollowing: !prevUser.isFollowing,
-                followingUri: resultUri ?? prevUser.followingUri,
-              };
-            }
-            return prevUser;
-          }),
+          prev.map((prevUser) =>
+            prevUser.did === user.did
+              ? { ...prevUser, isFollowing: true, followingUri: resultUri }
+              : prevUser
+          )
         );
       }
 
-      // block
+      // Keep the block functionality as is
       if (actionMode === ACTION_MODE.BLOCK) {
         if (user.isBlocking) {
           await bskyClient.current.unblock(user.blockingUri);
@@ -114,82 +106,148 @@ export const useRetrieveBskyUsers = () => {
         );
       }
     },
-    [actionMode],
+    [actionMode]
   );
 
-  const retrieveBskyUsers = React.useCallback(
-    async (usersData: ReturnType<typeof getAccountNameAndDisplayName>[]) => {
-      for (const userData of usersData) {
-        const searchResult = await searchBskyUser({
-          client: bskyClient.current,
-          userData,
+  const processUser = React.useCallback(
+    async (userData: ReturnType<typeof getAccountNameAndDisplayName>) => {
+      if (!bskyClient.current) return;
+
+      const searchResult = await searchBskyUser({
+        client: bskyClient.current,
+        userData,
+      });
+
+      if (searchResult) {
+        const newUser: BskyUser = {
+          did: searchResult.bskyProfile.did,
+          avatar: searchResult.bskyProfile.avatar,
+          displayName: searchResult.bskyProfile.displayName,
+          handle: searchResult.bskyProfile.handle,
+          description: searchResult.bskyProfile.description,
+          matchType: searchResult.matchType,
+          isFollowing: !!searchResult.bskyProfile.viewer?.following,
+          followingUri: searchResult.bskyProfile.viewer?.following,
+          isBlocking: !!searchResult.bskyProfile.viewer?.blocking,
+          blockingUri: searchResult.bskyProfile.viewer?.blocking,
+        };
+
+        setUsers((prev) => {
+          if (prev.some(u => u.did === newUser.did)) {
+            return prev;
+          }
+          return [newUser, ...prev];
         });
-        if (searchResult) {
-          setUsers((prev) => {
-            if (prev.some((u) => u.did === searchResult.bskyProfile.did)) {
-              return prev;
-            }
-            return [
-              ...prev,
-              {
-                did: searchResult.bskyProfile.did,
-                avatar: searchResult.bskyProfile.avatar,
-                displayName: searchResult.bskyProfile.displayName,
-                handle: searchResult.bskyProfile.handle,
-                description: searchResult.bskyProfile.description,
-                matchType: searchResult.matchType,
-                isFollowing: !!searchResult.bskyProfile.viewer?.following,
-                followingUri: searchResult.bskyProfile.viewer?.following,
-                isBlocking: !!searchResult.bskyProfile.viewer?.blocking,
-                blockingUri: searchResult.bskyProfile.viewer?.blocking,
-              },
-            ];
-          });
-        }
       }
     },
-    [],
+    []
   );
 
-  const startRetrieveLoop = React.useCallback(
+  const loadTwitterFollowing = React.useCallback(
     async (queryParam: string) => {
+      setLoading(true);
       let isBottomReached = false;
-      let index = 0;
+      let processedUsers = new Set<string>();
+      let lastScrollHeight = 0;
 
-      while (!isBottomReached) {
-        const data = detectXUsers(queryParam).filter((u) => {
-          return !detectedXUsers.some(
-            (t) => t.twAccountName === u.twAccountName,
-          );
-        });
-        setDetectedXUsers((prev) => [...prev, ...data]);
-        await retrieveBskyUsers(data);
+      const detectNewUsers = () => {
+        const data = detectXUsers(queryParam).filter(
+          (u) => !processedUsers.has(u.twAccountName)
+        );
 
-        // scroll to bottom
-        window.scrollTo(0, document.body.scrollHeight);
+        setDetectedXUsers((prev) => [...data, ...prev]);
+        data.forEach(u => processedUsers.add(u.twAccountName));
 
-        // wait for fetching data by x
-        await wait(3000);
+        return data;
+      };
 
-        // break if bottom is reached
-        const documentElement = document.documentElement;
-        if (
-          documentElement.scrollTop + documentElement.clientHeight >=
-          documentElement.scrollHeight
-        ) {
+      const scrollAndDetect = async () => {
+        const newUsers = detectNewUsers();
+        if (newUsers.length > 0) {
+          // Scroll to bottom
+          window.scrollTo(0, document.body.scrollHeight);
+
+          // Wait for new content to load
+          await wait(2000);
+
+          const currentScrollHeight = document.body.scrollHeight;
+          if (currentScrollHeight > lastScrollHeight) {
+            lastScrollHeight = currentScrollHeight;
+            await scrollAndDetect();
+          } else {
+            isBottomReached = true;
+          }
+        } else {
           isBottomReached = true;
-          setLoading(false);
         }
+      };
 
-        index++;
-        if (process.env.NODE_ENV === "development" && index > 5) {
-          setLoading(false);
-          break;
-        }
-      }
+      await scrollAndDetect();
+      setLoading(false);
     },
-    [retrieveBskyUsers, detectedXUsers],
+    []
   );
+
+  const searchBlueskyUsers = React.useCallback(async () => {
+    setSearching(true);
+    for (const userData of detectedXUsers) {
+      await processUser(userData);
+    }
+    setSearching(false);
+  }, [detectedXUsers, processUser]);
+
+  const autoFollowUsers = React.useCallback(async () => {
+    setAutoFollowing(true);
+    for (const user of users) {
+      if (!user.isFollowing) {
+        await handleClickAction(user);
+      }
+    }
+    setAutoFollowing(false);
+  }, [users, handleClickAction]);
+
+  const exportResults = () => {
+    const csv = users.map(user => 
+      `${user.handle},${user.displayName},${user.did},${user.isFollowing}`
+    ).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "bluesky_users.csv");
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const importResults = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const csv = event.target.result as string;
+      const lines = csv.split('\n');
+      const importedUsers: BskyUser[] = lines.map(line => {
+        const [handle, displayName, did, isFollowing] = line.split(',');
+        return {
+          handle,
+          displayName,
+          did,
+          isFollowing: isFollowing === 'true',
+          avatar: '', // You might want to handle this differently
+          description: '',
+          matchType: BSKY_USER_MATCH_TYPE.HANDLE, // Default value, adjust as needed
+          followingUri: null,
+          isBlocking: false,
+          blockingUri: null,
+        };
+      });
+      setUsers(importedUsers);
+    };
+    reader.readAsText(file);
+  };
 
   const initialize = React.useCallback(
     async ({
@@ -213,36 +271,26 @@ export const useRetrieveBskyUsers = () => {
       });
 
       setActionMode(MESSAGE_NAME_TO_ACTION_MODE_MAP[messageName]);
-      startRetrieveLoop(MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName]).catch(
+      loadTwitterFollowing(MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName]).catch(
         (e) => {
           setErrorMessage(e.message);
-          setLoading(false);
         },
       );
-      setLoading(true);
       showModal();
     },
-    // biome-ignore lint/correctness/useExhaustiveDependencies: todo
-    [startRetrieveLoop, showModal],
+    [loadTwitterFollowing]
   );
 
   const restart = React.useCallback(() => {
-    startRetrieveLoop(retrievalParams.messageName).catch((e) => {
+    loadTwitterFollowing(retrievalParams.messageName).catch((e) => {
       setErrorMessage(e.message);
-      setLoading(false);
     });
-    setLoading(true);
-  }, [retrievalParams, startRetrieveLoop]);
+  }, [retrievalParams, loadTwitterFollowing]);
 
   const isRateLimitError = React.useMemo(() => {
     // TODO: improve this logic
     return errorMessage.toLowerCase().replace(" ", "").includes("ratelimit");
   }, [errorMessage]);
-
-  const isSucceeded = React.useMemo(
-    () => !loading && !errorMessage && users.length > 0,
-    [loading, errorMessage, users.length],
-  );
 
   const changeMatchTypeFilter = React.useCallback(
     (
@@ -272,13 +320,21 @@ export const useRetrieveBskyUsers = () => {
     handleClickAction,
     users,
     loading,
+    searching,
+    autoFollowing,
     actionMode,
     errorMessage,
     isRateLimitError,
     restart,
-    isSucceeded,
+    isSucceeded: !loading && !errorMessage && users.length > 0,
     matchTypeFilter,
     changeMatchTypeFilter,
     filteredUsers,
+    loadTwitterFollowing,
+    searchBlueskyUsers,
+    autoFollowUsers,
+    exportResults,
+    importResults,
+    detectedXUsers,
   };
 };
