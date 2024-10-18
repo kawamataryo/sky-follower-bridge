@@ -74,4 +74,5 @@ export const MATCH_TYPE_LABEL_AND_COLOR = {
   },
 };
 
-export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE = "AuthFactorTokenRequiredError";
+export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
+  "AuthFactorTokenRequiredError";

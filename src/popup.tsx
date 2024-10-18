@@ -6,12 +6,12 @@ import "./style.css";
 import { sendToContentScript } from "@plasmohq/messaging";
 
 import {
+  AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
-  AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
 } from "~lib/constants";
 
 function IndexPopup() {
