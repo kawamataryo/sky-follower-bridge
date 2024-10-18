@@ -6,6 +6,7 @@ const clientCache = new Map<string, BskyClient>();
 export type BskyLoginParams = {
   identifier: string;
   password: string;
+  authFactorToken?: string;
 };
 
 export class BskyClient {
@@ -49,11 +50,13 @@ export class BskyClient {
   public static async createAgent({
     identifier,
     password,
+    authFactorToken,
   }: BskyLoginParams): Promise<BskyClient> {
     const client = new BskyClient();
     const { data } = await client.agent.login({
       identifier,
       password,
+      ...(authFactorToken && { authFactorToken }),
     });
     client.me = {
       did: data.did,
