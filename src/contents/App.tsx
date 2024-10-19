@@ -37,6 +37,7 @@ const App = () => {
     matchTypeFilter,
     changeMatchTypeFilter,
     filteredUsers,
+    stopRetrieveLoop,
   } = useRetrieveBskyUsers();
 
   React.useEffect(() => {
@@ -81,7 +82,7 @@ const App = () => {
 
   return (
     <>
-      <Modal anchorRef={modalRef}>
+      <Modal anchorRef={modalRef} onClose={stopRetrieveLoop}>
         <div className="flex flex-col gap-6">
           <div className="flex justify-between">
             <h1 className="text-2xl font-bold">Find Bluesky Users</h1>

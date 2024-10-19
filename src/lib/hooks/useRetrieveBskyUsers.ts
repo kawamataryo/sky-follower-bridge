@@ -151,12 +151,20 @@ export const useRetrieveBskyUsers = () => {
     [],
   );
 
+  const abortControllerRef = React.useRef<AbortController | null>(null);
   const startRetrieveLoop = React.useCallback(
     async (queryParam: string) => {
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
       let isBottomReached = false;
       let index = 0;
 
       while (!isBottomReached) {
+        if (signal.aborted) {
+          break;
+        }
+
         const data = detectXUsers(queryParam).filter((u) => {
           return !detectedXUsers.some(
             (t) => t.twAccountName === u.twAccountName,
@@ -190,6 +198,12 @@ export const useRetrieveBskyUsers = () => {
     },
     [retrieveBskyUsers, detectedXUsers],
   );
+
+  const stopRetrieveLoop = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  };
 
   const initialize = React.useCallback(
     async ({
@@ -283,5 +297,6 @@ export const useRetrieveBskyUsers = () => {
     matchTypeFilter,
     changeMatchTypeFilter,
     filteredUsers,
+    stopRetrieveLoop,
   };
 };
