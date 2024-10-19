@@ -57,7 +57,11 @@ function IndexPopup() {
 
   const loadCredentialsFromStorage = useCallback(async () => {
     chrome.storage.local.get(
-      [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID, STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
+      [
+        STORAGE_KEYS.BSKY_PASSWORD,
+        STORAGE_KEYS.BSKY_USER_ID,
+        STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
+      ],
       (result) => {
         setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
         setIdentifier(result[STORAGE_KEYS.BSKY_USER_ID] || "");
