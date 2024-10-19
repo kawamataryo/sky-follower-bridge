@@ -32,6 +32,7 @@ const STORAGE_PREFIX = "sky_follower_bridge_storage";
 export const STORAGE_KEYS = {
   BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_password`,
   BSKY_PASSWORD: `${STORAGE_PREFIX}_bsky_user`,
+  BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: `${STORAGE_PREFIX}_bsky_show_auth_factor_token_input`,
 } as const;
 
 export const TARGET_URLS_REGEX = {

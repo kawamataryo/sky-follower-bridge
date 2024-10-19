@@ -49,12 +49,21 @@ function IndexPopup() {
     });
   };
 
+  const saveShowAuthFactorTokenInputToStorage = (value: boolean) => {
+    chrome.storage.local.set({
+      [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: value,
+    });
+  };
+
   const loadCredentialsFromStorage = useCallback(async () => {
     chrome.storage.local.get(
-      [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID],
+      [STORAGE_KEYS.BSKY_PASSWORD, STORAGE_KEYS.BSKY_USER_ID, STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
       (result) => {
         setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
         setIdentifier(result[STORAGE_KEYS.BSKY_USER_ID] || "");
+        setIsShowAuthFactorTokenInput(
+          result[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
+        );
       },
     );
   }, []);
@@ -111,10 +120,12 @@ function IndexPopup() {
       if (res.hasError) {
         if (res.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
+          saveShowAuthFactorTokenInputToStorage(true);
         } else {
           setErrorMessage(res.message);
         }
       } else {
+        saveShowAuthFactorTokenInputToStorage(false);
         window.close();
       }
     } catch (e) {
