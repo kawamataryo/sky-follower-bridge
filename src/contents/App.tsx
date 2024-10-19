@@ -46,6 +46,7 @@ const App = () => {
         body: {
           identifier: string;
           password: string;
+          authFactorToken?: string;
         };
       },
       _sender: chrome.runtime.MessageSender,
@@ -56,6 +57,9 @@ const App = () => {
           identifier: message.body.identifier,
           password: message.body.password,
           messageName: message.name,
+          ...(message.body.authFactorToken && {
+            authFactorToken: message.body.authFactorToken,
+          }),
         })
           .then(() => {
             sendResponse({ hasError: false });

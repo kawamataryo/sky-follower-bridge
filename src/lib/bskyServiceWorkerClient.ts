@@ -4,6 +4,7 @@ import { sendToBackground } from "@plasmohq/messaging";
 export type BskyLoginParams = {
   identifier: string;
   password: string;
+  authFactorToken?: string;
 };
 
 export class BskyServiceWorkerClient {
@@ -14,6 +15,7 @@ export class BskyServiceWorkerClient {
   public static async createAgent({
     identifier,
     password,
+    authFactorToken,
   }: BskyLoginParams): Promise<BskyServiceWorkerClient> {
     const client = new BskyServiceWorkerClient();
     const { session, error } = await sendToBackground({
@@ -21,6 +23,7 @@ export class BskyServiceWorkerClient {
       body: {
         identifier,
         password,
+        ...(authFactorToken && { authFactorToken: authFactorToken }),
       },
     });
     if (error) throw new Error(error.message);

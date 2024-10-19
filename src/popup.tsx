@@ -109,7 +109,7 @@ function IndexPopup() {
           },
         });
       if (res.hasError) {
-        if (res.message === AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE) {
+        if (res.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
         } else {
           setErrorMessage(res.message);
@@ -130,7 +130,6 @@ function IndexPopup() {
         setErrorMessage(
           "Error: Something went wrong. Please reload the web page and try again.",
         );
-        console.error(e);
       }
     } finally {
       setIsLoading(false);

@@ -196,10 +196,12 @@ export const useRetrieveBskyUsers = () => {
       identifier,
       password,
       messageName,
+      authFactorToken,
     }: {
       identifier: string;
       password: string;
       messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
+      authFactorToken?: string;
     }) => {
       setRetrievalParams({
         identifier,
@@ -210,6 +212,7 @@ export const useRetrieveBskyUsers = () => {
       bskyClient.current = await BskyServiceWorkerClient.createAgent({
         identifier,
         password,
+        ...(authFactorToken && { authFactorToken: authFactorToken }),
       });
 
       setActionMode(MESSAGE_NAME_TO_ACTION_MODE_MAP[messageName]);
