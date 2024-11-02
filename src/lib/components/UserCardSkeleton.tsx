@@ -7,14 +7,26 @@ const UserCardSkeleton = () => {
             <div className="w-14 h-14 rounded-full bg-gray-400" />
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <div>
-            <span className="rounded-xl bg-gray-400 w-40 h-4 block" />
-            <span className="rounded-xl bg-gray-400 w-20 h-2 mt-1 block" />
+            <span
+              className="rounded-xl bg-gray-400 h-4 block"
+              style={{ width: `${Math.floor(Math.random() * 20 + 30)}%` }}
+            />
           </div>
           <p className="flex flex-col gap-1 mt-2">
-            <span className="rounded-xl bg-gray-400 w-[90%] h-2 block" />
-            <span className="rounded-xl bg-gray-400 w-[80%] h-2 block" />
+            <span
+              className="rounded-xl bg-gray-400 h-2 block"
+              style={{ width: `${Math.floor(Math.random() * 30 + 70)}%` }}
+            />
+            <span
+              className="rounded-xl bg-gray-400 h-2 block"
+              style={{ width: `${Math.floor(Math.random() * 30 + 70)}%` }}
+            />
+            <span
+              className="rounded-xl bg-gray-400 h-2 block"
+              style={{ width: `${Math.floor(Math.random() * 40 + 50)}%` }}
+            />
           </p>
         </div>
       </div>

@@ -6,6 +6,7 @@
   "author": "kawamataryou",
   "scripts": {
     "dev": "plasmo dev",
+    "dev:firefox": "plasmo dev --target=firefox-mv3",
     "build": "plasmo build",
     "build:firefox": "plasmo build --target=firefox-mv3",
     "package": "plasmo package",
@@ -22,6 +23,7 @@
     "@changesets/cli": "^2.27.1",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.9.1",
+    "framer-motion": "^11.11.11",
     "plasmo": "^0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
