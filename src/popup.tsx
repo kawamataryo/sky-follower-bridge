@@ -3,7 +3,7 @@ import { P, match } from "ts-pattern";
 
 import "./style.css";
 
-import { sendToContentScript } from "@plasmohq/messaging";
+import { sendToBackground, sendToContentScript } from "@plasmohq/messaging";
 
 import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
@@ -105,6 +105,10 @@ function IndexPopup() {
       )
       .run();
 
+    chrome.storage.local.set({
+      [STORAGE_KEYS.BSKY_MESSAGE_NAME]: messageName,
+    });
+
     setMessage(null);
     setIsLoading(true);
 
@@ -112,21 +116,26 @@ function IndexPopup() {
       identifier.includes(".") ? identifier : `${identifier}.bsky.social`
     ).replace(/^@/, "");
     try {
-      const res: { hasError: boolean; message: string } =
-        await sendToContentScript({
-          name: messageName,
-          body: {
-            identifier: formattedIdentifier,
-            password,
-            ...(authFactorToken && { authFactorToken: authFactorToken.trim() }),
-          },
-        });
-      if (res.hasError) {
-        if (res.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
+      const { session, error } = await sendToBackground({
+        name: "login",
+        body: {
+          identifier,
+          password,
+          ...(authFactorToken && { authFactorToken: authFactorToken }),
+        },
+      });
+      chrome.storage.local.set({
+        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
+      });
+      await sendToContentScript({
+        name: messageName,
+      });
+      if (error) {
+        if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
           saveShowAuthFactorTokenInputToStorage(true);
         } else {
-          setErrorMessage(res.message);
+          setErrorMessage(error.message);
         }
       } else {
         saveShowAuthFactorTokenInputToStorage(false);

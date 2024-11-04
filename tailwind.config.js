@@ -26,4 +26,25 @@ module.exports = {
       }
     ],
   },
+  theme: {
+    extend: {
+      keyframes: {
+        drillDown: {
+          '0%': {
+            transform: 'translateY(-20px) scale(0.95)',
+            opacity: '0',
+            zIndex: '0'
+          },
+          '100%': {
+            transform: 'translateY(0) scale(1)',
+            opacity: '1',
+            zIndex: '10'
+          }
+        }
+      },
+      animation: {
+        'drill-down': 'drillDown 0.5s ease-in-out forwards'
+      }
+    }
+  }
 }

@@ -33,6 +33,9 @@ export const STORAGE_KEYS = {
   BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_password`,
   BSKY_PASSWORD: `${STORAGE_PREFIX}_bsky_user`,
   BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: `${STORAGE_PREFIX}_bsky_show_auth_factor_token_input`,
+  BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
+  BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,
+  DETECTED_BSKY_USERS: `${STORAGE_PREFIX}_detected_bsky_users`,
 } as const;
 
 export const TARGET_URLS_REGEX = {
@@ -55,6 +58,7 @@ export const BSKY_USER_MATCH_TYPE = {
   HANDLE: "handle",
   DISPLAY_NAME: "display_name",
   DESCRIPTION: "description",
+  FOLLOWING: "following",
   NONE: "none",
 } as const;
 
@@ -72,6 +76,10 @@ export const MATCH_TYPE_LABEL_AND_COLOR = {
   [BSKY_USER_MATCH_TYPE.DESCRIPTION]: {
     label: "Included handle name in description",
     color: "secondary",
+  },
+  [BSKY_USER_MATCH_TYPE.FOLLOWING]: {
+    label: "Followed users",
+    color: "success",
   },
 };
 

@@ -1,5 +1,7 @@
+import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
+import { STORAGE_KEYS } from "./constants";
 
 export type BskyLoginParams = {
   identifier: string;
@@ -8,16 +10,17 @@ export type BskyLoginParams = {
 };
 
 export class BskyServiceWorkerClient {
-  private session = {};
+  private session = {} as AtpSessionData;
 
-  private constructor() {}
+  constructor(session: AtpSessionData) {
+    this.session = session;
+  }
 
-  public static async createAgent({
+  public static async createAgentFromLoginParams({
     identifier,
     password,
     authFactorToken,
   }: BskyLoginParams): Promise<BskyServiceWorkerClient> {
-    const client = new BskyServiceWorkerClient();
     const { session, error } = await sendToBackground({
       name: "login",
       body: {
@@ -28,8 +31,11 @@ export class BskyServiceWorkerClient {
     });
     if (error) throw new Error(error.message);
 
-    client.session = session;
-    return client;
+    chrome.storage.local.set({
+      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
+    });
+
+    return new BskyServiceWorkerClient(session);
   }
 
   public searchUser = async ({

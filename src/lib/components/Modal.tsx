@@ -24,7 +24,7 @@ const Modal = ({ children, anchorRef, open = false, onClose }: Props) => {
   return (
     <>
       <dialog className="modal" ref={anchorRef} open={open}>
-        <div className="modal-box p-10 bg-base-100 w-[750px] max-w-none text-base-content">
+        <div className="modal-box p-10 bg-base-100 w-[500px] max-w-none text-base-content">
           {children}
         </div>
         <form method="dialog" className="modal-backdrop">

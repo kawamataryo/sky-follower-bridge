@@ -1,18 +1,15 @@
+import type { AtpSessionData } from "@atproto/api";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
-  ACTION_MODE,
-  BSKY_USER_MATCH_TYPE,
   type MESSAGE_NAMES,
-  MESSAGE_NAME_TO_ACTION_MODE_MAP,
   MESSAGE_NAME_TO_QUERY_PARAM_MAP,
+  STORAGE_KEYS,
 } from "~lib/constants";
 import { getAccountNameAndDisplayName, getUserCells } from "~lib/domHelpers";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
-
-export type MatchType =
-  (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE];
+import type { MatchType } from "~types";
 
 export type BskyUser = {
   did: string;
@@ -39,24 +36,16 @@ const detectXUsers = (userCellQueryParam: string) => {
 
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
-  const [actionMode, setActionMode] = React.useState<
-    (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
-  >(ACTION_MODE.FOLLOW);
   const [detectedXUsers, setDetectedXUsers] = React.useState<
     ReturnType<typeof detectXUsers>
   >([]);
   const [users, setUsers] = React.useState<BskyUser[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [matchTypeFilter, setMatchTypeFilter] = React.useState({
-    [BSKY_USER_MATCH_TYPE.HANDLE]: true,
-    [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: true,
-    [BSKY_USER_MATCH_TYPE.DESCRIPTION]: true,
-  });
+  const [isBottomReached, setIsBottomReached] = React.useState(false);
 
   const [retrievalParams, setRetrievalParams] = React.useState<null | {
-    identifier: string;
-    password: string;
+    session: AtpSessionData;
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
 
@@ -64,58 +53,6 @@ export const useRetrieveBskyUsers = () => {
   const showModal = () => {
     modalRef.current?.showModal();
   };
-
-  const handleClickAction = React.useCallback(
-    async (user: (typeof users)[0]) => {
-      if (!bskyClient.current) return;
-      let resultUri: string | null = null;
-
-      // follow
-      if (actionMode === ACTION_MODE.FOLLOW) {
-        if (user.isFollowing) {
-          await bskyClient.current.unfollow(user.followingUri);
-        } else {
-          const result = await bskyClient.current.follow(user.did);
-          resultUri = result.uri;
-        }
-        setUsers((prev) =>
-          prev.map((prevUser) => {
-            if (prevUser.did === user.did) {
-              return {
-                ...prevUser,
-                isFollowing: !prevUser.isFollowing,
-                followingUri: resultUri ?? prevUser.followingUri,
-              };
-            }
-            return prevUser;
-          }),
-        );
-      }
-
-      // block
-      if (actionMode === ACTION_MODE.BLOCK) {
-        if (user.isBlocking) {
-          await bskyClient.current.unblock(user.blockingUri);
-        } else {
-          const result = await bskyClient.current.block(user.did);
-          resultUri = result.uri;
-        }
-        setUsers((prev) =>
-          prev.map((prevUser) => {
-            if (prevUser.did === user.did) {
-              return {
-                ...prevUser,
-                isBlocking: !prevUser.isBlocking,
-                blockingUri: resultUri ?? prevUser.blockingUri,
-              };
-            }
-            return prevUser;
-          }),
-        );
-      }
-    },
-    [actionMode],
-  );
 
   const retrieveBskyUsers = React.useCallback(
     async (usersData: ReturnType<typeof getAccountNameAndDisplayName>[]) => {
@@ -157,7 +94,6 @@ export const useRetrieveBskyUsers = () => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
-      let isBottomReached = false;
       let index = 0;
 
       while (!isBottomReached) {
@@ -185,7 +121,7 @@ export const useRetrieveBskyUsers = () => {
           documentElement.scrollTop + documentElement.clientHeight >=
           documentElement.scrollHeight
         ) {
-          isBottomReached = true;
+          setIsBottomReached(true);
           setLoading(false);
         }
 
@@ -196,55 +132,51 @@ export const useRetrieveBskyUsers = () => {
         }
       }
     },
-    [retrieveBskyUsers, detectedXUsers],
+    [retrieveBskyUsers, detectedXUsers, isBottomReached],
   );
 
-  const stopRetrieveLoop = () => {
+  React.useEffect(() => {
+    chrome.storage.local.set({ users: JSON.stringify(users) });
+  }, [users]);
+
+  const stopRetrieveLoop = React.useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
+      setLoading(false);
     }
-  };
+  }, []);
 
-  const initialize = React.useCallback(
-    async ({
-      identifier,
-      password,
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  const initialize = React.useCallback(async () => {
+    const storage = await chrome.storage.local.get([
+      STORAGE_KEYS.BSKY_CLIENT_SESSION,
+      STORAGE_KEYS.BSKY_MESSAGE_NAME,
+    ]);
+    const messageName = storage[STORAGE_KEYS.BSKY_MESSAGE_NAME];
+    const session = storage[STORAGE_KEYS.BSKY_CLIENT_SESSION];
+
+    setRetrievalParams({
+      session,
       messageName,
-      authFactorToken,
-    }: {
-      identifier: string;
-      password: string;
-      messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
-      authFactorToken?: string;
-    }) => {
-      setRetrievalParams({
-        identifier,
-        password,
-        messageName,
-      });
+    });
 
-      bskyClient.current = await BskyServiceWorkerClient.createAgent({
-        identifier,
-        password,
-        ...(authFactorToken && { authFactorToken: authFactorToken }),
-      });
+    bskyClient.current = new BskyServiceWorkerClient(session);
 
-      setActionMode(MESSAGE_NAME_TO_ACTION_MODE_MAP[messageName]);
-      startRetrieveLoop(MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName]).catch(
-        (e) => {
-          setErrorMessage(e.message);
-          setLoading(false);
-        },
-      );
-      setLoading(true);
-      showModal();
-    },
-    // biome-ignore lint/correctness/useExhaustiveDependencies: todo
-    [startRetrieveLoop, showModal],
-  );
+    startRetrieveLoop(MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName]).catch(
+      (e) => {
+        console.error(e);
+        setErrorMessage(e.message);
+        setLoading(false);
+      },
+    );
+    setLoading(true);
+    showModal();
+  }, []);
 
   const restart = React.useCallback(() => {
-    startRetrieveLoop(retrievalParams.messageName).catch((e) => {
+    startRetrieveLoop(
+      MESSAGE_NAME_TO_QUERY_PARAM_MAP[retrievalParams.messageName],
+    ).catch((e) => {
       setErrorMessage(e.message);
       setLoading(false);
     });
@@ -261,42 +193,17 @@ export const useRetrieveBskyUsers = () => {
     [loading, errorMessage, users.length],
   );
 
-  const changeMatchTypeFilter = React.useCallback(
-    (
-      matchType: (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE],
-    ) => {
-      setMatchTypeFilter((prev) => {
-        return {
-          ...prev,
-          [matchType]: !prev[matchType],
-        };
-      });
-    },
-    [],
-  );
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: todo
-  const filteredUsers = React.useMemo(() => {
-    return users.filter((user) => {
-      return matchTypeFilter[user.matchType];
-    });
-  }, [users, matchTypeFilter]);
-
   return {
     modalRef,
     showModal,
     initialize,
-    handleClickAction,
     users,
     loading,
-    actionMode,
     errorMessage,
     isRateLimitError,
     restart,
     isSucceeded,
-    matchTypeFilter,
-    changeMatchTypeFilter,
-    filteredUsers,
+    isBottomReached,
     stopRetrieveLoop,
   };
 };
