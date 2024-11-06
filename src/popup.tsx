@@ -119,7 +119,7 @@ function IndexPopup() {
       const { session, error } = await sendToBackground({
         name: "login",
         body: {
-          identifier,
+          identifier: formattedIdentifier,
           password,
           ...(authFactorToken && { authFactorToken: authFactorToken }),
         },

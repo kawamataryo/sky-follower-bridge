@@ -1,16 +1,10 @@
 import cssText from "data-text:~style.content.css";
-import type { AtpSessionData } from "@atproto/api";
 import { sendToBackground } from "@plasmohq/messaging";
-import { getPort } from "@plasmohq/messaging/port";
 import type { PlasmoCSConfig } from "plasmo";
 import React from "react";
 import AlertError from "~lib/components/AlertError";
-import AlertSuccess from "~lib/components/AlertSuccess";
 import LoadingCards from "~lib/components/LoadingCards";
-import MatchTypeFilter from "~lib/components/MatchTypeFilter";
 import Modal from "~lib/components/Modal";
-import UserCard from "~lib/components/UserCard";
-import UserCardSkeleton from "~lib/components/UserCardSkeleton";
 import { MESSAGE_NAMES } from "~lib/constants";
 import { useRetrieveBskyUsers } from "~lib/hooks/useRetrieveBskyUsers";
 
@@ -35,6 +29,7 @@ const App = () => {
     stopRetrieveLoop,
     restart,
     isBottomReached,
+    errorMessage,
   } = useRetrieveBskyUsers();
 
   React.useEffect(() => {
@@ -87,6 +82,7 @@ const App = () => {
           <p className="text-2xl font-bold">
             Detected <span className="text-4xl">{users.length}</span> users
           </p>
+          {errorMessage && <AlertError>{errorMessage}</AlertError>}
           {loading && (
             <>
               <button

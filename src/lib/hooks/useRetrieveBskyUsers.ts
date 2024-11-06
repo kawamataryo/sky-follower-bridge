@@ -1,6 +1,6 @@
 import type { AtpSessionData } from "@atproto/api";
-import { useStorage } from "@plasmohq/storage/hook";
 import { Storage } from "@plasmohq/storage";
+import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
@@ -41,13 +41,14 @@ export const useRetrieveBskyUsers = () => {
   const [detectedXUsers, setDetectedXUsers] = React.useState<
     ReturnType<typeof detectXUsers>
   >([]);
-  const [users, setUsers] = useStorage<BskyUser[]>({
-    key: STORAGE_KEYS.DETECTED_BSKY_USERS,
-    instance: new Storage({
-      area: "local",
-    })
-  },
-    (v) => (v === undefined ? [] : v)
+  const [users, setUsers] = useStorage<BskyUser[]>(
+    {
+      key: STORAGE_KEYS.DETECTED_BSKY_USERS,
+      instance: new Storage({
+        area: "local",
+      }),
+    },
+    (v) => (v === undefined ? [] : v),
   );
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -133,6 +134,7 @@ export const useRetrieveBskyUsers = () => {
           setIsBottomReached(true);
           setLoading(false);
         }
+
 
         index++;
         if (process.env.NODE_ENV === "development" && index > 5) {
