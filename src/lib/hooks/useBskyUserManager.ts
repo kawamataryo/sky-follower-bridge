@@ -1,3 +1,5 @@
+import { useStorage } from "@plasmohq/storage/hook";
+import { Storage } from "@plasmohq/storage";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
@@ -9,13 +11,15 @@ import {
 import { wait } from "~lib/utils";
 import type { BskyUser, MatchType } from "~types";
 
-export const useBskyUserManager = ({
-  users,
-  setUsers,
-}: {
-  users: BskyUser[];
-  setUsers: React.Dispatch<React.SetStateAction<BskyUser[]>>;
-}) => {
+export const useBskyUserManager = () => {
+  const [users, setUsers] = useStorage<BskyUser[]>({
+    key: STORAGE_KEYS.DETECTED_BSKY_USERS,
+    instance: new Storage({
+      area: "local",
+    }),
+  },
+    (v) => (v === undefined ? [] : v)
+  );
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [actionMode, setActionMode] = React.useState<
     (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
@@ -40,7 +44,7 @@ export const useBskyUserManager = ({
           const result = await bskyClient.current.follow(user.did);
           resultUri = result.uri;
         }
-        setUsers((prev) =>
+        await setUsers((prev) =>
           prev.map((prevUser) => {
             if (prevUser.did === user.did) {
               return {
@@ -62,7 +66,7 @@ export const useBskyUserManager = ({
           const result = await bskyClient.current.block(user.did);
           resultUri = result.uri;
         }
-        setUsers((prev) =>
+        await setUsers((prev) =>
           prev.map((prevUser) => {
             if (prevUser.did === user.did) {
               return {
@@ -125,7 +129,7 @@ export const useBskyUserManager = ({
         }
         const result = await bskyClient.current.follow(user.did);
         resultUri = result.uri;
-        setUsers((prev) =>
+        await setUsers((prev) =>
           prev.map((prevUser) => {
             if (prevUser.did === user.did) {
               return {
@@ -149,7 +153,7 @@ export const useBskyUserManager = ({
         const result = await bskyClient.current.block(user.did);
         resultUri = result.uri;
       }
-      setUsers((prev) =>
+      await setUsers((prev) =>
         prev.map((prevUser) => {
           if (prevUser.did === user.did) {
             return {
@@ -175,7 +179,7 @@ export const useBskyUserManager = ({
         bskyClient.current = new BskyServiceWorkerClient(session);
         setActionMode(
           MESSAGE_NAME_TO_ACTION_MODE_MAP[
-            result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
+          result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
           ],
         );
       },

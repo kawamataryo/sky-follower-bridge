@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
 import UserCard from "~lib/components/UserCard";
 import { useBskyUserManager } from "~lib/hooks/useBskyUserManager";
-import type { BskyUser } from "~lib/hooks/useRetrieveBskyUsers";
 import "./style.css";
 import Sidebar from "~lib/components/Sidebar";
 
 const Option = () => {
-  const [users, setUsers] = useState<BskyUser[]>([]);
   const {
+    users,
     filteredUsers,
     matchTypeFilter,
     changeMatchTypeFilter,
@@ -15,29 +13,7 @@ const Option = () => {
     actionMode,
     actionAll,
     matchTypeStats,
-  } = useBskyUserManager({
-    users,
-    setUsers,
-  });
-  useEffect(() => {
-    chrome.storage.local.get("users", (result) => {
-      setUsers(JSON.parse(result.users || "[]"));
-    });
-
-    const getUsers = () => {
-      chrome.storage.local.get("users", (result) => {
-        const _users = JSON.parse(result.users || "[]") as BskyUser[];
-        setUsers((prev) => {
-          const newUsers = _users.filter(
-            (u) => !prev.some((p) => p.did === u.did),
-          );
-          return [...prev, ...newUsers];
-        });
-      });
-    };
-    const interval = setInterval(getUsers, 2000);
-    return () => clearInterval(interval);
-  }, []);
+  } = useBskyUserManager();
 
   const handleActionAll = async () => {
     if (

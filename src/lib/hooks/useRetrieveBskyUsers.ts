@@ -1,4 +1,6 @@
 import type { AtpSessionData } from "@atproto/api";
+import { useStorage } from "@plasmohq/storage/hook";
+import { Storage } from "@plasmohq/storage";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
@@ -39,7 +41,14 @@ export const useRetrieveBskyUsers = () => {
   const [detectedXUsers, setDetectedXUsers] = React.useState<
     ReturnType<typeof detectXUsers>
   >([]);
-  const [users, setUsers] = React.useState<BskyUser[]>([]);
+  const [users, setUsers] = useStorage<BskyUser[]>({
+    key: STORAGE_KEYS.DETECTED_BSKY_USERS,
+    instance: new Storage({
+      area: "local",
+    })
+  },
+    (v) => (v === undefined ? [] : v)
+  );
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [isBottomReached, setIsBottomReached] = React.useState(false);
@@ -62,7 +71,7 @@ export const useRetrieveBskyUsers = () => {
           userData,
         });
         if (searchResult) {
-          setUsers((prev) => {
+          await setUsers((prev) => {
             if (prev.some((u) => u.did === searchResult.bskyProfile.did)) {
               return prev;
             }
@@ -85,7 +94,7 @@ export const useRetrieveBskyUsers = () => {
         }
       }
     },
-    [],
+    [setUsers],
   );
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
@@ -170,6 +179,7 @@ export const useRetrieveBskyUsers = () => {
       },
     );
     setLoading(true);
+    await setUsers([]);
     showModal();
   }, []);
 
