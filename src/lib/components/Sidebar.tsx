@@ -121,13 +121,13 @@ const Sidebar = ({
                 id={key}
                 checked={filterValue[key]}
                 onChange={() => onChangeFilter(key)}
-                className="checkbox checkbox-primary"
+                className="checkbox checkbox-primary checkbox-sm"
               />
             </label>
           </div>
         ))}
         <div className="divider" />
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -149,11 +149,17 @@ const Sidebar = ({
           label={actionMode === ACTION_MODE.FOLLOW ? "Follow All" : "Block All"}
         />
         <p className="text-sm text-gray-500">
-          * User detection is not perfect and may include false positives.
+        ⚠️ User detection is not perfect and may include false positives.
         </p>
       </div>
       <div className="mt-auto">
         <div className="divider" />
+        <p className="mb-1">
+          If you find Sky Follower Bridge helpful, I'd appreciate your support to help me maintain and improve it ☕
+          <a href="https://buymeacoffee.com/kawamata" className="link ml-2">
+            Support me here.
+          </a>
+        </p>
         <SocialLinks />
       </div>
     </aside>
