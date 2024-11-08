@@ -26,7 +26,6 @@ function IndexPopup() {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
     message: string;
   }>(null);
-  const isDisabled = !password || !identifier || isLoading;
   const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
   const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
@@ -44,7 +43,6 @@ function IndexPopup() {
 
   const saveCredentialsToStorage = () => {
     chrome.storage.local.set({
-      [STORAGE_KEYS.BSKY_PASSWORD]: password,
       [STORAGE_KEYS.BSKY_USER_ID]: identifier,
     });
   };
@@ -58,12 +56,10 @@ function IndexPopup() {
   const loadCredentialsFromStorage = useCallback(async () => {
     chrome.storage.local.get(
       [
-        STORAGE_KEYS.BSKY_PASSWORD,
         STORAGE_KEYS.BSKY_USER_ID,
         STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
       ],
       (result) => {
-        setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
         setIdentifier(result[STORAGE_KEYS.BSKY_USER_ID] || "");
         setIsShowAuthFactorTokenInput(
           result[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
@@ -72,9 +68,28 @@ function IndexPopup() {
     );
   }, []);
 
+  const validateForm = () => {
+    if (!password && !identifier) {
+      setErrorMessage("Error: Please enter your password and identifier.");
+      return false;
+    }
+    if (!password) {
+      setErrorMessage("Error: Please enter your password.");
+      return false;
+    }
+    if (!identifier) {
+      setErrorMessage("Error: Please enter your identifier.");
+      return false;
+    }
+    return true;
+  };
+
   const searchBskyUser = async (e?: FormEvent) => {
     if (e) {
       e.preventDefault();
+    }
+    if (!validateForm()) {
+      return;
     }
     saveCredentialsToStorage();
 
@@ -295,7 +310,7 @@ function IndexPopup() {
           className={
             "disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-300 mt-4 normal-case btn btn-primary btn-sm w-full"
           }
-          disabled={isDisabled}
+          disabled={isLoading}
         >
           {isLoading && <span className="w-4 loading loading-spinner" />}
           {isLoading ? "Finding Bluesky Users" : "Find Bluesky Users"}
