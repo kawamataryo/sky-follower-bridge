@@ -148,18 +148,34 @@ const Sidebar = ({
           onClick={actionAll}
           label={actionMode === ACTION_MODE.FOLLOW ? "Follow All" : "Block All"}
         />
-        <p className="text-sm text-gray-500">
-        ⚠️ User detection is not perfect and may include false positives.
+        <p className="text-xs">
+          ⚠️ User detection is not perfect and may include false positives.
         </p>
       </div>
       <div className="mt-auto">
         <div className="divider" />
-        <p className="mb-1">
-          If you find Sky Follower Bridge helpful, I'd appreciate your support to help me maintain and improve it ☕
-          <a href="https://buymeacoffee.com/kawamata" className="link ml-2">
-            Support me here.
-          </a>
+        <p className="mb-2">
+          If you find this tool helpful, I'd appreciate{" "}
+          <a href="https://ko-fi.com/X8X315UWFN" className="link">
+            your support
+          </a>{" "}
+          to help me maintain and improve it ☕
         </p>
+        <a
+          href="https://ko-fi.com/X8X315UWFN"
+          target="_blank"
+          rel="noreferrer"
+          style={{ display: "inline-block" }}
+          className="w-full"
+        >
+          <img
+            height={36}
+            src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"
+            alt="Buy Me a Coffee at ko-fi.com"
+            className="w-[110px] h-auto m-auto"
+          />
+        </a>
+        <div className="divider" />
         <SocialLinks />
       </div>
     </aside>
