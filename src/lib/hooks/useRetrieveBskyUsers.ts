@@ -135,7 +135,6 @@ export const useRetrieveBskyUsers = () => {
           setLoading(false);
         }
 
-
         index++;
         if (process.env.NODE_ENV === "development" && index > 5) {
           setLoading(false);
