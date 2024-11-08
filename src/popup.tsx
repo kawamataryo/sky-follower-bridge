@@ -226,7 +226,7 @@ function IndexPopup() {
           <input
             type="text"
             name="identifier"
-            placeholder="@you.bsky.social"
+            placeholder="your-username.bsky.social"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none mt-1"
