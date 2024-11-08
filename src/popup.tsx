@@ -105,7 +105,7 @@ function IndexPopup() {
       )
       .run();
 
-    chrome.storage.local.set({
+    await chrome.storage.local.set({
       [STORAGE_KEYS.BSKY_MESSAGE_NAME]: messageName,
     });
 
@@ -124,12 +124,6 @@ function IndexPopup() {
           ...(authFactorToken && { authFactorToken: authFactorToken }),
         },
       });
-      chrome.storage.local.set({
-        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
-      });
-      await sendToContentScript({
-        name: messageName,
-      });
       if (error) {
         if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
@@ -138,6 +132,12 @@ function IndexPopup() {
           setErrorMessage(error.message);
         }
       } else {
+        await chrome.storage.local.set({
+          [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
+        });
+        await sendToContentScript({
+          name: messageName,
+        });
         saveShowAuthFactorTokenInputToStorage(false);
         window.close();
       }
