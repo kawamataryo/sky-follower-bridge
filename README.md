@@ -4,6 +4,7 @@
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome web store rating" src="https://img.shields.io/chrome-web-store/stars/behhbpbpmailcnfbjagknjngnfdojpko.svg"></a>
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome Web Store users" src="https://img.shields.io/chrome-web-store/users/behhbpbpmailcnfbjagknjngnfdojpko"></a>
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X315UWFN)
 <a href="https://www.buymeacoffee.com/kawamata" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 
