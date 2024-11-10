@@ -30,9 +30,9 @@
 .error-message {
   display: inline-block;
   margin: 10px 0;
+  font-size: 0.8rem;
   color: red;
-  font-weight: bold;
-  padding: 5px 10px;
+  padding: 0px 10px;
   border: 1px solid red;
   border-radius: 5px;
 }
