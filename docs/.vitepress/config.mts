@@ -4,7 +4,6 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Sky Follower Bridge",
   lastUpdated: true,
-  cleanUrls: true,
   metaChunk: true,
 
   head: [
