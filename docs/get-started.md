@@ -29,14 +29,23 @@ Visit any of these pages on X:
 
 Either press `Alt + B` or click the extension icon in your browser toolbar.
 
+::: tip
+For Firefox users, pressing `Alt + B` may not work. In that case, click the extension icon in the browser toolbar.
+
+https://support.mozilla.org/en-US/kb/extensions-button
+:::
+
 ![Open Extension](/images/open-extension.png)
 
 ### 3. Sign in to Bluesky
 
 Enter your Bluesky handle (or email) and [App password](https://bsky.app/settings/app-passwords).
 
-![enter-credentials](/images/enter-credentials.png)
+::: tip
+If you encounter login errors, please refer to the [Troubleshooting Guide](/troubleshooting).
+:::
 
+![enter-credentials](/images/enter-credentials.png)
 
 ### 4. Start the Search
 
@@ -57,10 +66,11 @@ This will open the options page showing all detected Bluesky users.
 ### 6. Follow Users
 
 Click the "Follow" button next to any user you'd like to connect with.
-That's all! Enjoy connecting with your community on Bluesky 🎉
 
 ![follow](/images/click-follow-btn.png)
 
 ::: warning
 Please note that the matching process isn't perfect and may occasionally suggest incorrect matches. Always verify the profile before following.
 :::
+
+That's all! Enjoy connecting with your community on Bluesky 🎉
