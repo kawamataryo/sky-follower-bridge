@@ -20,13 +20,13 @@ hero:
 features:
   - icon: 🔍
     title: Automatic Profile Matching
-    details: Quickly find your Twitter connections on Bluesky using our smart profile matching system.
+    details: Quickly find your 𝕏 connections on Bluesky using our smart profile matching system.
   - icon: 🚀
     title: Bulk Follow Feature
     details: Save time by following multiple users at once with our "Follow All" button.
   - icon: 📋
     title: Multiple List Support
-    details: Works with Following, Followers, Blocked users lists, and even public Twitter Lists.
+    details: Works with Following, Followers, Blocked users lists, and even public 𝕏 Lists.
   - icon: 🌐
     title: Cross-Browser Support
     details: Available on Chrome, Firefox, and Microsoft Edge for your convenience.
