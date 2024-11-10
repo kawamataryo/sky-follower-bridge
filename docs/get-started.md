@@ -2,7 +2,9 @@
 
 Sky Follower Bridge helps you find and follow your 𝕏 (Twitter) connections on Bluesky.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XcRcWjStIMc?si=7LDHNu7MZzVSFq32" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/pVqoDv-1uac?si=jKDFFcKQXh61jBdL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p style="color: gray; font-size: 0.8em; line-height: 1.4;">This video demonstrates the Edge version. The latest Chrome version and recent Firefox versions may behave differently. A video tutorial for Chrome is coming soon.</p>
 
 
 ## Installation
