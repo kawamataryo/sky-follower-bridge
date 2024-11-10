@@ -8,6 +8,7 @@ export default defineConfig({
 
   head: [
     ['meta', { name: 'theme-color', content: '#3399ff' }],
+    ['meta', { name: 'google-site-verification', content: 'COM1KLUeDMoJ5NU1hCSO3rQb9zuQ6EGpACrNKXtoDnA' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'en' }],
     ['meta', { property: 'og:title', content: 'Sky Follower Bridge' }],
