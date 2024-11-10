@@ -20,7 +20,7 @@ hero:
 features:
   - icon: 🔍
     title: Automatic Profile Matching
-    details: Quickly find your 𝕏 connections on Bluesky using our smart profile matching system.
+    details: Automatically detect Bluesky users similar to your 𝕏 follows.
   - icon: 🚀
     title: Bulk Follow Feature
     details: Save time by following multiple users at once with our "Follow All" button.
