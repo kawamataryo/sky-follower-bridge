@@ -15,7 +15,7 @@ export default defineConfig({
     ['meta', { property: 'og:site_name', content: 'Sky Follower Bridge' }],
     ['meta', { property: 'og:image', content: 'https://sky-follower-bridge-docs.vercel.app/images/og-image.png' }],
     ['meta', { property: 'og:url', content: 'https://sky-follower-bridge-docs.vercel.app/' }],
-    ['meta', { property: 'og:description', content: 'Seamlessly migrate your social connections from 𝕏 to Bluesky' }],
+    ['meta', { property: 'og:description', content: 'Instantly find and follow the same users from your 𝕏 followers on Bluesky' }],
     ['link', { rel: 'icon', type: 'image/png', href: '/favicon/favicon-96x96.png', sizes: '96x96' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon/favicon.svg' }],
     ['link', { rel: 'shortcut icon', href: '/favicon/favicon.ico' }],
