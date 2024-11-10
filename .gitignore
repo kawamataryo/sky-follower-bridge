@@ -42,3 +42,5 @@ keys.json
 
 key.json
 publish_keys.json
+
+docs/.vitepress/cache
