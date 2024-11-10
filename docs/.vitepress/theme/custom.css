@@ -26,3 +26,13 @@
     --vp-home-hero-image-filter: blur(68px);
   }
 }
+
+.error-message {
+  display: inline-block;
+  margin: 10px 0;
+  color: red;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid red;
+  border-radius: 5px;
+}

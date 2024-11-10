@@ -7,7 +7,7 @@
 ### Login Issues
 
 **Error Message:**  
-"Error: Invalid identifier or password"
+<span class="error-message">Error: Invalid identifier or password</span>
 
 **Checklist:**
 1. Username and Password Entry
@@ -31,10 +31,12 @@ How to create a new App Password:
 4. Copy the generated 19-character password
 :::
 
+--- 
+
 ### Two-Factor Authentication Required
 
 **Error Message:**  
-"Error: Two-factor authentication required"
+<span class="error-message">Error: Two-factor authentication required</span>
 
 **Solution:**
 1. Check your email for the authentication code
@@ -44,8 +46,7 @@ How to create a new App Password:
 ## Rate Limit Errors
 
 **Error Message:**  
-"Rate limit Error" message appears
-- A "Restart" button is shown
+<span class="error-message">Error: Rate limit error</span>
 
 **Solution:**
 1. Bluesky API has a limit of 1,600 actions per hour. If you hit the limit, please wait for 1 hour before trying again.
@@ -56,7 +57,7 @@ How to create a new App Password:
 ### Invalid Page
 
 **Error Message:**  
-"Error: Invalid page. please open the 𝕏 following or blocking or list page."
+<span class="error-message">Error: Invalid page. please open the 𝕏 following or blocking or list page.</span>
 
 **Solution:**
 Only use the extension on these X (Twitter) pages:
@@ -68,7 +69,6 @@ Only use the extension on these X (Twitter) pages:
 
 ### Scan Stops Early
 
-**Error Message:**  
 Scanning stops before reaching the bottom of the page
 
 **Solution:**
@@ -78,7 +78,6 @@ Scanning stops before reaching the bottom of the page
 
 ### No Users Found
 
-**Error Message:**  
 No Bluesky users detected after scanning
 
 **Solution:**
@@ -98,4 +97,4 @@ If you encounter any unexpected errors:
      - What you were trying to do
      - Your browser type and version
      - Any relevant screenshots
-   - Or mention @kawamataryo.bsky.social on Bluesky
+   - Or mention [@kawamataryo.bsky.social](https://bsky.app/profile/kawamataryo.bsky.social) on Bluesky

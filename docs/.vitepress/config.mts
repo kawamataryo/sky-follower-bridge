@@ -41,6 +41,14 @@ export default defineConfig({
         icon: "github",
         link: "https://github.com/kawamataryo/sky-follower-bridge",
       },
+      {
+        icon: "bluesky",
+        link: "https://bsky.social/kawamataryo",
+      },
+      {
+        icon: "x",
+        link: "https://x.com/RyoKawamata",
+      },
     ],
 
     outline: {
