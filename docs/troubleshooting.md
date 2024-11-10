@@ -76,7 +76,7 @@ Most users won't hit these limits during normal usage. However, be mindful when 
 <span class="error-message">Error: Invalid page. please open the 𝕏 following or blocking or list page.</span>
 
 **Solution:**
-Only use the extension on these X (Twitter) pages:
+Only use the extension on these 𝕏 (Twitter) pages:
 - Following page (`x.com/<your_handle>/following`)
 - Blocking page (`x.com/settings/blocked/all`)
 - List members page (`x.com/i/lists/<list_id>/members`)
@@ -99,7 +99,7 @@ No Bluesky users detected after scanning
 **Solution:**
 1. Make sure you're logged in correctly
 2. Try scanning again - some users may not be detected on first pass
-3. Check if the X users have linked their Bluesky accounts in their profiles
+3. Check if the 𝕏 users have linked their Bluesky accounts in their profiles
 
 ## Other Issues
 

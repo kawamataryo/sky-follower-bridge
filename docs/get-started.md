@@ -1,6 +1,6 @@
 # Getting Started
 
-Sky Follower Bridge helps you find and follow your X (Twitter) connections on Bluesky.
+Sky Follower Bridge helps you find and follow your 𝕏 (Twitter) connections on Bluesky.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/XcRcWjStIMc?si=7LDHNu7MZzVSFq32" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -18,7 +18,7 @@ We recommend using the Chrome Web Store version as it's always up to date. Other
 
 ## Usage
 
-### 1. Navigate to X (Twitter)
+### 1. Navigate to 𝕏 (Twitter)
 
 Visit any of these pages on X:
 - Your Following page: `x.com/<your_handle>/following`
