@@ -1,7 +1,5 @@
 # Troubleshooting Guide
 
-🚨 **WIP** 🚨
-
 ## Authentication Errors
 
 ### Login Issues
@@ -49,8 +47,26 @@ How to create a new App Password:
 <span class="error-message">Error: Rate limit error</span>
 
 **Solution:**
-1. Bluesky API has a limit of 1,600 actions per hour. If you hit the limit, please wait for 1 hour before trying again.
-2. Click the "Restart" button to try again
+1. Bluesky API has the following limits ([official documentation](https://docs.bsky.app/docs/advanced-guides/rate-limits)):
+   - Up to 5,000 points per hour (approximately 1,666 new actions)
+   - Up to 35,000 points per day
+   - Points per action:
+     - Create: 3 points
+     - Update: 2 points
+     - Delete: 1 point
+2. If you hit the limit, wait until the limit resets
+3. Click the "Restart" button to try again
+
+::: warning
+The version published on Firefox frequently encounters rate limit errors. If you encounter an error, please try it on Chrome.
+:::
+
+::: tip
+Most users won't hit these limits during normal usage. However, be mindful when performing bulk actions like following many users or liking many posts in a short period.
+:::
+
+
+
 
 ## Page Errors
 
