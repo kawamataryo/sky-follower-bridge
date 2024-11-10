@@ -13,7 +13,7 @@ export default defineConfig({
     ['meta', { property: 'og:locale', content: 'en' }],
     ['meta', { property: 'og:title', content: 'Sky Follower Bridge' }],
     ['meta', { property: 'og:site_name', content: 'Sky Follower Bridge' }],
-    ['meta', { property: 'og:image', content: 'https://sky-follower-bridge-docs.vercel.app/og-image.png' }],
+    ['meta', { property: 'og:image', content: 'https://sky-follower-bridge-docs.vercel.app/images/og-image.png' }],
     ['meta', { property: 'og:url', content: 'https://sky-follower-bridge-docs.vercel.app/' }],
     ['link', { rel: 'icon', type: 'image/png', href: '/favicon/favicon-96x96.png', sizes: '96x96' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon/favicon.svg' }],
