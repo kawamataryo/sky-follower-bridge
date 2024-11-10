@@ -4,6 +4,10 @@
 
   --vp-home-hero-image-background-image: linear-gradient(-45deg, #3399ff 50%, #0066cc 50%);
   --vp-home-hero-image-filter: blur(44px);
+
+  --vp-c-brand-1: #66b3ff;
+  --vp-c-brand-2: #3399ff;
+  --vp-c-brand-3: #0080ff;
 }
 
 .VPImage.image-src {
