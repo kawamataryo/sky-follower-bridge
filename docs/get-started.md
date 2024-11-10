@@ -72,6 +72,10 @@ Click the "Follow" button next to any user you'd like to connect with.
 
 ![follow](/images/click-follow-btn.png)
 
+or use the "Follow All" button to follow all detected users at once.
+
+![follow-all](/images/follow-all-btn.png)
+
 ::: warning
 Please note that the matching process isn't perfect and may occasionally suggest incorrect matches. Always verify the profile before following.
 :::
