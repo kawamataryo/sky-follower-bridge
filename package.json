@@ -16,7 +16,10 @@
     "check:ci": "npx @biomejs/biome ci ./src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "remove-permissions": "node scripts/remove_web_accessible_resources.js"
+    "remove-permissions": "node scripts/remove_web_accessible_resources.js",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@atproto/api": "^0.13.12",
@@ -28,7 +31,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "ts-pattern": "^5.0.6",
-    "vanjs-core": "^1.2.8"
+    "vanjs-core": "^1.2.8",
+    "vitepress": "^1.5.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
