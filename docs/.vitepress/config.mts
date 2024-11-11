@@ -47,7 +47,7 @@ export default defineConfig({
       },
       {
         icon: "x",
-        link: "https://x.com/RyoKawamata",
+        link: "https://x.com/KawamataRyo",
       },
     ],
 
