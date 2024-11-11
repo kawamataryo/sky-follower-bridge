@@ -16,6 +16,10 @@
       ]
     },
     "baseUrl": ".",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": [
+      "@vitest/browser/providers/playwright",
+      "chrome"
+    ]
   }
 }

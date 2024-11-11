@@ -19,7 +19,8 @@
     "remove-permissions": "node scripts/remove_web_accessible_resources.js",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "test:browser": "vitest"
   },
   "dependencies": {
     "@atproto/api": "^0.13.12",
@@ -49,13 +50,17 @@
     "@types/node": "20.11.16",
     "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitest/browser": "^2.1.4",
     "autoprefixer": "^10.4.17",
     "daisyui": "^4.6.1",
+    "playwright": "^1.48.2",
     "postcss": "^8.4.33",
     "prettier": "3.2.4",
     "storybook": "^7.6.12",
     "tailwindcss": "^3.4.1",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vitest-browser-react": "^0.0.3"
   },
   "manifest": {
     "host_permissions": [

@@ -14,7 +14,7 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
-} from "~lib/constants";
+} from "./lib/constants";
 
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -277,6 +277,7 @@ function IndexPopup() {
           <input
             type="password"
             name="password"
+            data-testid="password"
             placeholder="abcd-1234-wxyz-7890"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
