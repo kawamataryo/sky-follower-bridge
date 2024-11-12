@@ -104,14 +104,6 @@ function IndexPopup() {
       currentWindow: true,
     });
 
-    if (!currentUrl) {
-      setErrorMessage(
-        "Error: The current URL could not be retrieved. Please check the extension permissions.",
-        DOCUMENT_LINK.OTHER_ERROR,
-      );
-      return;
-    }
-
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
         "Error: Invalid page. please open the 𝕏 following or blocking or list page.",
@@ -355,11 +347,12 @@ function IndexPopup() {
                   href={message.documentLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="link"
+                  className="link ml-2"
                 >
                   Learn more
                 </a>
               )}
+              .
             </span>
           </div>
         )}
