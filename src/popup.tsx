@@ -7,9 +7,11 @@ import { sendToBackground, sendToContentScript } from "@plasmohq/messaging";
 
 import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
+  DOCUMENT_LINK,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
+  RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
@@ -25,12 +27,13 @@ function IndexPopup() {
   const [message, setMessage] = useState<null | {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
     message: string;
+    documentLink?: string;
   }>(null);
   const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
   const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
-  const setErrorMessage = (message: string) => {
-    setMessage({ type: MESSAGE_TYPE.ERROR, message });
+  const setErrorMessage = (message: string, documentLink?: string) => {
+    setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
   };
 
   const reloadActiveTab = async () => {
@@ -101,9 +104,18 @@ function IndexPopup() {
       currentWindow: true,
     });
 
+    if (!currentUrl) {
+      setErrorMessage(
+        "Error: The current URL could not be retrieved. Please check the extension permissions.",
+        DOCUMENT_LINK.OTHER_ERROR,
+      );
+      return;
+    }
+
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
         "Error: Invalid page. please open the 𝕏 following or blocking or list page.",
+        DOCUMENT_LINK.PAGE_ERROR,
       );
       return;
     }
@@ -146,8 +158,10 @@ function IndexPopup() {
         if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
           saveShowAuthFactorTokenInputToStorage(true);
+        } else if (error.message.includes(RATE_LIMIT_ERROR_MESSAGE)) {
+          setErrorMessage(error.message, DOCUMENT_LINK.RATE_LIMIT_ERROR);
         } else {
-          setErrorMessage(error.message);
+          setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
         }
       } else {
         await chrome.storage.local.set({
@@ -171,6 +185,7 @@ function IndexPopup() {
       } else {
         setErrorMessage(
           "Error: Something went wrong. Please reload the web page and try again.",
+          DOCUMENT_LINK.OTHER_ERROR,
         );
       }
     } finally {
@@ -333,7 +348,19 @@ function IndexPopup() {
                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>{message.message}</span>
+            <span>
+              {message.message}
+              {message.documentLink && (
+                <a
+                  href={message.documentLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link"
+                >
+                  Learn more
+                </a>
+              )}
+            </span>
           </div>
         )}
         {isShowSuccessMessage && (

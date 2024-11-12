@@ -85,3 +85,17 @@ export const MATCH_TYPE_LABEL_AND_COLOR = {
 
 export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
   "AuthFactorTokenRequiredError";
+
+export const RATE_LIMIT_ERROR_MESSAGE = "Rate limit";
+
+export const DOCUMENT_LINK = {
+  OTHER_ERROR: "https://www.sky-follower-bridge.dev/troubleshooting.html",
+  LOGIN_ERROR:
+    "https://www.sky-follower-bridge.dev/troubleshooting.html#login-issues",
+  TWO_FACTOR_AUTHENTICATION:
+    "https://www.sky-follower-bridge.dev/troubleshooting.html#two-factor-authentication-required",
+  RATE_LIMIT_ERROR:
+    "https://www.sky-follower-bridge.dev/troubleshooting.html#rate-limit-errors",
+  PAGE_ERROR:
+    "https://www.sky-follower-bridge.dev/troubleshooting.html#page-errors",
+} as const;
