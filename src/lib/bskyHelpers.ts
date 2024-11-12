@@ -1,7 +1,8 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { BSKY_USER_MATCH_TYPE } from "./constants";
 
-type Names = {
+type xUserInfo = {
+  bskyHandleInDescription: string;
   accountName: string;
   accountNameRemoveUnderscore: string;
   accountNameReplaceUnderscore: string;
@@ -9,7 +10,7 @@ type Names = {
 };
 
 export const isSimilarUser = (
-  names: Names,
+  xUserInfo: xUserInfo,
   bskyProfile: ProfileView | undefined,
 ): {
   isSimilar: boolean;
@@ -22,12 +23,31 @@ export const isSimilarUser = (
     };
   }
 
-  const lowerCaseNames = Object.entries(names).reduce<Names>(
+  // this is to handle the case where the user has a bsky handle in their description
+  if (xUserInfo.bskyHandleInDescription) {
+    const formattedBskyHandle = bskyProfile.handle.replace("@", "");
+    const formattedBskyHandleInDescription =
+      xUserInfo.bskyHandleInDescription.replace("@", "");
+    if (
+      formattedBskyHandle === formattedBskyHandleInDescription ||
+      formattedBskyHandle.includes(formattedBskyHandleInDescription)
+    ) {
+      return {
+        isSimilar: true,
+        type: BSKY_USER_MATCH_TYPE.HANDLE,
+      };
+    }
+  }
+
+  const lowerCaseNames = Object.entries(xUserInfo).reduce<xUserInfo>(
     (acc, [key, value]) => {
+      if (!value) {
+        return acc;
+      }
       acc[key] = value.toLowerCase();
       return acc;
     },
-    {} as Names,
+    {} as xUserInfo,
   );
 
   const bskyHandle = bskyProfile.handle

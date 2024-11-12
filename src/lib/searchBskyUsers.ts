@@ -11,6 +11,7 @@ export const searchBskyUser = async ({
   userData: ReturnType<typeof getAccountNameAndDisplayName>;
 }) => {
   const searchTerms = [
+    ...(userData.bskyHandle ? [userData.bskyHandle] : []),
     userData.twAccountNameRemoveUnderscore,
     userData.twAccountNameReplaceUnderscore,
     userData.twDisplayName,
@@ -31,6 +32,7 @@ export const searchBskyUser = async ({
         const { isSimilar: isUserFound, type } = isSimilarUser(
           // TODO: simplify
           {
+            bskyHandleInDescription: userData.bskyHandle,
             accountName: userData.twAccountName,
             accountNameRemoveUnderscore: userData.twAccountNameRemoveUnderscore,
             accountNameReplaceUnderscore:

@@ -25,10 +25,16 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   const twAccountNameRemoveUnderscore = twAccountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
   const twAccountNameReplaceUnderscore = twAccountName.replaceAll("_", "-");
   const twDisplayName = displayNameEl?.textContent;
+  const bskyHandle =
+    userCell.textContent?.match(/([^/\s]+\.bsky\.social)/)?.[1] ??
+    userCell.textContent?.match(/bsky\.app\/profile\/([^/\s]+)…/)?.[1] ??
+    null;
+
   return {
     twAccountName,
     twDisplayName,
     twAccountNameRemoveUnderscore,
     twAccountNameReplaceUnderscore,
+    bskyHandle,
   };
 };
