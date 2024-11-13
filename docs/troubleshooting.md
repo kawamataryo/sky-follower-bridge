@@ -77,9 +77,15 @@ Most users won't hit these limits during normal usage. However, be mindful when 
 
 **Solution:**
 Only use the extension on these 𝕏 (Twitter) pages:
-- Following page (`x.com/<your_handle>/following`)
-- Blocking page (`x.com/settings/blocked/all`)
+- Following page ([x.com/following](https://x.com/following))
+- Blocking page ([x.com/settings/blocked/all](https://x.com/settings/blocked/all))
 - List members page (`x.com/i/lists/<list_id>/members`)
+
+or check your extension permissions on [extension page](chrome://extensions/?id=behhbpbpmailcnfbjagknjngnfdojpko).
+
+Site permissions should be like below:
+
+<img src="./images/site_permissions.png" alt="site permissions" width="400"/>
 
 ## Scanning Issues
 
