@@ -2,6 +2,14 @@ import { render } from "vitest-browser-react";
 import { test, expect, vi, describe, beforeEach } from "vitest";
 import IndexPopup from "./popup.tsx";
 import { STORAGE_KEYS } from "./lib/constants";
+import type { Mock } from "node:test";
+import { sendToBackground } from "@plasmohq/messaging";
+
+ // Start Generation Here
+vi.mock("@plasmohq/messaging", () => ({
+  sendToBackground: vi.fn(),
+  sendToContentScript: vi.fn(),
+}));
 
 // Chrome Storage APIのモックを作成
 const mockChromeStorage = {
@@ -18,24 +26,30 @@ const mockChromeStorage = {
   },
 };
 
-window.chrome = {
-  storage: mockChromeStorage,
-  tabs: {
-    query: vi
-      .fn()
-      .mockResolvedValue([{ id: 1, url: "https://x.com/xxx/following" }]),
-    reload: vi.fn(),
-  },
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-} as any;
-
 describe("IndexPopup", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    window.chrome = {
+      storage: mockChromeStorage,
+      tabs: {
+        query: vi
+          .fn()
+          .mockResolvedValue([{ id: 1, url: "https://x.com/xxx/following" }]),
+        reload: vi.fn(),
+      },
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    } as any;
+    mockChromeStorage.local.get.mockImplementation((keys, callback) => {
+      callback({
+        [STORAGE_KEYS.BSKY_USER_ID]: "",
+        [STORAGE_KEYS.BSKY_PASSWORD]: "",
+        [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: false,
+      });
+    });
+
   });
 
   test("loads credentials from storage on mount", async () => {
-    mockChromeStorage.local.get.mockImplementation((keys, callback) => {
+    mockChromeStorage.local.get.mockImplementationOnce((keys, callback) => {
       callback({
         [STORAGE_KEYS.BSKY_USER_ID]: "testuser",
         [STORAGE_KEYS.BSKY_PASSWORD]: "testpass",
@@ -66,5 +80,30 @@ describe("IndexPopup", () => {
 
     const submitButton = screen.getByText("Find Bluesky Users");
     submitButton.click();
+
+    const errorMessage = screen.getByTestId("error-message");
+    expect.element(errorMessage).toBeInTheDocument();
+    expect.element(errorMessage).toHaveTextContent("Error: Please enter your Handle and App Password.");
+  });
+
+  test("show error message when invalid handle or password is entered", async () => {
+    (sendToBackground as Mock<typeof sendToBackground>).mockImplementationOnce(() => {
+      return Promise.resolve({
+        error: "Invalid identifier or password",
+      });
+    });
+    const screen = render(<IndexPopup />);
+
+    const identifierInput = screen.getByTestId("identifier");
+    const passwordInput = screen.getByTestId("password");
+    await identifierInput.fill("testuser");
+    await passwordInput.fill("testpass");
+
+    const submitButton = screen.getByText("Find Bluesky Users");
+    submitButton.click();
+
+    const errorMessage = screen.getByTestId("error-message");
+    expect.element(errorMessage).toBeInTheDocument();
+    expect.element(errorMessage).toHaveTextContent("Error: Invalid identifier or password");
   });
 });

@@ -76,15 +76,15 @@ function IndexPopup() {
 
   const validateForm = () => {
     if (!password && !identifier) {
-      setErrorMessage("Error: Please enter your password and identifier.");
+      setErrorMessage("Error: Please enter your Handle and App Password.");
       return false;
     }
     if (!password) {
-      setErrorMessage("Error: Please enter your password.");
+      setErrorMessage("Error: Please enter your App Password.");
       return false;
     }
     if (!identifier) {
-      setErrorMessage("Error: Please enter your identifier.");
+      setErrorMessage("Error: Please enter your Handle.");
       return false;
     }
     return true;
@@ -327,7 +327,10 @@ function IndexPopup() {
           {isLoading ? "Finding Bluesky Users" : "Find Bluesky Users"}
         </button>
         {isShowErrorMessage && (
-          <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2">
+          <div
+            className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2"
+            data-testid="error-message"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
@@ -358,7 +361,10 @@ function IndexPopup() {
           </div>
         )}
         {isShowSuccessMessage && (
-          <div className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2">
+          <div
+            className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2"
+            data-testid="success-message"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
