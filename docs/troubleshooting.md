@@ -84,7 +84,7 @@ Only use the extension on these 𝕏 (Twitter) pages:
 or check your extension permissions on extension page.
 Site permissions should be like below:
 
-<img src="./images/site_permissions.png" alt="site permissions" width="500"/>
+<img src="/images/site_permissions.png" alt="site permissions" width="500"/>
 
 ## Scanning Issues
 
