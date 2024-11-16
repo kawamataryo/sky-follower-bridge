@@ -16,8 +16,9 @@ export const searchBskyUser = async ({
     userData.twAccountNameReplaceUnderscore,
     userData.twDisplayName,
   ];
+  const uniqueSearchTerms = new Set(searchTerms);
 
-  for (const term of searchTerms) {
+  for (const term of uniqueSearchTerms) {
     // one symbol is not a valid search term for bsky
     if (!term || isOneSymbol(term)) {
       continue;
