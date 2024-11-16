@@ -14,6 +14,7 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
+  BSKY_DOMAIN,
 } from "~lib/constants";
 
 function IndexPopup() {
@@ -135,7 +136,7 @@ function IndexPopup() {
     setIsLoading(true);
 
     const formattedIdentifier = (
-      identifier.includes(".") ? identifier : `${identifier}.bsky.social`
+      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
     ).replace(/^@/, "");
     try {
       const { session, error } = await sendToBackground({
@@ -236,7 +237,7 @@ function IndexPopup() {
           <input
             type="text"
             name="identifier"
-            placeholder="your-username.bsky.social"
+            placeholder={`your-username.${BSKY_DOMAIN}`}
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none mt-1"
