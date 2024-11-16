@@ -113,7 +113,9 @@ export const useRetrieveBskyUsers = () => {
 
       if (messageName === "search_bsky_user_on_list_members_page") {
         // select the modal wrapper using viewport selector to avoid conflation with feed in the background
-        scrollElement = document.querySelector('div[data-viewportview="true"]') as HTMLElement;
+        scrollElement = document.querySelector(
+          'div[data-viewportview="true"]',
+        ) as HTMLElement;
         // base interval off of intitial scroll height
         modalScrollInterval = scrollElement.scrollHeight;
       } else {
@@ -147,13 +149,19 @@ export const useRetrieveBskyUsers = () => {
 
         // break if bottom is reached
         if (scrollElement instanceof HTMLElement) {
-          if (scrollElement.scrollTop + scrollElement.clientHeight >= scrollElement.scrollHeight) {
+          if (
+            scrollElement.scrollTop + scrollElement.clientHeight >=
+            scrollElement.scrollHeight
+          ) {
             setIsBottomReached(true);
             setLoading(false);
           }
         } else {
           const documentElement = document.documentElement;
-          if (documentElement.scrollTop + documentElement.clientHeight >= documentElement.scrollHeight) {
+          if (
+            documentElement.scrollTop + documentElement.clientHeight >=
+            documentElement.scrollHeight
+          ) {
             setIsBottomReached(true);
             setLoading(false);
           }
@@ -196,13 +204,11 @@ export const useRetrieveBskyUsers = () => {
 
     bskyClient.current = new BskyServiceWorkerClient(session);
 
-    startRetrieveLoop(messageName).catch(
-      (e) => {
-        console.error(e);
-        setErrorMessage(e.message);
-        setLoading(false);
-      },
-    );
+    startRetrieveLoop(messageName).catch((e) => {
+      console.error(e);
+      setErrorMessage(e.message);
+      setLoading(false);
+    });
     setLoading(true);
     await setUsers([]);
     showModal();
