@@ -100,12 +100,28 @@ export const useRetrieveBskyUsers = () => {
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const startRetrieveLoop = React.useCallback(
-    async (queryParam: string) => {
+    async (messageName: string) => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
       let index = 0;
 
+      const queryParam = MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName];
+
+      let scrollElement: HTMLElement | Window;
+      let modalScrollInterval: number;
+
+      if (messageName === "search_bsky_user_on_list_members_page") {
+        // select the modal wrapper using viewport selector to avoid conflation with feed in the background
+        scrollElement = document.querySelector('div[data-viewportview="true"]') as HTMLElement;
+        // base interval off of intitial scroll height
+        modalScrollInterval = scrollElement.scrollHeight;
+      } else {
+        // for other cases, use the window, no need to cache a scroll interval due to different window scroll logic
+        scrollElement = window;
+      }
+
+      // loop until we get to the bottom
       while (!isBottomReached) {
         if (signal.aborted) {
           break;
@@ -119,20 +135,28 @@ export const useRetrieveBskyUsers = () => {
         setDetectedXUsers((prev) => [...prev, ...data]);
         await retrieveBskyUsers(data);
 
-        // scroll to bottom
-        window.scrollTo(0, document.body.scrollHeight);
+        // handle scrolling pattern for both modal and window
+        if (scrollElement instanceof HTMLElement) {
+          scrollElement.scrollTop += modalScrollInterval;
+        } else {
+          window.scrollTo(0, document.body.scrollHeight);
+        }
 
         // wait for fetching data by x
         await wait(3000);
 
         // break if bottom is reached
-        const documentElement = document.documentElement;
-        if (
-          documentElement.scrollTop + documentElement.clientHeight >=
-          documentElement.scrollHeight
-        ) {
-          setIsBottomReached(true);
-          setLoading(false);
+        if (scrollElement instanceof HTMLElement) {
+          if (scrollElement.scrollTop + scrollElement.clientHeight >= scrollElement.scrollHeight) {
+            setIsBottomReached(true);
+            setLoading(false);
+          }
+        } else {
+          const documentElement = document.documentElement;
+          if (documentElement.scrollTop + documentElement.clientHeight >= documentElement.scrollHeight) {
+            setIsBottomReached(true);
+            setLoading(false);
+          }
         }
 
         index++;
@@ -172,7 +196,7 @@ export const useRetrieveBskyUsers = () => {
 
     bskyClient.current = new BskyServiceWorkerClient(session);
 
-    startRetrieveLoop(MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName]).catch(
+    startRetrieveLoop(messageName).catch(
       (e) => {
         console.error(e);
         setErrorMessage(e.message);
@@ -185,9 +209,7 @@ export const useRetrieveBskyUsers = () => {
   }, []);
 
   const restart = React.useCallback(() => {
-    startRetrieveLoop(
-      MESSAGE_NAME_TO_QUERY_PARAM_MAP[retrievalParams.messageName],
-    ).catch((e) => {
+    startRetrieveLoop(retrievalParams.messageName).catch((e) => {
       setErrorMessage(e.message);
       setLoading(false);
     });
