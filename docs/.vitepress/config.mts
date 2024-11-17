@@ -102,6 +102,42 @@ export default defineConfig({
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
         ],
       }
+    },
+    zh: {
+      label: "简体中文",
+      lang: "zh",
+      link: "/zh/",
+      themeConfig: {
+        nav: [
+          { text: "首页", link: "/" },
+          { text: "入门", link: "/zh/get-started" },
+          { text: "故障排除指南", link: "/zh/troubleshooting" },
+        ],
+      }
+    },
+    fr: {
+      label: "Français",
+      lang: "fr",
+      link: "/fr/",
+      themeConfig: {
+        nav: [
+          { text: "Accueil", link: "/" },
+          { text: "Commencer", link: "/fr/get-started" },
+          { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
+        ],
+      }
+    },
+    pt: {
+      label: "Português",
+      lang: "pt",
+      link: "/pt/",
+      themeConfig: {
+        nav: [
+          { text: "Início", link: "/" },
+          { text: "Introdução", link: "/pt/get-started" },
+          { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
+        ],
+      }
     }
   }
 });

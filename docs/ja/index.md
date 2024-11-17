@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Sky Follow Bridge"
   text: "Connect your social networks"
-  tagline: Seamlessly migrate your social connections from 𝕏 to Bluesky
+  tagline: 𝕏からBlueskyへソーシャルネットワークをスムーズに移行
   actions:
     - theme: brand
       text: 使い方
@@ -19,7 +19,7 @@ hero:
 features:
   - icon: 🔍
     title: 自動プロフィールマッチング
-    details: 𝕏のフォローに似たBlueskyユーザーを自動的に検出します。
+    details: 𝕏でフォローしているユーザーに類似したBlueskyユーザーを自動的に検出します。
   - icon: 🚀
     title: 一括フォロー機能
     details: 「すべてフォロー」ボタンで複数のユーザーを一度にフォローして時間を節約。
