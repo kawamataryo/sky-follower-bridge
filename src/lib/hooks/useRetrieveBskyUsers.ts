@@ -155,6 +155,7 @@ export const useRetrieveBskyUsers = () => {
           ) {
             setIsBottomReached(true);
             setLoading(false);
+            break;
           }
         } else {
           const documentElement = document.documentElement;
@@ -164,6 +165,7 @@ export const useRetrieveBskyUsers = () => {
           ) {
             setIsBottomReached(true);
             setLoading(false);
+            break;
           }
         }
 
