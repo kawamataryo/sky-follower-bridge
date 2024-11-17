@@ -24,8 +24,8 @@ We recommend using the Chrome Web Store version as it's always up to date. Other
 ### 1. Navigate to 𝕏 (Twitter)
 
 Visit any of these pages on X:
-- Your Following page: `x.com/<your_handle>/following`
-- Your Blocked users page: `x.com/settings/blocked/all`
+- Your Following page: [x.com/following](https://x.com/following)
+- Your Blocked users page: [x.com/settings/blocked/all](https://x.com/settings/blocked/all)
 - A public List's Members page: `x.com/i/lists/<list_id>/members`
 
 ![following-page](/images/following-page.png)

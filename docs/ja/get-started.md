@@ -23,8 +23,8 @@ Chrome Web Storeバージョンを使用することをお勧めします。常�
 ### 1. 𝕏（Twitter）に移動
 
 𝕏の以下のページにアクセスしてください：
-- あなたのフォロー中のページ: `x.com/<your_handle>/following`
-- ブロックしたユーザーのページ: `x.com/settings/blocked/all`
+- あなたのフォロー中のページ: [x.com/following](https://x.com/following)
+- ブロックしたユーザーのページ: [x.com/settings/blocked/all](https://x.com/settings/blocked/all )
 - 公開リストのメンバーのページ: `x.com/i/lists/<list_id>/members`
 
 ![following-page](/images/following-page.png)
