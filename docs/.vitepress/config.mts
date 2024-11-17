@@ -90,6 +90,18 @@ export default defineConfig({
           { text: "トラブルシューティング", link: "/ja/troubleshooting" },
         ],
       }
+    },
+    it: {
+      label: "Italiano",
+      lang: "it",
+      link: "/it/",
+      themeConfig: {
+        nav: [
+          { text: "Home", link: "/" },
+          { text: "Iniziare", link: "/it/get-started" },
+          { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
+        ],
+      }
     }
   }
 });
