@@ -73,4 +73,23 @@ export default defineConfig({
       copyright: 'Copyright © 2024 Ryo Kawamata'
     },
   },
+
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+    ja: {
+      label: '日本語',
+      lang: 'ja',
+      link: '/ja/',
+      themeConfig: {
+        nav: [
+          { text: "Home", link: "/" },
+          { text: "使い方", link: "/ja/get-started" },
+          { text: "トラブルシューティング", link: "/ja/troubleshooting" },
+        ],
+      }
+    }
+  }
 });
