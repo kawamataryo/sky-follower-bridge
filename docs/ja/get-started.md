@@ -1,6 +1,6 @@
 # はじめに
 
-スカイフォローブリッジは、あなたの𝕏（Twitter）接続をBlueskyで見つけてフォローするのを助けます。
+Sky Follower Bridgeは、𝕏（Twitter）のあなたのフォローしているユーザーと類似したBlueskyユーザーを見つけてフォローするのに役立ちます。
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/pVqoDv-1uac?si=jKDFFcKQXh61jBdL" title="YouTubeビデオプレーヤー" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -8,7 +8,7 @@
 
 ## インストール
 
-スカイフォローブリッジは以下で利用可能です：
+Sky Follower Bridgeは以下で利用可能です：
 
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)（推奨）
 - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
@@ -29,7 +29,7 @@ Chrome Web Storeバージョンを使用することをお勧めします。常�
 
 ![following-page](/images/following-page.png)
 
-### 2. スカイフォローブリッジを起動
+### 2. Sky Follower Bridgeを起動
 
 `Alt + B`を押すか、ブラウザツールバーの拡張機能アイコンをクリックします。
 
