@@ -101,3 +101,7 @@ export const DOCUMENT_LINK = {
 } as const;
 
 export const BSKY_DOMAIN = process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
+
+export const BSKY_PROFILE_LABEL = {
+  IMPERSONATION: "impersonation",
+} as const;
