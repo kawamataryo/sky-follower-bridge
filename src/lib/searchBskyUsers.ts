@@ -1,7 +1,15 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { isSimilarUser } from "~lib/bskyHelpers";
 import type { getAccountNameAndDisplayName } from "~lib/domHelpers";
 import { isOneSymbol } from "~lib/utils";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
+import { BSKY_PROFILE_LABEL } from "./constants";
+
+const isImpersonationUser = (user: ProfileView) => {
+  return user.labels.some(
+    (label) => label.val === BSKY_PROFILE_LABEL.IMPERSONATION,
+  );
+};
 
 export const searchBskyUser = async ({
   client,
@@ -25,11 +33,16 @@ export const searchBskyUser = async ({
     }
     try {
       const searchResults = await client.searchUser({
-        term: term,
+        term,
         limit: 3,
       });
 
       for (const searchResult of searchResults) {
+        // skip impersonation users
+        if (isImpersonationUser(searchResult)) {
+          continue;
+        }
+
         const { isSimilar: isUserFound, type } = isSimilarUser(
           // TODO: simplify
           {

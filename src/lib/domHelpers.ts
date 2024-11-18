@@ -29,7 +29,9 @@ export const getAccountNameAndDisplayName = (userCell: Element) => {
   const twAccountNameReplaceUnderscore = twAccountName.replaceAll("_", "-");
   const twDisplayName = displayNameEl?.textContent;
   const bskyHandle =
-    userCell.textContent?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
+    userCell.textContent?.match(
+      new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`),
+    )?.[1] ??
     userCell.textContent
       ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
       ?.replace("…", "") ??

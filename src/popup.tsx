@@ -7,6 +7,7 @@ import { sendToBackground, sendToContentScript } from "@plasmohq/messaging";
 
 import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
+  BSKY_DOMAIN,
   DOCUMENT_LINK,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
@@ -14,7 +15,6 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
-  BSKY_DOMAIN,
 } from "~lib/constants";
 
 function IndexPopup() {
