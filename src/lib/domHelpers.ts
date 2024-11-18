@@ -1,3 +1,5 @@
+import { BSKY_DOMAIN } from "./constants";
+
 export const getUserCells = ({
   queryParam,
   filterInsertedElement,
@@ -20,13 +22,14 @@ export const getUserCells = ({
 };
 
 export const getAccountNameAndDisplayName = (userCell: Element) => {
-  const [avatarEl, displayNameEl] = userCell.querySelectorAll("a");
+  const anchors = Array.from(userCell.querySelectorAll("a"));
+  const [avatarEl, displayNameEl] = anchors;
   const twAccountName = avatarEl?.getAttribute("href")?.replace("/", "");
   const twAccountNameRemoveUnderscore = twAccountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
   const twAccountNameReplaceUnderscore = twAccountName.replaceAll("_", "-");
   const twDisplayName = displayNameEl?.textContent;
   const bskyHandle =
-    userCell.textContent?.match(/([^/\s]+\.bsky\.social)/)?.[1] ??
+    userCell.textContent?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
     userCell.textContent
       ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
       ?.replace("…", "") ??

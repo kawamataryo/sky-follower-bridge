@@ -99,3 +99,5 @@ export const DOCUMENT_LINK = {
   PAGE_ERROR:
     "https://www.sky-follower-bridge.dev/troubleshooting.html#page-errors",
 } as const;
+
+export const BSKY_DOMAIN = process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";

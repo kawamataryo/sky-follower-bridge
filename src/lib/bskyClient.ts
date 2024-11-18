@@ -1,4 +1,5 @@
 import { AtUri, AtpAgent, type AtpSessionData } from "@atproto/api";
+import { BSKY_DOMAIN } from "./constants";
 
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
@@ -10,7 +11,7 @@ export type BskyLoginParams = {
 };
 
 export class BskyClient {
-  private service = "https://bsky.social";
+  private service = `https://${BSKY_DOMAIN}`;
   me: {
     did: string;
     handle: string;

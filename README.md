@@ -48,3 +48,77 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 ## 🚨 Limitations
 
 - User search may fail due to late limit in Bluesky's API. In this case, please wait for 2 to 3 minutes and execute the search again.
+
+## Development
+
+### Environment Variables
+
+- `PLASMO_PUBLIC_BSKY_DOMAIN`: The Bluesky domain to use (default: "bsky.social")
+
+## Building for Custom PDS Servers
+
+If you want to use this extension with a custom PDS (Personal Data Server) instead of the default bsky.social, you have two options:
+
+### Option 1: Using .env file
+
+1. Clone the repository:
+```bash
+git clone https://github.com/kawamataryo/sky-follower-bridge.git
+cd sky-follower-bridge
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env` file in the root directory:
+```bash
+echo "PLASMO_PUBLIC_BSKY_DOMAIN=bsky.social" > .env
+```
+
+4. Build the extension:
+```bash
+# For Chrome
+npm run build
+npm run package
+
+# For Firefox
+npm run build:firefox
+npm run package:firefox
+```
+
+### Option 2: Using environment variable directly
+
+You can also pass the domain directly during build:
+
+```bash
+# For Chrome
+PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run build
+PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run package
+
+# For Firefox
+PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run build:firefox
+PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run package:firefox
+```
+
+### Loading the Built Extension
+
+After building, you can load the extension:
+
+**For Chrome/Edge:**
+1. Go to `chrome://extensions/` (or `edge://extensions/`)
+2. Enable "Developer mode" in the top right
+3. Click "Load unpacked" 
+4. Select the `build/chrome-mv3-prod` directory
+
+**For Firefox:**
+1. Go to `about:debugging#/runtime/this-firefox`
+2. Click "Load Temporary Add-on"
+3. Select the zip file from the `dist` directory
+
+### Notes
+- The built extension will be in the `build` directory
+- The packaged extension (.zip) will be in the `dist` directory
+- When using a custom PDS, users will need to use handles in the format `username.your-custom-domain.com`
+- Make sure your custom PDS server is compatible with the AT Protocol
