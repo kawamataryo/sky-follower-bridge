@@ -1,5 +1,28 @@
 # sky-follower-bridge
 
+## 1.1.0
+
+### Minor Changes
+
+- f2d4160: skip impersonation users
+
+### Patch Changes
+
+- 97d2867: support custom PDS. Thanks @kodxana
+
+## 1.0.8
+
+### Patch Changes
+
+- acc719b: fix a break loop bug.
+- a84e11a: only search unique terms. Thanks @dtflowers
+
+## 1.0.7
+
+### Patch Changes
+
+- 97d2867: fix scroll bug in list members. Thanks @dtflowers
+
 ## 0.9.1
 
 ### Patch Changes
