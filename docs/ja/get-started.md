@@ -2,7 +2,7 @@
 
 Sky Follower Bridgeは、𝕏（Twitter）のあなたのフォローしているユーザーと類似したBlueskyユーザーを見つけてフォローするのに役立ちます。
 
-<iframe width="100%" height="315" src="https://www.youtube.com/embed/pVqoDv-1uac?si=jKDFFcKQXh61jBdL" title="YouTubeビデオプレーヤー" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/dfMK07PJeL4?si=SDC7P8basmoOOdjw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <p style="color: gray; font-size: 0.8em; line-height: 1.4;">このビデオはEdgeバージョンを示しています。最新のChromeバージョンと最近のFirefoxバージョンでは動作が異なる場合があります。Chromeのビデオチュートリアルは近日公開予定です。</p>
 
