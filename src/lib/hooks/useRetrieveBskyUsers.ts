@@ -6,20 +6,7 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { type MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { XService } from "~lib/services/x";
-import type { CrawledUserInfo, MatchType } from "~types";
-
-export type BskyUser = {
-  did: string;
-  avatar: string;
-  displayName: string;
-  handle: string;
-  description: string;
-  matchType: MatchType;
-  isFollowing: boolean;
-  followingUri: string | null;
-  isBlocking: boolean;
-  blockingUri: string | null;
-};
+import type { BskyUser, CrawledUserInfo } from "~types";
 
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);

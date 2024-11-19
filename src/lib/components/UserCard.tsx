@@ -1,8 +1,8 @@
 import React from "react";
 import { match } from "ts-pattern";
 import { ACTION_MODE, MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
-import type { BskyUser } from "../hooks/useRetrieveBskyUsers";
 import AvatarFallbackSvg from "./Icons/AvatarFallbackSvg";
+import type { BskyUser } from "~types";
 
 export type Props = {
   user: BskyUser;
