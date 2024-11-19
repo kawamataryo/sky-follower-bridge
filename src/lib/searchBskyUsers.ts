@@ -1,7 +1,7 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { isSimilarUser } from "~lib/bskyHelpers";
-import type { getAccountNameAndDisplayName } from "~lib/domHelpers";
 import { isOneSymbol } from "~lib/utils";
+import type { CrawledUser } from "~types";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 import { BSKY_PROFILE_LABEL } from "./constants";
 
@@ -16,13 +16,13 @@ export const searchBskyUser = async ({
   userData,
 }: {
   client: BskyServiceWorkerClient;
-  userData: ReturnType<typeof getAccountNameAndDisplayName>;
+  userData: CrawledUser;
 }) => {
   const searchTerms = [
     ...(userData.bskyHandle ? [userData.bskyHandle] : []),
-    userData.twAccountNameRemoveUnderscore,
-    userData.twAccountNameReplaceUnderscore,
-    userData.twDisplayName,
+    userData.accountNameRemoveUnderscore,
+    userData.accountNameReplaceUnderscore,
+    userData.displayName,
   ];
   const uniqueSearchTerms = new Set(searchTerms);
 
@@ -47,11 +47,10 @@ export const searchBskyUser = async ({
           // TODO: simplify
           {
             bskyHandleInDescription: userData.bskyHandle,
-            accountName: userData.twAccountName,
-            accountNameRemoveUnderscore: userData.twAccountNameRemoveUnderscore,
-            accountNameReplaceUnderscore:
-              userData.twAccountNameReplaceUnderscore,
-            displayName: userData.twDisplayName,
+            accountName: userData.accountName,
+            accountNameRemoveUnderscore: userData.accountNameRemoveUnderscore,
+            accountNameReplaceUnderscore: userData.accountNameReplaceUnderscore,
+            displayName: userData.displayName,
           },
           searchResult,
         );

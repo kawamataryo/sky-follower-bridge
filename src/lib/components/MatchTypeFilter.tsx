@@ -1,6 +1,6 @@
 import React from "react";
 import { BSKY_USER_MATCH_TYPE, MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
-import type { MatchType } from "../hooks/useRetrieveBskyUsers";
+import type { MatchType } from "../../types";
 
 export type MatchTypeFilterValue = {
   [BSKY_USER_MATCH_TYPE.DESCRIPTION]: boolean;

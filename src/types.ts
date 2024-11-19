@@ -22,3 +22,11 @@ export type MatchTypeFilterValue = {
   [BSKY_USER_MATCH_TYPE.HANDLE]: boolean;
   [BSKY_USER_MATCH_TYPE.FOLLOWING]: boolean;
 };
+
+export type CrawledUser = {
+  accountName: string;
+  displayName: string;
+  accountNameRemoveUnderscore: string;
+  accountNameReplaceUnderscore: string;
+  bskyHandle: string;
+};

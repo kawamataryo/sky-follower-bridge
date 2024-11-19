@@ -8,10 +8,10 @@ import {
   MESSAGE_NAME_TO_QUERY_PARAM_MAP,
   STORAGE_KEYS,
 } from "~lib/constants";
-import { getAccountNameAndDisplayName, getUserCells } from "~lib/domHelpers";
+import { extractUserData, getUserCells } from "~lib/domHelpers";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
-import type { MatchType } from "~types";
+import type { CrawledUser, MatchType } from "~types";
 
 export type BskyUser = {
   did: string;
@@ -32,7 +32,7 @@ const detectXUsers = (userCellQueryParam: string) => {
     filterInsertedElement: true,
   });
   return userCells.map((userCell) => {
-    return getAccountNameAndDisplayName(userCell);
+    return extractUserData(userCell);
   });
 };
 
@@ -65,7 +65,7 @@ export const useRetrieveBskyUsers = () => {
   };
 
   const retrieveBskyUsers = React.useCallback(
-    async (usersData: ReturnType<typeof getAccountNameAndDisplayName>[]) => {
+    async (usersData: CrawledUser[]) => {
       for (const userData of usersData) {
         const searchResult = await searchBskyUser({
           client: bskyClient.current,
@@ -130,9 +130,7 @@ export const useRetrieveBskyUsers = () => {
         }
 
         const data = detectXUsers(queryParam).filter((u) => {
-          return !detectedXUsers.some(
-            (t) => t.twAccountName === u.twAccountName,
-          );
+          return !detectedXUsers.some((t) => t.accountName === u.accountName);
         });
         setDetectedXUsers((prev) => [...prev, ...data]);
         await retrieveBskyUsers(data);
