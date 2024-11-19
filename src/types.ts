@@ -1,7 +1,9 @@
-import type { BSKY_USER_MATCH_TYPE } from "~lib/constants";
+import type { BSKY_USER_MATCH_TYPE, MESSAGE_NAMES } from "~lib/constants";
 
 export type MatchType =
   (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE];
+
+export type MESSAGE_NAME = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
 
 export type BskyUser = {
   did: string;

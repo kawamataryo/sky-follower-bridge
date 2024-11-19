@@ -3,14 +3,9 @@ import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import {
-  type MESSAGE_NAMES,
-  MESSAGE_NAME_TO_QUERY_PARAM_MAP,
-  STORAGE_KEYS,
-} from "~lib/constants";
-import { extractUserData, getUserCells } from "~lib/domHelpers";
+import { type MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
-import { wait } from "~lib/utils";
+import { XService } from "~lib/services/x";
 import type { CrawledUserInfo, MatchType } from "~types";
 
 export type BskyUser = {
@@ -26,21 +21,8 @@ export type BskyUser = {
   blockingUri: string | null;
 };
 
-const detectXUsers = (userCellQueryParam: string) => {
-  const userCells = getUserCells({
-    queryParam: userCellQueryParam,
-    filterInsertedElement: true,
-  });
-  return userCells.map((userCell) => {
-    return extractUserData(userCell);
-  });
-};
-
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
-  const [detectedXUsers, setDetectedXUsers] = React.useState<
-    ReturnType<typeof detectXUsers>
-  >([]);
   const [users, setUsers] = useStorage<BskyUser[]>(
     {
       key: STORAGE_KEYS.DETECTED_BSKY_USERS,
@@ -106,22 +88,7 @@ export const useRetrieveBskyUsers = () => {
 
       let index = 0;
 
-      const queryParam = MESSAGE_NAME_TO_QUERY_PARAM_MAP[messageName];
-
-      let scrollElement: HTMLElement | Window;
-      let modalScrollInterval: number;
-
-      if (messageName === "search_bsky_user_on_list_members_page") {
-        // select the modal wrapper using viewport selector to avoid conflation with feed in the background
-        scrollElement = document.querySelector(
-          'div[data-viewportview="true"]',
-        ) as HTMLElement;
-        // base interval off of intitial scroll height
-        modalScrollInterval = scrollElement.scrollHeight;
-      } else {
-        // for other cases, use the window, no need to cache a scroll interval due to different window scroll logic
-        scrollElement = window;
-      }
+      const xService = new XService(messageName);
 
       // loop until we get to the bottom
       while (!isBottomReached) {
@@ -129,42 +96,15 @@ export const useRetrieveBskyUsers = () => {
           break;
         }
 
-        const data = detectXUsers(queryParam).filter((u) => {
-          return !detectedXUsers.some((t) => t.accountName === u.accountName);
-        });
-        setDetectedXUsers((prev) => [...prev, ...data]);
+        const data = xService.getCrawledUsers();
         await retrieveBskyUsers(data);
 
-        // handle scrolling pattern for both modal and window
-        if (scrollElement instanceof HTMLElement) {
-          scrollElement.scrollTop += modalScrollInterval;
-        } else {
-          window.scrollTo(0, document.body.scrollHeight);
-        }
+        const isEnd = await xService.performScrollAndCheckEnd();
 
-        // wait for fetching data by x
-        await wait(3000);
-
-        // break if bottom is reached
-        if (scrollElement instanceof HTMLElement) {
-          if (
-            scrollElement.scrollTop + scrollElement.clientHeight >=
-            scrollElement.scrollHeight
-          ) {
-            setIsBottomReached(true);
-            setLoading(false);
-            break;
-          }
-        } else {
-          const documentElement = document.documentElement;
-          if (
-            documentElement.scrollTop + documentElement.clientHeight >=
-            documentElement.scrollHeight
-          ) {
-            setIsBottomReached(true);
-            setLoading(false);
-            break;
-          }
+        if (isEnd) {
+          setIsBottomReached(true);
+          setLoading(false);
+          break;
         }
 
         index++;
@@ -174,12 +114,8 @@ export const useRetrieveBskyUsers = () => {
         }
       }
     },
-    [retrieveBskyUsers, detectedXUsers, isBottomReached],
+    [retrieveBskyUsers, isBottomReached],
   );
-
-  React.useEffect(() => {
-    chrome.storage.local.set({ users: JSON.stringify(users) });
-  }, [users]);
 
   const stopRetrieveLoop = React.useCallback(() => {
     if (abortControllerRef.current) {
