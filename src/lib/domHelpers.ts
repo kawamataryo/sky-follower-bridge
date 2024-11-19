@@ -1,4 +1,4 @@
-import type { CrawledUser } from "~types";
+import type { CrawledUserInfo } from "~types";
 import { BSKY_DOMAIN } from "./constants";
 
 export const getUserCells = ({
@@ -22,7 +22,7 @@ export const getUserCells = ({
   return Array.from(userCells);
 };
 
-export const extractUserData = (userCell: Element): CrawledUser => {
+export const extractUserData = (userCell: Element): CrawledUserInfo => {
   const anchors = Array.from(userCell.querySelectorAll("a"));
   const [avatarEl, displayNameEl] = anchors;
   const accountName = avatarEl?.getAttribute("href")?.replace("/", "");

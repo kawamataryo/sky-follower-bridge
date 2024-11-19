@@ -11,7 +11,7 @@ import {
 import { extractUserData, getUserCells } from "~lib/domHelpers";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
-import type { CrawledUser, MatchType } from "~types";
+import type { CrawledUserInfo, MatchType } from "~types";
 
 export type BskyUser = {
   did: string;
@@ -65,7 +65,7 @@ export const useRetrieveBskyUsers = () => {
   };
 
   const retrieveBskyUsers = React.useCallback(
-    async (usersData: CrawledUser[]) => {
+    async (usersData: CrawledUserInfo[]) => {
       for (const userData of usersData) {
         const searchResult = await searchBskyUser({
           client: bskyClient.current,
