@@ -16,7 +16,7 @@ const UserCard = ({ user, actionMode, clickAction }: Props) => {
   const actionBtnLabelAndClass = React.useMemo(
     () =>
       match(actionMode)
-        .with(ACTION_MODE.FOLLOW, () => {
+        .with(ACTION_MODE.FOLLOW, ACTION_MODE.IMPORT_LIST, () => {
           const follow = {
             label: "Follow on Bluesky",
             class: "btn-primary",
@@ -41,7 +41,7 @@ const UserCard = ({ user, actionMode, clickAction }: Props) => {
         })
         .with(ACTION_MODE.BLOCK, () => {
           const block = {
-            label: "block on Bluesky",
+            label: "Block on Bluesky",
             class: "btn-primary",
           };
           const blocking = {

@@ -21,6 +21,14 @@ export const useBskyUserManager = () => {
     },
     (v) => (v === undefined ? [] : v),
   );
+  const [listName, setListName] = React.useState<string>("");
+  React.useEffect(() => {
+    chrome.storage.local.get("listName", (result) => {
+      const name = result.listName || "Imported List from X";
+      setListName(name);
+    });
+  }, []);
+
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [actionMode, setActionMode] = React.useState<
     (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
@@ -121,6 +129,25 @@ export const useBskyUserManager = () => {
     if (!bskyClient.current) return;
     let actionCount = 0;
 
+    if (actionMode === ACTION_MODE.IMPORT_LIST) {
+      const userDids = filteredUsers.map(user => user.did);
+
+      try {
+        await chrome.runtime.sendMessage({
+          name: "createListAndAddUsers",
+          body: {
+            name: listName,
+            description: "List imported from Sky Follower Bridge",
+            userDids,
+          },
+        });
+        console.log("List created and users added successfully");
+      } catch (error) {
+        console.error("Error creating list and adding users:", error);
+      }
+      return;
+    }
+
     for (const user of filteredUsers) {
       let resultUri: string | null = null;
       // follow
@@ -153,24 +180,24 @@ export const useBskyUserManager = () => {
         }
         const result = await bskyClient.current.block(user.did);
         resultUri = result.uri;
+        await setUsers((prev) =>
+          prev.map((prevUser) => {
+            if (prevUser.did === user.did) {
+              return {
+                ...prevUser,
+                isBlocking: !prevUser.isBlocking,
+                blockingUri: resultUri ?? prevUser.blockingUri,
+              };
+            }
+            return prevUser;
+          }),
+        );
+        await wait(300);
+        actionCount++;
       }
-      await setUsers((prev) =>
-        prev.map((prevUser) => {
-          if (prevUser.did === user.did) {
-            return {
-              ...prevUser,
-              isBlocking: !prevUser.isBlocking,
-              blockingUri: resultUri ?? prevUser.blockingUri,
-            };
-          }
-          return prevUser;
-        }),
-      );
-      await wait(300);
-      actionCount++;
     }
     return actionCount;
-  }, [filteredUsers, actionMode, setUsers]);
+  }, [filteredUsers, actionMode, setUsers, listName]);
 
   React.useEffect(() => {
     chrome.storage.local.get(
@@ -204,6 +231,7 @@ export const useBskyUserManager = () => {
   return {
     handleClickAction,
     users,
+    listName,
     actionMode,
     matchTypeFilter,
     changeMatchTypeFilter,

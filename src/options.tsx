@@ -7,6 +7,7 @@ const Option = () => {
   const {
     users,
     filteredUsers,
+    listName,
     matchTypeFilter,
     changeMatchTypeFilter,
     handleClickAction,
