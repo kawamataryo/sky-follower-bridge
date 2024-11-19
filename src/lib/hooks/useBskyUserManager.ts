@@ -131,20 +131,14 @@ export const useBskyUserManager = () => {
 
     if (actionMode === ACTION_MODE.IMPORT_LIST) {
       const userDids = filteredUsers.map(user => user.did);
-
-      try {
-        await chrome.runtime.sendMessage({
-          name: "createListAndAddUsers",
-          body: {
-            name: listName,
-            description: "List imported from Sky Follower Bridge",
-            userDids,
-          },
-        });
-        console.log("List created and users added successfully");
-      } catch (error) {
-        console.error("Error creating list and adding users:", error);
-      }
+      await chrome.runtime.sendMessage({
+        name: "createListAndAddUsers",
+        body: {
+          name: listName,
+          description: "List imported from Sky Follower Bridge",
+          userDids,
+        },
+      });
       return;
     }
 
