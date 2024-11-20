@@ -10,7 +10,7 @@ import type { BskyUser, CrawledUserInfo } from "~types";
 
 const scrapeListNameFromPage = (): string => {
   const listNameElement = document.querySelector(
-    'div[aria-label="Timeline: List"] span'
+    'div[aria-label="Timeline: List"] span',
   );
   if (listNameElement) {
     return listNameElement.textContent.trim();
@@ -118,7 +118,7 @@ export const useRetrieveBskyUsers = () => {
   React.useEffect(() => {
     chrome.storage.local.set({
       users: JSON.stringify(users),
-      listName: listName
+      listName: listName,
     });
   }, [users, listName]);
 
