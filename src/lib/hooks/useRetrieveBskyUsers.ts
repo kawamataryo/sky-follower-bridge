@@ -2,11 +2,25 @@ import type { AtpSessionData } from "@atproto/api";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
+import { match, P } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import { type MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
+import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
-import { XService } from "~lib/services/x";
-import type { BskyUser, CrawledUserInfo } from "~types";
+import type { AbstractService } from "~lib/services/abstractService";
+import { XService } from "~lib/services/xService";
+import type { BskyUser, CrawledUserInfo, MessageName } from "~types";
+
+const getService = (messageName: string): AbstractService => {
+  return match(messageName)
+    .with(P.when((name) => [
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
+    ].includes(name as MessageName)),
+      () => new XService(messageName),
+    )
+    .otherwise(() => new XService(messageName));
+};
 
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
@@ -75,7 +89,7 @@ export const useRetrieveBskyUsers = () => {
 
       let index = 0;
 
-      const xService = new XService(messageName);
+      const service = getService(messageName);
 
       // loop until we get to the bottom
       while (!isBottomReached) {
@@ -83,10 +97,10 @@ export const useRetrieveBskyUsers = () => {
           break;
         }
 
-        const data = xService.getCrawledUsers();
+        const data = service.getCrawledUsers();
         await retrieveBskyUsers(data);
 
-        const isEnd = await xService.performScrollAndCheckEnd();
+        const isEnd = await service.performScrollAndCheckEnd();
 
         if (isEnd) {
           setIsBottomReached(true);
