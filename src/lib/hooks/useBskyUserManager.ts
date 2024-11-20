@@ -135,7 +135,7 @@ export const useBskyUserManager = () => {
         name: "createListAndAddUsers",
         body: {
           name: listName,
-          description: "List imported from Sky Follower Bridge",
+          description: "List imported via Sky Follower Bridge",
           userDids,
         },
       });
