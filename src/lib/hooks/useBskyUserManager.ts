@@ -130,7 +130,7 @@ export const useBskyUserManager = () => {
     let actionCount = 0;
 
     if (actionMode === ACTION_MODE.IMPORT_LIST) {
-      const userDids = filteredUsers.map(user => user.did);
+      const userDids = filteredUsers.map((user) => user.did);
       await chrome.runtime.sendMessage({
         name: "createListAndAddUsers",
         body: {

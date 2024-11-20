@@ -157,10 +157,7 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
-        <AsyncButton
-          onClick={actionAll}
-          label={getActionLabel()}
-        />
+        <AsyncButton onClick={actionAll} label={getActionLabel()} />
         <p className="text-xs">
           ⚠️ User detection is not perfect and may include false positives.
         </p>

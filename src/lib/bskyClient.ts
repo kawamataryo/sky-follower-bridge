@@ -124,14 +124,14 @@ export class BskyClient {
   }) => {
     const result = await this.agent.com.atproto.repo.createRecord({
       repo: this.me.did,
-      collection: 'app.bsky.graph.list',
+      collection: "app.bsky.graph.list",
       record: {
-        $type: 'app.bsky.graph.list',
-        purpose: 'app.bsky.graph.defs#curatelist',
+        $type: "app.bsky.graph.list",
+        purpose: "app.bsky.graph.defs#curatelist",
         name,
         description,
-        createdAt: new Date().toISOString()
-      }
+        createdAt: new Date().toISOString(),
+      },
     });
     return result.data.uri;
   };
@@ -145,13 +145,13 @@ export class BskyClient {
   }) => {
     return await this.agent.com.atproto.repo.createRecord({
       repo: this.me.did,
-      collection: 'app.bsky.graph.listitem',
+      collection: "app.bsky.graph.listitem",
       record: {
-        $type: 'app.bsky.graph.listitem',
+        $type: "app.bsky.graph.listitem",
         subject: userDid,
         list: listUri,
-        createdAt: new Date().toISOString()
-      }
+        createdAt: new Date().toISOString(),
+      },
     });
   };
 

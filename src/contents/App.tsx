@@ -67,7 +67,10 @@ const App = () => {
 
   const stopAndShowDetectedUsers = async () => {
     stopRetrieveLoop();
-    await chrome.storage.local.set({ users: JSON.stringify(users), listName: listName });
+    await chrome.storage.local.set({
+      users: JSON.stringify(users),
+      listName: listName,
+    });
     openOptionPage();
   };
 
