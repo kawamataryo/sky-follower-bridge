@@ -138,6 +138,18 @@ export default defineConfig({
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
         ],
       }
+    },
+    es: {
+      label: "Español",
+      lang: "es",
+      link: "/es/",
+      themeConfig: {
+        nav: [
+          { text: "Inicio", link: "/" },
+          { text: "Comenzando", link: "/es/get-started" },
+          { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
+        ],
+      }
     }
   }
 });
