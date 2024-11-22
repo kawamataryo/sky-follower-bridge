@@ -180,7 +180,7 @@ export const useBskyUserManager = () => {
         bskyClient.current = new BskyServiceWorkerClient(session);
         setActionMode(
           MESSAGE_NAME_TO_ACTION_MODE_MAP[
-          result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
+            result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
           ],
         );
       },

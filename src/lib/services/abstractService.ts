@@ -19,9 +19,8 @@ export abstract class AbstractService {
       ),
     );
 
-    const users = Array.from(userCells).map((userCell) =>
-        this.extractUserData(userCell),
-      )
+    const users = Array.from(userCells)
+      .map((userCell) => this.extractUserData(userCell))
       .filter((user) => {
         const isNewUser = !this.crawledUsers.has(user.accountName);
         if (isNewUser) {

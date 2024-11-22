@@ -2,7 +2,7 @@ import type { AtpSessionData } from "@atproto/api";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
-import { match, P } from "ts-pattern";
+import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
@@ -12,11 +12,14 @@ import type { BskyUser, CrawledUserInfo, MessageName } from "~types";
 
 const getService = (messageName: string): AbstractService => {
   return match(messageName)
-    .with(P.when((name) => [
-      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
-      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
-      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
-    ].includes(name as MessageName)),
+    .with(
+      P.when((name) =>
+        [
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
+        ].includes(name as MessageName),
+      ),
       () => new XService(messageName),
     )
     .otherwise(() => new XService(messageName));

@@ -1,8 +1,8 @@
 import { MESSAGE_NAMES } from "~lib/constants";
 import { BSKY_DOMAIN, MESSAGE_NAME_TO_QUERY_PARAM_MAP } from "~lib/constants";
 import { wait } from "~lib/utils";
-import { AbstractService } from "./abstractService";
 import type { CrawledUserInfo } from "~types";
+import { AbstractService } from "./abstractService";
 
 export class XService extends AbstractService {
   extractUserData(userCell: Element): CrawledUserInfo {
