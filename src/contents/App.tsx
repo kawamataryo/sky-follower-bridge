@@ -4,14 +4,19 @@ import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import type { PlasmoCSConfig } from "plasmo";
 import React from "react";
+import { match } from "ts-pattern";
 import AlertError from "~lib/components/AlertError";
 import LoadingCards from "~lib/components/LoadingCards";
 import Modal from "~lib/components/Modal";
-import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
+import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { useRetrieveBskyUsers } from "~lib/hooks/useRetrieveBskyUsers";
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://twitter.com/*", "https://x.com/*"],
+  matches: [
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://www.threads.net/*",
+  ],
   all_frames: true,
 };
 
@@ -31,6 +36,7 @@ const App = () => {
     restart,
     isBottomReached,
     errorMessage,
+    currentService,
   } = useRetrieveBskyUsers();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -89,13 +95,20 @@ const App = () => {
     stopRetrieveLoop();
   };
 
+  const serviceName = React.useMemo(() => {
+    return match(currentService)
+      .with(SERVICE_TYPE.X, () => "X")
+      .with(SERVICE_TYPE.THREADS, () => "Threads")
+      .exhaustive();
+  }, [currentService]);
+
   return (
     <>
       <Modal open={isModalOpen} onClose={closeModal}>
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">
-              Scanning 𝕏 users to find bsky users...
+              Scanning {serviceName} users to find bsky users...
             </p>
           )}
           <p className="text-2xl font-bold">

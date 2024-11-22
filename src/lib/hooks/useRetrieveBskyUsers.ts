@@ -4,25 +4,45 @@ import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
 import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
+import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import type { AbstractService } from "~lib/services/abstractService";
+import { ThreadsService } from "~lib/services/threadsService";
 import { XService } from "~lib/services/xService";
-import type { BskyUser, CrawledUserInfo, MessageName } from "~types";
+import type {
+  BskyUser,
+  CrawledUserInfo,
+  MessageName,
+  ServiceType,
+} from "~types";
 
-const getService = (messageName: MessageName): AbstractService => {
+const getServiceType = (messageName: MessageName): ServiceType => {
   return match(messageName)
+    .returnType<(typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE]>()
     .with(
-      P.when((name) =>
-        [
-          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
-          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
-          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
-        ].includes(name as MessageName),
+      P.union(
+        MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
+        MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
+        MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
       ),
-      () => new XService(messageName),
+      () => SERVICE_TYPE.X,
     )
-    .otherwise(() => new XService(messageName));
+    .with(
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE,
+      () => SERVICE_TYPE.THREADS,
+    )
+    .run();
+};
+
+const buildService = (
+  serviceType: ServiceType,
+  messageName: MessageName,
+): AbstractService => {
+  return match(serviceType)
+    .returnType<AbstractService>()
+    .with(SERVICE_TYPE.X, () => new XService(messageName))
+    .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
+    .run();
 };
 
 export const useRetrieveBskyUsers = () => {
@@ -39,6 +59,9 @@ export const useRetrieveBskyUsers = () => {
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [isBottomReached, setIsBottomReached] = React.useState(false);
+  const [currentService, setCurrentService] = React.useState<
+    (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE]
+  >(SERVICE_TYPE.X);
 
   const [retrievalParams, setRetrievalParams] = React.useState<null | {
     session: AtpSessionData;
@@ -46,13 +69,17 @@ export const useRetrieveBskyUsers = () => {
   }>(null);
 
   const retrieveBskyUsers = React.useCallback(
-    async (usersData: CrawledUserInfo[]) => {
+    async (
+      usersData: CrawledUserInfo[],
+      processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
+    ) => {
       for (const userData of usersData) {
         const searchResult = await searchBskyUser({
           client: bskyClient.current,
           userData,
         });
         if (searchResult) {
+          const processedUser = await processExtractedData(userData);
           await setUsers((prev) => {
             if (prev.some((u) => u.did === searchResult.bskyProfile.did)) {
               return prev;
@@ -70,10 +97,10 @@ export const useRetrieveBskyUsers = () => {
                 followingUri: searchResult.bskyProfile.viewer?.following,
                 isBlocking: !!searchResult.bskyProfile.viewer?.blocking,
                 blockingUri: searchResult.bskyProfile.viewer?.blocking,
-                originalAvatar: userData.originalAvatar,
-                originalHandle: userData.accountName,
-                originalDisplayName: userData.displayName,
-                originalProfileLink: userData.originalProfileLink,
+                originalAvatar: processedUser.originalAvatar,
+                originalHandle: processedUser.accountName,
+                originalDisplayName: processedUser.displayName,
+                originalProfileLink: processedUser.originalProfileLink,
               },
             ];
           });
@@ -85,22 +112,20 @@ export const useRetrieveBskyUsers = () => {
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const startRetrieveLoop = React.useCallback(
-    async (messageName: MessageName) => {
+    async (service: AbstractService) => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
       let index = 0;
 
-      const service = getService(messageName);
-
       // loop until we get to the bottom
-      while (!isBottomReached) {
+      while (true) {
         if (signal.aborted) {
           break;
         }
 
         const data = service.getCrawledUsers();
-        await retrieveBskyUsers(data);
+        await retrieveBskyUsers(data, service.processExtractedData);
 
         const isEnd = await service.performScrollAndCheckEnd();
 
@@ -117,7 +142,7 @@ export const useRetrieveBskyUsers = () => {
         }
       }
     },
-    [retrieveBskyUsers, isBottomReached],
+    [retrieveBskyUsers],
   );
 
   const stopRetrieveLoop = React.useCallback(() => {
@@ -143,22 +168,34 @@ export const useRetrieveBskyUsers = () => {
 
     bskyClient.current = new BskyServiceWorkerClient(session);
 
-    startRetrieveLoop(messageName).catch((e) => {
+    const serviceType = getServiceType(messageName);
+    setCurrentService(serviceType);
+    const service = buildService(serviceType, messageName);
+
+    const [isTargetPage, errorMessage] = service.isTargetPage();
+    if (!isTargetPage) {
+      throw new Error(errorMessage);
+    }
+
+    startRetrieveLoop(service).catch((e) => {
       console.error(e);
       setErrorMessage(e.message);
       setLoading(false);
     });
+    setErrorMessage("");
     setLoading(true);
     await setUsers([]);
   }, []);
 
   const restart = React.useCallback(() => {
-    startRetrieveLoop(retrievalParams.messageName).catch((e) => {
+    const service = buildService(currentService, retrievalParams.messageName);
+    startRetrieveLoop(service).catch((e) => {
       setErrorMessage(e.message);
       setLoading(false);
     });
+    setErrorMessage("");
     setLoading(true);
-  }, [retrievalParams, startRetrieveLoop]);
+  }, [currentService, retrievalParams, startRetrieveLoop]);
 
   const isRateLimitError = React.useMemo(() => {
     // TODO: improve this logic
@@ -180,5 +217,6 @@ export const useRetrieveBskyUsers = () => {
     isSucceeded,
     isBottomReached,
     stopRetrieveLoop,
+    currentService,
   };
 };

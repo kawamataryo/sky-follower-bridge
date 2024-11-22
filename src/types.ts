@@ -1,4 +1,8 @@
-import type { BSKY_USER_MATCH_TYPE, MESSAGE_NAMES } from "~lib/constants";
+import type {
+  BSKY_USER_MATCH_TYPE,
+  MESSAGE_NAMES,
+  SERVICE_TYPE,
+} from "~lib/constants";
 
 export type MatchType =
   (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE];
@@ -38,3 +42,5 @@ export type CrawledUserInfo = {
   originalAvatar: string;
   originalProfileLink: string;
 };
+
+export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE];
