@@ -1,0 +1,7 @@
+pre-commit:
+  parallel: true
+  commands:
+    check:
+      glob: "src/*.{ts,tsx}"
+      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      staged_fixed: true
