@@ -153,21 +153,21 @@ export const useBskyUserManager = () => {
         }
         const result = await bskyClient.current.block(user.did);
         resultUri = result.uri;
+        await setUsers((prev) =>
+          prev.map((prevUser) => {
+            if (prevUser.did === user.did) {
+              return {
+                ...prevUser,
+                isBlocking: !prevUser.isBlocking,
+                blockingUri: resultUri ?? prevUser.blockingUri,
+              };
+            }
+            return prevUser;
+          }),
+        );
+        await wait(300);
+        actionCount++;
       }
-      await setUsers((prev) =>
-        prev.map((prevUser) => {
-          if (prevUser.did === user.did) {
-            return {
-              ...prevUser,
-              isBlocking: !prevUser.isBlocking,
-              blockingUri: resultUri ?? prevUser.blockingUri,
-            };
-          }
-          return prevUser;
-        }),
-      );
-      await wait(300);
-      actionCount++;
     }
     return actionCount;
   }, [filteredUsers, actionMode, setUsers]);
@@ -180,7 +180,7 @@ export const useBskyUserManager = () => {
         bskyClient.current = new BskyServiceWorkerClient(session);
         setActionMode(
           MESSAGE_NAME_TO_ACTION_MODE_MAP[
-            result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
+          result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
           ],
         );
       },
