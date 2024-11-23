@@ -85,6 +85,16 @@ Los permisos del sitio deben ser como se muestra a continuación:
 
 ## Problemas de escaneo
 
+### El botón View Detected Users no funciona
+
+Por alguna razón, el botón View Detected Users puede no funcionar.
+
+**Solución:**
+1. Haz clic derecho en el ícono de la extensión y selecciona "Opciones"
+2. Se mostrará la página de resultados
+
+<img src="/images/click-option.png" alt="hacer clic en opción" width="500"/>
+
 ### El escaneo se detiene temprano
 
 El escaneo se detiene antes de llegar al final de la página

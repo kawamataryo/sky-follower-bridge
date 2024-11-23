@@ -85,6 +85,16 @@ I permessi del sito dovrebbero essere come di seguito:
 
 ## Problemi di scansione
 
+### Il pulsante View Detected Users non funziona
+
+Per qualche motivo, il pulsante View Detected Users potrebbe non funzionare.
+
+**Soluzione:**
+1. Fai clic con il tasto destro sull'icona dell'estensione e seleziona "Opzioni"
+2. Verrà visualizzata la pagina dei risultati
+
+<img src="/images/click-option.png" alt="clicca su opzione" width="500"/>
+
 ### La scansione si interrompe presto
 
 La scansione si interrompe prima di raggiungere il fondo della pagina

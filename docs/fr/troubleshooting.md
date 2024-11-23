@@ -85,6 +85,16 @@ Les permissions du site devraient être comme ci-dessous :
 
 ## Problèmes de scan
 
+### Le bouton View Detected Users ne fonctionne pas
+
+Pour une raison quelconque, le bouton View Detected Users peut ne pas fonctionner.
+
+**Solution :**
+1. Faites un clic droit sur l'icône de l'extension et sélectionnez "Options"
+2. La page des résultats sera affichée
+
+<img src="/images/click-option.png" alt="cliquer sur option" width="500"/>
+
 ### Le scan s'arrête trop tôt
 
 Le scan s'arrête avant d'atteindre le bas de la page
