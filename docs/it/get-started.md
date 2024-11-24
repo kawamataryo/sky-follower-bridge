@@ -18,6 +18,10 @@ Sky Follower Bridge è disponibile su:
 Consigliamo di utilizzare la versione del Chrome Web Store poiché è sempre aggiornata. Le versioni di altri store potrebbero essere in ritardo con gli aggiornamenti.
 :::
 
+::: warning
+Sky Follower Bridge è disponibile solo sui browser desktop. I browser mobili non sono supportati.
+:::
+
 ## Utilizzo
 
 ### 1. Naviga su 𝕏 (Twitter)

@@ -18,6 +18,10 @@ Sky Follower Bridge 可在以下平台获取：
 我们推荐使用 Chrome 网上应用店版本，因为它���是最新的。其他商店版本可能会延迟更新。
 :::
 
+::: warning
+Sky Follower Bridge 仅适用于桌面浏览器。移动浏览器不支持。
+:::
+
 ## 使用方法
 
 ### 1. 访问 𝕏 (Twitter)
