@@ -4,7 +4,6 @@ O Sky Follower Bridge ajuda você a encontrar e seguir suas conexões do 𝕏 (T
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/pVqoDv-1uac?si=jKDFFcKQXh61jBdL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<p style="color: gray; font-size: 0.8em; line-height: 1.4;">Este vídeo demonstra a versão Edge. A versão mais recente do Chrome e as versões recentes do Firefox podem se comportar de maneira diferente. Um tutorial em vídeo para o Chrome está chegando em breve.</p>
 
 ## Instalação
 

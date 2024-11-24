@@ -4,7 +4,6 @@ Sky Follower Bridge te ayuda a encontrar y seguir tus conexiones de 𝕏 (Twitte
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/dfMK07PJeL4?si=SDC7P8basmoOOdjw" title="Reproductor de video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<p style="color: gray; font-size: 0.8em; line-height: 1.4;">Este video demuestra la versión de Edge. La última versión de Chrome y las versiones recientes de Firefox pueden comportarse de manera diferente. Un tutorial en video para Chrome estará disponible pronto.</p>
 
 ## Instalación
 
