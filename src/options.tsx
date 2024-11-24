@@ -1,8 +1,10 @@
 import UserCard from "~lib/components/UserCard";
 import { useBskyUserManager } from "~lib/hooks/useBskyUserManager";
 import "./style.css";
+import { ToastContainer, toast } from "react-toastify";
 import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
+import "react-toastify/dist/ReactToastify.css";
 
 const Option = () => {
   const {
@@ -29,7 +31,8 @@ const Option = () => {
       return;
     }
 
-    await actionAll();
+    const result = await actionAll();
+    toast.success(`Followed ${result} users`);
   };
 
   return (
@@ -61,6 +64,11 @@ const Option = () => {
             </div>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          className="text-sm"
+        />
         <ConfirmationDialog />
       </div>
     </>

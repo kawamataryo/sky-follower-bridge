@@ -31,6 +31,7 @@
     "plasmo": "^0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^10.0.6",
     "ts-pattern": "^5.0.6",
     "vanjs-core": "^1.2.8",
     "vitepress": "^1.5.0"
