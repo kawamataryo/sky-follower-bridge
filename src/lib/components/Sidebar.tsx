@@ -14,7 +14,7 @@ type Props = {
   onChangeFilter: (key: MatchType) => void;
   actionAll: () => Promise<void>;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
-  matchTypeStats: Record<MatchType, number>;
+  matchTypeStats: Record<Exclude<MatchType, "none">, number>;
 };
 
 const Sidebar = ({

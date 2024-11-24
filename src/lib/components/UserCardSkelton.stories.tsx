@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import UserCardSkeleton from "./UserCardSkeleton";
 
 const meta: Meta<typeof UserCardSkeleton> = {
-  title: "CSUI/UserCardSkeleton",
+  title: "Components/UserCardSkeleton",
   component: UserCardSkeleton,
 };
 export default meta;

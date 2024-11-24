@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import AlertSuccess from "./AlertSuccess";
 
 const meta: Meta<typeof AlertSuccess> = {
-  title: "CSUI/AlertSuccess",
+  title: "Components/AlertSuccess",
   component: AlertSuccess,
 };
 export default meta;

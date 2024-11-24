@@ -4,7 +4,7 @@ import { ACTION_MODE, BSKY_USER_MATCH_TYPE } from "../constants";
 import UserCard, { type Props } from "./UserCard";
 
 const meta: Meta<typeof UserCard> = {
-  title: "CSUI/UserCard",
+  title: "Components/UserCard",
   component: UserCard,
 };
 export default meta;

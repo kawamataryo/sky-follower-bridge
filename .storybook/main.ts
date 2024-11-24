@@ -1,5 +1,7 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 
+import { defineConfig } from 'vite';
+
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
@@ -14,6 +16,13 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: "tag",
+  },
+  viteFinal: (config) => {
+    config.define = {
+      ...config.define,
+      'process.env': process.env,
+    };
+    return config;
   },
 };
 export default config;
