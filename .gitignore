@@ -46,3 +46,5 @@ publish_keys.json
 docs/.vitepress/cache
 
 project.zip
+
+*storybook.log

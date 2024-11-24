@@ -27,8 +27,7 @@ const demoUser: Props["user"] = {
     Twitter: twitter.com/KawamataRyo
     GitHub: github.com/kawamataryo
     Zenn: zenn.dev/ryo_kawamata`,
-  avatar:
-    "https://cdn.bsky.app/img/avatar/plain/did:plc:hcp53er6pefwijpdceo5x4bp/bafkreibm42fe6ionzntt2oryzv2coulgiwh5ejman4vf53bpkdtotszpp4@jpeg",
+  avatar: "https://avatar.iran.liara.run/public",
   matchType: BSKY_USER_MATCH_TYPE.HANDLE,
   isFollowing: false,
   followingUri: "",
