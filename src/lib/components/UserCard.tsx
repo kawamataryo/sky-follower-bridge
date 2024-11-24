@@ -150,43 +150,45 @@ const UserCard = ({ user, actionMode, clickAction }: Props) => {
   };
 
   return (
-    <div className="bg-base-100 w-full relative grid grid-cols-[20%_5%_75%]">
-      <div
-        className={`border-l-8 border-${
-          MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color
-        } card-body relative py-3 pl-4 pr-1 rounded-sm grid grid-cols-[50px_1fr]`}
-      >
-        <UserProfile
-          avatar={user.originalAvatar}
-          url={user.originalProfileLink}
-        />
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center gap-2">
-            <UserInfo
-              handle={user.originalHandle}
-              displayName={user.originalDisplayName}
-              url={user.originalProfileLink}
-            />
+    <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
+      <div className="flex flex-row gap-2 bg-slate-100 dark:bg-slate-800 justify-between pr-2">
+        <div
+          className={`border-l-8 border-${
+            MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color
+          } relative py-3 pl-4 pr-1 grid grid-cols-[50px_1fr]`}
+        >
+          <UserProfile
+            avatar={user.originalAvatar}
+            url={user.originalProfileLink}
+          />
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between items-center gap-2">
+              <UserInfo
+                handle={user.originalHandle}
+                displayName={user.originalDisplayName}
+                url={user.originalProfileLink}
+              />
+            </div>
           </div>
         </div>
+        <div className="flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-7 w-7"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m8.25 4.5 7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </div>
       </div>
-      <div className="flex items-center justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-7 w-7"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
-          />
-        </svg>
-      </div>
-      <div className="card-body relative py-3 pl-0 pr-2 rounded-sm grid grid-cols-[50px_1fr]">
+      <div className="relative py-3 pl-0 pr-2 grid grid-cols-[50px_1fr]">
         <UserProfile
           avatar={user.avatar}
           url={`https://bsky.app/profile/${user.handle}`}
