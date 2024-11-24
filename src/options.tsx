@@ -49,7 +49,7 @@ const Option = () => {
           />
         </div>
         <div className="flex-1 ml-80 p-6 pt-0 overflow-y-auto">
-          <div className="grid grid-cols-[25%_75%] sticky top-0 z-10 bg-base-100 border-b-[1px] border-gray-500">
+          <div className="grid grid-cols-[22%_1fr] sticky top-0 z-10 bg-base-100 border-b-[1px] border-gray-500">
             <h2 className="text-lg font-bold text-center py-2">Source</h2>
             <h2 className="text-lg font-bold text-center py-2">Detected</h2>
           </div>
