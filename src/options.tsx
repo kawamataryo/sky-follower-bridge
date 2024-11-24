@@ -1,6 +1,7 @@
 import UserCard from "~lib/components/UserCard";
 import { useBskyUserManager } from "~lib/hooks/useBskyUserManager";
 import "./style.css";
+import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 
 const Option = () => {
@@ -15,17 +16,22 @@ const Option = () => {
     matchTypeStats,
   } = useBskyUserManager();
 
+  const { confirm, ConfirmationDialog } = useConfirm({
+    title: "Proceed with Execution?",
+    message:
+      "User detection is not perfect and may include false positives. Do you still want to proceed?",
+    cancelText: "Cancel",
+    okText: "OK",
+  });
+
   const handleActionAll = async () => {
-    if (
-      !window.confirm(
-        "User detection is not perfect and may include false positives. Do you still want to proceed?",
-      )
-    ) {
+    if (!(await confirm())) {
       return;
     }
 
     await actionAll();
   };
+
   return (
     <>
       <div className="flex h-screen">
@@ -55,6 +61,7 @@ const Option = () => {
             </div>
           </div>
         </div>
+        <ConfirmationDialog />
       </div>
     </>
   );
