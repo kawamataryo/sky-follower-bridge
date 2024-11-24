@@ -20,6 +20,10 @@ export class XService extends AbstractService {
         ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
         ?.replace("…", "") ??
       "";
+    const originalAvatar = userCell
+      .querySelector('[data-testid^="UserAvatar-Container"]')
+      ?.querySelector("img")
+      ?.getAttribute("src");
 
     return {
       accountName,
@@ -27,6 +31,8 @@ export class XService extends AbstractService {
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
       bskyHandle,
+      originalAvatar,
+      originalProfileLink: `https://x.com/${accountName}`,
     };
   }
 

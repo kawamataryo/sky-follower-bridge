@@ -27,12 +27,16 @@ const demoUser: Props["user"] = {
     Twitter: twitter.com/KawamataRyo
     GitHub: github.com/kawamataryo
     Zenn: zenn.dev/ryo_kawamata`,
-  avatar: "https://avatar.iran.liara.run/public",
+  avatar: "https://i.pravatar.cc/150?u=123",
   matchType: BSKY_USER_MATCH_TYPE.HANDLE,
   isFollowing: false,
   followingUri: "",
   isBlocking: false,
   blockingUri: "",
+  originalAvatar: "https://i.pravatar.cc/150?u=123",
+  originalHandle: "kawamataryo",
+  originalDisplayName: "KawamataRyo",
+  originalProfileLink: "https://x.com/kawamataryo",
 };
 
 const mockAction: Props["clickAction"] = async () => {

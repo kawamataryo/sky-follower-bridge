@@ -70,6 +70,10 @@ export const useRetrieveBskyUsers = () => {
                 followingUri: searchResult.bskyProfile.viewer?.following,
                 isBlocking: !!searchResult.bskyProfile.viewer?.blocking,
                 blockingUri: searchResult.bskyProfile.viewer?.blocking,
+                originalAvatar: userData.originalAvatar,
+                originalHandle: userData.accountName,
+                originalDisplayName: userData.displayName,
+                originalProfileLink: userData.originalProfileLink,
               },
             ];
           });
