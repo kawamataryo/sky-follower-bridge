@@ -23,7 +23,6 @@ export const getStyle = () => {
 const App = () => {
   const {
     initialize,
-    modalRef,
     users,
     loading,
     stopRetrieveLoop,
@@ -31,6 +30,12 @@ const App = () => {
     isBottomReached,
     errorMessage,
   } = useRetrieveBskyUsers();
+
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    stopRetrieveLoop();
+  };
 
   React.useEffect(() => {
     const messageHandler = (
@@ -43,6 +48,7 @@ const App = () => {
       if (Object.values(MESSAGE_NAMES).includes(message.name)) {
         initialize()
           .then(() => {
+            setIsModalOpen(true);
             sendResponse({ hasError: false });
           })
           .catch((e) => {
@@ -72,7 +78,7 @@ const App = () => {
 
   return (
     <>
-      <Modal anchorRef={modalRef} onClose={stopRetrieveLoop}>
+      <Modal open={isModalOpen} onClose={closeModal}>
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">

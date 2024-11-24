@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
-import { useRef } from "react";
+import { useState } from "react";
 import Modal from "./Modal";
-import type { Props as UserCardProps } from "./UserCard";
 
 const meta: Meta<typeof Modal> = {
   title: "Components/Modal",
@@ -10,22 +8,22 @@ const meta: Meta<typeof Modal> = {
 };
 export default meta;
 
-type Story = StoryObj<{ items: UserCardProps["user"][] }>;
+type Story = StoryObj<typeof Modal>;
 
 const DefaultTemplate: Story = {
   render: () => {
-    const modalRef = useRef<HTMLDialogElement>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
       <>
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => modalRef.current?.showModal()}
+          onClick={() => setIsModalOpen(true)}
         >
           open
         </button>
-        <Modal anchorRef={modalRef}>
+        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <p>Modal content</p>
         </Modal>
       </>

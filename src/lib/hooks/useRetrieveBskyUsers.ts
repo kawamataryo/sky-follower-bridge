@@ -45,11 +45,6 @@ export const useRetrieveBskyUsers = () => {
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
 
-  const modalRef = React.useRef<HTMLDialogElement>(null);
-  const showModal = () => {
-    modalRef.current?.showModal();
-  };
-
   const retrieveBskyUsers = React.useCallback(
     async (usersData: CrawledUserInfo[]) => {
       for (const userData of usersData) {
@@ -151,7 +146,6 @@ export const useRetrieveBskyUsers = () => {
     });
     setLoading(true);
     await setUsers([]);
-    showModal();
   }, []);
 
   const restart = React.useCallback(() => {
@@ -173,8 +167,6 @@ export const useRetrieveBskyUsers = () => {
   );
 
   return {
-    modalRef,
-    showModal,
     initialize,
     users,
     loading,

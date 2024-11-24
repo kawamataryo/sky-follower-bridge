@@ -1,14 +1,15 @@
 import type React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export type Props = {
   children: React.ReactNode;
-  anchorRef: React.RefObject<HTMLDialogElement>;
-  open?: boolean;
+  open: boolean;
   onClose?: () => void;
 };
 
-const Modal = ({ children, anchorRef, open = false, onClose }: Props) => {
+const Modal = ({ children, open = false, onClose }: Props) => {
+  const anchorRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
     if (anchorRef.current) {
       anchorRef.current.addEventListener("close", onClose);
@@ -19,7 +20,7 @@ const Modal = ({ children, anchorRef, open = false, onClose }: Props) => {
         anchorRef.current.removeEventListener("close", onClose);
       }
     };
-  }, [anchorRef, onClose]);
+  }, [onClose]);
 
   return (
     <>
