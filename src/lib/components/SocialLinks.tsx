@@ -5,12 +5,12 @@ const SocialLinks = () => {
         href="https://github.com/kawamataryo/sky-follower-bridge"
         target="_blank"
         rel="noreferrer"
-        className="bg-base-100 p-2 rounded-full hover:opacity-80 w-8 h-8"
+        className="bg-base-100 p-2 rounded-full hover:opacity-80"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="currentColor"
         >
@@ -21,12 +21,12 @@ const SocialLinks = () => {
         href="https://bsky.app/profile/kawamataryo.bsky.social"
         target="_blank"
         rel="noreferrer"
-        className="bg-base-100 p-2 rounded-full hover:opacity-80 w-8 h-8"
+        className="bg-base-100 p-2 rounded-full hover:opacity-80"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="currentColor"
         >
@@ -37,12 +37,12 @@ const SocialLinks = () => {
         href="https://twitter.com/KawamataRyo"
         target="_blank"
         rel="noreferrer"
-        className="bg-base-100 p-2 rounded-full hover:opacity-80 w-8 h-8"
+        className="bg-base-100 p-2 rounded-full hover:opacity-80"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="currentColor"
         >

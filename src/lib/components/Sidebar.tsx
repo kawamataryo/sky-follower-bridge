@@ -169,10 +169,9 @@ const Sidebar = ({
           className="w-full"
         >
           <img
-            height={36}
             src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"
             alt="Buy Me a Coffee at ko-fi.com"
-            className="w-[110px] h-auto m-auto"
+            className="w-[120px] h-auto m-auto"
           />
         </a>
         <div className="divider" />
