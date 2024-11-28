@@ -1,4 +1,5 @@
 import React from "react";
+import { match } from "ts-pattern";
 import type { MatchType, MatchTypeFilterValue } from "../../types";
 import {
   ACTION_MODE,
@@ -12,36 +13,30 @@ type Props = {
   detectedCount: number;
   filterValue: MatchTypeFilterValue;
   onChangeFilter: (key: MatchType) => void;
-  actionAll: () => Promise<void>;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
   matchTypeStats: Record<Exclude<MatchType, "none">, number>;
+  importList: () => Promise<void>;
+  followAll: () => Promise<void>;
+  blockAll: () => Promise<void>;
 };
 
 const Sidebar = ({
   detectedCount,
   filterValue,
   onChangeFilter,
-  actionAll,
   actionMode,
   matchTypeStats,
+  importList,
+  followAll,
+  blockAll,
 }: Props) => {
-  const getActionLabel = () => {
-    switch (actionMode) {
-      case ACTION_MODE.FOLLOW:
-        return "Follow All";
-      case ACTION_MODE.BLOCK:
-        return "Block All";
-      case ACTION_MODE.IMPORT_LIST:
-        return "Import List";
-      default:
-        return "";
-    }
-  };
-
   return (
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
       <div className="flex-grow">
-        <div className="flex items-center gap-2">
+        <a
+          href="https://sky-follower-bridge.de"
+          className="flex items-center gap-2"
+        >
           <svg
             className="w-5 h-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +58,7 @@ const Sidebar = ({
             </g>
           </svg>
           <span className="text-2xl font-bold">Sky Follower Bridge</span>
-        </div>
+        </a>
         <div className="divider" />
         <div className="flex items-center gap-2 mb-2">
           <svg
@@ -157,7 +152,17 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
-        <AsyncButton onClick={actionAll} label={getActionLabel()} />
+        {match(actionMode)
+          .with(ACTION_MODE.FOLLOW, () => (
+            <AsyncButton onClick={followAll} label="Follow All" />
+          ))
+          .with(ACTION_MODE.BLOCK, () => (
+            <AsyncButton onClick={blockAll} label="Block All" />
+          ))
+          .with(ACTION_MODE.IMPORT_LIST, () => (
+            <AsyncButton onClick={importList} label="Import List" />
+          ))
+          .otherwise(() => null)}
         <p className="text-xs">
           ⚠️ User detection is not perfect and may include false positives.
         </p>

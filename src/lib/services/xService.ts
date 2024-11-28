@@ -1,5 +1,5 @@
 import { MESSAGE_NAMES } from "~lib/constants";
-import { BSKY_DOMAIN, MESSAGE_NAME_TO_QUERY_PARAM_MAP } from "~lib/constants";
+import { BSKY_DOMAIN } from "~lib/constants";
 import { wait } from "~lib/utils";
 import type { CrawledUserInfo } from "~types";
 import { AbstractService } from "./abstractService";

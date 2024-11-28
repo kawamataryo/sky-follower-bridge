@@ -71,12 +71,8 @@ const App = () => {
     sendToBackground({ name: "openOptionPage" });
   };
 
-  const stopAndShowDetectedUsers = async () => {
+  const stopAndShowDetectedUsers = () => {
     stopRetrieveLoop();
-    await chrome.storage.local.set({
-      users: JSON.stringify(users),
-      listName: listName,
-    });
     openOptionPage();
   };
 

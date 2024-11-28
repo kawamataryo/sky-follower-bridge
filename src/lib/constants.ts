@@ -38,6 +38,7 @@ export const STORAGE_KEYS = {
   BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
   BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,
   DETECTED_BSKY_USERS: `${STORAGE_PREFIX}_detected_bsky_users`,
+  LIST_NAME: `${STORAGE_PREFIX}_list_name`,
 } as const;
 
 export const TARGET_URLS_REGEX = {

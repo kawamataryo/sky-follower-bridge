@@ -10,16 +10,20 @@ const Option = () => {
   const {
     users,
     filteredUsers,
-    listName,
     matchTypeFilter,
     changeMatchTypeFilter,
     handleClickAction,
     actionMode,
-    actionAll,
     matchTypeStats,
+    importList,
+    followAll,
+    blockAll,
   } = useBskyUserManager();
 
-  const { confirm, ConfirmationDialog } = useConfirm({
+  const {
+    confirm: followAllConfirm,
+    ConfirmationDialog: FollowAllConfirmationDialog,
+  } = useConfirm({
     title: "Proceed with Execution?",
     message:
       "User detection is not perfect and may include false positives. Do you still want to proceed?",
@@ -27,13 +31,71 @@ const Option = () => {
     okText: "OK",
   });
 
-  const handleActionAll = async () => {
-    if (!(await confirm())) {
+  const {
+    confirm: importListConfirm,
+    ConfirmationDialog: ImportListConfirmationDialog,
+  } = useConfirm({
+    title: "Proceed with Execution?",
+    message:
+      "Importing a list will create a new list and add all detected users to it. This feature is experimental and may not work as expected. Do you still want to proceed?",
+    cancelText: "Cancel",
+    okText: "OK",
+  });
+
+  const handleFollowAll = async () => {
+    if (!(await followAllConfirm())) {
       return;
     }
+    toast.promise(followAll, {
+      pending: "Processing...",
+      success: {
+        render({ data }) {
+          return <span className="font-bold">Followed {data} users🎉</span>;
+        },
+      },
+    });
+  };
 
-    const result = await actionAll();
-    toast.success(`Followed ${result} users`);
+  const handleBlockAll = async () => {
+    if (!(await followAllConfirm())) {
+      return;
+    }
+    toast.promise(blockAll, {
+      pending: "Processing...",
+      success: {
+        render({ data }) {
+          return <span className="font-bold">Blocked {data} users🎉</span>;
+        },
+      },
+    });
+  };
+
+  const handleImportList = async () => {
+    if (!(await importListConfirm())) {
+      return;
+    }
+    toast.promise(importList, {
+      pending: "Processing...",
+      success: {
+        render({ data }) {
+          return (
+            <>
+              <span className="font-bold">List imported successfully🎉</span>
+              <br />
+              <a href={data} target="_blank" rel="noreferrer" className="link">
+                View Imported List
+              </a>
+            </>
+          );
+        },
+      },
+      error: {
+        render({ data }) {
+          console.log(data);
+          return `Failed to import list: ${data}`;
+        },
+      },
+    });
   };
 
   return (
@@ -44,9 +106,11 @@ const Option = () => {
             detectedCount={users.length}
             filterValue={matchTypeFilter}
             onChangeFilter={changeMatchTypeFilter}
-            actionAll={handleActionAll}
             actionMode={actionMode}
             matchTypeStats={matchTypeStats}
+            importList={handleImportList}
+            followAll={handleFollowAll}
+            blockAll={handleBlockAll}
           />
         </div>
         <div className="flex-1 ml-80 p-6 pt-0 overflow-y-auto">
@@ -72,7 +136,8 @@ const Option = () => {
           autoClose={5000}
           className="text-sm"
         />
-        <ConfirmationDialog />
+        <FollowAllConfirmationDialog />
+        <ImportListConfirmationDialog />
       </div>
     </>
   );

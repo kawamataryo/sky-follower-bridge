@@ -169,4 +169,12 @@ export class BskyClient {
       await this.addUserToList({ userDid, listUri });
     }
   };
+
+  public getMyProfile = async () => {
+    return {
+      pdsUrl: this.agent.pdsUrl,
+      did: this.agent.session.did,
+      handle: this.agent.session.handle,
+    };
+  };
 }

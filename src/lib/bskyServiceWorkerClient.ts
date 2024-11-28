@@ -164,5 +164,19 @@ export class BskyServiceWorkerClient {
     for (const userDid of userDids) {
       await this.addUserToList({ userDid, listUri });
     }
+    const listId = listUri.split("/").pop();
+    return listId;
+  };
+
+  public getMyProfile = async () => {
+    const { result, error } = await sendToBackground({
+      name: "getMyProfile",
+      body: {
+        session: this.session,
+      },
+    });
+    if (error) throw new Error(error.message);
+
+    return result;
   };
 }

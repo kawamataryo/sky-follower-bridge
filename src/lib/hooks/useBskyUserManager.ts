@@ -125,19 +125,22 @@ export const useBskyUserManager = () => {
     });
   }, [users, matchTypeFilter, actionMode]);
 
-  const actionAll = React.useCallback(async () => {
+  // Import list
+  const importList = React.useCallback(async () => {
+    if (!bskyClient.current) return;
+    const listUri = await bskyClient.current.createListAndAddUsers({
+      name: listName,
+      description: "List imported via Sky Follower Bridge",
+      userDids: filteredUsers.map((user) => user.did),
+    });
+    const myProfile = await bskyClient.current.getMyProfile();
+    return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
+  }, [filteredUsers, listName]);
+
+  // Follow All
+  const followAll = React.useCallback(async () => {
     if (!bskyClient.current) return;
     let actionCount = 0;
-
-    if (actionMode === ACTION_MODE.IMPORT_LIST) {
-      const userDids = filteredUsers.map((user) => user.did);
-      await bskyClient.current.createListAndAddUsers({
-        name: listName,
-        description: "List imported via Sky Follower Bridge",
-        userDids,
-      });
-      return;
-    }
 
     for (const user of filteredUsers) {
       let resultUri: string | null = null;
@@ -163,8 +166,17 @@ export const useBskyUserManager = () => {
         await wait(300);
         actionCount++;
       }
+    }
+    return actionCount;
+  }, [filteredUsers, actionMode, setUsers]);
 
-      // block
+  // Block All
+  const blockAll = React.useCallback(async () => {
+    if (!bskyClient.current) return;
+    // block
+    let actionCount = 0;
+    for (const user of filteredUsers) {
+      let resultUri: string | null = null;
       if (actionMode === ACTION_MODE.BLOCK) {
         if (user.isBlocking) {
           continue;
@@ -188,7 +200,7 @@ export const useBskyUserManager = () => {
       }
     }
     return actionCount;
-  }, [filteredUsers, actionMode, setUsers, listName]);
+  }, [filteredUsers, actionMode, setUsers]);
 
   React.useEffect(() => {
     chrome.storage.local.get(
@@ -227,7 +239,9 @@ export const useBskyUserManager = () => {
     matchTypeFilter,
     changeMatchTypeFilter,
     filteredUsers,
-    actionAll,
     matchTypeStats,
+    importList,
+    followAll,
+    blockAll,
   };
 };

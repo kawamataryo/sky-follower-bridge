@@ -31,8 +31,14 @@ export const Default: Story = {
       [BSKY_USER_MATCH_TYPE.DESCRIPTION]: 10,
       [BSKY_USER_MATCH_TYPE.FOLLOWING]: 10,
     },
-    actionAll: async () => {
-      console.log("actionAll");
+    importList: async () => {
+      console.log("importList");
+    },
+    followAll: async () => {
+      console.log("followAll");
+    },
+    blockAll: async () => {
+      console.log("blockAll");
     },
     actionMode: ACTION_MODE.FOLLOW,
   },
@@ -56,8 +62,14 @@ export const NoDetections: Story = {
       [BSKY_USER_MATCH_TYPE.DESCRIPTION]: 0,
       [BSKY_USER_MATCH_TYPE.FOLLOWING]: 0,
     },
-    actionAll: async () => {
-      console.log("actionAll");
+    importList: async () => {
+      console.log("importList");
+    },
+    followAll: async () => {
+      console.log("followAll");
+    },
+    blockAll: async () => {
+      console.log("blockAll");
     },
     actionMode: ACTION_MODE.FOLLOW,
   },

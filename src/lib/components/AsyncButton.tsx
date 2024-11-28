@@ -3,9 +3,10 @@ import React from "react";
 type Props = {
   onClick: () => Promise<void>;
   label: string;
+  className?: string;
 };
 
-const AsyncButton = ({ onClick, label }: Props) => {
+const AsyncButton = ({ onClick, label, className }: Props) => {
   const [loading, setLoading] = React.useState(false);
 
   const handleClick = async () => {
@@ -17,7 +18,7 @@ const AsyncButton = ({ onClick, label }: Props) => {
   return (
     <button
       type="button"
-      className="btn btn-primary btn-wide btn-sm mb-2"
+      className={`btn btn-primary btn-wide btn-sm mb-2 ${className}`}
       onClick={handleClick}
       disabled={loading}
     >

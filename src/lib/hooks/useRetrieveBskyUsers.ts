@@ -46,6 +46,15 @@ export const useRetrieveBskyUsers = () => {
     },
     (v) => (v === undefined ? [] : v),
   );
+  const [listName, setListName] = useStorage<string>(
+    {
+      key: STORAGE_KEYS.LIST_NAME,
+      instance: new Storage({
+        area: "local",
+      }),
+    },
+    (v) => (v === undefined ? "" : v),
+  );
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [isBottomReached, setIsBottomReached] = React.useState(false);
@@ -54,7 +63,6 @@ export const useRetrieveBskyUsers = () => {
     session: AtpSessionData;
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
-  const [listName, setListName] = React.useState<string>("");
 
   const retrieveBskyUsers = React.useCallback(
     async (usersData: CrawledUserInfo[]) => {
@@ -161,8 +169,7 @@ export const useRetrieveBskyUsers = () => {
 
     bskyClient.current = new BskyServiceWorkerClient(session);
 
-    const listName = scrapeListNameFromPage();
-    setListName(listName);
+    setListName(scrapeListNameFromPage());
 
     startRetrieveLoop(messageName).catch((e) => {
       console.error(e);
