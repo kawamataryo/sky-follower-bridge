@@ -93,6 +93,10 @@ function IndexPopup() {
       setErrorMessage("Error: Please enter your identifier.");
       return false;
     }
+    if (isShowAuthFactorTokenInput && !authFactorToken) {
+      setErrorMessage("Error: Please enter your auth factor token.");
+      return false;
+    }
     return true;
   };
 
