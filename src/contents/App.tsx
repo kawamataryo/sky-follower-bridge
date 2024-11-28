@@ -29,6 +29,7 @@ const App = () => {
     restart,
     isBottomReached,
     errorMessage,
+    listName,
   } = useRetrieveBskyUsers();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -72,7 +73,10 @@ const App = () => {
 
   const stopAndShowDetectedUsers = async () => {
     stopRetrieveLoop();
-    await chrome.storage.local.set({ users: JSON.stringify(users) });
+    await chrome.storage.local.set({
+      users: JSON.stringify(users),
+      listName: listName,
+    });
     openOptionPage();
   };
 

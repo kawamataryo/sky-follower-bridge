@@ -114,4 +114,59 @@ export class BskyClient {
       rkey,
     });
   };
+
+  public createList = async ({
+    name,
+    description,
+  }: {
+    name: string;
+    description: string;
+  }) => {
+    const result = await this.agent.com.atproto.repo.createRecord({
+      repo: this.me.did,
+      collection: "app.bsky.graph.list",
+      record: {
+        $type: "app.bsky.graph.list",
+        purpose: "app.bsky.graph.defs#curatelist",
+        name,
+        description,
+        createdAt: new Date().toISOString(),
+      },
+    });
+    return result.data.uri;
+  };
+
+  public addUserToList = async ({
+    userDid,
+    listUri,
+  }: {
+    userDid: string;
+    listUri: string;
+  }) => {
+    return await this.agent.com.atproto.repo.createRecord({
+      repo: this.me.did,
+      collection: "app.bsky.graph.listitem",
+      record: {
+        $type: "app.bsky.graph.listitem",
+        subject: userDid,
+        list: listUri,
+        createdAt: new Date().toISOString(),
+      },
+    });
+  };
+
+  public createListAndAddUsers = async ({
+    name,
+    description,
+    userDids,
+  }: {
+    name: string;
+    description: string;
+    userDids: string[];
+  }) => {
+    const listUri = await this.createList({ name, description });
+    for (const userDid of userDids) {
+      await this.addUserToList({ userDid, listUri });
+    }
+  };
 }

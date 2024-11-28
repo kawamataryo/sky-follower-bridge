@@ -25,6 +25,19 @@ const Sidebar = ({
   actionMode,
   matchTypeStats,
 }: Props) => {
+  const getActionLabel = () => {
+    switch (actionMode) {
+      case ACTION_MODE.FOLLOW:
+        return "Follow All";
+      case ACTION_MODE.BLOCK:
+        return "Block All";
+      case ACTION_MODE.IMPORT_LIST:
+        return "Import List";
+      default:
+        return "";
+    }
+  };
+
   return (
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
       <div className="flex-grow">
@@ -144,10 +157,7 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
-        <AsyncButton
-          onClick={actionAll}
-          label={actionMode === ACTION_MODE.FOLLOW ? "Follow All" : "Block All"}
-        />
+        <AsyncButton onClick={actionAll} label={getActionLabel()} />
         <p className="text-xs">
           ⚠️ User detection is not perfect and may include false positives.
         </p>

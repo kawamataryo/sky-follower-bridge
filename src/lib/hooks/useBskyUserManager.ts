@@ -21,6 +21,14 @@ export const useBskyUserManager = () => {
     },
     (v) => (v === undefined ? [] : v),
   );
+  const [listName, setListName] = React.useState<string>("");
+  React.useEffect(() => {
+    chrome.storage.local.get("listName", (result) => {
+      const name = result.listName || "Imported List from X";
+      setListName(name);
+    });
+  }, []);
+
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [actionMode, setActionMode] = React.useState<
     (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
@@ -121,6 +129,19 @@ export const useBskyUserManager = () => {
     if (!bskyClient.current) return;
     let actionCount = 0;
 
+    if (actionMode === ACTION_MODE.IMPORT_LIST) {
+      const userDids = filteredUsers.map((user) => user.did);
+      await chrome.runtime.sendMessage({
+        name: "createListAndAddUsers",
+        body: {
+          name: listName,
+          description: "List imported via Sky Follower Bridge",
+          userDids,
+        },
+      });
+      return;
+    }
+
     for (const user of filteredUsers) {
       let resultUri: string | null = null;
       // follow
@@ -170,7 +191,7 @@ export const useBskyUserManager = () => {
       }
     }
     return actionCount;
-  }, [filteredUsers, actionMode, setUsers]);
+  }, [filteredUsers, actionMode, setUsers, listName]);
 
   React.useEffect(() => {
     chrome.storage.local.get(
@@ -204,6 +225,7 @@ export const useBskyUserManager = () => {
   return {
     handleClickAction,
     users,
+    listName,
     actionMode,
     matchTypeFilter,
     changeMatchTypeFilter,

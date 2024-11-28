@@ -25,6 +25,16 @@ const getService = (messageName: string): AbstractService => {
     .otherwise(() => new XService(messageName));
 };
 
+const scrapeListNameFromPage = (): string => {
+  const listNameElement = document.querySelector(
+    'div[aria-label="Timeline: List"] span',
+  );
+  if (listNameElement) {
+    return listNameElement.textContent.trim();
+  }
+  return "Imported List from X";
+};
+
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [users, setUsers] = useStorage<BskyUser[]>(
@@ -44,6 +54,7 @@ export const useRetrieveBskyUsers = () => {
     session: AtpSessionData;
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
+  const [listName, setListName] = React.useState<string>("");
 
   const retrieveBskyUsers = React.useCallback(
     async (usersData: CrawledUserInfo[]) => {
@@ -120,6 +131,13 @@ export const useRetrieveBskyUsers = () => {
     [retrieveBskyUsers, isBottomReached],
   );
 
+  React.useEffect(() => {
+    chrome.storage.local.set({
+      users: JSON.stringify(users),
+      listName: listName,
+    });
+  }, [users, listName]);
+
   const stopRetrieveLoop = React.useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -142,6 +160,9 @@ export const useRetrieveBskyUsers = () => {
     });
 
     bskyClient.current = new BskyServiceWorkerClient(session);
+
+    const listName = scrapeListNameFromPage();
+    setListName(listName);
 
     startRetrieveLoop(messageName).catch((e) => {
       console.error(e);
@@ -173,6 +194,7 @@ export const useRetrieveBskyUsers = () => {
   return {
     initialize,
     users,
+    listName,
     loading,
     errorMessage,
     isRateLimitError,

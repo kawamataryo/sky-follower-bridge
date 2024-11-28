@@ -110,4 +110,59 @@ export class BskyServiceWorkerClient {
 
     return result;
   };
+
+  public createList = async ({
+    name,
+    description,
+  }: {
+    name: string;
+    description: string;
+  }) => {
+    const { uri, error } = await sendToBackground({
+      name: "createList",
+      body: {
+        session: this.session,
+        name,
+        description,
+      },
+    });
+    if (error) throw new Error(error.message);
+
+    return uri;
+  };
+
+  public addUserToList = async ({
+    userDid,
+    listUri,
+  }: {
+    userDid: string;
+    listUri: string;
+  }) => {
+    const { result, error } = await sendToBackground({
+      name: "addUserToList",
+      body: {
+        session: this.session,
+        userDid,
+        listUri,
+      },
+    });
+    if (error) throw new Error(error.message);
+
+    return result;
+  };
+
+  public createListAndAddUsers = async ({
+    name,
+    description,
+    userDids,
+  }: {
+    name: string;
+    description: string;
+    userDids: string[];
+  }) => {
+    const listUri = await this.createList({ name, description });
+    for (const userDid of userDids) {
+      await this.addUserToList({ userDid, listUri });
+    }
+  };
 }
