@@ -14,7 +14,7 @@ hero:
       text: Troubleshooting
       link: /troubleshooting
   image:
-    src: /images/logo.png
+    src: /images/logo.webp
     alt: Sky Follower Bridge Cover Image
 
 features:

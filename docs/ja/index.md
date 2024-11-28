@@ -13,7 +13,7 @@ hero:
       text: トラブルシューティング
       link: /ja/troubleshooting
   image:
-    src: /images/logo.png
+    src: /images/logo.webp
     alt: Sky Follow Bridge cover image
 
 features:
