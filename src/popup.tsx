@@ -46,15 +46,19 @@ function IndexPopup() {
     await chrome.tabs.reload(tabId);
   };
 
-  const saveCredentialsToStorage = () => {
-    chrome.storage.local.set({
+  const saveCredentialsToStorage = async () => {
+    await chrome.storage.local.set({
       [STORAGE_KEYS.BSKY_USER_ID]: identifier,
       [STORAGE_KEYS.BSKY_PASSWORD]: password,
     });
   };
 
-  const saveShowAuthFactorTokenInputToStorage = (value: boolean) => {
-    chrome.storage.local.set({
+  const clearPasswordFromStorage = async () => {
+    await chrome.storage.local.remove([STORAGE_KEYS.BSKY_PASSWORD]);
+  };
+
+  const saveShowAuthFactorTokenInputToStorage = async (value: boolean) => {
+    await chrome.storage.local.set({
       [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: value,
     });
   };
@@ -139,6 +143,7 @@ function IndexPopup() {
     const formattedIdentifier = (
       identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
     ).replace(/^@/, "");
+
     try {
       const { session, error } = await sendToBackground({
         name: "login",
@@ -151,22 +156,23 @@ function IndexPopup() {
       if (error) {
         if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
           setIsShowAuthFactorTokenInput(true);
-          saveShowAuthFactorTokenInputToStorage(true);
+          await saveShowAuthFactorTokenInputToStorage(true);
         } else if (error.message.includes(RATE_LIMIT_ERROR_MESSAGE)) {
           setErrorMessage(error.message, DOCUMENT_LINK.RATE_LIMIT_ERROR);
         } else {
           setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
         }
-      } else {
-        await chrome.storage.local.set({
-          [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
-        });
-        await sendToContentScript({
-          name: messageName,
-        });
-        saveShowAuthFactorTokenInputToStorage(false);
-        window.close();
+        return;
       }
+      await chrome.storage.local.set({
+        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
+      });
+      await clearPasswordFromStorage();
+      await sendToContentScript({
+        name: messageName,
+      });
+      await saveShowAuthFactorTokenInputToStorage(false);
+      window.close();
     } catch (e) {
       if (
         e.message?.includes("Could not establish connection") &&
