@@ -13,7 +13,7 @@ hero:
       text: Troubleshooting
       link: /zh/troubleshooting
   image:
-    src: /images/logo.png
+    src: /images/logo.webp
     alt: Sky Follower Bridge 封面图片
 
 features:

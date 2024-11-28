@@ -34,7 +34,7 @@ export const isSimilarUser = (
     ) {
       return {
         isSimilar: true,
-        type: BSKY_USER_MATCH_TYPE.HANDLE,
+        type: BSKY_USER_MATCH_TYPE.DESCRIPTION,
       };
     }
   }
@@ -72,22 +72,6 @@ export const isSimilarUser = (
     return {
       isSimilar: true,
       type: BSKY_USER_MATCH_TYPE.DISPLAY_NAME,
-    };
-  }
-
-  if (
-    bskyProfile.description
-      ?.toLocaleLowerCase()
-      .includes(`@${lowerCaseNames.accountName}`) &&
-    !["pfp ", "pfp: ", "pfp by "].some((t) =>
-      bskyProfile.description
-        .toLocaleLowerCase()
-        .includes(`${t}@${lowerCaseNames.accountName}`),
-    )
-  ) {
-    return {
-      isSimilar: true,
-      type: BSKY_USER_MATCH_TYPE.DESCRIPTION,
     };
   }
 

@@ -88,6 +88,16 @@ Site permissions should be like below:
 
 ## Scanning Issues
 
+### View Detected Users button does not work
+
+Due to some reason, the View Detected Users button may not work.
+
+**Solution:**
+1. Right-click the extension icon and select "Options"
+2. The results page will be displayed
+
+<img src="/images/click-option.png" alt="click option" width="500"/>
+
 ### Scan Stops Early
 
 Scanning stops before reaching the bottom of the page

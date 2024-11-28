@@ -85,6 +85,16 @@ As permissões do site devem ser como abaixo:
 
 ## Problemas de Varredura
 
+### O botão View Detected Users não funciona
+
+Por algum motivo, o botão View Detected Users pode não funcionar.
+
+**Solução:**
+1. Clique com o botão direito no ícone da extensão e selecione "Opções"
+2. A página de resultados será exibida
+
+<img src="/images/click-option.png" alt="clicar em opção" width="500"/>
+
 ### Varredura Para Cedo
 
 A varredura para antes de chegar ao final da página

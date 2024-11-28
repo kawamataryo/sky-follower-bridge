@@ -47,7 +47,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 
 ## 🚨 Limitations
 
-- User search may fail due to late limit in Bluesky's API. In this case, please wait for 2 to 3 minutes and execute the search again.
+- User search may fail due to rate limit in Bluesky's API. In this case, please wait for 2 to 3 minutes and execute the search again.
 
 ## Development
 

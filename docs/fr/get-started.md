@@ -4,7 +4,6 @@ Sky Follower Bridge vous aide à trouver et suivre vos connexions 𝕏 (Twitter)
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/dfMK07PJeL4?si=SDC7P8basmoOOdjw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<p style="color: gray; font-size: 0.8em; line-height: 1.4;">Cette vidéo démontre la version Edge. La dernière version de Chrome et les versions récentes de Firefox peuvent se comporter différemment. Un tutoriel vidéo pour Chrome arrive bientôt.</p>
 
 ## Installation
 
@@ -16,6 +15,10 @@ Sky Follower Bridge est disponible sur :
 
 ::: tip
 Nous recommandons d'utiliser la version du Chrome Web Store car elle est toujours à jour. Les versions des autres magasins peuvent être en retard dans les mises à jour.
+:::
+
+::: warning
+Sky Follower Bridge n'est disponible que pour les navigateurs de bureau. Les navigateurs mobiles ne sont pas supportés.
 :::
 
 ## Utilisation

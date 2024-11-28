@@ -13,7 +13,7 @@ hero:
       text: Troubleshooting
       link: /pt/troubleshooting
   image:
-    src: /images/logo.png
+    src: /images/logo.webp
     alt: Imagem de Capa do Sky Follower Bridge
 
 features:

@@ -1,7 +1,7 @@
 {
   "name": "sky-follower-bridge",
   "displayName": "Sky Follower Bridge",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "Instantly find and follow the same users from your Twitter follows on Bluesky.",
   "author": "kawamataryou",
   "scripts": {
@@ -26,34 +26,40 @@
     "@changesets/cli": "^2.27.1",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.12.0",
+    "@vitejs/plugin-react": "^4.3.3",
     "framer-motion": "^11.11.11",
     "plasmo": "^0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^10.0.6",
     "ts-pattern": "^5.0.6",
     "vanjs-core": "^1.2.8",
     "vitepress": "^1.5.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
+    "@chromatic-com/storybook": "^3.2.2",
     "@plasmohq/prettier-plugin-sort-imports": "4.0.1",
-    "@storybook/addon-essentials": "^7.6.12",
-    "@storybook/addon-interactions": "^7.6.12",
-    "@storybook/addon-links": "^7.6.12",
-    "@storybook/addon-onboarding": "^1.0.11",
-    "@storybook/blocks": "^7.6.12",
-    "@storybook/react": "^7.6.12",
-    "@storybook/react-vite": "^7.6.12",
-    "@storybook/test": "^7.6.12",
+    "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-interactions": "^8.4.5",
+    "@storybook/addon-links": "^8.4.5",
+    "@storybook/addon-onboarding": "^8.4.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/react": "^8.4.5",
+    "@storybook/react-vite": "^8.4.5",
+    "@storybook/test": "^8.4.5",
     "@types/chrome": "0.0.260",
     "@types/node": "20.11.16",
     "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
     "autoprefixer": "^10.4.17",
-    "daisyui": "^4.6.1",
+    "daisyui": "^4.12.14",
+    "lefthook": "^1.8.4",
     "postcss": "^8.4.33",
+    "postcss-nesting": "^13.0.1",
     "prettier": "3.2.4",
-    "storybook": "^7.6.12",
+    "storybook": "^8.4.5",
+    "storybook-dark-mode": "^4.0.2",
     "tailwindcss": "^3.4.1",
     "typescript": "5.3.3"
   },
@@ -77,8 +83,5 @@
       }
     },
     "web_accessible_resources": []
-  },
-  "volta": {
-    "node": "16.20.0"
   }
 }

@@ -13,7 +13,7 @@ hero:
       text: Risoluzione dei problemi
       link: /it/troubleshooting
   image:
-    src: /images/logo.png
+    src: /images/logo.webp
     alt: Immagine di copertina di Sky Follower Bridge
 
 features:

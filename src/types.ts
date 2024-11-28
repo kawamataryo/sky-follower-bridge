@@ -16,6 +16,10 @@ export type BskyUser = {
   followingUri: string | null;
   isBlocking: boolean;
   blockingUri: string | null;
+  originalAvatar: string;
+  originalHandle: string;
+  originalDisplayName: string;
+  originalProfileLink: string;
 };
 
 export type MatchTypeFilterValue = {
@@ -31,4 +35,6 @@ export type CrawledUserInfo = {
   accountNameRemoveUnderscore: string;
   accountNameReplaceUnderscore: string;
   bskyHandle: string;
+  originalAvatar: string;
+  originalProfileLink: string;
 };

@@ -1,20 +1,11 @@
 import { MESSAGE_NAMES } from "~lib/constants";
 import { BSKY_DOMAIN, MESSAGE_NAME_TO_QUERY_PARAM_MAP } from "~lib/constants";
 import { wait } from "~lib/utils";
-import type { CrawledUserInfo, MessageName } from "~types";
+import type { CrawledUserInfo } from "~types";
+import { AbstractService } from "./abstractService";
 
-export class XService {
-  // 対象のdomを取得する処理
-  messageName: MessageName;
-  crawledUsers: Set<string>;
-
-  constructor(messageName: string) {
-    // TODO: add type check
-    this.messageName = messageName as MessageName;
-    this.crawledUsers = new Set();
-  }
-
-  private extractUserData(userCell: Element): CrawledUserInfo {
+export class XService extends AbstractService {
+  extractUserData(userCell: Element): CrawledUserInfo {
     const anchors = Array.from(userCell.querySelectorAll("a"));
     const [avatarEl, displayNameEl] = anchors;
     const accountName = avatarEl?.getAttribute("href")?.replace("/", "");
@@ -29,6 +20,10 @@ export class XService {
         ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
         ?.replace("…", "") ??
       "";
+    const originalAvatar = userCell
+      .querySelector('[data-testid^="UserAvatar-Container"]')
+      ?.querySelector("img")
+      ?.getAttribute("src");
 
     return {
       accountName,
@@ -36,26 +31,9 @@ export class XService {
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
       bskyHandle,
+      originalAvatar,
+      originalProfileLink: `https://x.com/${accountName}`,
     };
-  }
-
-  getCrawledUsers(): CrawledUserInfo[] {
-    const userCells = Array.from(
-      document.querySelectorAll(
-        MESSAGE_NAME_TO_QUERY_PARAM_MAP[this.messageName],
-      ),
-    );
-
-    const users = userCells
-      .map((userCell) => this.extractUserData(userCell))
-      .filter((user) => !this.crawledUsers.has(user.accountName));
-
-    this.crawledUsers = new Set([
-      ...this.crawledUsers,
-      ...users.map((user) => user.accountName),
-    ]);
-
-    return users;
   }
 
   async performScrollAndCheckEnd(): Promise<boolean> {

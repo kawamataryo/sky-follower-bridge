@@ -1,65 +1,30 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
-import { useRef } from "react";
-import BlueskyIconSvg from "./Icons/BlueskyIconSvg";
+import { useState } from "react";
 import Modal from "./Modal";
-import UserCard, { type Props as UserCardProps } from "./UserCard";
 
-const meta: Meta<typeof UserCard> = {
-  title: "CSUI/Modal",
-  component: UserCard,
+const meta: Meta<typeof Modal> = {
+  title: "Components/Modal",
+  component: Modal,
 };
 export default meta;
 
-type Story = StoryObj<{ items: UserCardProps["user"][] }>;
+type Story = StoryObj<typeof Modal>;
 
 const DefaultTemplate: Story = {
   render: () => {
-    const modalRef = useRef<HTMLDialogElement>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
       <>
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => modalRef.current?.showModal()}
+          onClick={() => setIsModalOpen(true)}
         >
           open
         </button>
-        <Modal anchorRef={modalRef}>
+        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <p>Modal content</p>
-        </Modal>
-      </>
-    );
-  },
-};
-
-const ShowModalTemplate: Story = {
-  render: () => {
-    const modalRef = useRef<HTMLDialogElement>(null);
-
-    return (
-      <>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => modalRef.current?.showModal()}
-        >
-          open
-        </button>
-        <Modal anchorRef={modalRef} open>
-          <div className="flex justify-between">
-            <h1 className="text-xl font-bold">🔎 Find Bluesky Users</h1>
-            <div className="text-xl">34 / 160</div>
-          </div>
-          <div className="flex gap-1 items-center mt-3">
-            <p className="">Match type: </p>
-            <div className="badge badge-info">Same handle name</div>
-            <div className="badge badge-warning">Same display name</div>
-            <div className="badge badge-secondary">
-              Included handle name in description
-            </div>
-          </div>
         </Modal>
       </>
     );
@@ -68,8 +33,4 @@ const ShowModalTemplate: Story = {
 
 export const Default = {
   ...DefaultTemplate,
-};
-
-export const ShowModal = {
-  ...ShowModalTemplate,
 };

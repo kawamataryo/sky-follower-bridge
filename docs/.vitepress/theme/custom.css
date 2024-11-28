@@ -11,8 +11,15 @@
 }
 
 .VPImage.image-src {
-  max-width: 180px;
-  max-height: 180px;
+  max-width: 130px;
+  max-height: 130px;
+}
+
+@media (min-width: 640px) {
+  .VPImage.image-src {
+    max-width: 170px;
+    max-height: 170px;
+  }
 }
 
 @media (min-width: 640px) {

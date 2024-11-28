@@ -26,7 +26,7 @@ export default defineConfig({
   description: "Sky Follower Bridge is a Chrome extension that allows you to follow users on Bluesky from your own account.",
   themeConfig: {
     logo: {
-      src: "/images/logo.png",
+      src: "/images/logo.webp",
       alt: "Sky Follower Bridge Logo",
     },
 
@@ -48,6 +48,10 @@ export default defineConfig({
       {
         icon: "x",
         link: "https://x.com/KawamataRyo",
+      },
+      {
+        icon: "kofi",
+        link: "https://ko-fi.com/kawamataryo",
       },
     ],
 
@@ -136,6 +140,18 @@ export default defineConfig({
           { text: "Início", link: "/" },
           { text: "Introdução", link: "/pt/get-started" },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
+        ],
+      }
+    },
+    es: {
+      label: "Español",
+      lang: "es",
+      link: "/es/",
+      themeConfig: {
+        nav: [
+          { text: "Inicio", link: "/" },
+          { text: "Comenzando", link: "/es/get-started" },
+          { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
         ],
       }
     }

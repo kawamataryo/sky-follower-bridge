@@ -4,7 +4,7 @@ import { ACTION_MODE, BSKY_USER_MATCH_TYPE } from "../constants";
 import UserCard, { type Props } from "./UserCard";
 
 const meta: Meta<typeof UserCard> = {
-  title: "CSUI/UserCard",
+  title: "Components/UserCard",
   component: UserCard,
 };
 export default meta;
@@ -27,13 +27,16 @@ const demoUser: Props["user"] = {
     Twitter: twitter.com/KawamataRyo
     GitHub: github.com/kawamataryo
     Zenn: zenn.dev/ryo_kawamata`,
-  avatar:
-    "https://cdn.bsky.app/img/avatar/plain/did:plc:hcp53er6pefwijpdceo5x4bp/bafkreibm42fe6ionzntt2oryzv2coulgiwh5ejman4vf53bpkdtotszpp4@jpeg",
+  avatar: "https://i.pravatar.cc/150?u=123",
   matchType: BSKY_USER_MATCH_TYPE.HANDLE,
   isFollowing: false,
   followingUri: "",
   isBlocking: false,
   blockingUri: "",
+  originalAvatar: "https://i.pravatar.cc/150?u=123",
+  originalHandle: "kawamataryo",
+  originalDisplayName: "KawamataRyo",
+  originalProfileLink: "https://x.com/kawamataryo",
 };
 
 const mockAction: Props["clickAction"] = async () => {

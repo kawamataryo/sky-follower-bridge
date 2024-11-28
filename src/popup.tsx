@@ -1,5 +1,6 @@
 import { type FormEvent, useCallback, useEffect, useState } from "react";
 import { P, match } from "ts-pattern";
+import packageJson from "../package.json";
 
 import "./style.css";
 
@@ -213,7 +214,8 @@ function IndexPopup() {
             <path d="M40 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8ZM8 44a4 4 0 1 0 0-8a4 4 0 0 0 0 8Z" />
           </g>
         </svg>
-        Sky Follower Bridge
+        Sky Follower Bridge{" "}
+        <span className="text-sm self-end">v{packageJson.version}</span>
       </h1>
       <form onSubmit={searchBskyUser} className="mt-5">
         <label className="w-full block" htmlFor="identifier">

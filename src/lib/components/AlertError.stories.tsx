@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import AlertError from "./AlertError";
 
 const meta: Meta<typeof AlertError> = {
-  title: "CSUI/AlertError",
+  title: "Components/AlertError",
   component: AlertError,
 };
 export default meta;

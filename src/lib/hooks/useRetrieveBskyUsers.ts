@@ -2,11 +2,28 @@ import type { AtpSessionData } from "@atproto/api";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
+import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import { type MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
+import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
-import { XService } from "~lib/services/x";
-import type { BskyUser, CrawledUserInfo } from "~types";
+import type { AbstractService } from "~lib/services/abstractService";
+import { XService } from "~lib/services/xService";
+import type { BskyUser, CrawledUserInfo, MessageName } from "~types";
+
+const getService = (messageName: string): AbstractService => {
+  return match(messageName)
+    .with(
+      P.when((name) =>
+        [
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE,
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
+          MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE,
+        ].includes(name as MessageName),
+      ),
+      () => new XService(messageName),
+    )
+    .otherwise(() => new XService(messageName));
+};
 
 const scrapeListNameFromPage = (): string => {
   const listNameElement = document.querySelector(
@@ -39,11 +56,6 @@ export const useRetrieveBskyUsers = () => {
   }>(null);
   const [listName, setListName] = React.useState<string>("");
 
-  const modalRef = React.useRef<HTMLDialogElement>(null);
-  const showModal = () => {
-    modalRef.current?.showModal();
-  };
-
   const retrieveBskyUsers = React.useCallback(
     async (usersData: CrawledUserInfo[]) => {
       for (const userData of usersData) {
@@ -69,6 +81,10 @@ export const useRetrieveBskyUsers = () => {
                 followingUri: searchResult.bskyProfile.viewer?.following,
                 isBlocking: !!searchResult.bskyProfile.viewer?.blocking,
                 blockingUri: searchResult.bskyProfile.viewer?.blocking,
+                originalAvatar: userData.originalAvatar,
+                originalHandle: userData.accountName,
+                originalDisplayName: userData.displayName,
+                originalProfileLink: userData.originalProfileLink,
               },
             ];
           });
@@ -86,7 +102,7 @@ export const useRetrieveBskyUsers = () => {
 
       let index = 0;
 
-      const xService = new XService(messageName);
+      const service = getService(messageName);
 
       // loop until we get to the bottom
       while (!isBottomReached) {
@@ -94,10 +110,10 @@ export const useRetrieveBskyUsers = () => {
           break;
         }
 
-        const data = xService.getCrawledUsers();
+        const data = service.getCrawledUsers();
         await retrieveBskyUsers(data);
 
-        const isEnd = await xService.performScrollAndCheckEnd();
+        const isEnd = await service.performScrollAndCheckEnd();
 
         if (isEnd) {
           setIsBottomReached(true);
@@ -155,7 +171,6 @@ export const useRetrieveBskyUsers = () => {
     });
     setLoading(true);
     await setUsers([]);
-    showModal();
   }, []);
 
   const restart = React.useCallback(() => {
@@ -177,8 +192,6 @@ export const useRetrieveBskyUsers = () => {
   );
 
   return {
-    modalRef,
-    showModal,
     initialize,
     users,
     listName,
