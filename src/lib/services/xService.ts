@@ -44,7 +44,7 @@ export class XService extends AbstractService {
       ? (document.querySelector('div[data-viewportview="true"]') as HTMLElement)
       : document.documentElement;
 
-    const initialScrollHeight = scrollTarget.scrollHeight;
+    const initialScrollHeight = scrollTarget?.scrollHeight;
     scrollTarget.scrollTop += initialScrollHeight;
 
     await wait(3000);

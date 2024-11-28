@@ -1,11 +1,13 @@
 import cssText from "data-text:~style.content.css";
 import { sendToBackground } from "@plasmohq/messaging";
+import { Storage } from "@plasmohq/storage";
+import { useStorage } from "@plasmohq/storage/hook";
 import type { PlasmoCSConfig } from "plasmo";
 import React from "react";
 import AlertError from "~lib/components/AlertError";
 import LoadingCards from "~lib/components/LoadingCards";
 import Modal from "~lib/components/Modal";
-import { MESSAGE_NAMES } from "~lib/constants";
+import { MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { useRetrieveBskyUsers } from "~lib/hooks/useRetrieveBskyUsers";
 
 export const config: PlasmoCSConfig = {
@@ -29,7 +31,6 @@ const App = () => {
     restart,
     isBottomReached,
     errorMessage,
-    listName,
   } = useRetrieveBskyUsers();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -67,13 +68,25 @@ const App = () => {
     };
   }, [initialize]);
 
+  const [_, setKey] = useStorage<string>(
+    {
+      key: STORAGE_KEYS.RENDER_KEY,
+      instance: new Storage({
+        area: "local",
+      }),
+    },
+    (v) => (v === undefined ? "" : v),
+  );
+
   const openOptionPage = () => {
     sendToBackground({ name: "openOptionPage" });
+    // force re-render option page
+    setKey(Date.now().toString());
   };
 
   const stopAndShowDetectedUsers = () => {
-    stopRetrieveLoop();
     openOptionPage();
+    stopRetrieveLoop();
   };
 
   return (

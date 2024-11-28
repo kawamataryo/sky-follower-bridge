@@ -202,6 +202,17 @@ export const useBskyUserManager = () => {
     return actionCount;
   }, [filteredUsers, actionMode, setUsers]);
 
+  const [key] = useStorage<string>(
+    {
+      key: STORAGE_KEYS.RENDER_KEY,
+      instance: new Storage({
+        area: "local",
+      }),
+    },
+    (v) => (v === undefined ? "" : v),
+  );
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: force re-render option page
   React.useEffect(() => {
     chrome.storage.local.get(
       [STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME],
@@ -215,7 +226,7 @@ export const useBskyUserManager = () => {
         );
       },
     );
-  }, []);
+  }, [key]);
 
   const matchTypeStats = React.useMemo(() => {
     return Object.keys(matchTypeFilter).reduce(
