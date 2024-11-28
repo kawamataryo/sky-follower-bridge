@@ -26,7 +26,7 @@ export default defineConfig({
   description: "Sky Follower Bridge is a Chrome extension that allows you to follow users on Bluesky from your own account.",
   themeConfig: {
     logo: {
-      src: "/images/logo.png",
+      src: "/images/logo.webp",
       alt: "Sky Follower Bridge Logo",
     },
 
