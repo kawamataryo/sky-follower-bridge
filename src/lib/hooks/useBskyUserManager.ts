@@ -133,8 +133,10 @@ export const useBskyUserManager = () => {
       description: "List imported via Sky Follower Bridge",
       userDids: filteredUsers.map((user) => user.did),
     });
-    const myProfile = await bskyClient.current.getMyProfile();
-    return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
+    // TODO: Commented out temporarily due to failure in Firefox
+    // const myProfile = await bskyClient.current.getMyProfile();
+    // return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
+    return "https://bsky.app/lists";
   }, [filteredUsers, listName]);
 
   // Follow All
