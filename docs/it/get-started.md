@@ -2,7 +2,7 @@
 
 Sky Follower Bridge ti aiuta a trovare e seguire le tue connessioni su 𝕏 (Twitter) su Bluesky.
 
-<iframe width="100%" height="315" src="https://www.youtube.com/embed/dfMK07PJeL4?si=SDC7P8basmoOOdjw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/CnjjfSxm0G0?si=N2OFp15PPiZZezEN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
 ## Installazione
