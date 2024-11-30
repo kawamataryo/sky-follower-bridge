@@ -1,3 +1,4 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
@@ -9,6 +10,7 @@ import {
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
 } from "~lib/constants";
+import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
 import type { BskyUser, MatchType } from "~types";
 
@@ -242,6 +244,58 @@ export const useBskyUserManager = () => {
     );
   }, [users, matchTypeFilter]);
 
+  const [reSearchResults, setReSearchResults] = React.useState<{
+    sourceDid: string;
+    users: ProfileView[];
+  }>({ sourceDid: "", users: [] });
+  const reSearch = React.useCallback(
+    async ({
+      sourceDid,
+      accountName,
+      displayName,
+    }: {
+      sourceDid: string;
+      accountName: string;
+      displayName: string;
+    }) => {
+      const searchResults = await reSearchBskyUser({
+        client: bskyClient.current,
+        userData: {
+          accountName,
+          displayName,
+        },
+      });
+      setReSearchResults({ sourceDid, users: searchResults });
+    },
+    [],
+  );
+
+  const clearReSearchResults = React.useCallback(() => {
+    setReSearchResults({
+      sourceDid: "",
+      users: [],
+    });
+  }, []);
+
+  const changeDetectedUser = React.useCallback(
+    (fromDid: string, toUser: ProfileView) => {
+      setUsers((prev) =>
+        prev.map((prevUser) =>
+          prevUser.did === fromDid
+            ? {
+                ...prevUser,
+                ...toUser,
+                isFollowing: !!toUser.viewer?.following,
+                followingUri: toUser.viewer?.following,
+                isBlocking: !!toUser.viewer?.blocking,
+                blockingUri: toUser.viewer?.blocking,
+              }
+            : prevUser,
+        ),
+      );
+    },
+    [setUsers],
+  );
   return {
     handleClickAction,
     users,
@@ -253,5 +307,9 @@ export const useBskyUserManager = () => {
     importList,
     followAll,
     blockAll,
+    reSearch,
+    reSearchResults,
+    changeDetectedUser,
+    clearReSearchResults,
   };
 };

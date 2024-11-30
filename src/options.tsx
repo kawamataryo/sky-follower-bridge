@@ -4,6 +4,9 @@ import { ToastContainer, toast } from "react-toastify";
 import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import React from "react";
+import ReSearchModal from "~components/ReSearchModal";
 import DetectedUserListItem from "~lib/components/DetectedUserListItem";
 
 const Option = () => {
@@ -18,6 +21,10 @@ const Option = () => {
     importList,
     followAll,
     blockAll,
+    reSearch,
+    reSearchResults,
+    changeDetectedUser,
+    clearReSearchResults,
   } = useBskyUserManager();
 
   const {
@@ -98,6 +105,37 @@ const Option = () => {
     });
   };
 
+  const [showReSearchModal, setShowReSearchModal] = React.useState(false);
+  const handleReSearch = async (user: {
+    sourceDid: string;
+    accountName: string;
+    displayName: string;
+  }) => {
+    reSearch({
+      sourceDid: user.sourceDid,
+      accountName: user.accountName,
+      displayName: user.displayName,
+    });
+    setShowReSearchModal(true);
+  };
+
+  const handleClickReSearchResult = ({
+    sourceDid,
+    user,
+  }: {
+    sourceDid: string;
+    user: ProfileView;
+  }) => {
+    changeDetectedUser(sourceDid, user);
+    setShowReSearchModal(false);
+    clearReSearchResults();
+  };
+
+  const handleCloseReSearchModal = () => {
+    setShowReSearchModal(false);
+    clearReSearchResults();
+  };
+
   return (
     <>
       <div className="flex h-screen">
@@ -126,11 +164,18 @@ const Option = () => {
                   user={user}
                   clickAction={handleClickAction}
                   actionMode={actionMode}
+                  reSearch={handleReSearch}
                 />
               ))}
             </div>
           </div>
         </div>
+        <ReSearchModal
+          open={showReSearchModal}
+          onClose={handleCloseReSearchModal}
+          reSearchResults={reSearchResults}
+          handleClickReSearchResult={handleClickReSearchResult}
+        />
         <ToastContainer
           position="top-right"
           autoClose={5000}

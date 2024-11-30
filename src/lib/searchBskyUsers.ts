@@ -1,15 +1,8 @@
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { isSimilarUser } from "~lib/bskyHelpers";
 import { isOneSymbol } from "~lib/utils";
 import type { CrawledUserInfo } from "~types";
+import { isImpersonationUser } from "./bskyHelpers";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
-import { BSKY_PROFILE_LABEL } from "./constants";
-
-const isImpersonationUser = (user: ProfileView) => {
-  return user.labels.some(
-    (label) => label.val === BSKY_PROFILE_LABEL.IMPERSONATION,
-  );
-};
 
 export const searchBskyUser = async ({
   client,

@@ -5,9 +5,10 @@ export type Props = {
   children: React.ReactNode;
   open: boolean;
   onClose?: () => void;
+  width?: number;
 };
 
-const Modal = ({ children, open = false, onClose }: Props) => {
+const Modal = ({ children, open = false, onClose, width = 500 }: Props) => {
   const anchorRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -25,7 +26,10 @@ const Modal = ({ children, open = false, onClose }: Props) => {
   return (
     <>
       <dialog className="modal" ref={anchorRef} open={open}>
-        <div className="modal-box p-10 bg-base-100 w-[500px] max-w-none text-base-content">
+        <div
+          className="modal-box p-10 bg-base-100 max-w-none text-base-content"
+          style={{ width }}
+        >
           {children}
         </div>
         <form method="dialog" className="modal-backdrop">

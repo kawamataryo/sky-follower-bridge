@@ -1,3 +1,4 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import React from "react";
 import { match } from "ts-pattern";
 import type { BskyUser } from "~types";
@@ -8,9 +9,19 @@ export type Props = {
   user: BskyUser;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
   clickAction: (user: BskyUser) => Promise<void>;
+  reSearch: (user: {
+    sourceDid: string;
+    accountName: string;
+    displayName: string;
+  }) => Promise<void>;
 };
 
-const DetectedUserListItem = ({ user, actionMode, clickAction }: Props) => {
+const DetectedUserListItem = ({
+  user,
+  actionMode,
+  clickAction,
+  reSearch,
+}: Props) => {
   const [isBtnHovered, setIsBtnHovered] = React.useState(false);
   const [isJustClicked, setIsJustClicked] = React.useState(false);
   const actionBtnLabelAndClass = React.useMemo(
@@ -81,6 +92,14 @@ const DetectedUserListItem = ({ user, actionMode, clickAction }: Props) => {
     setIsJustClicked(true);
   };
 
+  const handleReSearchClick = () => {
+    reSearch({
+      sourceDid: user.did,
+      accountName: user.originalHandle,
+      displayName: user.originalDisplayName,
+    });
+  };
+
   return (
     <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
       <DetectedUserSource user={user} />
@@ -91,6 +110,7 @@ const DetectedUserListItem = ({ user, actionMode, clickAction }: Props) => {
         handleActionButtonClick={handleActionButtonClick}
         setIsBtnHovered={setIsBtnHovered}
         setIsJustClicked={setIsJustClicked}
+        handleReSearchClick={handleReSearchClick}
       />
     </div>
   );

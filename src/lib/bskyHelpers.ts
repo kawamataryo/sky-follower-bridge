@@ -1,5 +1,5 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import { BSKY_USER_MATCH_TYPE } from "./constants";
+import { BSKY_PROFILE_LABEL, BSKY_USER_MATCH_TYPE } from "./constants";
 
 type xUserInfo = {
   bskyHandleInDescription: string;
@@ -79,4 +79,10 @@ export const isSimilarUser = (
     isSimilar: false,
     type: BSKY_USER_MATCH_TYPE.NONE,
   };
+};
+
+export const isImpersonationUser = (user: ProfileView) => {
+  return user.labels.some(
+    (label) => label.val === BSKY_PROFILE_LABEL.IMPERSONATION,
+  );
 };
