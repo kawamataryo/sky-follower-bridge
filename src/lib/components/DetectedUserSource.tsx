@@ -2,12 +2,17 @@ import React from "react";
 import type { BskyUser } from "~types";
 import { MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
 import { UserInfo, UserProfile } from "./UserCard";
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 
 type DetectedUserSourceProps = {
   user: BskyUser;
+  reSearch: (user: {
+    accountName: string;
+    displayName: string;
+  }) => Promise<void>;
 };
 
-const DetectedUserSource = ({ user }: DetectedUserSourceProps) => (
+const DetectedUserSource = ({ user, reSearch }: DetectedUserSourceProps) => (
   <div className="flex flex-row gap-2 bg-slate-100 dark:bg-slate-800 justify-between pr-2">
     <div
       className={`border-l-8 border-${
@@ -44,6 +49,17 @@ const DetectedUserSource = ({ user }: DetectedUserSourceProps) => (
         />
       </svg>
     </div>
+    <button
+      type="button"
+      onClick={() =>
+        reSearch({
+          accountName: user.originalHandle,
+          displayName: user.originalDisplayName,
+        })
+      }
+    >
+      Re-search
+    </button>
   </div>
 );
 

@@ -4,13 +4,23 @@ import type { BskyUser } from "~types";
 import { ACTION_MODE } from "../constants";
 import DetectedUserSource from "./DetectedUserSource";
 import UserCard from "./UserCard";
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 export type Props = {
   user: BskyUser;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
   clickAction: (user: BskyUser) => Promise<void>;
+  reSearch: (user: {
+    accountName: string;
+    displayName: string;
+  }) => Promise<void>;
 };
 
-const DetectedUserListItem = ({ user, actionMode, clickAction }: Props) => {
+const DetectedUserListItem = ({
+  user,
+  actionMode,
+  clickAction,
+  reSearch,
+}: Props) => {
   const [isBtnHovered, setIsBtnHovered] = React.useState(false);
   const [isJustClicked, setIsJustClicked] = React.useState(false);
   const actionBtnLabelAndClass = React.useMemo(
@@ -83,7 +93,7 @@ const DetectedUserListItem = ({ user, actionMode, clickAction }: Props) => {
 
   return (
     <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
-      <DetectedUserSource user={user} />
+      <DetectedUserSource user={user} reSearch={reSearch} />
       <UserCard
         user={user}
         loading={loading}

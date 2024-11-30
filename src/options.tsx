@@ -5,6 +5,9 @@ import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import DetectedUserListItem from "~lib/components/DetectedUserListItem";
+import Modal from "~lib/components/Modal";
+import React from "react";
+import UserCard from "~lib/components/UserCard";
 
 const Option = () => {
   const {
@@ -18,6 +21,8 @@ const Option = () => {
     importList,
     followAll,
     blockAll,
+    reSearch,
+    reSearchResults,
   } = useBskyUserManager();
 
   const {
@@ -98,6 +103,18 @@ const Option = () => {
     });
   };
 
+  const [showReSearchModal, setShowReSearchModal] = React.useState(false);
+  const handleReSearch = async (user: {
+    accountName: string;
+    displayName: string;
+  }) => {
+    await reSearch({
+      accountName: user.accountName,
+      displayName: user.displayName,
+    });
+    setShowReSearchModal(true);
+  };
+
   return (
     <>
       <div className="flex h-screen">
@@ -126,11 +143,22 @@ const Option = () => {
                   user={user}
                   clickAction={handleClickAction}
                   actionMode={actionMode}
+                  reSearch={handleReSearch}
                 />
               ))}
             </div>
           </div>
         </div>
+        <Modal
+          open={showReSearchModal}
+          onClose={() => setShowReSearchModal(false)}
+        >
+          <div className="divide-y divide-gray-500">
+            {reSearchResults.map((user) => (
+              <div key={user.did}>{user.displayName}</div>
+            ))}
+          </div>
+        </Modal>
         <ToastContainer
           position="top-right"
           autoClose={5000}

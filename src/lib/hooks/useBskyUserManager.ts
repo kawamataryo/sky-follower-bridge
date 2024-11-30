@@ -1,3 +1,4 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
@@ -9,6 +10,7 @@ import {
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
 } from "~lib/constants";
+import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
 import type { BskyUser, MatchType } from "~types";
 
@@ -242,6 +244,29 @@ export const useBskyUserManager = () => {
     );
   }, [users, matchTypeFilter]);
 
+  const [reSearchResults, setReSearchResults] = React.useState<ProfileView[]>(
+    [],
+  );
+  const reSearch = React.useCallback(
+    async ({
+      accountName,
+      displayName,
+    }: {
+      accountName: string;
+      displayName: string;
+    }) => {
+      const searchResults = await reSearchBskyUser({
+        client: bskyClient.current,
+        userData: {
+          accountName,
+          displayName,
+        },
+      });
+      setReSearchResults(searchResults);
+    },
+    [],
+  );
+
   return {
     handleClickAction,
     users,
@@ -253,5 +278,7 @@ export const useBskyUserManager = () => {
     importList,
     followAll,
     blockAll,
+    reSearch,
+    reSearchResults,
   };
 };
