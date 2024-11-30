@@ -1,10 +1,10 @@
-import UserCard from "~lib/components/UserCard";
 import { useBskyUserManager } from "~lib/hooks/useBskyUserManager";
 import "./style.css";
 import { ToastContainer, toast } from "react-toastify";
 import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
+import DetectedUserListItem from "~lib/components/DetectedUserListItem";
 
 const Option = () => {
   const {
@@ -121,7 +121,7 @@ const Option = () => {
           <div className="flex flex-col gap-4">
             <div className="divide-y divide-gray-500">
               {filteredUsers.map((user) => (
-                <UserCard
+                <DetectedUserListItem
                   key={user.handle}
                   user={user}
                   clickAction={handleClickAction}
