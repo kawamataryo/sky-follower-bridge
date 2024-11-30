@@ -1,7 +1,7 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { isOneSymbol } from "~lib/utils";
-import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 import { isImpersonationUser } from "./bskyHelpers";
+import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 
 export const reSearchBskyUser = async ({
   client,
