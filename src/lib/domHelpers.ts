@@ -1,6 +1,3 @@
-import type { CrawledUserInfo } from "~types";
-import { BSKY_DOMAIN } from "./constants";
-
 export const getUserCells = ({
   queryParam,
   filterInsertedElement,
@@ -22,27 +19,12 @@ export const getUserCells = ({
   return Array.from(userCells);
 };
 
-export const extractUserData = (userCell: Element): CrawledUserInfo => {
-  const anchors = Array.from(userCell.querySelectorAll("a"));
-  const [avatarEl, displayNameEl] = anchors;
-  const accountName = avatarEl?.getAttribute("href")?.replace("/", "");
-  const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
-  const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
-  const displayName = displayNameEl?.textContent;
-  const bskyHandle =
-    userCell.textContent?.match(
-      new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`),
-    )?.[1] ??
-    userCell.textContent
-      ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
-      ?.replace("…", "") ??
-    "";
-
-  return {
-    accountName,
-    displayName,
-    accountNameRemoveUnderscore,
-    accountNameReplaceUnderscore,
-    bskyHandle,
-  };
+export const scrapeListNameFromPage = (): string => {
+  const listNameElement = document.querySelector(
+    'div[aria-label="Timeline: List"] span',
+  );
+  if (listNameElement) {
+    return listNameElement.textContent.trim();
+  }
+  return "Imported List from X";
 };

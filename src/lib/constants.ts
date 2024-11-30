@@ -110,3 +110,5 @@ export const BSKY_DOMAIN =
 export const BSKY_PROFILE_LABEL = {
   IMPERSONATION: "impersonation",
 } as const;
+
+export const DEFAULT_LIST_NAME = "Imported List from X";

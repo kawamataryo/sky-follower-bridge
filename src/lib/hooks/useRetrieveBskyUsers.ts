@@ -10,7 +10,7 @@ import type { AbstractService } from "~lib/services/abstractService";
 import { XService } from "~lib/services/xService";
 import type { BskyUser, CrawledUserInfo, MessageName } from "~types";
 
-const getService = (messageName: string): AbstractService => {
+const getService = (messageName: MessageName): AbstractService => {
   return match(messageName)
     .with(
       P.when((name) =>
@@ -25,16 +25,6 @@ const getService = (messageName: string): AbstractService => {
     .otherwise(() => new XService(messageName));
 };
 
-const scrapeListNameFromPage = (): string => {
-  const listNameElement = document.querySelector(
-    'div[aria-label="Timeline: List"] span',
-  );
-  if (listNameElement) {
-    return listNameElement.textContent.trim();
-  }
-  return "Imported List from X";
-};
-
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [users, setUsers] = useStorage<BskyUser[]>(
@@ -45,15 +35,6 @@ export const useRetrieveBskyUsers = () => {
       }),
     },
     (v) => (v === undefined ? [] : v),
-  );
-  const [listName, setListName] = useStorage<string>(
-    {
-      key: STORAGE_KEYS.LIST_NAME,
-      instance: new Storage({
-        area: "local",
-      }),
-    },
-    (v) => (v === undefined ? "" : v),
   );
   const [loading, setLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -104,7 +85,7 @@ export const useRetrieveBskyUsers = () => {
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const startRetrieveLoop = React.useCallback(
-    async (messageName: string) => {
+    async (messageName: MessageName) => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
@@ -139,13 +120,6 @@ export const useRetrieveBskyUsers = () => {
     [retrieveBskyUsers, isBottomReached],
   );
 
-  React.useEffect(() => {
-    chrome.storage.local.set({
-      users: JSON.stringify(users),
-      listName: listName,
-    });
-  }, [users, listName]);
-
   const stopRetrieveLoop = React.useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -168,8 +142,6 @@ export const useRetrieveBskyUsers = () => {
     });
 
     bskyClient.current = new BskyServiceWorkerClient(session);
-
-    setListName(scrapeListNameFromPage());
 
     startRetrieveLoop(messageName).catch((e) => {
       console.error(e);
@@ -201,7 +173,6 @@ export const useRetrieveBskyUsers = () => {
   return {
     initialize,
     users,
-    listName,
     loading,
     errorMessage,
     isRateLimitError,

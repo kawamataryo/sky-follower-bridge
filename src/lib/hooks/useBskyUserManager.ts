@@ -5,6 +5,7 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import {
   ACTION_MODE,
   BSKY_USER_MATCH_TYPE,
+  DEFAULT_LIST_NAME,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
 } from "~lib/constants";
@@ -21,13 +22,6 @@ export const useBskyUserManager = () => {
     },
     (v) => (v === undefined ? [] : v),
   );
-  const [listName, setListName] = React.useState<string>("");
-  React.useEffect(() => {
-    chrome.storage.local.get("listName", (result) => {
-      const name = result.listName || "Imported List from X";
-      setListName(name);
-    });
-  }, []);
 
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
   const [actionMode, setActionMode] = React.useState<
@@ -128,8 +122,12 @@ export const useBskyUserManager = () => {
   // Import list
   const importList = React.useCallback(async () => {
     if (!bskyClient.current) return;
+    const storage = new Storage({
+      area: "local",
+    });
+    const listName = await storage.get(STORAGE_KEYS.LIST_NAME);
     const listUri = await bskyClient.current.createListAndAddUsers({
-      name: listName,
+      name: listName || DEFAULT_LIST_NAME,
       description: "List imported via Sky Follower Bridge",
       userDids: filteredUsers.map((user) => user.did),
     });
@@ -137,7 +135,7 @@ export const useBskyUserManager = () => {
     // const myProfile = await bskyClient.current.getMyProfile();
     // return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
     return "https://bsky.app/lists";
-  }, [filteredUsers, listName]);
+  }, [filteredUsers]);
 
   // Follow All
   const followAll = React.useCallback(async () => {
@@ -247,7 +245,6 @@ export const useBskyUserManager = () => {
   return {
     handleClickAction,
     users,
-    listName,
     actionMode,
     matchTypeFilter,
     changeMatchTypeFilter,
