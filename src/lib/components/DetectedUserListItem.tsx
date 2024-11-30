@@ -1,10 +1,10 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import React from "react";
 import { match } from "ts-pattern";
 import type { BskyUser } from "~types";
 import { ACTION_MODE } from "../constants";
 import DetectedUserSource from "./DetectedUserSource";
 import UserCard from "./UserCard";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 export type Props = {
   user: BskyUser;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];

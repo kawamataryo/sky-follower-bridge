@@ -4,9 +4,9 @@ import { ToastContainer, toast } from "react-toastify";
 import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 import DetectedUserListItem from "~lib/components/DetectedUserListItem";
 import Modal from "~lib/components/Modal";
-import React from "react";
 import UserCard from "~lib/components/UserCard";
 
 const Option = () => {

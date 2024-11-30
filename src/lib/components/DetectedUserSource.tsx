@@ -1,8 +1,8 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import React from "react";
 import type { BskyUser } from "~types";
 import { MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
 import { UserInfo, UserProfile } from "./UserCard";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 
 type DetectedUserSourceProps = {
   user: BskyUser;

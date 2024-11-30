@@ -1,8 +1,8 @@
 import { isSimilarUser } from "~lib/bskyHelpers";
 import { isOneSymbol } from "~lib/utils";
 import type { CrawledUserInfo } from "~types";
-import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 import { isImpersonationUser } from "./bskyHelpers";
+import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 
 export const searchBskyUser = async ({
   client,
