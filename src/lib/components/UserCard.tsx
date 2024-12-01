@@ -53,7 +53,7 @@ const UserCard = ({
   handleReSearchClick,
 }: UserCardProps) => {
   return (
-    <div className="relative py-3 pl-0 pr-2 grid grid-cols-[50px_1fr]">
+    <div className="relative py-3 pt-1 pl-0 pr-2 grid grid-cols-[50px_1fr]">
       <UserProfile
         avatar={user.avatar}
         url={`https://bsky.app/profile/${user.handle}`}

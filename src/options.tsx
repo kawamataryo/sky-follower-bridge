@@ -156,18 +156,16 @@ const Option = () => {
             <h2 className="text-lg font-bold text-center py-2">Source</h2>
             <h2 className="text-lg font-bold text-center py-2">Detected</h2>
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="divide-y divide-gray-500">
-              {filteredUsers.map((user) => (
-                <DetectedUserListItem
-                  key={user.handle}
-                  user={user}
-                  clickAction={handleClickAction}
-                  actionMode={actionMode}
-                  reSearch={handleReSearch}
-                />
-              ))}
-            </div>
+          <div className="flex flex-col border-b-[1px] border-gray-500">
+            {filteredUsers.map((user) => (
+              <DetectedUserListItem
+                key={user.handle}
+                user={user}
+                clickAction={handleClickAction}
+                actionMode={actionMode}
+                reSearch={handleReSearch}
+              />
+            ))}
           </div>
         </div>
         <ReSearchModal

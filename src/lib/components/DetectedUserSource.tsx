@@ -1,7 +1,5 @@
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import React from "react";
 import type { BskyUser } from "~types";
-import { MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
 import UserInfo from "./UserInfo";
 import UserProfile from "./UserProfile";
 
@@ -11,11 +9,7 @@ type DetectedUserSourceProps = {
 
 const DetectedUserSource = ({ user }: DetectedUserSourceProps) => (
   <div className="flex flex-row gap-2 bg-slate-100 dark:bg-slate-800 justify-between pr-2">
-    <div
-      className={`border-l-8 border-${
-        MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color
-      } relative py-3 pl-4 pr-1 grid grid-cols-[50px_1fr]`}
-    >
+    <div className="relative py-3 pt-1 pl-4 pr-1 grid grid-cols-[50px_1fr]">
       <UserProfile
         avatar={user.originalAvatar}
         url={user.originalProfileLink}

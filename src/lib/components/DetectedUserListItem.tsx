@@ -2,7 +2,7 @@ import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/
 import React from "react";
 import { match } from "ts-pattern";
 import type { BskyUser } from "~types";
-import { ACTION_MODE } from "../constants";
+import { ACTION_MODE, MATCH_TYPE_LABEL_AND_COLOR } from "../constants";
 import DetectedUserSource from "./DetectedUserSource";
 import UserCard from "./UserCard";
 export type Props = {
@@ -100,18 +100,32 @@ const DetectedUserListItem = ({
     });
   };
 
+  const matchTypeColor = MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color;
+
   return (
-    <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
-      <DetectedUserSource user={user} />
-      <UserCard
-        user={user}
-        loading={loading}
-        actionBtnLabelAndClass={actionBtnLabelAndClass}
-        handleActionButtonClick={handleActionButtonClick}
-        setIsBtnHovered={setIsBtnHovered}
-        setIsJustClicked={setIsJustClicked}
-        handleReSearchClick={handleReSearchClick}
-      />
+    <div>
+      <div className={`w-full border-l-8 border-${matchTypeColor}`}>
+        <div
+          className={`w-full border-t border-gray-500 text-${matchTypeColor} grid grid-cols-[22%_1fr]`}
+        >
+          <div className="px-3 bg-slate-100 dark:bg-slate-800">
+            {MATCH_TYPE_LABEL_AND_COLOR[user.matchType].label}
+          </div>
+          <div className="px-3" />
+        </div>
+        <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
+          <DetectedUserSource user={user} />
+          <UserCard
+            user={user}
+            loading={loading}
+            actionBtnLabelAndClass={actionBtnLabelAndClass}
+            handleActionButtonClick={handleActionButtonClick}
+            setIsBtnHovered={setIsBtnHovered}
+            setIsJustClicked={setIsJustClicked}
+            handleReSearchClick={handleReSearchClick}
+          />
+        </div>
+      </div>
     </div>
   );
 };

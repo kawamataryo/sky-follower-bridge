@@ -60,42 +60,39 @@ const Sidebar = ({
           <span className="text-2xl font-bold">Sky Follower Bridge</span>
         </a>
         <div className="divider" />
-        <div className="flex items-center gap-2 mb-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-            />
-          </svg>
-
-          <p className="text-xl font-bold">Detected</p>
-        </div>
-        <div className="flex items-end mb mb-2">
-          <div className="flex gap-3 items-center justify-between">
-            <p className="font-bold text-2xl">{detectedCount}</p>
-            <p className="text-sm">users</p>
-          </div>
-        </div>
-        <div className="flex gap-2 flex-col">
-          {Object.keys(matchTypeStats).map((key) => (
-            <div
-              className={`badge badge-outline badge-${MATCH_TYPE_LABEL_AND_COLOR[key].color}`}
-              key={key}
-            >
-              {MATCH_TYPE_LABEL_AND_COLOR[key].label}:
-              <span className="font-bold text-sm ml-1">
-                {matchTypeStats[key]}
-              </span>
+        <div className="stats shadow">
+          <div className="stat">
+            <div className="stat-figure">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block h-8 w-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
             </div>
-          ))}
+            <div className="stat-title text-lg text-base-content font-bold">
+              Detected users
+            </div>
+            <div className="stat-value text-base-content">{detectedCount}</div>
+            <div className="stat-desc">
+              Same handle name: {matchTypeStats[BSKY_USER_MATCH_TYPE.HANDLE]}
+            </div>
+            <div className="stat-desc">
+              Same display name:{" "}
+              {matchTypeStats[BSKY_USER_MATCH_TYPE.DISPLAY_NAME]}
+            </div>
+            <div className="stat-desc">
+              Included handle in description:{" "}
+              {matchTypeStats[BSKY_USER_MATCH_TYPE.DESCRIPTION]}
+            </div>
+          </div>
         </div>
         <div className="divider" />
         <div className="flex items-center gap-2 mb-2">
