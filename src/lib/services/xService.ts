@@ -19,6 +19,15 @@ export class XService extends AbstractService {
     super(messageName);
   }
 
+  // X determines the target page based on the URL on the popup side, so it always returns true
+  isTargetPage(): [boolean, string] {
+    return [true, ""];
+  }
+
+  async processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo> {
+    return user;
+  }
+
   extractUserData(userCell: Element): CrawledUserInfo {
     const anchors = Array.from(userCell.querySelectorAll("a"));
     const [avatarEl, displayNameEl] = anchors;

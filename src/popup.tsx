@@ -116,7 +116,7 @@ function IndexPopup() {
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
-        "Error: Invalid page. please open the 𝕏 following or blocking or list page.",
+        "Error: Invalid page. please open the target page.",
         DOCUMENT_LINK.PAGE_ERROR,
       );
       return;
@@ -134,6 +134,10 @@ function IndexPopup() {
       .with(
         P.when((url) => TARGET_URLS_REGEX.LIST.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE,
+      )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.THREADS.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE,
       )
       .run();
 
@@ -168,13 +172,20 @@ function IndexPopup() {
         }
         return;
       }
+
       await chrome.storage.local.set({
         [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
       });
-      await clearPasswordFromStorage();
-      await sendToContentScript({
+
+      const { hasError, message: errorMessage } = await sendToContentScript({
         name: messageName,
       });
+      if (hasError) {
+        setErrorMessage(errorMessage, DOCUMENT_LINK.OTHER_ERROR);
+        return;
+      }
+
+      await clearPasswordFromStorage();
       await saveShowAuthFactorTokenInputToStorage(false);
       window.close();
     } catch (e) {

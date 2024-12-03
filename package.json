@@ -67,7 +67,8 @@
     "host_permissions": [
       "https://bsky.social/*",
       "https://twitter.com/*",
-      "https://x.com/*"
+      "https://x.com/*",
+      "https://www.threads.net/*"
     ],
     "browser_specific_settings": {
       "gecko": {

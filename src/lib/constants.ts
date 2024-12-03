@@ -3,18 +3,21 @@ export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE:
     "search_bsky_user_on_list_members_page",
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
+  SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
 } as const;
 
 export const QUERY_PARAMS = {
   FOLLOW: '[data-testid="primaryColumn"] [data-testid="UserCell"]',
   BLOCK: '[data-testid="UserCell"]',
   LIST: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
+  THREADS: '[data-pressable-container="true"]',
 } as const;
 
 export const MESSAGE_NAME_TO_QUERY_PARAM_MAP = {
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE]: QUERY_PARAMS.FOLLOW,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]: QUERY_PARAMS.LIST,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: QUERY_PARAMS.BLOCK,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: QUERY_PARAMS.THREADS,
 };
 
 export const ACTION_MODE = {
@@ -28,6 +31,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]:
     ACTION_MODE.IMPORT_LIST,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: ACTION_MODE.BLOCK,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: ACTION_MODE.FOLLOW,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -46,6 +50,7 @@ export const TARGET_URLS_REGEX = {
   FOLLOW: /https:\/\/(twitter|x)\.com\/[^/]+\/(verified_follow|follow)/,
   LIST: /^https:\/\/(twitter|x)\.com\/[^/]+\/lists\/[^/]+\/members/,
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
+  THREADS: /^https:\/\/www\.threads\.net/,
 } as const;
 
 export const MESSAGE_TYPE = {
@@ -112,3 +117,8 @@ export const BSKY_PROFILE_LABEL = {
 } as const;
 
 export const DEFAULT_LIST_NAME = "Imported List from X";
+
+export const SERVICE_TYPE = {
+  X: "x",
+  THREADS: "threads",
+} as const;
