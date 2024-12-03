@@ -30,7 +30,7 @@ export class ThreadsService extends AbstractService {
     if (!isTargetPage) {
       return [
         false,
-        "Error: Invalid page. please open the following or followers view.",
+        "Invalid page. please open the following or followers view.",
       ];
     }
     return [true, ""];

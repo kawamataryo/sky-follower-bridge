@@ -181,7 +181,11 @@ function IndexPopup() {
         name: messageName,
       });
       if (hasError) {
-        setErrorMessage(errorMessage, DOCUMENT_LINK.OTHER_ERROR);
+        if (errorMessage.includes("Invalid page")) {
+          setErrorMessage(errorMessage, DOCUMENT_LINK.PAGE_ERROR);
+        } else {
+          setErrorMessage(errorMessage, DOCUMENT_LINK.OTHER_ERROR);
+        }
         return;
       }
 
