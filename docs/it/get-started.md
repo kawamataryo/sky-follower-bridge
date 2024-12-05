@@ -24,7 +24,7 @@ Sky Follower Bridge è disponibile su:
   </li>
   <li>
     <img src="/images/icon-safari.svg" width="20" height="20">
-    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Estensione Web Safari</a> <span>(Grazie a <a href="https://bsky.app/profile/knotbin.xyz">@kentcdodds</a> per il contributo!)</span>
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Estensione Web Safari</a> <span>(Grazie a <a href="https://bsky.app/profile/knotbin.xyz">@knotbin.xyz</a> per il contributo!)</span>
   </li>
 </ul>
 
