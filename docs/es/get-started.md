@@ -9,9 +9,24 @@ Sky Follower Bridge te ayuda a encontrar y seguir tus conexiones de 𝕏 (Twitte
 
 Sky Follower Bridge está disponible en:
 
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (Recomendado)
-- [Complementos de Firefox](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
-- [Complementos de Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
+<ul class="install-list">
+  <li>
+    <img src="/images/icon-chrome.svg" width="20" height="20">
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko">Chrome Web Store</a> (Recomendado⭐)
+  </li>
+  <li>
+    <img src="/images/icon-firefox.svg" width="20" height="20">
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/">Complementos de Firefox</a>
+  </li>
+  <li>
+    <img src="/images/icon-edge.svg" width="20" height="20">
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb">Complementos de Microsoft Edge</a>
+  </li>
+  <li>
+    <img src="/images/icon-safari.svg" width="20" height="20">
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Extensión Web de Safari</a> <span>(Gracias a <a href="https://bsky.app/profile/knotbin.xyz">@kentcdodds</a>)</span>
+  </li>
+</ul>
 
 ::: tip
 Recomendamos usar la versión de Chrome Web Store ya que siempre está actualizada. Las versiones de otras tiendas pueden retrasarse en las actualizaciones.

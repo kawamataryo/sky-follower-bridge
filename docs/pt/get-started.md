@@ -9,10 +9,24 @@ O Sky Follower Bridge ajuda você a encontrar e seguir suas conexões do 𝕏 (T
 
 O Sky Follower Bridge está disponível em:
 
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (Recomendado)
-- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
-- [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
-- [Estensione Web Safari](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) Grazie a [@kentcdodds](https://bsky.app/profile/knotbin.xyz) per il contributo!
+<ul class="install-list">
+  <li>
+    <img src="/images/icon-chrome.svg" width="20" height="20">
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko">Chrome Web Store</a> (Recomendado⭐)
+  </li>
+  <li>
+    <img src="/images/icon-firefox.svg" width="20" height="20">
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/">Firefox Add-ons</a>
+  </li>
+  <li>
+    <img src="/images/icon-edge.svg" width="20" height="20">
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb">Microsoft Edge Add-ons</a>
+  </li>
+  <li>
+    <img src="/images/icon-safari.svg" width="20" height="20">
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Safari Web Extension</a> <span>(Thanks to <a href="https://bsky.app/profile/knotbin.xyz">@kentcdodds</a>)</span>
+  </li>
+</ul>
 
 
 ::: tip

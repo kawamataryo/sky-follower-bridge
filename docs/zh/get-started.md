@@ -9,10 +9,24 @@ Sky Follower Bridge 帮助您在 Bluesky 上找到并关注您的 𝕏 (Twitter)
 
 Sky Follower Bridge 可在以下平台获取：
 
-- [Chrome 网上应用店](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (推荐)
-- [Firefox 附加组件](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
-- [Microsoft Edge 附加组件](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
-- [Safari 网页扩展](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) 感谢 [@kentcdodds](https://bsky.app/profile/knotbin.xyz) 的贡献！
+<ul class="install-list">
+  <li>
+    <img src="/images/icon-chrome.svg" width="20" height="20">
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko">Chrome 网上应用店</a>（推荐）
+  </li>
+  <li>
+    <img src="/images/icon-firefox.svg" width="20" height="20">
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/">Firefox 附加组件</a>
+  </li>
+  <li>
+    <img src="/images/icon-edge.svg" width="20" height="20">
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb">Microsoft Edge 附加组件</a>
+  </li>
+  <li>
+    <img src="/images/icon-safari.svg" width="20" height="20">
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Safari 网页扩展</a> <span>（感谢 <a href="https://bsky.app/profile/knotbin.xyz">@kentcdodds</a> 的贡献！）</span>
+  </li>
+</ul>
 
 ::: tip
 我们推荐使用 Chrome 网上应用店版本，因为它���是最新的。其他商店版本可能会延迟更新。

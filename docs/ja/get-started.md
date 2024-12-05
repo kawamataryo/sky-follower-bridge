@@ -9,10 +9,24 @@ Sky Follower Bridgeは、𝕏（Twitter）のあなたのフォローしてい�
 
 Sky Follower Bridgeは以下で利用可能です：
 
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)（推奨）
-- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
-- [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
-- [Safari Web Extension](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) Thanks to [@kentcdodds](https://bsky.app/profile/knotbin.xyz)！
+<ul class="install-list">
+  <li>
+    <img src="/images/icon-chrome.svg" width="20" height="20">
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko">Chrome Web Store</a>（推奨⭐）
+  </li>
+  <li>
+    <img src="/images/icon-firefox.svg" width="20" height="20">
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/">Firefox Add-ons</a>
+  </li>
+  <li>
+    <img src="/images/icon-edge.svg" width="20" height="20">
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb">Microsoft Edge Add-ons</a>
+  </li>
+  <li>
+    <img src="/images/icon-safari.svg" width="20" height="20">
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Safari Web Extension</a> <span>Thanks to <a href="https://bsky.app/profile/knotbin.xyz">@kentcdodds</a></span>
+  </li>
+</ul>
 
 ::: tip
 Chrome Web Storeバージョンを使用することをお勧めします。常に最新の状態です。他のストアバージョンは更新が遅れる場合があります。
