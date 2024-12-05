@@ -22,6 +22,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (Recommended)
 - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
 - [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
+- [Mac App Store](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) (for Safari)
 
 > [!NOTE]
 > We recommend using the Chrome Web Store version as it's always up to date. Other store versions may lag behind in updates.
