@@ -12,6 +12,7 @@ Sky Follower Bridgeは以下で利用可能です：
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko)（推奨）
 - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
 - [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
+- [Safari Web Extension](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) Thanks to [@kentcdodds](https://bsky.app/profile/knotbin.xyz)！
 
 ::: tip
 Chrome Web Storeバージョンを使用することをお勧めします。常に最新の状態です。他のストアバージョンは更新が遅れる場合があります。

@@ -12,6 +12,7 @@ Sky Follower Bridge è disponibile su:
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (Consigliato)
 - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/)
 - [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb)
+- [Estensione Web Safari](https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12) Grazie a [@kentcdodds](https://bsky.app/profile/knotbin.xyz) per il contributo!
 
 ::: tip
 Consigliamo di utilizzare la versione del Chrome Web Store poiché è sempre aggiornata. Le versioni di altri store potrebbero essere in ritardo con gli aggiornamenti.
