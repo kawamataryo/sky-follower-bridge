@@ -32,7 +32,12 @@ export default defineConfig({
 
     nav: [
       { text: "Home", link: "/" },
-      { text: "Getting Started", link: "/get-started" },
+      {
+        text: "Getting Started", items: [
+          { text: "For 𝕏", link: "/get-started" },
+          { text: "For Threads", link: "/get-started-for-threads" },
+        ]
+      },
       { text: "Troubleshooting", link: "/troubleshooting" },
     ],
 
