@@ -24,9 +24,9 @@ export class ThreadsService extends AbstractService {
   }
 
   isTargetPage(): [boolean, string] {
-    const isTargetPage =
-      document.querySelector('[role="dialog"] [aria-label="Followers"]') ||
-      document.querySelector('[role="dialog"] [aria-label="Following"]');
+    const isTargetPage = document.querySelector(
+      '[role="dialog"] [role="tab"]>[role="button"]',
+    );
     if (!isTargetPage) {
       return [
         false,
