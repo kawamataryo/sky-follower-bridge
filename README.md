@@ -5,12 +5,18 @@
 <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko"><img alt="Chrome Web Store users" src="https://img.shields.io/chrome-web-store/users/behhbpbpmailcnfbjagknjngnfdojpko"></a>
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X315UWFN)
+
 <a href="https://www.buymeacoffee.com/kawamata" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+<a href="https://www.producthunt.com/posts/sky-follower-bridge?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-sky&#0045;follower&#0045;bridge" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=666851&theme=light" alt="Sky&#0032;Follower&#0032;Bridge - Migrate&#0032;your&#0032;social&#0032;connections&#0032;from&#0032;𝕏&#0032;to&#0032;Bluesky | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 
 Instantly find and follow the same users from your 𝕏(Twitter) follows on Bluesky.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
+
+[![sky-follower-bridge](http://img.youtube.com/vi/CnjjfSxm0G0/0.jpg)](https://www.youtube.com/watch?v=CnjjfSxm0G0)
+
 
 ## 📖 Documentation
 
