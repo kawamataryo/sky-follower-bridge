@@ -8,8 +8,8 @@ import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import type { AbstractService } from "~lib/services/abstractService";
 import { ThreadsService } from "~lib/services/threadsService";
-import { XService } from "~lib/services/xService";
 import { TiktokService } from "~lib/services/tiktokService";
+import { XService } from "~lib/services/xService";
 import type {
   BskyUser,
   CrawledUserInfo,
