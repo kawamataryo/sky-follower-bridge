@@ -4,6 +4,7 @@ export const MESSAGE_NAMES = {
     "search_bsky_user_on_list_members_page",
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
   SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
+  SEARCH_BSKY_USER_ON_TIKTOK_PAGE: "search_bsky_user_on_tiktok_page",
 } as const;
 
 export const QUERY_PARAMS = {
@@ -11,6 +12,7 @@ export const QUERY_PARAMS = {
   BLOCK: '[data-testid="UserCell"]',
   LIST: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
   THREADS: '[data-pressable-container="true"]',
+  TIKTOK: '[data-testid="user-item"]',
 } as const;
 
 export const MESSAGE_NAME_TO_QUERY_PARAM_MAP = {
@@ -18,6 +20,7 @@ export const MESSAGE_NAME_TO_QUERY_PARAM_MAP = {
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]: QUERY_PARAMS.LIST,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: QUERY_PARAMS.BLOCK,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: QUERY_PARAMS.THREADS,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE]: QUERY_PARAMS.TIKTOK,
 };
 
 export const ACTION_MODE = {
@@ -32,6 +35,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
     ACTION_MODE.IMPORT_LIST,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: ACTION_MODE.BLOCK,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE]: ACTION_MODE.FOLLOW,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -51,6 +55,7 @@ export const TARGET_URLS_REGEX = {
   LIST: /^https:\/\/(twitter|x)\.com\/[^/]+\/lists\/[^/]+\/members/,
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
   THREADS: /^https:\/\/www\.threads\.net/,
+  TIKTOK: /^https:\/\/www\.tiktok\.com\/@/,
 } as const;
 
 export const MESSAGE_TYPE = {
@@ -116,9 +121,10 @@ export const BSKY_PROFILE_LABEL = {
   IMPERSONATION: "impersonation",
 } as const;
 
-export const DEFAULT_LIST_NAME = "Imported List from X";
+export const DEFAULT_LIST_NAME = "Imported List from TikTok";
 
 export const SERVICE_TYPE = {
   X: "x",
   THREADS: "threads",
+  TIKTOK: "tiktok",
 } as const;

@@ -9,6 +9,7 @@ import { searchBskyUser } from "~lib/searchBskyUsers";
 import type { AbstractService } from "~lib/services/abstractService";
 import { ThreadsService } from "~lib/services/threadsService";
 import { XService } from "~lib/services/xService";
+import { TiktokService } from "~lib/services/tiktokService";
 import type {
   BskyUser,
   CrawledUserInfo,
@@ -31,6 +32,10 @@ const getServiceType = (messageName: MessageName): ServiceType => {
       MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE,
       () => SERVICE_TYPE.THREADS,
     )
+    .with(
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
+      () => SERVICE_TYPE.TIKTOK,
+    )
     .run();
 };
 
@@ -42,6 +47,7 @@ const buildService = (
     .returnType<AbstractService>()
     .with(SERVICE_TYPE.X, () => new XService(messageName))
     .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
+    .with(SERVICE_TYPE.TIKTOK, () => new TiktokService(messageName))
     .run();
 };
 
