@@ -9,6 +9,7 @@ import { AbstractService } from "./abstractService";
 
 export class TiktokService extends AbstractService {
   constructor(messageName: MessageName) {
+    console.error("TiktokService constructor", messageName);
     // Set the list name in the storage if it's a list members page
     if (messageName === MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE) {
       const listName = scrapeListNameFromPage();

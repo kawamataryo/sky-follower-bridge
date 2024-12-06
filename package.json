@@ -68,7 +68,8 @@
       "https://bsky.social/*",
       "https://twitter.com/*",
       "https://x.com/*",
-      "https://www.threads.net/*"
+      "https://www.threads.net/*",
+      "https://www.tiktok.com/*"
     ],
     "browser_specific_settings": {
       "gecko": {
