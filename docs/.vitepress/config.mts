@@ -5,6 +5,9 @@ export default defineConfig({
   title: "Sky Follower Bridge: Free X to Bluesky Migration Tool",
   lastUpdated: true,
   metaChunk: true,
+  sitemap: {
+    hostname: 'https://www.sky-follower-bridge.dev'
+  },
 
   head: [
     ['meta', { name: 'theme-color', content: '#3399ff' }],
@@ -13,8 +16,8 @@ export default defineConfig({
     ['meta', { property: 'og:locale', content: 'en' }],
     ['meta', { property: 'og:title', content: 'Sky Follower Bridge' }],
     ['meta', { property: 'og:site_name', content: 'Sky Follower Bridge' }],
-    ['meta', { property: 'og:image', content: 'https://sky-follower-bridge-docs.vercel.app/images/og-image.png' }],
-    ['meta', { property: 'og:url', content: 'https://sky-follower-bridge-docs.vercel.app/' }],
+    ['meta', { property: 'og:image', content: 'https://www.sky-follower-bridge.dev/images/og-image.png' }],
+    ['meta', { property: 'og:url', content: 'https://www.sky-follower-bridge.dev/' }],
     ['meta', { property: 'og:description', content: 'Instantly find and follow the same users from your 𝕏 followers on Bluesky' }],
     ['link', { rel: 'icon', type: 'image/png', href: '/favicon/favicon-96x96.png', sizes: '96x96' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon/favicon.svg' }],

@@ -12,13 +12,11 @@ Instantly find and follow the same users from your 𝕏(Twitter) follows on Blue
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
 
-[![sky-follower-bridge](http://img.youtube.com/vi/CnjjfSxm0G0/0.jpg)](https://www.youtube.com/watch?v=CnjjfSxm0G0)
-
 
 ## 📖 Documentation
 
-- [Getting Started](https://sky-follower-bridge-docs.vercel.app/get-started)
-- [Troubleshooting](https://sky-follower-bridge-docs.vercel.app/troubleshooting)
+- [Getting Started](https://www.sky-follower-bridge.dev/get-started)
+- [Troubleshooting](https://www.sky-follower-bridge.dev/troubleshooting)
 
 ## 📦 Installation
 
