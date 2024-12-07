@@ -75,25 +75,28 @@ export const MAX_RELOAD_COUNT = 1;
 
 export const MATCH_TYPE_LABEL_AND_COLOR = {
   [BSKY_USER_MATCH_TYPE.HANDLE]: {
-    label: "Same handle name",
+    label: chrome.i18n.getMessage("same_handle_name"),
     color: "info",
   },
   [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: {
-    label: "Same display name",
+    label: chrome.i18n.getMessage("same_display_name"),
     color: "warning",
   },
   [BSKY_USER_MATCH_TYPE.DESCRIPTION]: {
-    label: "Included handle in description",
+    label: chrome.i18n.getMessage("included_handle_in_description"),
     color: "secondary",
   },
   [BSKY_USER_MATCH_TYPE.FOLLOWING]: {
-    label: "Followed users",
+    label: chrome.i18n.getMessage("followed_users"),
     color: "success",
   },
 };
 
 export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
   "AuthFactorTokenRequiredError";
+
+export const INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE =
+  "Invalid identifier or password";
 
 export const RATE_LIMIT_ERROR_MESSAGE = "Rate limit";
 

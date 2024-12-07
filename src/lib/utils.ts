@@ -36,3 +36,21 @@ export const findFirstScrollableElements = (
 
   return scrollableElements[0] ?? null;
 };
+
+export const getMessageWithLink = (
+  key: string,
+  placeholders: string[] = [],
+) => {
+  const linkPattern = /\[(.*?)\]\((.*?)\)/g;
+  let message = chrome.i18n.getMessage(key, placeholders);
+  const links = message.matchAll(linkPattern);
+  for (const link of links) {
+    const [fullMatch, text, url] = link;
+    message = message.replace(
+      fullMatch,
+      `<a href="${url}" target="_blank" class="link" rel="noreferrer">${text}</a>`,
+    );
+  }
+
+  return message;
+};

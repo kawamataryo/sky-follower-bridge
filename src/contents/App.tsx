@@ -108,12 +108,18 @@ const App = () => {
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">
-              Scanning {serviceName} users to find bsky users...
+              {chrome.i18n.getMessage("scanning_users", [serviceName])}
             </p>
           )}
-          <p className="text-2xl font-bold">
-            Detected <span className="text-4xl">{users.length}</span> users
-          </p>
+          <p
+            className="text-2xl font-bold"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+            dangerouslySetInnerHTML={{
+              __html: chrome.i18n.getMessage("detected_users", [
+                users.length.toString(),
+              ]),
+            }}
+          />
           {errorMessage && <AlertError>{errorMessage}</AlertError>}
           {loading && (
             <>
@@ -122,7 +128,7 @@ const App = () => {
                 className="btn btn-primary mt-5 btn-ghost"
                 onClick={stopAndShowDetectedUsers}
               >
-                Stop Scanning and View Results
+                {chrome.i18n.getMessage("stop_scanning_and_view_results")}
               </button>
               <LoadingCards />
             </>
@@ -133,7 +139,7 @@ const App = () => {
               className="btn btn-primary mt-5"
               onClick={restart}
             >
-              Resume Scanning
+              {chrome.i18n.getMessage("resume_scanning")}
             </button>
           )}
           {!loading && isBottomReached && (
@@ -143,14 +149,14 @@ const App = () => {
                 className="btn btn-primary mt-5"
                 onClick={openOptionPage}
               >
-                View Detected Users
+                {chrome.i18n.getMessage("view_detected_users")}
               </button>
               <button
                 type="button"
                 className="btn btn-primary mt-5 btn-ghost"
                 onClick={restart}
               >
-                Resume Scanning
+                {chrome.i18n.getMessage("resume_scanning")}
               </button>
             </div>
           )}

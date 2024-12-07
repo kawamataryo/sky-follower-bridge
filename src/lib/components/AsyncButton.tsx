@@ -22,7 +22,7 @@ const AsyncButton = ({ onClick, label, className }: Props) => {
       onClick={handleClick}
       disabled={loading}
     >
-      {loading ? "Processing..." : label}
+      {loading ? chrome.i18n.getMessage("loading") : label}
     </button>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { match } from "ts-pattern";
+import { getMessageWithLink } from "~lib/utils";
 import type { MatchType, MatchTypeFilterValue } from "../../types";
 import {
   ACTION_MODE,
@@ -78,18 +79,19 @@ const Sidebar = ({
               </svg>
             </div>
             <div className="stat-title text-lg text-base-content font-bold">
-              Detected users
+              {chrome.i18n.getMessage("sidebar_detected_users")}
             </div>
             <div className="stat-value text-base-content">{detectedCount}</div>
             <div className="stat-desc">
-              Same handle name: {matchTypeStats[BSKY_USER_MATCH_TYPE.HANDLE]}
+              {chrome.i18n.getMessage("same_handle_name")}:{" "}
+              {matchTypeStats[BSKY_USER_MATCH_TYPE.HANDLE]}
             </div>
             <div className="stat-desc">
-              Same display name:{" "}
+              {chrome.i18n.getMessage("same_display_name")}:{" "}
               {matchTypeStats[BSKY_USER_MATCH_TYPE.DISPLAY_NAME]}
             </div>
             <div className="stat-desc">
-              Included handle in description:{" "}
+              {chrome.i18n.getMessage("included_handle_in_description")}:{" "}
               {matchTypeStats[BSKY_USER_MATCH_TYPE.DESCRIPTION]}
             </div>
           </div>
@@ -118,7 +120,7 @@ const Sidebar = ({
               <span className="text-sm">
                 {key === BSKY_USER_MATCH_TYPE.FOLLOWING &&
                 actionMode === ACTION_MODE.BLOCK
-                  ? "Blocked users"
+                  ? chrome.i18n.getMessage("blocked_user")
                   : MATCH_TYPE_LABEL_AND_COLOR[key].label}
               </span>
               <input
@@ -151,30 +153,39 @@ const Sidebar = ({
         </div>
         {match(actionMode)
           .with(ACTION_MODE.FOLLOW, () => (
-            <AsyncButton onClick={followAll} label="Follow All" />
+            <AsyncButton
+              onClick={followAll}
+              label={chrome.i18n.getMessage("follow_all")}
+            />
           ))
           .with(ACTION_MODE.BLOCK, () => (
-            <AsyncButton onClick={blockAll} label="Block All" />
+            <AsyncButton
+              onClick={blockAll}
+              label={chrome.i18n.getMessage("block_all")}
+            />
           ))
           .with(ACTION_MODE.IMPORT_LIST, () => (
-            <AsyncButton onClick={importList} label="Import List" />
+            <AsyncButton
+              onClick={importList}
+              label={chrome.i18n.getMessage("import_list")}
+            />
           ))
           .otherwise(() => null)}
         <p className="text-xs">
-          ⚠️ User detection is not perfect and may include false positives.
+          ⚠️ {chrome.i18n.getMessage("warning_user_detection")}
         </p>
       </div>
       <div className="mt-auto">
         <div className="divider" />
-        <p className="mb-2">
-          If you find this tool helpful, I'd appreciate{" "}
-          <a href="https://ko-fi.com/X8X315UWFN" className="link">
-            your support
-          </a>{" "}
-          to help me maintain and improve it ☕
-        </p>
+        <p
+          className="mb-2 text-xs"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+          dangerouslySetInnerHTML={{
+            __html: getMessageWithLink("donate_message"),
+          }}
+        />
         <a
-          href="https://ko-fi.com/X8X315UWFN"
+          href="https://ko-fi.com/kawamataryo"
           target="_blank"
           rel="noreferrer"
           style={{ display: "inline-block" }}

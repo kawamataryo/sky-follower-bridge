@@ -1,0 +1,244 @@
+{
+  "learn_more": {
+    "message": "Learn more",
+    "description": "Text for the learn more link"
+  },
+  "auth_factor_token": {
+    "message": "Auth Factor Token",
+    "description": "Text for the auth factor token input"
+  },
+  "2fa_token_sent": {
+    "message": "A 2FA token has been sent to your email",
+    "description": "Text for the 2FA token sent message"
+  },
+  "find_bluesky_users": {
+    "message": "Find Bluesky Users",
+    "description": "Text for the find bluesky users button"
+  },
+  "finding_bluesky_users": {
+    "message": "Finding Bluesky Users",
+    "description": "Text for the finding bluesky users message"
+  },
+  "password": {
+    "message": "Password",
+    "description": "Text for the password input"
+  },
+  "handle_or_email": {
+    "message": "Handle or Email",
+    "description": "Text for the handle or email input"
+  },
+  "recommended_to_use_app_password": {
+    "message": "We recommend using the [App Password](https://bsky.app/settings/app-passwords).",
+    "description": "Text for the recommended to use app password message"
+  },
+  "error_enter_password": {
+    "message": "Error: Please enter your password.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_enter_identifier": {
+    "message": "Error: Please enter your handle or email.",
+    "description": "Text for the error message when the handle or email is not entered"
+  },
+  "error_enter_identifier_and_password": {
+    "message": "Error: Please enter your handle or email and password.",
+    "description": "Text for the error message when the handle or email and password are not entered"
+  },
+  "error_enter_auth_factor_token": {
+    "message": "Error: Please enter your auth factor token.",
+    "description": "Text for the error message when the auth factor token is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "Error: Invalid handle or password.",
+    "description": "Text for the error message when the handle or password is invalid"
+  },
+  "error_invalid_page": {
+    "message": "Error: Invalid page. please open the target page.",
+    "description": "Text for the error message when the page is invalid"
+  },
+  "error_something_went_wrong": {
+    "message": "Error: Something went wrong. Please reload the web page and try again.",
+    "description": "Text for the error message when something went wrong"
+  },
+  "error_invalid_page_in_threads": {
+    "message": "Error: Invalid page. please open the followers or following view.",
+    "description": "Text for the error message when the page is invalid in threads"
+  },
+  "scanning_users": {
+    "message": "Scanning $service$ users to find bsky users...",
+    "description": "Text for the scanning users message",
+    "placeholders": {
+      "service": {
+        "content": "$1",
+        "example": "X"
+      }
+    }
+  },
+  "detected_users": {
+    "message": "Found <span class='text-4xl'>$users$</span> users",
+    "description": "Text for the detected users message",
+    "placeholders": {
+      "users": {
+        "content": "$1"
+      }
+    }
+  },
+  "stop_scanning_and_view_results": {
+    "message": "Stop Scanning and View Results",
+    "description": "Text for the stop scanning and view results button"
+  },
+  "resume_scanning": {
+    "message": "Resume Scanning",
+    "description": "Text for the resume scanning button"
+  },
+  "view_detected_users": {
+    "message": "View Detected Users",
+    "description": "Text for the view detected users button"
+  },
+  "follow_all_confirmation_title": {
+    "message": "Proceed with Execution?",
+    "description": "Text for the follow all confirmation title"
+  },
+  "follow_all_confirmation_message": {
+    "message": "User detection is not perfect and may include false positives.",
+    "description": "Text for the follow all confirmation message"
+  },
+  "import_list_confirmation_title": {
+    "message": "Proceed with Execution?",
+    "description": "Text for the import list confirmation title"
+  },
+  "import_list_confirmation_message": {
+    "message": "Importing a list will create a new list and add all detected users to it. This feature is experimental and may not work as expected.",
+    "description": "Text for the import list confirmation message"
+  },
+  "confirmation_cancel": {
+    "message": "Cancel",
+    "description": "Text for the confirmation cancel button"
+  },
+  "confirmation_ok": {
+    "message": "OK",
+    "description": "Text for the confirmation ok button"
+  },
+  "toast_pending": {
+    "message": "Processing...",
+    "description": "Text for the toast pending message"
+  },
+  "toast_follow_all_success": {
+    "message": "Followed $count$ users🎉",
+    "description": "Text for the toast follow all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_block_all_success": {
+    "message": "Blocked $count$ users🎉",
+    "description": "Text for the toast block all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_import_list_success_view_list": {
+    "message": "View Imported List",
+    "description": "Text for the toast import list success view list button"
+  },
+  "toast_import_list_success": {
+    "message": "List imported successfully🎉",
+    "description": "Text for the toast import list success message"
+  },
+  "toast_import_list_error": {
+    "message": "Failed to import list: $error$",
+    "description": "Text for the toast import list error message",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "source": {
+    "message": "Source",
+    "description": "Text for the source"
+  },
+  "detected": {
+    "message": "Detected",
+    "description": "Text for the detected"
+  },
+  "warning_user_detection": {
+    "message": "User detection is not perfect and may include false positives.",
+    "description": "Text for the warning user detection"
+  },
+  "donate_message": {
+    "message": "This tool is developed by an individual. Your [support](https://ko-fi.com/kawamataryo) helps maintain and improve it. Thank you!",
+    "description": "Text for the donate message"
+  },
+  "follow_all": {
+    "message": "Follow All",
+    "description": "Text for the follow all button"
+  },
+  "block_all": {
+    "message": "Block All",
+    "description": "Text for the block all button"
+  },
+  "import_list": {
+    "message": "Import List",
+    "description": "Text for the import list button"
+  },
+  "followed_users": {
+    "message": "Followed Users",
+    "description": "Text for the followed users"
+  },
+  "same_handle_name": {
+    "message": "Same Handle Name",
+    "description": "Text for the same handle name"
+  },
+  "same_display_name": {
+    "message": "Same Display Name",
+    "description": "Text for the same display name"
+  },
+  "included_handle_in_description": {
+    "message": "Included Handle in Description",
+    "description": "Text for the included handle in description"
+  },
+  "blocked_user": {
+    "message": "Blocked Users",
+    "description": "Text for the blocked user"
+  },
+  "sidebar_detected_users": {
+    "message": "Detected Users",
+    "description": "Text for the sidebar detected users"
+  },
+  "button_follow_on_bluesky": {
+    "message": "Follow on Bluesky",
+    "description": "Text for the button follow on bluesky"
+  },
+  "button_following_on_bluesky": {
+    "message": "Following on Bluesky",
+    "description": "Text for the button following on bluesky"
+  },
+  "button_unfollow_on_bluesky": {
+    "message": "Unfollow on Bluesky",
+    "description": "Text for the button unfollow on bluesky"
+  },
+  "button_block_on_bluesky": {
+    "message": "Block on Bluesky",
+    "description": "Text for the button block on bluesky"
+  },
+  "button_blocking_on_bluesky": {
+    "message": "Blocking on Bluesky",
+    "description": "Text for the button blocking on bluesky"
+  },
+  "button_unblock_on_bluesky": {
+    "message": "Unblock on Bluesky",
+    "description": "Text for the button unblock on bluesky"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "Text for the loading message"
+  },
+  "re_search_modal_title": {
+    "message": "Search Results",
+    "description": "Text for the re search modal title"
+  }
+}

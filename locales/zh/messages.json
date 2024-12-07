@@ -1,0 +1,244 @@
+{
+  "learn_more": {
+    "message": "了解更多",
+    "description": "Text for the learn more link"
+  },
+  "auth_factor_token": {
+    "message": "验证令牌",
+    "description": "Text for the auth factor token input"
+  },
+  "2fa_token_sent": {
+    "message": "双重验证令牌已发送至您的邮箱",
+    "description": "Text for the 2FA token sent message"
+  },
+  "find_bluesky_users": {
+    "message": "查找Bluesky用户",
+    "description": "Text for the find bluesky users button"
+  },
+  "finding_bluesky_users": {
+    "message": "正在查找Bluesky用户",
+    "description": "Text for the finding bluesky users message"
+  },
+  "password": {
+    "message": "密码",
+    "description": "Text for the password input"
+  },
+  "handle_or_email": {
+    "message": "用户名或邮箱",
+    "description": "Text for the handle or email input"
+  },
+  "recommended_to_use_app_password": {
+    "message": "建议使用[应用密码](https://bsky.app/settings/app-passwords)",
+    "description": "Text for the recommended to use app password message"
+  },
+  "error_enter_password": {
+    "message": "错误：请输入密码",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_enter_identifier": {
+    "message": "错误：请输入用户名或邮箱",
+    "description": "Text for the error message when the handle or email is not entered"
+  },
+  "error_enter_identifier_and_password": {
+    "message": "错误：请输入用户名或邮箱和密码",
+    "description": "Text for the error message when the handle or email and password are not entered"
+  },
+  "error_enter_auth_factor_token": {
+    "message": "错误：请输入验证令牌",
+    "description": "Text for the error message when the auth factor token is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "错误：用户名或密码无效",
+    "description": "Text for the error message when the handle or password is invalid"
+  },
+  "error_invalid_page": {
+    "message": "错误：无效页面。请打开目标页面",
+    "description": "Text for the error message when the page is invalid"
+  },
+  "error_something_went_wrong": {
+    "message": "错误：出现问题。请刷新网页并重试",
+    "description": "Text for the error message when something went wrong"
+  },
+  "error_invalid_page_in_threads": {
+    "message": "错误：无效页面。请打开关注者或正在关注的视图",
+    "description": "Text for the error message when the page is invalid in threads"
+  },
+  "scanning_users": {
+    "message": "正在扫描$service$用户以查找Bluesky用户...",
+    "description": "Text for the scanning users message",
+    "placeholders": {
+      "service": {
+        "content": "$1",
+        "example": "X"
+      }
+    }
+  },
+  "detected_users": {
+    "message": "发现<span class='text-4xl'>$users$</span>位用户",
+    "description": "Text for the detected users message",
+    "placeholders": {
+      "users": {
+        "content": "$1"
+      }
+    }
+  },
+  "stop_scanning_and_view_results": {
+    "message": "停止扫描并查看结果",
+    "description": "Text for the stop scanning and view results button"
+  },
+  "resume_scanning": {
+    "message": "继续扫描",
+    "description": "Text for the resume scanning button"
+  },
+  "view_detected_users": {
+    "message": "查看检测到的用户",
+    "description": "Text for the view detected users button"
+  },
+  "follow_all_confirmation_title": {
+    "message": "是否继续执行？",
+    "description": "Text for the follow all confirmation title"
+  },
+  "follow_all_confirmation_message": {
+    "message": "用户检测并非完美，可能包含误报",
+    "description": "Text for the follow all confirmation message"
+  },
+  "import_list_confirmation_title": {
+    "message": "是否继续执行？",
+    "description": "Text for the import list confirmation title"
+  },
+  "import_list_confirmation_message": {
+    "message": "导入列表将创建一个新列表并添加所有检测到的用户。此功能为实验性功能，可能无法按预期工作",
+    "description": "Text for the import list confirmation message"
+  },
+  "confirmation_cancel": {
+    "message": "取消",
+    "description": "Text for the confirmation cancel button"
+  },
+  "confirmation_ok": {
+    "message": "确定",
+    "description": "Text for the confirmation ok button"
+  },
+  "toast_pending": {
+    "message": "处理中...",
+    "description": "Text for the toast pending message"
+  },
+  "toast_follow_all_success": {
+    "message": "已关注$count$个用户 🎉",
+    "description": "Text for the toast follow all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_block_all_success": {
+    "message": "已屏蔽$count$个用户🎉",
+    "description": "Text for the toast block all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_import_list_success_view_list": {
+    "message": "查看导入的列表",
+    "description": "Text for the toast import list success view list button"
+  },
+  "toast_import_list_success": {
+    "message": "列表导入成功🎉",
+    "description": "Text for the toast import list success message"
+  },
+  "toast_import_list_error": {
+    "message": "导入列表失败：$error$",
+    "description": "Text for the toast import list error message",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "source": {
+    "message": "来源",
+    "description": "Text for the source"
+  },
+  "detected": {
+    "message": "已检测",
+    "description": "Text for the detected"
+  },
+  "warning_user_detection": {
+    "message": "用户检测并非完美，可能包含误报",
+    "description": "Text for the warning user detection"
+  },
+  "donate_message": {
+    "message": "此工具由个人开发。您的[支持](https://ko-fi.com/kawamataryo)有助于维护和改进它。",
+    "description": "Text for the donate message"
+  },
+  "follow_all": {
+    "message": "关注全部",
+    "description": "Text for the follow all button"
+  },
+  "block_all": {
+    "message": "屏蔽全部",
+    "description": "Text for the block all button"
+  },
+  "import_list": {
+    "message": "导入列表",
+    "description": "Text for the import list button"
+  },
+  "followed_users": {
+    "message": "已关注的用户",
+    "description": "Text for the followed users"
+  },
+  "same_handle_name": {
+    "message": "相同用户名",
+    "description": "Text for the same handle name"
+  },
+  "same_display_name": {
+    "message": "相同显示名称",
+    "description": "Text for the same display name"
+  },
+  "included_handle_in_description": {
+    "message": "简介中包含用户名",
+    "description": "Text for the included handle in description"
+  },
+  "blocked_user": {
+    "message": "已屏蔽的用户",
+    "description": "Text for the blocked user"
+  },
+  "sidebar_detected_users": {
+    "message": "检测到的用户",
+    "description": "Text for the sidebar detected users"
+  },
+  "button_follow_on_bluesky": {
+    "message": "在Bluesky上关注",
+    "description": "Text for the button follow on bluesky"
+  },
+  "button_following_on_bluesky": {
+    "message": "在Bluesky上关注中",
+    "description": "Text for the button following on bluesky"
+  },
+  "button_unfollow_on_bluesky": {
+    "message": "在Bluesky上取消关注",
+    "description": "Text for the button unfollow on bluesky"
+  },
+  "button_block_on_bluesky": {
+    "message": "在Bluesky上屏蔽",
+    "description": "Text for the button block on bluesky"
+  },
+  "button_blocking_on_bluesky": {
+    "message": "在Bluesky上屏蔽中",
+    "description": "Text for the button blocking on bluesky"
+  },
+  "button_unblock_on_bluesky": {
+    "message": "在Bluesky上取消屏蔽",
+    "description": "Text for the button unblock on bluesky"
+  },
+  "loading": {
+    "message": "加载中...",
+    "description": "Text for the loading message"
+  },
+  "re_search_modal_title": {
+    "message": "搜索结果",
+    "description": "Text for the re search modal title"
+  }
+}

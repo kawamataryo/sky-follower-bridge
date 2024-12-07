@@ -29,16 +29,16 @@ const DetectedUserListItem = ({
       match(actionMode)
         .with(ACTION_MODE.FOLLOW, ACTION_MODE.IMPORT_LIST, () => {
           const follow = {
-            label: "Follow on Bluesky",
+            label: chrome.i18n.getMessage("button_follow_on_bluesky"),
             class: "btn-primary",
           };
           const following = {
-            label: "Following on Bluesky",
+            label: chrome.i18n.getMessage("button_following_on_bluesky"),
             class:
               "btn-outline hover:bg-transparent hover:border hover:bg-transparent hover:text-base-content",
           };
           const unfollow = {
-            label: "Unfollow on Bluesky",
+            label: chrome.i18n.getMessage("button_unfollow_on_bluesky"),
             class:
               "text-red-500 hover:bg-transparent hover:border hover:border-red-500",
           };
@@ -52,16 +52,16 @@ const DetectedUserListItem = ({
         })
         .with(ACTION_MODE.BLOCK, () => {
           const block = {
-            label: "Block on Bluesky",
+            label: chrome.i18n.getMessage("button_block_on_bluesky"),
             class: "btn-primary",
           };
           const blocking = {
-            label: "Blocking on Bluesky",
+            label: chrome.i18n.getMessage("button_blocking_on_bluesky"),
             class:
               "btn-outline hover:bg-transparent hover:border hover:bg-transparent hover:text-base-content",
           };
           const unblock = {
-            label: "Unblock on Bluesky",
+            label: chrome.i18n.getMessage("button_unblock_on_bluesky"),
             class:
               "text-red-500 hover:bg-transparent hover:border hover:border-red-500",
           };
@@ -106,12 +106,12 @@ const DetectedUserListItem = ({
     <div>
       <div className={`w-full border-l-8 border-${matchTypeColor}`}>
         <div
-          className={`w-full border-t border-gray-500 text-${matchTypeColor} grid grid-cols-[22%_1fr]`}
+          className={`w-full border-t border-gray-500 text-${matchTypeColor} grid grid-cols-[22%_1fr] text-xs`}
         >
-          <div className="px-3 bg-slate-100 dark:bg-slate-800">
+          <div className="px-3 bg-slate-100 dark:bg-slate-800" />
+          <div className="px-3">
             {MATCH_TYPE_LABEL_AND_COLOR[user.matchType].label}
           </div>
-          <div className="px-3" />
         </div>
         <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
           <DetectedUserSource user={user} />
