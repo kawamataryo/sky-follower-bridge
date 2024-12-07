@@ -1,0 +1,244 @@
+{
+  "learn_more": {
+    "message": "詳細を見る",
+    "description": "Text for the learn more link"
+  },
+  "auth_factor_token": {
+    "message": "2要素認証トークン",
+    "description": "Text for the auth factor token input"
+  },
+  "2fa_token_sent": {
+    "message": "2要素認証トークンがメールに送信されました",
+    "description": "Text for the 2FA token sent message"
+  },
+  "find_bluesky_users": {
+    "message": "Blueskyユーザーを探す",
+    "description": "Text for the find bluesky users button"
+  },
+  "finding_bluesky_users": {
+    "message": "検索中",
+    "description": "Text for the finding bluesky users message"
+  },
+  "password": {
+    "message": "パスワード",
+    "description": "Text for the password input"
+  },
+  "handle_or_email": {
+    "message": "ハンドル名またはメールアドレス",
+    "description": "Text for the handle or email input"
+  },
+  "recommended_to_use_app_password": {
+    "message": "[アプリパスワード](https://bsky.app/settings/app-passwords)の使用をお勧めします",
+    "description": "Text for the recommended to use app password message"
+  },
+  "error_enter_password": {
+    "message": "エラー: パスワードを入力してください。",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_enter_identifier": {
+    "message": "エラー: ハンドルまたはメールを入力してください。",
+    "description": "Text for the error message when the handle or email is not entered"
+  },
+  "error_enter_identifier_and_password": {
+    "message": "エラー: ハンドルまたはメールとパスワードを入力してください。",
+    "description": "Text for the error message when the handle or email and password are not entered"
+  },
+  "error_enter_auth_factor_token": {
+    "message": "エラー: 2要素認証トークンを入力してください。",
+    "description": "Text for the error message when the auth factor token is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "エラー: ハンドル名またはパスワードが無効です。",
+    "description": "Text for the error message when the handle or password is invalid"
+  },
+  "error_invalid_page": {
+    "message": "エラー: 無効なページです。対象のページを開いてください。",
+    "description": "Text for the error message when the page is invalid"
+  },
+  "error_something_went_wrong": {
+    "message": "エラー: 問題が発生しました。ウェブページをリロードして再試行してください。",
+    "description": "Text for the error message when something went wrong"
+  },
+  "error_invalid_page_in_threads": {
+    "message": "エラー: 無効なページです。フォロワー/フォロー中一覧を開いてください。",
+    "description": "Text for the error message when the page is invalid in threads"
+  },
+  "scanning_users": {
+    "message": "$service$のからBlueskyのユーザーを検索中...",
+    "description": "Text for the scanning users message",
+    "placeholders": {
+      "service": {
+        "content": "$1",
+        "example": "X"
+      }
+    }
+  },
+  "detected_users": {
+    "message": "<span class='text-4xl'>$users$</span> 人を検出",
+    "description": "Text for the detected users message",
+    "placeholders": {
+      "users": {
+        "content": "$1"
+      }
+    }
+  },
+  "stop_scanning_and_view_results": {
+    "message": "検索を停止して結果を表示",
+    "description": "Text for the stop scanning and view results button"
+  },
+  "resume_scanning": {
+    "message": "検索を再開",
+    "description": "Text for the resume scanning button"
+  },
+  "view_detected_users": {
+    "message": "検出したユーザーを表示",
+    "description": "Text for the view detected users button"
+  },
+  "follow_all_confirmation_title": {
+    "message": "実行しますか？",
+    "description": "Text for the follow all confirmation title"
+  },
+  "follow_all_confirmation_message": {
+    "message": "ユーザー検出は完璧ではありません。誤検出が含まれる可能性があります。",
+    "description": "Text for the follow all confirmation message"
+  },
+  "import_list_confirmation_title": {
+    "message": "実行しますか？",
+    "description": "Text for the import list confirmation title"
+  },
+  "import_list_confirmation_message": {
+    "message": "リストのインポートは実験的な機能です。また、ユーザー検出は完璧ではありません。誤検出が含まれる可能性があります。",
+    "description": "Text for the import list confirmation message"
+  },
+  "confirmation_cancel": {
+    "message": "キャンセル",
+    "description": "Text for the confirmation cancel button"
+  },
+  "confirmation_ok": {
+    "message": "OK",
+    "description": "Text for the confirmation ok button"
+  },
+  "toast_pending": {
+    "message": "処理中...",
+    "description": "Text for the toast pending message"
+  },
+  "toast_follow_all_success": {
+    "message": "$count$ユーザーをフォローしました🎉",
+    "description": "Text for the toast follow all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_block_all_success": {
+    "message": "$count$ユーザーをブロックしました🎉",
+    "description": "Text for the toast block all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_import_list_success": {
+    "message": "リストをインポートしました🎉",
+    "description": "Text for the toast import list success message"
+  },
+  "toast_import_list_success_view_list": {
+    "message": "リストを表示",
+    "description": "Text for the toast import list success view list button"
+  },
+  "toast_import_list_error": {
+    "message": "リストのインポートに失敗しました: $error$",
+    "description": "Text for the toast import list error message",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "source": {
+    "message": "検出元",
+    "description": "Text for the source"
+  },
+  "detected": {
+    "message": "結果",
+    "description": "Text for the detected"
+  },
+  "warning_user_detection": {
+    "message": "ユーザー検出は完璧ではありません。誤検出が含まれる可能性があります。",
+    "description": "Text for the warning user detection"
+  },
+  "donate_message": {
+    "message": "このツールは個人で開発しています。[支援](https://ko-fi.com/kawamataryo)いただけると、今後の開発の励みになります。",
+    "description": "Text for the donate message"
+  },
+  "follow_all": {
+    "message": "全てをフォロー",
+    "description": "Text for the follow all button"
+  },
+  "block_all": {
+    "message": "全てをブロック",
+    "description": "Text for the block all button"
+  },
+  "import_list": {
+    "message": "リストをインポート",
+    "description": "Text for the import list button"
+  },
+  "followed_users": {
+    "message": "フォロー中のユーザー",
+    "description": "Text for the followed users"
+  },
+  "same_handle_name": {
+    "message": "同じハンドル名",
+    "description": "Text for the same handle name"
+  },
+  "same_display_name": {
+    "message": "同じ表示名",
+    "description": "Text for the same display name"
+  },
+  "included_handle_in_description": {
+    "message": "ハンドル名を概要に含む",
+    "description": "Text for the included handle in description"
+  },
+  "blocked_user": {
+    "message": "ブロック中のユーザー",
+    "description": "Text for the blocked user"
+  },
+  "sidebar_detected_users": {
+    "message": "検出したユーザー数",
+    "description": "Text for the sidebar detected users"
+  },
+  "button_follow_on_bluesky": {
+    "message": "Blueskyでフォロー",
+    "description": "Text for the button follow on bluesky"
+  },
+  "button_following_on_bluesky": {
+    "message": "Blueskyでフォロー中",
+    "description": "Text for the button following on bluesky"
+  },
+  "button_unfollow_on_bluesky": {
+    "message": "Blueskyでフォロー解除",
+    "description": "Text for the button unfollow on bluesky"
+  },
+  "button_block_on_bluesky": {
+    "message": "Blueskyでブロック",
+    "description": "Text for the button block on bluesky"
+  },
+  "button_blocking_on_bluesky": {
+    "message": "Blueskyでブロック中",
+    "description": "Text for the button blocking on bluesky"
+  },
+  "button_unblock_on_bluesky": {
+    "message": "Blueskyでブロック解除",
+    "description": "Text for the button unblock on bluesky"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "description": "Text for the loading message"
+  },
+  "re_search_modal_title": {
+    "message": "再検索",
+    "description": "Text for the re search modal title"
+  }
+}

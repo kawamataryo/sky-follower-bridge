@@ -26,12 +26,14 @@ const ReSearchModal: React.FC<ReSearchModalProps> = ({
 }) => {
   return (
     <Modal open={open} width={600} onClose={onClose}>
-      <h2 className="text-lg font-bold text-center py-2">Search Results</h2>
+      <h2 className="text-lg font-bold text-center py-2">
+        {chrome.i18n.getMessage("re_search_modal_title")}
+      </h2>
       {reSearchResults.users.length === 0 && (
         <div className="text-center flex justify-center items-center flex-col gap-4 mt-5">
           <span className="loading loading-spinner loading-lg" />
           <div className="text-center flex justify-center items-center text-sm">
-            Loading...
+            {chrome.i18n.getMessage("loading")}
           </div>
         </div>
       )}

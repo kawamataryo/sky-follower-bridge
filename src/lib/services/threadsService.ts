@@ -28,10 +28,7 @@ export class ThreadsService extends AbstractService {
       '[role="dialog"] [role="tab"]>[role="button"]',
     );
     if (!isTargetPage) {
-      return [
-        false,
-        "Invalid page. please open the following or followers view.",
-      ];
+      return [false, chrome.i18n.getMessage("error_invalid_page_in_threads")];
     }
     return [true, ""];
   }

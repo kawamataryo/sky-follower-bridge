@@ -10,6 +10,7 @@ import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
   BSKY_DOMAIN,
   DOCUMENT_LINK,
+  INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   MESSAGE_TYPE,
@@ -17,6 +18,7 @@ import {
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
+import { getMessageWithLink } from "~lib/utils";
 
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +34,6 @@ function IndexPopup() {
     documentLink?: string;
   }>(null);
   const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
-  const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
   const setErrorMessage = (message: string, documentLink?: string) => {
     setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
@@ -82,19 +83,21 @@ function IndexPopup() {
 
   const validateForm = () => {
     if (!password && !identifier) {
-      setErrorMessage("Error: Please enter your password and identifier.");
+      setErrorMessage(
+        chrome.i18n.getMessage("error_enter_identifier_and_password"),
+      );
       return false;
     }
     if (!password) {
-      setErrorMessage("Error: Please enter your password.");
+      setErrorMessage(chrome.i18n.getMessage("error_enter_password"));
       return false;
     }
     if (!identifier) {
-      setErrorMessage("Error: Please enter your identifier.");
+      setErrorMessage(chrome.i18n.getMessage("error_enter_identifier"));
       return false;
     }
     if (isShowAuthFactorTokenInput && !authFactorToken) {
-      setErrorMessage("Error: Please enter your auth factor token.");
+      setErrorMessage(chrome.i18n.getMessage("error_enter_auth_factor_token"));
       return false;
     }
     return true;
@@ -116,7 +119,7 @@ function IndexPopup() {
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       setErrorMessage(
-        "Error: Invalid page. please open the target page.",
+        chrome.i18n.getMessage("error_invalid_page"),
         DOCUMENT_LINK.PAGE_ERROR,
       );
       return;
@@ -167,6 +170,13 @@ function IndexPopup() {
           await saveShowAuthFactorTokenInputToStorage(true);
         } else if (error.message.includes(RATE_LIMIT_ERROR_MESSAGE)) {
           setErrorMessage(error.message, DOCUMENT_LINK.RATE_LIMIT_ERROR);
+        } else if (
+          error.message.includes(INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE)
+        ) {
+          setErrorMessage(
+            chrome.i18n.getMessage("error_invalid_identifier_or_password"),
+            DOCUMENT_LINK.LOGIN_ERROR,
+          );
         } else {
           setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
         }
@@ -203,7 +213,7 @@ function IndexPopup() {
         await searchBskyUser();
       } else {
         setErrorMessage(
-          "Error: Something went wrong. Please reload the web page and try again.",
+          chrome.i18n.getMessage("error_something_went_wrong"),
           DOCUMENT_LINK.OTHER_ERROR,
         );
       }
@@ -259,7 +269,7 @@ function IndexPopup() {
                 d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            Handle or Email
+            {chrome.i18n.getMessage("handle_or_email")}
           </div>
           <input
             type="text"
@@ -287,20 +297,17 @@ function IndexPopup() {
               />
             </svg>
             <p>
-              Password
+              {chrome.i18n.getMessage("password")}
               <br />
             </p>
           </div>
           <span className="text-xs">
-            We recommend using the{" "}
-            <a
-              href="https://bsky.app/settings/app-passwords"
-              target="_blank"
-              rel="noreferrer"
-              className="link"
-            >
-              App Password.
-            </a>
+            <span
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+              dangerouslySetInnerHTML={{
+                __html: getMessageWithLink("recommended_to_use_app_password"),
+              }}
+            />
           </span>
           <input
             type="password"
@@ -323,8 +330,8 @@ function IndexPopup() {
                 className="w-4 h-4"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
                 />
               </svg>
@@ -351,10 +358,12 @@ function IndexPopup() {
           disabled={isLoading}
         >
           {isLoading && <span className="w-4 loading loading-spinner" />}
-          {isLoading ? "Finding Bluesky Users" : "Find Bluesky Users"}
+          {isLoading
+            ? chrome.i18n.getMessage("finding_bluesky_users")
+            : chrome.i18n.getMessage("find_bluesky_users")}
         </button>
         {isShowErrorMessage && (
-          <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2">
+          <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2 text-xs">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
@@ -377,29 +386,10 @@ function IndexPopup() {
                   rel="noreferrer"
                   className="link ml-2"
                 >
-                  Learn more
+                  {chrome.i18n.getMessage("learn_more")}
                 </a>
               )}
-              .
             </span>
-          </div>
-        )}
-        {isShowSuccessMessage && (
-          <div className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Success. Try again if no results found.</span>
           </div>
         )}
       </form>

@@ -31,22 +31,20 @@ const Option = () => {
     confirm: followAllConfirm,
     ConfirmationDialog: FollowAllConfirmationDialog,
   } = useConfirm({
-    title: "Proceed with Execution?",
-    message:
-      "User detection is not perfect and may include false positives. Do you still want to proceed?",
-    cancelText: "Cancel",
-    okText: "OK",
+    title: chrome.i18n.getMessage("follow_all_confirmation_title"),
+    message: chrome.i18n.getMessage("follow_all_confirmation_message"),
+    cancelText: chrome.i18n.getMessage("confirmation_cancel"),
+    okText: chrome.i18n.getMessage("confirmation_ok"),
   });
 
   const {
     confirm: importListConfirm,
     ConfirmationDialog: ImportListConfirmationDialog,
   } = useConfirm({
-    title: "Proceed with Execution?",
-    message:
-      "Importing a list will create a new list and add all detected users to it. This feature is experimental and may not work as expected. Do you still want to proceed?",
-    cancelText: "Cancel",
-    okText: "OK",
+    title: chrome.i18n.getMessage("import_list_confirmation_title"),
+    message: chrome.i18n.getMessage("import_list_confirmation_message"),
+    cancelText: chrome.i18n.getMessage("confirmation_cancel"),
+    okText: chrome.i18n.getMessage("confirmation_ok"),
   });
 
   const handleFollowAll = async () => {
@@ -54,10 +52,16 @@ const Option = () => {
       return;
     }
     toast.promise(followAll, {
-      pending: "Processing...",
+      pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
-          return <span className="font-bold">Followed {data} users🎉</span>;
+          return (
+            <span className="font-bold">
+              {chrome.i18n.getMessage("toast_follow_all_success", [
+                data.toString(),
+              ])}
+            </span>
+          );
         },
       },
     });
@@ -68,10 +72,16 @@ const Option = () => {
       return;
     }
     toast.promise(blockAll, {
-      pending: "Processing...",
+      pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
-          return <span className="font-bold">Blocked {data} users🎉</span>;
+          return (
+            <span className="font-bold">
+              {chrome.i18n.getMessage("toast_block_all_success", [
+                data.toString(),
+              ])}
+            </span>
+          );
         },
       },
     });
@@ -82,15 +92,17 @@ const Option = () => {
       return;
     }
     toast.promise(importList, {
-      pending: "Processing...",
+      pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
           return (
             <>
-              <span className="font-bold">List imported successfully🎉</span>
+              <span className="font-bold">
+                {chrome.i18n.getMessage("toast_import_list_success")}
+              </span>
               <br />
               <a href={data} target="_blank" rel="noreferrer" className="link">
-                View Imported List
+                {chrome.i18n.getMessage("toast_import_list_success_view_list")}
               </a>
             </>
           );
@@ -98,8 +110,9 @@ const Option = () => {
       },
       error: {
         render({ data }) {
-          console.log(data);
-          return `Failed to import list: ${data}`;
+          return chrome.i18n.getMessage("toast_import_list_error", [
+            data as string,
+          ]);
         },
       },
     });
@@ -153,8 +166,12 @@ const Option = () => {
         </div>
         <div className="flex-1 ml-80 p-6 pt-0 overflow-y-auto">
           <div className="grid grid-cols-[22%_1fr] sticky top-0 z-10 bg-base-100 border-b-[1px] border-gray-500">
-            <h2 className="text-lg font-bold text-center py-2">Source</h2>
-            <h2 className="text-lg font-bold text-center py-2">Detected</h2>
+            <h2 className="text-lg font-bold text-center py-2">
+              {chrome.i18n.getMessage("source")}
+            </h2>
+            <h2 className="text-lg font-bold text-center py-2">
+              {chrome.i18n.getMessage("detected")}
+            </h2>
           </div>
           <div className="flex flex-col border-b-[1px] border-gray-500">
             {filteredUsers.map((user) => (

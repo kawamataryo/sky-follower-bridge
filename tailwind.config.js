@@ -8,7 +8,13 @@ module.exports = {
   safelist: [
     {
       pattern: /(badge|border|bg|text|border-b)-(info|warning|secondary|neutral|success)/,
-    }
+    },
+    {
+      pattern: /(link)/,
+    },
+    {
+      pattern: /(text-4xl)/,
+    },
   ],
   daisyui: {
     themes: [
