@@ -25,6 +25,7 @@ export default defineConfig({
 
   description: "Effortlessly migrate your followers from X, Twitter, and Threads to Bluesky with our free browser extension.",
   themeConfig: {
+    siteTitle: "Sky Follower Bridge",
     logo: {
       src: "/images/logo.webp",
       alt: "Sky Follower Bridge Logo",
@@ -87,19 +88,15 @@ export default defineConfig({
     root: {
       label: 'English',
       lang: 'en',
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: Free X to Bluesky Migration Tool' }],
-      ],
     },
     ja: {
       label: '日本語',
       lang: 'ja',
       link: '/ja/',
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: 無料のXからBlueskyへの移行ツール' }],
-      ],
+      title: 'Sky Follower Bridge: 無料のXからBlueskyへの移行ツール',
       description: '無料のブラウザ拡張機能で、X、Twitter、ThreadsからBlueskyへフォロワーを簡単に移行。',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Home", link: "/" },
           { text: "使い方", link: "/ja/get-started" },
@@ -111,11 +108,10 @@ export default defineConfig({
       label: "Italiano",
       lang: "it",
       link: "/it/",
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: Strumento gratuito di migrazione da X a Bluesky' }],
-      ],
+      title: 'Sky Follower Bridge: Strumento gratuito di migrazione da X a Bluesky',
       description: 'Migra facilmente i tuoi follower da X, Twitter e Threads a Bluesky con la nostra estensione del browser gratuita.',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Home", link: "/" },
           { text: "Iniziare", link: "/it/get-started" },
@@ -127,11 +123,10 @@ export default defineConfig({
       label: "简体中文",
       lang: "zh",
       link: "/zh/",
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: 免费的X到Bluesky迁移工具' }],
-      ],
+      title: 'Sky Follower Bridge: 免费的X到Bluesky迁移工具',
       description: '使用我们的免费浏览器扩展，轻松将您的关注者从X、Twitter和Threads迁移到Bluesky。',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "首页", link: "/" },
           { text: "入门", link: "/zh/get-started" },
@@ -143,11 +138,10 @@ export default defineConfig({
       label: "Français",
       lang: "fr",
       link: "/fr/",
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: Outil gratuit de migration de X vers Bluesky' }],
-      ],
+      title: 'Sky Follower Bridge: Outil gratuit de migration de X vers Bluesky',
       description: 'Migrez facilement vos abonnés de X, Twitter et Threads vers Bluesky avec notre extension de navigateur gratuite.',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Accueil", link: "/" },
           { text: "Commencer", link: "/fr/get-started" },
@@ -159,11 +153,10 @@ export default defineConfig({
       label: "Português",
       lang: "pt",
       link: "/pt/",
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: Ferramenta gratuita de migração de X para Bluesky' }],
-      ],
+      title: 'Sky Follower Bridge: Ferramenta gratuita de migração de X para Bluesky',
       description: 'Migre facilmente seus seguidores de X, Twitter e Threads para Bluesky com nossa extensão de navegador gratuita.',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Início", link: "/" },
           { text: "Introdução", link: "/pt/get-started" },
@@ -175,11 +168,10 @@ export default defineConfig({
       label: "Español",
       lang: "es",
       link: "/es/",
-      head: [
-        ['meta', { name: 'title', content: 'Sky Follower Bridge: Herramienta gratuita de migración de X a Bluesky' }],
-      ],
+      title: 'Sky Follower Bridge: Herramienta gratuita de migración de X a Bluesky',
       description: 'Migra fácilmente tus seguidores de X, Twitter y Threads a Bluesky con nuestra extensión de navegador gratuita.',
       themeConfig: {
+        siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Inicio", link: "/" },
           { text: "Comenzando", link: "/es/get-started" },
