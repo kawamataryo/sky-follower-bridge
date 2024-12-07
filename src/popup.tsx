@@ -32,7 +32,6 @@ function IndexPopup() {
     documentLink?: string;
   }>(null);
   const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
-  const isShowSuccessMessage = message?.type === MESSAGE_TYPE.SUCCESS;
 
   const setErrorMessage = (message: string, documentLink?: string) => {
     setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
@@ -382,24 +381,6 @@ function IndexPopup() {
               )}
               .
             </span>
-          </div>
-        )}
-        {isShowSuccessMessage && (
-          <div className="flex gap-2 items-center text-green-600 border border-green-600 p-1 rounded-md mt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Success. Try again if no results found.</span>
           </div>
         )}
       </form>
