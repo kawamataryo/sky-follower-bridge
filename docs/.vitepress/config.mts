@@ -87,12 +87,17 @@ export default defineConfig({
     root: {
       label: 'English',
       lang: 'en',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: Free X to Bluesky Migration Tool' }],
+      ],
     },
     ja: {
       label: '日本語',
       lang: 'ja',
       link: '/ja/',
-      title: 'Sky Follower Bridge: 無料のXからBlueskyへの移行ツール',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: 無料のXからBlueskyへの移行ツール' }],
+      ],
       description: '無料のブラウザ拡張機能で、X、Twitter、ThreadsからBlueskyへフォロワーを簡単に移行。',
       themeConfig: {
         nav: [
@@ -106,7 +111,9 @@ export default defineConfig({
       label: "Italiano",
       lang: "it",
       link: "/it/",
-      title: 'Sky Follower Bridge: Strumento gratuito di migrazione da X a Bluesky',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: Strumento gratuito di migrazione da X a Bluesky' }],
+      ],
       description: 'Migra facilmente i tuoi follower da X, Twitter e Threads a Bluesky con la nostra estensione del browser gratuita.',
       themeConfig: {
         nav: [
@@ -120,7 +127,9 @@ export default defineConfig({
       label: "简体中文",
       lang: "zh",
       link: "/zh/",
-      title: 'Sky Follower Bridge: 免费的X到Bluesky迁移工具',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: 免费的X到Bluesky迁移工具' }],
+      ],
       description: '使用我们的免费浏览器扩展，轻松将您的关注者从X、Twitter和Threads迁移到Bluesky。',
       themeConfig: {
         nav: [
@@ -134,7 +143,9 @@ export default defineConfig({
       label: "Français",
       lang: "fr",
       link: "/fr/",
-      title: 'Sky Follower Bridge: Outil gratuit de migration de X vers Bluesky',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: Outil gratuit de migration de X vers Bluesky' }],
+      ],
       description: 'Migrez facilement vos abonnés de X, Twitter et Threads vers Bluesky avec notre extension de navigateur gratuite.',
       themeConfig: {
         nav: [
@@ -148,7 +159,9 @@ export default defineConfig({
       label: "Português",
       lang: "pt",
       link: "/pt/",
-      title: 'Sky Follower Bridge: Ferramenta gratuita de migração de X para Bluesky',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: Ferramenta gratuita de migração de X para Bluesky' }],
+      ],
       description: 'Migre facilmente seus seguidores de X, Twitter e Threads para Bluesky com nossa extensão de navegador gratuita.',
       themeConfig: {
         nav: [
@@ -162,7 +175,9 @@ export default defineConfig({
       label: "Español",
       lang: "es",
       link: "/es/",
-      title: 'Sky Follower Bridge: Herramienta gratuita de migración de X a Bluesky',
+      head: [
+        ['meta', { name: 'title', content: 'Sky Follower Bridge: Herramienta gratuita de migración de X a Bluesky' }],
+      ],
       description: 'Migra fácilmente tus seguidores de X, Twitter y Threads a Bluesky con nuestra extensión de navegador gratuita.',
       themeConfig: {
         nav: [
