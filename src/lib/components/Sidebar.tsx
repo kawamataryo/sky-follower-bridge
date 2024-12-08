@@ -35,7 +35,7 @@ const Sidebar = ({
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
       <div className="flex-grow">
         <a
-          href="https://sky-follower-bridge.de"
+          href="https://www.sky-follower-bridge.dev"
           className="flex items-center gap-2"
         >
           <svg

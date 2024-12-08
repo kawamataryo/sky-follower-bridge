@@ -18,7 +18,7 @@ const SocialLinks = () => {
         </svg>
       </a>
       <a
-        href="https://bsky.app/profile/kawamataryo.bsky.social"
+        href="https://bsky.app/profile/sky-follower-bridge.dev"
         target="_blank"
         rel="noreferrer"
         className="bg-base-100 p-2 rounded-full hover:opacity-80"
@@ -47,6 +47,27 @@ const SocialLinks = () => {
           fill="currentColor"
         >
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      </a>
+      <a
+        href="https://ko-fi.com/kawamataryo"
+        target="_blank"
+        rel="noreferrer"
+        className="bg-base-100 p-2 rounded-full hover:opacity-80"
+      >
+        <svg
+          role="img"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          id="Kofi--Streamline-Simple-Icons"
+          height="18"
+          width="18"
+          fill="currentColor"
+        >
+          <path
+            d="M23.881 8.948c-0.773 -4.085 -4.859 -4.593 -4.859 -4.593H0.723c-0.604 0 -0.679 0.798 -0.679 0.798s-0.082 7.324 -0.022 11.822c0.164 2.424 2.586 2.672 2.586 2.672s8.267 -0.023 11.966 -0.049c2.438 -0.426 2.683 -2.566 2.658 -3.734 4.352 0.24 7.422 -2.831 6.649 -6.916zm-11.062 3.511c-1.246 1.453 -4.011 3.976 -4.011 3.976s-0.121 0.119 -0.31 0.023c-0.076 -0.057 -0.108 -0.09 -0.108 -0.09 -0.443 -0.441 -3.368 -3.049 -4.034 -3.954 -0.709 -0.965 -1.041 -2.7 -0.091 -3.71 0.951 -1.01 3.005 -1.086 4.363 0.407 0 0 1.565 -1.782 3.468 -0.963 1.904 0.82 1.832 3.011 0.723 4.311zm6.173 0.478c-0.928 0.116 -1.682 0.028 -1.682 0.028V7.284h1.77s1.971 0.551 1.971 2.638c0 1.913 -0.985 2.667 -2.059 3.015z"
+            strokeWidth="1"
+          />
         </svg>
       </a>
     </div>
