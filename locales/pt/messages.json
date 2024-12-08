@@ -1,4 +1,12 @@
 {
+  "extension_name": {
+    "message": "Sky Follower Bridge",
+    "description": "Text for the extension name"
+  },
+  "extension_description": {
+    "message": "Transfira facilmente seus usuários seguidos e membros de listas do X para o Bluesky.",
+    "description": "Text for the extension description"
+  },
   "learn_more": {
     "message": "Saiba mais",
     "description": "Text for the learn more link"

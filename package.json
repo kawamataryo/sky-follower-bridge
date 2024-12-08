@@ -1,8 +1,8 @@
 {
   "name": "sky-follower-bridge",
-  "displayName": "Sky Follower Bridge",
+  "displayName": "__MSG_extension_name__",
   "version": "2.1.0",
-  "description": "Instantly find and follow the same users from your Twitter follows on Bluesky.",
+  "description": "__MSG_extension_description__",
   "author": "kawamataryou",
   "scripts": {
     "dev": "plasmo dev",
@@ -64,6 +64,7 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "name": "__MSG_extension_name__",
     "default_locale": "en",
     "host_permissions": [
       "https://bsky.social/*",
