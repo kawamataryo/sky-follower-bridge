@@ -44,6 +44,7 @@ export const STORAGE_KEYS = {
   DETECTED_BSKY_USERS: `${STORAGE_PREFIX}_detected_bsky_users`,
   LIST_NAME: `${STORAGE_PREFIX}_list_name`,
   RENDER_KEY: `${STORAGE_PREFIX}_render_key`,
+  DONATION_CARD_USER_CLOSED: `${STORAGE_PREFIX}_donation_card_user_closed`,
 } as const;
 
 export const TARGET_URLS_REGEX = {

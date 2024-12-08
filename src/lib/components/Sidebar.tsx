@@ -184,19 +184,6 @@ const Sidebar = ({
             __html: getMessageWithLink("donate_message"),
           }}
         />
-        <a
-          href="https://ko-fi.com/kawamataryo"
-          target="_blank"
-          rel="noreferrer"
-          style={{ display: "inline-block" }}
-          className="w-full"
-        >
-          <img
-            src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"
-            alt="Buy Me a Coffee at ko-fi.com"
-            className="w-[120px] h-auto m-auto"
-          />
-        </a>
         <div className="divider" />
         <SocialLinks />
       </div>

@@ -8,6 +8,7 @@ import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/
 import React from "react";
 import ReSearchModal from "~components/ReSearchModal";
 import DetectedUserListItem from "~lib/components/DetectedUserListItem";
+import DonationCard from "~lib/components/DonationCard";
 
 const Option = () => {
   const {
@@ -184,6 +185,9 @@ const Option = () => {
               />
             ))}
           </div>
+        </div>
+        <div className="fixed bottom-5 right-5">
+          <DonationCard />
         </div>
         <ReSearchModal
           open={showReSearchModal}
