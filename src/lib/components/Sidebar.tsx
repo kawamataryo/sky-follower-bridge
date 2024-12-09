@@ -134,7 +134,7 @@ const Sidebar = ({
           </div>
         ))}
         <div className="divider" />
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -151,29 +151,38 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
-        {match(actionMode)
-          .with(ACTION_MODE.FOLLOW, () => (
-            <AsyncButton
-              onClick={followAll}
-              label={chrome.i18n.getMessage("follow_all")}
-            />
-          ))
-          .with(ACTION_MODE.BLOCK, () => (
-            <AsyncButton
-              onClick={blockAll}
-              label={chrome.i18n.getMessage("block_all")}
-            />
-          ))
-          .with(ACTION_MODE.IMPORT_LIST, () => (
-            <AsyncButton
-              onClick={importList}
-              label={chrome.i18n.getMessage("import_list")}
-            />
-          ))
-          .otherwise(() => null)}
-        <p className="text-xs">
-          ⚠️ {chrome.i18n.getMessage("warning_user_detection")}
-        </p>
+        <div className="flex flex-col gap-2">
+          {match(actionMode)
+            .with(ACTION_MODE.FOLLOW, () => (
+              <AsyncButton
+                onClick={followAll}
+                label={chrome.i18n.getMessage("follow_all")}
+              />
+            ))
+            .with(ACTION_MODE.BLOCK, () => (
+              <AsyncButton
+                onClick={blockAll}
+                label={chrome.i18n.getMessage("block_all")}
+              />
+            ))
+            .with(ACTION_MODE.IMPORT_LIST, () => (
+              <>
+                <AsyncButton
+                  onClick={importList}
+                  label={chrome.i18n.getMessage("import_list")}
+                />
+                <AsyncButton
+                  onClick={followAll}
+                  className="btn-primary"
+                  label={chrome.i18n.getMessage("follow_all")}
+                />
+              </>
+            ))
+            .otherwise(() => null)}
+          <p className="text-xs">
+            ⚠️ {chrome.i18n.getMessage("warning_user_detection")}
+          </p>
+        </div>
       </div>
       <div className="mt-auto">
         <div className="divider" />
