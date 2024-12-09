@@ -15,12 +15,13 @@ const DonationCard = () => {
     },
     false,
   );
+
   const handleClose = () => {
-    setUserClosed(true);
     setIsVisible(false);
   };
   const handleDonationLinkClick = () => {
-    handleClose();
+    setUserClosed(true);
+    setIsVisible(false);
     window.open("https://ko-fi.com/kawamataryo", "_blank");
   };
 
@@ -31,7 +32,7 @@ const DonationCard = () => {
       if (userClosed) return;
       setIsVisible(true);
     };
-    const timeoutId = setTimeout(showDonationCard, 2000);
+    const timeoutId = setTimeout(showDonationCard, 4000);
     return () => clearTimeout(timeoutId);
   }, [userClosed]);
 
@@ -40,16 +41,17 @@ const DonationCard = () => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className="card bg-neutral text-neutral-content shadow-lg w-96 relative"
+            className="card bg-neutral text-neutral-content shadow-lg w-[426px] relative"
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
             transition={{ type: "spring", stiffness: 50, damping: 10 }}
           >
             <div className="card-body p-4">
-              <div className="flex gap-2 items-center">
+              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+              <div className="flex gap-2 items-center" onClick={handleClose}>
                 <p
-                  className="text-xs"
+                  className="text-sm"
                   // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
                   dangerouslySetInnerHTML={{
                     __html: getMessageWithLink("donate_message"),
