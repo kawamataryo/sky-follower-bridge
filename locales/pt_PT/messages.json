@@ -1,0 +1,252 @@
+{
+  "extension_name": {
+    "message": "Sky Follower Bridge",
+    "description": "Text for the extension name"
+  },
+  "extension_description": {
+    "message": "Transfira facilmente seus usuários seguidos e membros de listas do X para o Bluesky.",
+    "description": "Text for the extension description"
+  },
+  "learn_more": {
+    "message": "Saiba mais",
+    "description": "Text for the learn more link"
+  },
+  "auth_factor_token": {
+    "message": "Token de autenticação",
+    "description": "Text for the auth factor token input"
+  },
+  "2fa_token_sent": {
+    "message": "Um token 2FA foi enviado para seu e-mail",
+    "description": "Text for the 2FA token sent message"
+  },
+  "find_bluesky_users": {
+    "message": "Encontrar usuários do Bluesky",
+    "description": "Text for the find bluesky users button"
+  },
+  "finding_bluesky_users": {
+    "message": "Procurando usuários do Bluesky",
+    "description": "Text for the finding bluesky users message"
+  },
+  "password": {
+    "message": "Senha",
+    "description": "Text for the password input"
+  },
+  "handle_or_email": {
+    "message": "Nome de usuário ou E-mail",
+    "description": "Text for the handle or email input"
+  },
+  "recommended_to_use_app_password": {
+    "message": "Recomendamos usar a [Senha do aplicativo](https://bsky.app/settings/app-passwords).",
+    "description": "Text for the recommended to use app password message"
+  },
+  "error_enter_password": {
+    "message": "Erro: Por favor, insira sua senha.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_enter_identifier": {
+    "message": "Erro: Por favor, insira seu nome de usuário ou e-mail.",
+    "description": "Text for the error message when the handle or email is not entered"
+  },
+  "error_enter_identifier_and_password": {
+    "message": "Erro: Por favor, insira seu nome de usuário ou e-mail e senha.",
+    "description": "Text for the error message when the handle or email and password are not entered"
+  },
+  "error_enter_auth_factor_token": {
+    "message": "Erro: Por favor, insira seu token de autenticação.",
+    "description": "Text for the error message when the auth factor token is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "Erro: Nome de usuário ou senha inválidos.",
+    "description": "Text for the error message when the handle or password is invalid"
+  },
+  "error_invalid_page": {
+    "message": "Erro: Página inválida. Por favor, abra a página de destino.",
+    "description": "Text for the error message when the page is invalid"
+  },
+  "error_something_went_wrong": {
+    "message": "Erro: Algo deu errado. Por favor, recarregue a página e tente novamente.",
+    "description": "Text for the error message when something went wrong"
+  },
+  "error_invalid_page_in_threads": {
+    "message": "Erro: Página inválida. Por favor, abra a visualização de seguidores ou seguindo.",
+    "description": "Text for the error message when the page is invalid in threads"
+  },
+  "scanning_users": {
+    "message": "Escaneando usuários do $service$ para encontrar usuários do Bluesky...",
+    "description": "Text for the scanning users message",
+    "placeholders": {
+      "service": {
+        "content": "$1",
+        "example": "X"
+      }
+    }
+  },
+  "detected_users": {
+    "message": "Encontramos <span class='text-4xl'>$users$</span> usuários",
+    "description": "Text for the detected users message",
+    "placeholders": {
+      "users": {
+        "content": "$1"
+      }
+    }
+  },
+  "stop_scanning_and_view_results": {
+    "message": "Parar escaneamento e ver resultados",
+    "description": "Text for the stop scanning and view results button"
+  },
+  "resume_scanning": {
+    "message": "Retomar escaneamento",
+    "description": "Text for the resume scanning button"
+  },
+  "view_detected_users": {
+    "message": "Ver usuários detectados",
+    "description": "Text for the view detected users button"
+  },
+  "follow_all_confirmation_title": {
+    "message": "Prosseguir com a execução?",
+    "description": "Text for the follow all confirmation title"
+  },
+  "follow_all_confirmation_message": {
+    "message": "A detecção de usuários não é perfeita e pode incluir falsos positivos.",
+    "description": "Text for the follow all confirmation message"
+  },
+  "import_list_confirmation_title": {
+    "message": "Prosseguir com a execução?",
+    "description": "Text for the import list confirmation title"
+  },
+  "import_list_confirmation_message": {
+    "message": "Importar uma lista criará uma nova lista e adicionará todos os usuários detectados. Este recurso é experimental e pode não funcionar como esperado.",
+    "description": "Text for the import list confirmation message"
+  },
+  "confirmation_cancel": {
+    "message": "Cancelar",
+    "description": "Text for the confirmation cancel button"
+  },
+  "confirmation_ok": {
+    "message": "OK",
+    "description": "Text for the confirmation ok button"
+  },
+  "toast_pending": {
+    "message": "Processando...",
+    "description": "Text for the toast pending message"
+  },
+  "toast_follow_all_success": {
+    "message": "Seguindo $count$ usuários 🎉",
+    "description": "Text for the toast follow all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_block_all_success": {
+    "message": "Bloqueados $count$ usuários 🎉",
+    "description": "Text for the toast block all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_import_list_success_view_list": {
+    "message": "Ver lista importada",
+    "description": "Text for the toast import list success view list button"
+  },
+  "toast_import_list_success": {
+    "message": "Lista importada com sucesso 🎉",
+    "description": "Text for the toast import list success message"
+  },
+  "toast_import_list_error": {
+    "message": "Falha ao importar lista: $error$",
+    "description": "Text for the toast import list error message",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "source": {
+    "message": "Fonte",
+    "description": "Text for the source"
+  },
+  "detected": {
+    "message": "Detectado",
+    "description": "Text for the detected"
+  },
+  "warning_user_detection": {
+    "message": "A detecção de usuários não é perfeita e pode incluir falsos positivos.",
+    "description": "Text for the warning user detection"
+  },
+  "donate_message": {
+    "message": "Esta ferramenta é desenvolvida por um indivíduo. Seu [apoio](https://ko-fi.com/kawamataryo) ajuda a mantê-la e melhorá-la. Obrigado!",
+    "description": "Text for the donate message"
+  },
+  "follow_all": {
+    "message": "Seguir todos",
+    "description": "Text for the follow all button"
+  },
+  "block_all": {
+    "message": "Bloquear todos",
+    "description": "Text for the block all button"
+  },
+  "import_list": {
+    "message": "Importar lista",
+    "description": "Text for the import list button"
+  },
+  "followed_users": {
+    "message": "Usuários seguidos",
+    "description": "Text for the followed users"
+  },
+  "same_handle_name": {
+    "message": "Mesmo nome de usuário",
+    "description": "Text for the same handle name"
+  },
+  "same_display_name": {
+    "message": "Mesmo nome de exibição",
+    "description": "Text for the same display name"
+  },
+  "included_handle_in_description": {
+    "message": "Nome de usuário incluído na descrição",
+    "description": "Text for the included handle in description"
+  },
+  "blocked_user": {
+    "message": "Usuários bloqueados",
+    "description": "Text for the blocked user"
+  },
+  "sidebar_detected_users": {
+    "message": "Usuários detectados",
+    "description": "Text for the sidebar detected users"
+  },
+  "button_follow_on_bluesky": {
+    "message": "Seguir no Bluesky",
+    "description": "Text for the button follow on bluesky"
+  },
+  "button_following_on_bluesky": {
+    "message": "Seguindo no Bluesky",
+    "description": "Text for the button following on bluesky"
+  },
+  "button_unfollow_on_bluesky": {
+    "message": "Deixar de seguir no Bluesky",
+    "description": "Text for the button unfollow on bluesky"
+  },
+  "button_block_on_bluesky": {
+    "message": "Bloquear no Bluesky",
+    "description": "Text for the button block on bluesky"
+  },
+  "button_blocking_on_bluesky": {
+    "message": "Bloqueado no Bluesky",
+    "description": "Text for the button blocking on bluesky"
+  },
+  "button_unblock_on_bluesky": {
+    "message": "Desbloquear no Bluesky",
+    "description": "Text for the button unblock on bluesky"
+  },
+  "loading": {
+    "message": "Carregando...",
+    "description": "Text for the loading message"
+  },
+  "re_search_modal_title": {
+    "message": "Resultados da pesquisa",
+    "description": "Text for the re search modal title"
+  }
+}
