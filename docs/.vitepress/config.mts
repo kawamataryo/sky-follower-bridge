@@ -181,6 +181,21 @@ export default defineConfig({
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
         ],
       }
+    },
+    ko: {
+      label: "한국어",
+      lang: "ko",
+      link: "/ko/",
+      title: 'Sky Follower Bridge: 무료 X에서 Bluesky로 팔로워 이동 도구',
+      description: '무료 브라우저 확장 프로그램으로 X, Twitter, Threads에서 Bluesky로 팔로워를 쉽게 이동할 수 있습니다.',
+      themeConfig: {
+        siteTitle: "Sky Follower Bridge",
+        nav: [
+          { text: "홈", link: "/" },
+          { text: "시작하기", link: "/ko/get-started" },
+          { text: "문제 해결", link: "/ko/troubleshooting" },
+        ],
+      }
     }
   }
 });
