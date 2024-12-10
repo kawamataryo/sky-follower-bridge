@@ -145,32 +145,29 @@ export const useBskyUserManager = () => {
     let actionCount = 0;
 
     for (const user of filteredUsers) {
-      let resultUri: string | null = null;
       // follow
-      if (actionMode === ACTION_MODE.FOLLOW) {
-        if (user.isFollowing) {
-          continue;
-        }
-        const result = await bskyClient.current.follow(user.did);
-        resultUri = result.uri;
-        await setUsers((prev) =>
-          prev.map((prevUser) => {
-            if (prevUser.did === user.did) {
-              return {
-                ...prevUser,
-                isFollowing: !prevUser.isFollowing,
-                followingUri: resultUri ?? prevUser.followingUri,
-              };
-            }
-            return prevUser;
-          }),
-        );
-        await wait(300);
-        actionCount++;
+      if (user.isFollowing) {
+        continue;
       }
+      const result = await bskyClient.current.follow(user.did);
+      const resultUri = result.uri;
+      await setUsers((prev) =>
+        prev.map((prevUser) => {
+          if (prevUser.did === user.did) {
+            return {
+              ...prevUser,
+              isFollowing: !prevUser.isFollowing,
+              followingUri: resultUri ?? prevUser.followingUri,
+            };
+          }
+          return prevUser;
+        }),
+      );
+      await wait(300);
+      actionCount++;
     }
     return actionCount;
-  }, [filteredUsers, actionMode, setUsers]);
+  }, [filteredUsers, setUsers]);
 
   // Block All
   const blockAll = React.useCallback(async () => {
@@ -178,31 +175,28 @@ export const useBskyUserManager = () => {
     // block
     let actionCount = 0;
     for (const user of filteredUsers) {
-      let resultUri: string | null = null;
-      if (actionMode === ACTION_MODE.BLOCK) {
-        if (user.isBlocking) {
-          continue;
-        }
-        const result = await bskyClient.current.block(user.did);
-        resultUri = result.uri;
-        await setUsers((prev) =>
-          prev.map((prevUser) => {
-            if (prevUser.did === user.did) {
-              return {
-                ...prevUser,
-                isBlocking: !prevUser.isBlocking,
-                blockingUri: resultUri ?? prevUser.blockingUri,
-              };
-            }
-            return prevUser;
-          }),
-        );
-        await wait(300);
-        actionCount++;
+      if (user.isBlocking) {
+        continue;
       }
+      const result = await bskyClient.current.block(user.did);
+      const resultUri = result.uri;
+      await setUsers((prev) =>
+        prev.map((prevUser) => {
+          if (prevUser.did === user.did) {
+            return {
+              ...prevUser,
+              isBlocking: !prevUser.isBlocking,
+              blockingUri: resultUri ?? prevUser.blockingUri,
+            };
+          }
+          return prevUser;
+        }),
+      );
+      await wait(300);
+      actionCount++;
     }
     return actionCount;
-  }, [filteredUsers, actionMode, setUsers]);
+  }, [filteredUsers, setUsers]);
 
   const [key] = useStorage<string>(
     {
