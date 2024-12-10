@@ -1,0 +1,252 @@
+{
+  "extension_name": {
+    "message": "Sky Follower Bridge",
+    "description": "Text for the extension name"
+  },
+  "extension_description": {
+    "message": "X의 팔로우 중인 사용자와 리스트 멤버를 Bluesky로 이동하기 위한 도구입니다.",
+    "description": "Text for the extension description"
+  },
+  "learn_more": {
+    "message": "자세히 보기",
+    "description": "Text for the learn more link"
+  },
+  "auth_factor_token": {
+    "message": "2단계 인증 토큰",
+    "description": "Text for the auth factor token input"
+  },
+  "2fa_token_sent": {
+    "message": "2단계 인증 토큰이 이메일로 전송되었습니다",
+    "description": "Text for the 2FA token sent message"
+  },
+  "find_bluesky_users": {
+    "message": "Bluesky 사용자 찾기",
+    "description": "Text for the find bluesky users button"
+  },
+  "finding_bluesky_users": {
+    "message": "검색 중",
+    "description": "Text for the finding bluesky users message"
+  },
+  "password": {
+    "message": "비밀번호",
+    "description": "Text for the password input"
+  },
+  "handle_or_email": {
+    "message": "핸들명 또는 이메일 주소",
+    "description": "Text for the handle or email input"
+  },
+  "recommended_to_use_app_password": {
+    "message": "[앱 비밀번호](https://bsky.app/settings/app-passwords)를 사용하는 것이 좋습니다",
+    "description": "Text for the recommended to use app password message"
+  },
+  "error_enter_password": {
+    "message": "오류: 비밀번호를 입력하세요.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_enter_identifier": {
+    "message": "오류: 핸들이나 이메일을 입력하세요.",
+    "description": "Text for the error message when the handle or email is not entered"
+  },
+  "error_enter_identifier_and_password": {
+    "message": "오류: 핸들이나 이메일과 비밀번호를 입력하세요.",
+    "description": "Text for the error message when the handle or email and password are not entered"
+  },
+  "error_enter_auth_factor_token": {
+    "message": "오류: 2단계 인증 토큰을 입력하세요.",
+    "description": "Text for the error message when the auth factor token is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "오류: 핸들이나 비밀번호가 유효하지 않습니다.",
+    "description": "Text for the error message when the handle or password is invalid"
+  },
+  "error_invalid_page": {
+    "message": "오류: 유효하지 않은 페이지입니다. 대상 페이지를 열어주세요.",
+    "description": "Text for the error message when the page is invalid"
+  },
+  "error_something_went_wrong": {
+    "message": "오류: 문제가 발생했습니다. 웹 페이지를 새로고침하고 다시 시도하세요.",
+    "description": "Text for the error message when something went wrong"
+  },
+  "error_invalid_page_in_threads": {
+    "message": "오류: 유효하지 않은 페이지입니다. 팔로워/팔로잉 목록을 열어주세요.",
+    "description": "Text for the error message when the page is invalid in threads"
+  },
+  "scanning_users": {
+    "message": "$service$에서 Bluesky 사용자를 검색 중...",
+    "description": "Text for the scanning users message",
+    "placeholders": {
+      "service": {
+        "content": "$1",
+        "example": "X"
+      }
+    }
+  },
+  "detected_users": {
+    "message": "<span class='text-4xl'>$users$</span> 명을 감지",
+    "description": "Text for the detected users message",
+    "placeholders": {
+      "users": {
+        "content": "$1"
+      }
+    }
+  },
+  "stop_scanning_and_view_results": {
+    "message": "검색을 중지하고 결과 보기",
+    "description": "Text for the stop scanning and view results button"
+  },
+  "resume_scanning": {
+    "message": "검색 재개",
+    "description": "Text for the resume scanning button"
+  },
+  "view_detected_users": {
+    "message": "감지된 사용자 보기",
+    "description": "Text for the view detected users button"
+  },
+  "follow_all_confirmation_title": {
+    "message": "실행하시겠습니까?",
+    "description": "Text for the follow all confirmation title"
+  },
+  "follow_all_confirmation_message": {
+    "message": "사용자 감지는 완벽하지 않습니다. 오탐지가 포함될 수 있습니다.",
+    "description": "Text for the follow all confirmation message"
+  },
+  "import_list_confirmation_title": {
+    "message": "실행하시겠습니까?",
+    "description": "Text for the import list confirmation title"
+  },
+  "import_list_confirmation_message": {
+    "message": "리스트 가져오기는 실험적인 기능입니다. 또한 사용자 감지는 완벽하지 않습니다. 오탐지가 포함될 수 있습니다.",
+    "description": "Text for the import list confirmation message"
+  },
+  "confirmation_cancel": {
+    "message": "취소",
+    "description": "Text for the confirmation cancel button"
+  },
+  "confirmation_ok": {
+    "message": "확인",
+    "description": "Text for the confirmation ok button"
+  },
+  "toast_pending": {
+    "message": "처리 중...",
+    "description": "Text for the toast pending message"
+  },
+  "toast_follow_all_success": {
+    "message": "$count$명의 사용자를 팔로우했습니다🎉",
+    "description": "Text for the toast follow all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_block_all_success": {
+    "message": "$count$명의 사용자를 차단했습니다🎉",
+    "description": "Text for the toast block all success message",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "toast_import_list_success": {
+    "message": "리스트를 가져왔습니다🎉",
+    "description": "Text for the toast import list success message"
+  },
+  "toast_import_list_success_view_list": {
+    "message": "리스트 보기",
+    "description": "Text for the toast import list success view list button"
+  },
+  "toast_import_list_error": {
+    "message": "리스트 가져오기에 실패했습니다: $error$",
+    "description": "Text for the toast import list error message",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "source": {
+    "message": "감지 소스",
+    "description": "Text for the source"
+  },
+  "detected": {
+    "message": "결과",
+    "description": "Text for the detected"
+  },
+  "warning_user_detection": {
+    "message": "사용자 감지는 완벽하지 않습니다. 오탐지가 포함될 수 있습니다.",
+    "description": "Text for the warning user detection"
+  },
+  "donate_message": {
+    "message": "이 도구는 개인이 개발하고 있습니다. [지원](https://ko-fi.com/kawamataryo)해주시면 앞으로의 개발에 큰 도움이 됩니다.",
+    "description": "Text for the donate message"
+  },
+  "follow_all": {
+    "message": "모두 팔로우",
+    "description": "Text for the follow all button"
+  },
+  "block_all": {
+    "message": "모두 차단",
+    "description": "Text for the block all button"
+  },
+  "import_list": {
+    "message": "리스트 가져오기",
+    "description": "Text for the import list button"
+  },
+  "followed_users": {
+    "message": "팔로우 중인 사용자",
+    "description": "Text for the followed users"
+  },
+  "same_handle_name": {
+    "message": "같은 핸들명",
+    "description": "Text for the same handle name"
+  },
+  "same_display_name": {
+    "message": "같은 표시명",
+    "description": "Text for the same display name"
+  },
+  "included_handle_in_description": {
+    "message": "설명에 포함된 핸들명",
+    "description": "Text for the included handle in description"
+  },
+  "blocked_user": {
+    "message": "차단된 사용자",
+    "description": "Text for the blocked user"
+  },
+  "sidebar_detected_users": {
+    "message": "감지된 사용자 수",
+    "description": "Text for the sidebar detected users"
+  },
+  "button_follow_on_bluesky": {
+    "message": "Bluesky에서 팔로우",
+    "description": "Text for the button follow on bluesky"
+  },
+  "button_following_on_bluesky": {
+    "message": "Bluesky에서 팔로우 중",
+    "description": "Text for the button following on bluesky"
+  },
+  "button_unfollow_on_bluesky": {
+    "message": "Bluesky에서 언팔로우",
+    "description": "Text for the button unfollow on bluesky"
+  },
+  "button_block_on_bluesky": {
+    "message": "Bluesky에서 차단",
+    "description": "Text for the button block on bluesky"
+  },
+  "button_blocking_on_bluesky": {
+    "message": "Bluesky에서 차단 중",
+    "description": "Text for the button blocking on bluesky"
+  },
+  "button_unblock_on_bluesky": {
+    "message": "Bluesky에서 차단 해제",
+    "description": "Text for the button unblock on bluesky"
+  },
+  "loading": {
+    "message": "로딩 중...",
+    "description": "Text for the loading message"
+  },
+  "re_search_modal_title": {
+    "message": "재검색",
+    "description": "Text for the re search modal title"
+  }
+}
