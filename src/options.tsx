@@ -5,6 +5,7 @@ import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import ReSearchModal from "~components/ReSearchModal";
 import DetectedUserListItem from "~lib/components/DetectedUserListItem";
@@ -26,6 +27,7 @@ const Option = () => {
     reSearchResults,
     changeDetectedUser,
     clearReSearchResults,
+    deleteUser,
   } = useBskyUserManager();
 
   const {
@@ -175,15 +177,27 @@ const Option = () => {
             </h2>
           </div>
           <div className="flex flex-col border-b-[1px] border-gray-500">
-            {filteredUsers.map((user) => (
-              <DetectedUserListItem
-                key={user.handle}
-                user={user}
-                clickAction={handleClickAction}
-                actionMode={actionMode}
-                reSearch={handleReSearch}
-              />
-            ))}
+            <AnimatePresence>
+              {filteredUsers.map((user) => (
+                <motion.div
+                  key={user.did}
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <DetectedUserListItem
+                    key={user.handle}
+                    user={user}
+                    clickAction={handleClickAction}
+                    actionMode={actionMode}
+                    reSearch={handleReSearch}
+                    deleteUser={deleteUser}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
         <div className="fixed bottom-5 right-5">

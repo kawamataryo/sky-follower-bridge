@@ -14,6 +14,7 @@ export type Props = {
     accountName: string;
     displayName: string;
   }) => Promise<void>;
+  deleteUser: (did: string) => Promise<void>;
 };
 
 const DetectedUserListItem = ({
@@ -21,6 +22,7 @@ const DetectedUserListItem = ({
   actionMode,
   clickAction,
   reSearch,
+  deleteUser,
 }: Props) => {
   const [isBtnHovered, setIsBtnHovered] = React.useState(false);
   const [isJustClicked, setIsJustClicked] = React.useState(false);
@@ -100,6 +102,10 @@ const DetectedUserListItem = ({
     });
   };
 
+  const handleDeleteClick = () => {
+    deleteUser(user.did);
+  };
+
   const matchTypeColor = MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color;
 
   return (
@@ -123,6 +129,7 @@ const DetectedUserListItem = ({
             setIsBtnHovered={setIsBtnHovered}
             setIsJustClicked={setIsJustClicked}
             handleReSearchClick={handleReSearchClick}
+            handleDeleteClick={handleDeleteClick}
           />
         </div>
       </div>
