@@ -103,7 +103,7 @@ const UserCard = ({
               <ReSearchButton onClick={handleReSearchClick} />
               <DeleteButton onClick={handleDeleteClick} />
             </div>
-            <div className="w-[170px]">
+            <div className="w-[170px] flex justify-end">
               <ActionButton
                 loading={loading}
                 actionBtnLabelAndClass={actionBtnLabelAndClass}
