@@ -4,14 +4,33 @@ import ActionButton from "./ActionButton";
 import UserInfo from "./UserInfo";
 import UserProfile from "./UserProfile";
 
-export type UserCardProps = {
-  user: Pick<BskyUser, "avatar" | "handle" | "displayName" | "description">;
-  loading: boolean;
-  actionBtnLabelAndClass: { label: string; class: string };
-  handleActionButtonClick: () => void;
-  setIsBtnHovered: (value: boolean) => void;
-  setIsJustClicked: (value: boolean) => void;
-  handleReSearchClick: () => void;
+const DeleteButton = ({
+  onClick,
+}: {
+  onClick: () => void;
+}) => {
+  return (
+    <button
+      type="button"
+      className="btn-outline w-7 h-7 border rounded-full flex items-center justify-center"
+      onClick={onClick}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="h-4 w-4"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  );
 };
 
 const ReSearchButton = ({
@@ -43,6 +62,17 @@ const ReSearchButton = ({
   );
 };
 
+export type UserCardProps = {
+  user: Pick<BskyUser, "avatar" | "handle" | "displayName" | "description">;
+  loading: boolean;
+  actionBtnLabelAndClass: { label: string; class: string };
+  handleActionButtonClick: () => void;
+  setIsBtnHovered: (value: boolean) => void;
+  setIsJustClicked: (value: boolean) => void;
+  handleReSearchClick: () => void;
+  handleDeleteClick: () => void;
+};
+
 const UserCard = ({
   user,
   loading,
@@ -51,6 +81,7 @@ const UserCard = ({
   setIsBtnHovered,
   setIsJustClicked,
   handleReSearchClick,
+  handleDeleteClick = () => {},
 }: UserCardProps) => {
   return (
     <div className="relative py-3 pt-1 pl-0 pr-2 grid grid-cols-[50px_1fr]">
@@ -59,23 +90,28 @@ const UserCard = ({
         url={`https://bsky.app/profile/${user.handle}`}
       />
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-start gap-2">
           <div className="flex items-start gap-4">
             <UserInfo
               handle={user.handle}
               displayName={user.displayName}
               url={`https://bsky.app/profile/${user.handle}`}
             />
-            <ReSearchButton onClick={handleReSearchClick} />
           </div>
-          <div className="card-actions flex items-center gap-4">
-            <ActionButton
-              loading={loading}
-              actionBtnLabelAndClass={actionBtnLabelAndClass}
-              handleActionButtonClick={handleActionButtonClick}
-              setIsBtnHovered={setIsBtnHovered}
-              setIsJustClicked={setIsJustClicked}
-            />
+          <div className="card-actions flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <ReSearchButton onClick={handleReSearchClick} />
+              <DeleteButton onClick={handleDeleteClick} />
+            </div>
+            <div className="w-[170px]">
+              <ActionButton
+                loading={loading}
+                actionBtnLabelAndClass={actionBtnLabelAndClass}
+                handleActionButtonClick={handleActionButtonClick}
+                setIsBtnHovered={setIsBtnHovered}
+                setIsJustClicked={setIsJustClicked}
+              />
+            </div>
           </div>
         </div>
         <p className="text-sm break-all">{user.description}</p>

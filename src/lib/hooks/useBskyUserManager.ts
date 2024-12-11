@@ -271,6 +271,13 @@ export const useBskyUserManager = () => {
     });
   }, []);
 
+  const deleteUser = React.useCallback(
+    async (did: string) => {
+      await setUsers((prev) => prev.filter((user) => user.did !== did));
+    },
+    [setUsers],
+  );
+
   const changeDetectedUser = React.useCallback(
     (fromDid: string, toUser: ProfileView) => {
       setUsers((prev) =>
@@ -305,5 +312,6 @@ export const useBskyUserManager = () => {
     reSearchResults,
     changeDetectedUser,
     clearReSearchResults,
+    deleteUser,
   };
 };
