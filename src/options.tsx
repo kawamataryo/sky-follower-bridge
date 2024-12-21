@@ -5,6 +5,7 @@ import useConfirm from "~lib/components/ConfirmDialog";
 import Sidebar from "~lib/components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import ReSearchModal from "~components/ReSearchModal";
@@ -152,6 +153,13 @@ const Option = () => {
     clearReSearchResults();
   };
 
+  const parentRef = React.useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtualizer({
+    count: filteredUsers.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 50,
+  });
+
   return (
     <>
       <div className="flex h-screen">
@@ -176,28 +184,27 @@ const Option = () => {
               {chrome.i18n.getMessage("detected")}
             </h2>
           </div>
-          <div className="flex flex-col border-b-[1px] border-gray-500">
-            <AnimatePresence>
-              {filteredUsers.map((user) => (
-                <motion.div
-                  key={user.did}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <DetectedUserListItem
-                    key={user.handle}
-                    user={user}
-                    clickAction={handleClickAction}
-                    actionMode={actionMode}
-                    reSearch={handleReSearch}
-                    deleteUser={deleteUser}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+          <div
+            className="flex flex-col border-b-[1px] border-gray-500"
+            ref={parentRef}
+            data-testid="scroll-parent"
+          >
+            {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+              <div
+                key={virtualItem.key}
+                data-index={virtualItem.index}
+                ref={rowVirtualizer.measureElement}
+              >
+                <DetectedUserListItem
+                  key={filteredUsers[virtualItem.index].handle}
+                  user={filteredUsers[virtualItem.index]}
+                  clickAction={handleClickAction}
+                  actionMode={actionMode}
+                  reSearch={handleReSearch}
+                  deleteUser={deleteUser}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className="fixed bottom-5 right-5">
