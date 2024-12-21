@@ -6,13 +6,13 @@ import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
-import type { AbstractService } from "~lib/services/abstractService";
 import { ThreadsService } from "~lib/services/threadsService";
 import { XService } from "~lib/services/xService";
 import { wait } from "~lib/utils";
 import type {
   BskyUser,
   CrawledUserInfo,
+  IService,
   MessageName,
   ServiceType,
 } from "~types";
@@ -38,9 +38,9 @@ const getServiceType = (messageName: MessageName): ServiceType => {
 const buildService = (
   serviceType: ServiceType,
   messageName: MessageName,
-): AbstractService => {
+): IService => {
   return match(serviceType)
-    .returnType<AbstractService>()
+    .returnType<IService>()
     .with(SERVICE_TYPE.X, () => new XService(messageName))
     .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
     .run();
@@ -113,7 +113,7 @@ export const useRetrieveBskyUsers = () => {
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const startRetrieveLoop = React.useCallback(
-    async (service: AbstractService) => {
+    async (service: IService) => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 

@@ -44,3 +44,22 @@ export type CrawledUserInfo = {
 };
 
 export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE];
+
+export interface IService {
+  messageName: MessageName;
+  crawledUsers: Set<string>;
+
+  isTargetPage(): [boolean, string];
+
+  processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo>;
+
+  extractUserData(userCell: Element): CrawledUserInfo;
+
+  getCrawledUsers(): CrawledUserInfo[];
+
+  getScrollTarget(): HTMLElement | null;
+
+  scrollToBottom(): void;
+
+  checkEnd(): boolean;
+}

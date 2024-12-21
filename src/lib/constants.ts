@@ -6,20 +6,6 @@ export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
 } as const;
 
-export const QUERY_PARAMS = {
-  FOLLOW: '[data-testid="primaryColumn"] [data-testid="UserCell"]',
-  BLOCK: '[data-testid="UserCell"]',
-  LIST: '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
-  THREADS: '[data-pressable-container="true"]',
-} as const;
-
-export const MESSAGE_NAME_TO_QUERY_PARAM_MAP = {
-  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE]: QUERY_PARAMS.FOLLOW,
-  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]: QUERY_PARAMS.LIST,
-  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: QUERY_PARAMS.BLOCK,
-  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: QUERY_PARAMS.THREADS,
-};
-
 export const ACTION_MODE = {
   FOLLOW: "follow",
   BLOCK: "block",

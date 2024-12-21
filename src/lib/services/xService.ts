@@ -3,11 +3,21 @@ import { MESSAGE_NAMES } from "~lib/constants";
 import { BSKY_DOMAIN } from "~lib/constants";
 import { STORAGE_KEYS } from "~lib/constants";
 import { scrapeListNameFromPage } from "~lib/domHelpers";
-import { wait } from "~lib/utils";
-import type { CrawledUserInfo, MessageName } from "~types";
-import { AbstractService } from "./abstractService";
+import type { CrawledUserInfo, IService, MessageName } from "~types";
 
-export class XService extends AbstractService {
+const USER_CELL_SELECTOR_MAP = {
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FOLLOW_PAGE]:
+    '[data-testid="primaryColumn"] [data-testid="UserCell"]',
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]:
+    '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: '[data-testid="UserCell"]',
+};
+const LIST_PAGE_SCROLL_TARGET_SELECTOR = 'div[data-viewportview="true"]';
+
+export class XService implements IService {
+  messageName: MessageName;
+  crawledUsers: Set<string>;
+
   constructor(messageName: MessageName) {
     // Set the list name in the storage if it's a list members page
     if (messageName === MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE) {
@@ -16,7 +26,8 @@ export class XService extends AbstractService {
         area: "local",
       }).set(STORAGE_KEYS.LIST_NAME, listName);
     }
-    super(messageName);
+    this.messageName = messageName;
+    this.crawledUsers = new Set();
   }
 
   // X determines the target page based on the URL on the popup side, so it always returns true
@@ -59,12 +70,31 @@ export class XService extends AbstractService {
     };
   }
 
+  getCrawledUsers(): CrawledUserInfo[] {
+    const userCells = Array.from(
+      document.querySelectorAll(USER_CELL_SELECTOR_MAP[this.messageName]),
+    );
+
+    const users = Array.from(userCells).map((userCell) =>
+      this.extractUserData(userCell),
+    );
+    const filteredUsers = users.filter((user) => {
+      const isNewUser = !this.crawledUsers.has(user.accountName);
+      if (isNewUser) {
+        this.crawledUsers.add(user.accountName);
+      }
+      return isNewUser;
+    });
+
+    return filteredUsers;
+  }
+
   getScrollTarget() {
     const isListMembersPage =
       this.messageName === MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE;
 
     return isListMembersPage
-      ? document.querySelector<HTMLElement>('div[data-viewportview="true"]')
+      ? document.querySelector<HTMLElement>(LIST_PAGE_SCROLL_TARGET_SELECTOR)
       : document.documentElement;
   }
 

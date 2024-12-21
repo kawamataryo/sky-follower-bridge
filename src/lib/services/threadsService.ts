@@ -1,8 +1,19 @@
-import { findFirstScrollableElements, wait } from "~lib/utils";
-import type { CrawledUserInfo } from "~types";
-import { AbstractService } from "./abstractService";
+import { findFirstScrollableElements } from "~lib/utils";
+import type { CrawledUserInfo, IService, MessageName } from "~types";
 
-export class ThreadsService extends AbstractService {
+const USER_CELL_SELECTOR = '[data-pressable-container="true"]';
+const TARGET_PAGE_SELECTOR = '[role="dialog"] [role="tab"]>[role="button"]';
+const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
+
+export class ThreadsService implements IService {
+  messageName: MessageName;
+  crawledUsers: Set<string>;
+
+  constructor(messageName: MessageName) {
+    this.messageName = messageName;
+    this.crawledUsers = new Set();
+  }
+
   async processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo> {
     const avatarUrl = user.originalAvatar;
     if (avatarUrl) {
@@ -24,9 +35,7 @@ export class ThreadsService extends AbstractService {
   }
 
   isTargetPage(): [boolean, string] {
-    const isTargetPage = document.querySelector(
-      '[role="dialog"] [role="tab"]>[role="button"]',
-    );
+    const isTargetPage = document.querySelector(TARGET_PAGE_SELECTOR);
     if (!isTargetPage) {
       return [false, chrome.i18n.getMessage("error_invalid_page_in_threads")];
     }
@@ -54,9 +63,26 @@ export class ThreadsService extends AbstractService {
     };
   }
 
+  getCrawledUsers(): CrawledUserInfo[] {
+    const userCells = Array.from(document.querySelectorAll(USER_CELL_SELECTOR));
+
+    const users = Array.from(userCells).map((userCell) =>
+      this.extractUserData(userCell),
+    );
+    const filteredUsers = users.filter((user) => {
+      const isNewUser = !this.crawledUsers.has(user.accountName);
+      if (isNewUser) {
+        this.crawledUsers.add(user.accountName);
+      }
+      return isNewUser;
+    });
+
+    return filteredUsers;
+  }
+
   getScrollTarget() {
     return findFirstScrollableElements(
-      document.querySelector('[role="dialog"]') as HTMLElement,
+      document.querySelector<HTMLElement>(SCROLL_TARGET_SELECTOR),
     );
   }
 
