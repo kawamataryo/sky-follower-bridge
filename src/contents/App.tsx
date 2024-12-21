@@ -134,13 +134,22 @@ const App = () => {
             </>
           )}
           {!loading && !isBottomReached && (
-            <button
-              type="button"
-              className="btn btn-primary mt-5"
-              onClick={restart}
-            >
-              {chrome.i18n.getMessage("resume_scanning")}
-            </button>
+            <div className="flex flex-col gap-2 items-center">
+              <button
+                type="button"
+                className="btn btn-primary mt-5 btn-ghost"
+                onClick={openOptionPage}
+              >
+                {chrome.i18n.getMessage("view_detected_users")}
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary mt-5"
+                onClick={restart}
+              >
+                {chrome.i18n.getMessage("resume_scanning")}
+              </button>
+            </div>
           )}
           {!loading && isBottomReached && (
             <div className="flex flex-col gap-2 items-center">
