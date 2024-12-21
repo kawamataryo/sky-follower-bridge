@@ -9,6 +9,7 @@ import { searchBskyUser } from "~lib/searchBskyUsers";
 import type { AbstractService } from "~lib/services/abstractService";
 import { ThreadsService } from "~lib/services/threadsService";
 import { XService } from "~lib/services/xService";
+import { wait } from "~lib/utils";
 import type {
   BskyUser,
   CrawledUserInfo,
@@ -116,8 +117,6 @@ export const useRetrieveBskyUsers = () => {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
-      let index = 0;
-
       // loop until we get to the bottom
       while (true) {
         if (signal.aborted) {
@@ -125,18 +124,21 @@ export const useRetrieveBskyUsers = () => {
         }
 
         const data = service.getCrawledUsers();
+        service.scrollToBottom();
+
         await retrieveBskyUsers(data, service.processExtractedData);
 
-        const isEnd = await service.performScrollAndCheckEnd();
+        // wait load more users
+        await wait(2000);
 
-        if (isEnd) {
-          setIsBottomReached(true);
-          setLoading(false);
-          break;
+        // first check
+        if (service.checkEnd()) {
+          await wait(8000);
         }
 
-        index++;
-        if (process.env.NODE_ENV === "development" && index > 5) {
+        // second check
+        if (service.checkEnd()) {
+          setIsBottomReached(true);
           setLoading(false);
           break;
         }

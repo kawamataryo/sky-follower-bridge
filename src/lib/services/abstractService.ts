@@ -39,5 +39,9 @@ export abstract class AbstractService {
     return filteredUsers;
   }
 
-  abstract performScrollAndCheckEnd(): Promise<boolean>;
+  abstract getScrollTarget(): HTMLElement | null;
+
+  abstract scrollToBottom(): void;
+
+  abstract checkEnd(): boolean;
 }

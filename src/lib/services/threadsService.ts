@@ -54,19 +54,26 @@ export class ThreadsService extends AbstractService {
     };
   }
 
-  async performScrollAndCheckEnd(): Promise<boolean> {
-    const scrollTarget = findFirstScrollableElements(
+  getScrollTarget() {
+    return findFirstScrollableElements(
       document.querySelector('[role="dialog"]') as HTMLElement,
     );
+  }
 
+  async scrollToBottom(): Promise<void> {
+    const scrollTarget = this.getScrollTarget();
+    if (!scrollTarget) {
+      return;
+    }
+    const initialScrollHeight = scrollTarget.scrollHeight;
+    scrollTarget.scrollTop += initialScrollHeight;
+  }
+
+  checkEnd(): boolean {
+    const scrollTarget = this.getScrollTarget();
     if (!scrollTarget) {
       return true;
     }
-
-    const initialScrollHeight = scrollTarget.scrollHeight;
-    scrollTarget.scrollTop += initialScrollHeight;
-
-    await wait(3000);
 
     const hasReachedEnd =
       scrollTarget.scrollTop + scrollTarget.clientHeight >=

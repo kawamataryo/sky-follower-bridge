@@ -59,18 +59,30 @@ export class XService extends AbstractService {
     };
   }
 
-  async performScrollAndCheckEnd(): Promise<boolean> {
+  getScrollTarget() {
     const isListMembersPage =
       this.messageName === MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE;
 
-    const scrollTarget = isListMembersPage
-      ? (document.querySelector('div[data-viewportview="true"]') as HTMLElement)
+    return isListMembersPage
+      ? document.querySelector<HTMLElement>('div[data-viewportview="true"]')
       : document.documentElement;
+  }
 
-    const initialScrollHeight = scrollTarget?.scrollHeight;
+  async scrollToBottom(): Promise<void> {
+    const scrollTarget = this.getScrollTarget();
+    if (!scrollTarget) {
+      return;
+    }
+
+    const initialScrollHeight = scrollTarget.scrollHeight;
     scrollTarget.scrollTop += initialScrollHeight;
+  }
 
-    await wait(3000);
+  checkEnd(): boolean {
+    const scrollTarget = this.getScrollTarget();
+    if (!scrollTarget) {
+      return true;
+    }
 
     const hasReachedEnd =
       scrollTarget.scrollTop + scrollTarget.clientHeight >=
