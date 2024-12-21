@@ -1,7 +1,7 @@
 {
   "name": "sky-follower-bridge",
   "displayName": "Sky Follower Bridge",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "__MSG_extension_description__",
   "author": "kawamataryou",
   "scripts": {
