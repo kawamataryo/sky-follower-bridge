@@ -47,9 +47,9 @@ const DonationCard = () => {
             exit={{ y: "100%", opacity: 0 }}
             transition={{ type: "spring", stiffness: 50, damping: 10 }}
           >
-            <div className="card-body p-4">
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-              <div className="flex gap-2 items-center" onClick={handleClose}>
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+            <div className="card-body p-4 cursor-pointer" onClick={handleClose}>
+              <div className="flex gap-2 items-center">
                 <p
                   className="text-sm"
                   // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
