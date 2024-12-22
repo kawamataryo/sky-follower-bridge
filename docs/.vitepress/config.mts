@@ -82,7 +82,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Released under the MIT License.',
+      message: 'Released under the MIT License. Privacy Policy is available <a href="./privacy-policy">here</a>.',
       copyright: 'Copyright © 2024 Ryo Kawamata'
     },
   },
