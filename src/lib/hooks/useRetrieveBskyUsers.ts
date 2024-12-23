@@ -7,6 +7,7 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { ThreadsService } from "~lib/services/threadsService";
+import { TikTokService } from "~lib/services/tikTokService";
 import { XService } from "~lib/services/xService";
 import { wait } from "~lib/utils";
 import type {
@@ -32,6 +33,10 @@ const getServiceType = (messageName: MessageName): ServiceType => {
       MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE,
       () => SERVICE_TYPE.THREADS,
     )
+    .with(
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
+      () => SERVICE_TYPE.TIKTOK,
+    )
     .run();
 };
 
@@ -43,6 +48,7 @@ const buildService = (
     .returnType<IService>()
     .with(SERVICE_TYPE.X, () => new XService(messageName))
     .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
+    .with(SERVICE_TYPE.TIKTOK, () => new TikTokService(messageName))
     .run();
 };
 
