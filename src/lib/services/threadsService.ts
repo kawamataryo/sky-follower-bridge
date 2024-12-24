@@ -1,17 +1,31 @@
 import { findFirstScrollableElements } from "~lib/utils";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
-const USER_CELL_SELECTOR = '[data-pressable-container="true"]';
 const TARGET_PAGE_SELECTOR = '[role="dialog"] [role="tab"]>[role="button"]';
 const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
 
+const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
+  if (!userCell) {
+    return [];
+  }
+  const cellTextCount = (userCell.innerText ?? "").split("\n").length;
+  const hasAvatar = !!userCell.querySelector("img");
+  if (1 <= cellTextCount && cellTextCount <= 3 && hasAvatar) {
+    return [userCell];
+  }
+  if (userCell.children.length === 0) {
+    return [];
+  }
+  return Array.from(userCell.children).flatMap(searchUserCells);
+};
+
 export class ThreadsService implements IService {
   messageName: MessageName;
-  crawledUsers: Set<string>;
+  crawledUserCells: Set<HTMLElement>;
 
   constructor(messageName: MessageName) {
     this.messageName = messageName;
-    this.crawledUsers = new Set();
+    this.crawledUserCells = new Set();
   }
 
   async processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo> {
@@ -64,20 +78,16 @@ export class ThreadsService implements IService {
   }
 
   getCrawledUsers(): CrawledUserInfo[] {
-    const userCells = Array.from(document.querySelectorAll(USER_CELL_SELECTOR));
-
-    const users = Array.from(userCells).map((userCell) =>
-      this.extractUserData(userCell),
+    const userCells = searchUserCells(
+      document.querySelector(SCROLL_TARGET_SELECTOR),
     );
-    const filteredUsers = users.filter((user) => {
-      const isNewUser = !this.crawledUsers.has(user.accountName);
-      if (isNewUser) {
-        this.crawledUsers.add(user.accountName);
-      }
-      return isNewUser;
-    });
+    const newUserCellsSet = new Set(userCells).difference(
+      this.crawledUserCells,
+    );
+    this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
 
-    return filteredUsers;
+    const newUserCells = Array.from(newUserCellsSet);
+    return newUserCells.map((userCell) => this.extractUserData(userCell));
   }
 
   getScrollTarget() {
