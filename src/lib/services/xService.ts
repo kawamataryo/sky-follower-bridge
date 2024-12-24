@@ -16,7 +16,7 @@ const LIST_PAGE_SCROLL_TARGET_SELECTOR = 'div[data-viewportview="true"]';
 
 export class XService implements IService {
   messageName: MessageName;
-  crawledUsers: Set<string>;
+  crawledUserCells: Set<HTMLElement>;
 
   constructor(messageName: MessageName) {
     // Set the list name in the storage if it's a list members page
@@ -27,7 +27,7 @@ export class XService implements IService {
       }).set(STORAGE_KEYS.LIST_NAME, listName);
     }
     this.messageName = messageName;
-    this.crawledUsers = new Set();
+    this.crawledUserCells = new Set();
   }
 
   // X determines the target page based on the URL on the popup side, so it always returns true
@@ -71,22 +71,16 @@ export class XService implements IService {
   }
 
   getCrawledUsers(): CrawledUserInfo[] {
-    const userCells = Array.from(
-      document.querySelectorAll(USER_CELL_SELECTOR_MAP[this.messageName]),
+    const userCells = document.querySelectorAll(
+      USER_CELL_SELECTOR_MAP[this.messageName],
     );
-
-    const users = Array.from(userCells).map((userCell) =>
-      this.extractUserData(userCell),
+    const newUserCellsSet = new Set(userCells).difference(
+      this.crawledUserCells,
     );
-    const filteredUsers = users.filter((user) => {
-      const isNewUser = !this.crawledUsers.has(user.accountName);
-      if (isNewUser) {
-        this.crawledUsers.add(user.accountName);
-      }
-      return isNewUser;
-    });
+    this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
+    const newUserCells = Array.from(newUserCellsSet);
 
-    return filteredUsers;
+    return newUserCells.map((userCell) => this.extractUserData(userCell));
   }
 
   getScrollTarget() {
