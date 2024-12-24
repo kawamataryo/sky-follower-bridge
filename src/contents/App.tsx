@@ -16,6 +16,7 @@ export const config: PlasmoCSConfig = {
     "https://twitter.com/*",
     "https://x.com/*",
     "https://www.threads.net/*",
+    "https://www.instagram.com/*",
   ],
   all_frames: true,
 };
@@ -99,6 +100,7 @@ const App = () => {
     return match(currentService)
       .with(SERVICE_TYPE.X, () => "X")
       .with(SERVICE_TYPE.THREADS, () => "Threads")
+      .with(SERVICE_TYPE.INSTAGRAM, () => "Instagram")
       .exhaustive();
   }, [currentService]);
 

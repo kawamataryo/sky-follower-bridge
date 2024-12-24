@@ -142,6 +142,10 @@ function IndexPopup() {
         P.when((url) => TARGET_URLS_REGEX.THREADS.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE,
       )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.INSTAGRAM.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE,
+      )
       .run();
 
     await chrome.storage.local.set({
