@@ -4,6 +4,7 @@ export const MESSAGE_NAMES = {
     "search_bsky_user_on_list_members_page",
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
   SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
+  SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE: "search_bsky_user_on_instagram_page",
 } as const;
 
 export const ACTION_MODE = {
@@ -18,6 +19,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
     ACTION_MODE.IMPORT_LIST,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: ACTION_MODE.BLOCK,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE]: ACTION_MODE.FOLLOW,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -38,6 +40,7 @@ export const TARGET_URLS_REGEX = {
   LIST: /^https:\/\/(twitter|x)\.com\/[^/]+\/lists\/[^/]+\/members/,
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
   THREADS: /^https:\/\/www\.threads\.net/,
+  INSTAGRAM: /^https:\/\/www\.instagram\.com\/[^/]+\/(followers|following)\/?/,
 } as const;
 
 export const MESSAGE_TYPE = {
@@ -111,4 +114,5 @@ export const DEFAULT_LIST_NAME = "Imported List from X";
 export const SERVICE_TYPE = {
   X: "x",
   THREADS: "threads",
+  INSTAGRAM: "instagram",
 } as const;
