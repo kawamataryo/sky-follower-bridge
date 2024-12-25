@@ -102,7 +102,13 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Home", link: "/" },
-          { text: "使い方", link: "/ja/get-started" },
+          {
+            text: "使い方", items: [
+              { text: "𝕏", link: "/ja/get-started" },
+              { text: "Threads", link: "/ja/get-started-for-threads" },
+              { text: "Instagram", link: "/ja/get-started-for-instagram" },
+            ]
+          },
           { text: "トラブルシューティング", link: "/ja/troubleshooting" },
         ],
       }
@@ -117,7 +123,12 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Home", link: "/" },
-          { text: "Iniziare", link: "/it/get-started" },
+          {
+            text: "Iniziare", items: [
+              { text: "Per 𝕏", link: "/it/get-started" },
+              { text: "Per Threads", link: "/it/get-started-for-threads" },
+            ]
+          },
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
         ],
       }
@@ -132,7 +143,12 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "首页", link: "/" },
-          { text: "入门", link: "/zh/get-started" },
+          {
+            text: "入门", items: [
+              { text: "𝕏的场景", link: "/zh/get-started" },
+              { text: "Threads的场景", link: "/zh/get-started-for-threads" },
+            ]
+          },
           { text: "故障排除指南", link: "/zh/troubleshooting" },
         ],
       }
@@ -147,7 +163,12 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Accueil", link: "/" },
-          { text: "Commencer", link: "/fr/get-started" },
+          {
+            text: "Commencer", items: [
+              { text: "Pour 𝕏", link: "/fr/get-started" },
+              { text: "Pour Threads", link: "/fr/get-started-for-threads" },
+            ]
+          },
           { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
         ],
       }
@@ -162,7 +183,12 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Início", link: "/" },
-          { text: "Introdução", link: "/pt/get-started" },
+          {
+            text: "Introdução", items: [
+              { text: "Para 𝕏", link: "/pt/get-started" },
+              { text: "Para Threads", link: "/pt/get-started-for-threads" },
+            ]
+          },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
         ],
       }
@@ -177,7 +203,12 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "Inicio", link: "/" },
-          { text: "Comenzando", link: "/es/get-started" },
+          {
+            text: "Comenzando", items: [
+              { text: "Para 𝕏", link: "/es/get-started" },
+              { text: "Para Threads", link: "/es/get-started-for-threads" },
+            ]
+          },
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
         ],
       }
@@ -192,8 +223,33 @@ export default defineConfig({
         siteTitle: "Sky Follower Bridge",
         nav: [
           { text: "홈", link: "/" },
-          { text: "시작하기", link: "/ko/get-started" },
+          {
+            text: "시작하기", items: [
+              { text: "𝕏용", link: "/ko/get-started" },
+              { text: "Threads용", link: "/ko/get-started-for-threads" },
+            ]
+          },
           { text: "문제 해결", link: "/ko/troubleshooting" },
+        ],
+      }
+    },
+    de: {
+      label: "Deutsch",
+      lang: "de",
+      link: "/de/",
+      title: 'Sky Follower Bridge: Kostenlose X-zu-Bluesky-Migration-Tool',
+      description: 'Migriere deine Follower von X, Twitter und Threads zu Bluesky mit unserer kostenlosen Browser-Erweiterung.',
+      themeConfig: {
+        siteTitle: "Sky Follower Bridge",
+        nav: [
+          { text: "Startseite", link: "/" },
+          {
+            text: "Erste Schritte", items: [
+              { text: "Für 𝕏", link: "/de/get-started" },
+              { text: "Für Threads", link: "/de/get-started-for-threads" },
+            ]
+          },
+          { text: "Fehlerbehebung", link: "/de/troubleshooting" },
         ],
       }
     }
