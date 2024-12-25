@@ -52,7 +52,7 @@ export default defineConfig({
       },
       {
         icon: "bluesky",
-        link: "https://bsky.app/profile/kawamataryo.bsky.social",
+        link: "https://bsky.app/profile/sky-follower-bridge.dev",
       },
       {
         icon: "x",
