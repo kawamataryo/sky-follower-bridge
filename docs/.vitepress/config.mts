@@ -101,7 +101,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Home", link: "/" },
+          { text: "Home", link: "/ja" },
           {
             text: "使い方", items: [
               { text: "𝕏", link: "/ja/get-started" },
@@ -122,7 +122,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Home", link: "/" },
+          { text: "Home", link: "/it" },
           {
             text: "Iniziare", items: [
               { text: "Per 𝕏", link: "/it/get-started" },
@@ -142,7 +142,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "首页", link: "/" },
+          { text: "首页", link: "/zh" },
           {
             text: "入门", items: [
               { text: "𝕏的场景", link: "/zh/get-started" },
@@ -162,7 +162,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Accueil", link: "/" },
+          { text: "Accueil", link: "/fr" },
           {
             text: "Commencer", items: [
               { text: "Pour 𝕏", link: "/fr/get-started" },
@@ -182,7 +182,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Início", link: "/" },
+          { text: "Início", link: "/pt" },
           {
             text: "Introdução", items: [
               { text: "Para 𝕏", link: "/pt/get-started" },
@@ -202,7 +202,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Inicio", link: "/" },
+          { text: "Inicio", link: "/es" },
           {
             text: "Comenzando", items: [
               { text: "Para 𝕏", link: "/es/get-started" },
@@ -222,7 +222,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "홈", link: "/" },
+          { text: "홈", link: "/ko" },
           {
             text: "시작하기", items: [
               { text: "𝕏용", link: "/ko/get-started" },
@@ -242,7 +242,7 @@ export default defineConfig({
       themeConfig: {
         siteTitle: "Sky Follower Bridge",
         nav: [
-          { text: "Startseite", link: "/" },
+          { text: "Startseite", link: "/de" },
           {
             text: "Erste Schritte", items: [
               { text: "Für 𝕏", link: "/de/get-started" },
