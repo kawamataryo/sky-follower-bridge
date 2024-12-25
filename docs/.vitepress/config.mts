@@ -40,6 +40,7 @@ export default defineConfig({
         text: "Getting Started", items: [
           { text: "For 𝕏", link: "/get-started" },
           { text: "For Threads", link: "/get-started-for-threads" },
+          { text: "For Instagram", link: "/get-started-for-instagram" },
         ]
       },
       { text: "Troubleshooting", link: "/troubleshooting" },
@@ -127,6 +128,7 @@ export default defineConfig({
             text: "Iniziare", items: [
               { text: "Per 𝕏", link: "/it/get-started" },
               { text: "Per Threads", link: "/it/get-started-for-threads" },
+              { text: "Per Instagram", link: "/it/get-started-for-instagram" },
             ]
           },
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
@@ -147,6 +149,7 @@ export default defineConfig({
             text: "入门", items: [
               { text: "𝕏的场景", link: "/zh/get-started" },
               { text: "Threads的场景", link: "/zh/get-started-for-threads" },
+              { text: "Instagram的场景", link: "/zh/get-started-for-instagram" },
             ]
           },
           { text: "故障排除指南", link: "/zh/troubleshooting" },
@@ -167,6 +170,7 @@ export default defineConfig({
             text: "Commencer", items: [
               { text: "Pour 𝕏", link: "/fr/get-started" },
               { text: "Pour Threads", link: "/fr/get-started-for-threads" },
+              { text: "Pour Instagram", link: "/fr/get-started-for-instagram" },
             ]
           },
           { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
@@ -187,6 +191,7 @@ export default defineConfig({
             text: "Introdução", items: [
               { text: "Para 𝕏", link: "/pt/get-started" },
               { text: "Para Threads", link: "/pt/get-started-for-threads" },
+              { text: "Para Instagram", link: "/pt/get-started-for-instagram" },
             ]
           },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
@@ -207,6 +212,7 @@ export default defineConfig({
             text: "Comenzando", items: [
               { text: "Para 𝕏", link: "/es/get-started" },
               { text: "Para Threads", link: "/es/get-started-for-threads" },
+              { text: "Para Instagram", link: "/es/get-started-for-instagram" },
             ]
           },
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
@@ -227,6 +233,7 @@ export default defineConfig({
             text: "시작하기", items: [
               { text: "𝕏용", link: "/ko/get-started" },
               { text: "Threads용", link: "/ko/get-started-for-threads" },
+              { text: "Instagram용", link: "/ko/get-started-for-instagram" },
             ]
           },
           { text: "문제 해결", link: "/ko/troubleshooting" },
@@ -247,6 +254,7 @@ export default defineConfig({
             text: "Erste Schritte", items: [
               { text: "Für 𝕏", link: "/de/get-started" },
               { text: "Für Threads", link: "/de/get-started-for-threads" },
+              { text: "Für Instagram", link: "/de/get-started-for-instagram" },
             ]
           },
           { text: "Fehlerbehebung", link: "/de/troubleshooting" },
