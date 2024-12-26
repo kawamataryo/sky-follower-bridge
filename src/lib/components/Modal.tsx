@@ -23,14 +23,58 @@ const Modal = ({ children, open = false, onClose, width = 500 }: Props) => {
     };
   }, [onClose]);
 
+  // drag logic
+  const isDragging = useRef(false);
+  const offset = useRef({ x: 0, y: 0 });
+  const modalContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const dialog = modalContainerRef.current;
+
+    const handleMouseDown = (event: MouseEvent) => {
+      if (dialog && event.target === dialog) {
+        isDragging.current = true;
+        offset.current = {
+          x: event.clientX - dialog.offsetLeft,
+          y: event.clientY - dialog.offsetTop,
+        };
+      }
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (isDragging.current && dialog) {
+        dialog.style.left = `${event.clientX - offset.current.x}px`;
+        dialog.style.top = `${event.clientY - offset.current.y}px`;
+      }
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+    };
+
+    if (dialog) {
+      dialog.addEventListener("mousedown", handleMouseDown);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      if (dialog) {
+        dialog.removeEventListener("mousedown", handleMouseDown);
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      }
+    };
+  }, []);
+
   return (
     <>
       <dialog className="modal" ref={anchorRef} open={open}>
         <div
-          className="modal-box p-10 bg-base-100 max-w-none text-base-content"
+          className="modal-box p-10 bg-base-100 max-w-none text-base-content absolute cursor-move"
           style={{ width }}
+          ref={modalContainerRef}
         >
-          {children}
+          <div className="cursor-auto">{children}</div>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button type="submit">close</button>
