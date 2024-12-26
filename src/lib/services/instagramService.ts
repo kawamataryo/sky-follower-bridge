@@ -76,16 +76,23 @@ export class InstagramService implements IService {
     const userCells = searchUserCells(
       document.querySelector(SCROLL_TARGET_SELECTOR),
     );
-    const newUserCellsSet = new Set(userCells).difference(
-      this.crawledUserCells,
-    );
-    this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
+    let newUserCellsSet: Set<HTMLElement>;
+
+    if (typeof this.crawledUserCells.difference === 'function' && typeof this.crawledUserCells.union === 'function') {
+      newUserCellsSet = new Set(userCells).difference(this.crawledUserCells);
+      this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
+    } else {
+      newUserCellsSet = new Set(
+        Array.from(userCells).filter(
+          (userCell) => !this.crawledUserCells.has(userCell)
+        )
+      );
+      for (const userCell of newUserCellsSet) {
+        this.crawledUserCells.add(userCell);
+      }
+    }
 
     const newUserCells = Array.from(newUserCellsSet);
-    console.log(
-      "🚀 ~ InstagramService ~ getCrawledUsers ~ newUserCells:",
-      newUserCells.length,
-    );
     return newUserCells.map((userCell) => this.extractUserData(userCell));
   }
 
