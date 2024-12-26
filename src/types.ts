@@ -47,7 +47,7 @@ export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE];
 
 export interface IService {
   messageName: MessageName;
-  crawledUsers: Set<string>;
+  crawledUserCells: Set<HTMLElement>;
 
   isTargetPage(): [boolean, string];
 

@@ -1,7 +1,7 @@
 {
   "name": "sky-follower-bridge",
   "displayName": "Sky Follower Bridge",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "__MSG_extension_description__",
   "author": "kawamataryou",
   "scripts": {
@@ -72,7 +72,8 @@
       "https://bsky.social/*",
       "https://twitter.com/*",
       "https://x.com/*",
-      "https://www.threads.net/*"
+      "https://www.threads.net/*",
+      "https://www.instagram.com/*"
     ],
     "browser_specific_settings": {
       "gecko": {

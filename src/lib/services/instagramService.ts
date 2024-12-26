@@ -1,7 +1,6 @@
 import { findFirstScrollableElements } from "~lib/utils";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
-const TARGET_PAGE_SELECTOR = '[role="dialog"] [role="tab"]>[role="button"]';
 const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
 
 const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
@@ -19,7 +18,7 @@ const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
   return Array.from(userCell.children).flatMap(searchUserCells);
 };
 
-export class ThreadsService implements IService {
+export class InstagramService implements IService {
   messageName: MessageName;
   crawledUserCells: Set<HTMLElement>;
 
@@ -49,10 +48,6 @@ export class ThreadsService implements IService {
   }
 
   isTargetPage(): [boolean, string] {
-    const isTargetPage = document.querySelector(TARGET_PAGE_SELECTOR);
-    if (!isTargetPage) {
-      return [false, chrome.i18n.getMessage("error_invalid_page_in_threads")];
-    }
     return [true, ""];
   }
 
@@ -73,7 +68,7 @@ export class ThreadsService implements IService {
       accountNameReplaceUnderscore,
       bskyHandle: "",
       originalAvatar: avatarSrc,
-      originalProfileLink: `https://www.threads.net/@${_accountName}`,
+      originalProfileLink: `https://www.instagram.com/${_accountName}`,
     };
   }
 
@@ -87,6 +82,10 @@ export class ThreadsService implements IService {
     this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
 
     const newUserCells = Array.from(newUserCellsSet);
+    console.log(
+      "🚀 ~ InstagramService ~ getCrawledUsers ~ newUserCells:",
+      newUserCells.length,
+    );
     return newUserCells.map((userCell) => this.extractUserData(userCell));
   }
 
