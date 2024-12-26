@@ -77,14 +77,17 @@ export class XService implements IService {
 
     let newUserCellsSet: Set<HTMLElement>;
 
-    if (typeof this.crawledUserCells.difference === 'function' && typeof this.crawledUserCells.union === 'function') {
+    if (
+      typeof this.crawledUserCells.difference === "function" &&
+      typeof this.crawledUserCells.union === "function"
+    ) {
       newUserCellsSet = new Set(userCells).difference(this.crawledUserCells);
       this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
     } else {
       newUserCellsSet = new Set(
         Array.from(userCells).filter(
-          (userCell) => !this.crawledUserCells.has(userCell)
-        )
+          (userCell) => !this.crawledUserCells.has(userCell),
+        ),
       );
       for (const userCell of newUserCellsSet) {
         this.crawledUserCells.add(userCell);
