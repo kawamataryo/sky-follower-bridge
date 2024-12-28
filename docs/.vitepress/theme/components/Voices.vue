@@ -111,9 +111,9 @@ const voices: Voice[] = [
 <template>
   <h2 class="voices-title">{{ title }}</h2>
   <div class="voices-container">
-    <a v-for="voice in voices" :key="voice.handle" class="voice-card" :href="voice.url">
+    <a v-for="voice in voices" :key="voice.handle" class="voice-card" :href="voice.url" target="_blank">
       <div class="voice-card-header">
-        <img :src="voice.avatarUrl" alt="voice.name" />
+        <img :src="voice.avatarUrl" alt="voice.name" loading="lazy"/>
         <p class="voice-card-header-name">{{ voice.name }}</p>
         <p class="voice-card-header-handle">{{ voice.handle }}</p>
         <svg xmlns="http://www.w3.org/2000/svg" class="bsky-icon" shape-rendering="geometricPrecision"
@@ -154,7 +154,6 @@ const voices: Voice[] = [
 .voice-card {
   padding: 1rem;
   background-color: var(--vp-c-bg-soft);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   text-decoration: none;
   display: inline-block;
@@ -162,11 +161,8 @@ const voices: Voice[] = [
   margin-top: 1.5rem;
   color: inherit !important;
   transition: opacity 0.2s ease-in-out;
-}
-
-.voice-card:hover {
-  color: inherit !important;
-  opacity: 0.7;
+  transition: 1s box-shadow;
+  position: relative;
 }
 
 .voice-card-header {
@@ -248,5 +244,52 @@ const voices: Voice[] = [
 ::v-deep .highlight-word {
   color: var(--vp-c-brand-1);
   font-weight: 600;
+}
+
+.voice-card:before {
+    content: '';
+    background: linear-gradient(45deg, #0000ff, #0040ff, #0080ff, #00bfff, #00ffff, #00bfff, #0080ff, #0040ff, #0000ff);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.voice-card:active {
+    color: #000
+}
+
+.voice-card:active:after {
+    background: transparent;
+}
+
+.voice-card:hover:before {
+    opacity: 1;
+}
+
+.voice-card:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
 }
 </style>
