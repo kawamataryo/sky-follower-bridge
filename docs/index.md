@@ -35,4 +35,4 @@ features:
 
 ---
 
-<Voices />
+<Voices title="What people are saying..." moreLabel="More" />

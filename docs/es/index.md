@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: Soporte multiplataforma
     details: Disponible en Chrome, Firefox y Microsoft Edge para tu conveniencia.
---- 
+---
+
+---
+
+<Voices
+  title="Lo que dice la gente..."
+  moreLabel="Más"
+/>

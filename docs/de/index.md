@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: Unterstützung für mehrere Browser
     details: Verfügbar auf Chrome, Firefox und Microsoft Edge für Ihre Bequemlichkeit.
---- 
+---
+
+---
+
+<Voices
+  title="Was die Leute sagen..."
+  moreLabel="Mehr"
+/>

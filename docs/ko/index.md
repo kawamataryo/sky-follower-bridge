@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: "크로스 브라우저 지원"
     details: "Chrome, Firefox, Microsoft Edge에서 사용 가능합니다."
---- 
+---
+
+---
+
+<Voices 
+  title="사람들의 이야기"
+  moreLabel="더 보기"
+/>

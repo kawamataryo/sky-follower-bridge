@@ -1,4 +1,10 @@
 <script setup lang="ts">
+
+defineProps<{
+  title: string;
+  moreLabel: string;
+}>()
+
 type Voice = {
   name: string;
   handle: string;
@@ -103,7 +109,7 @@ const voices: Voice[] = [
 </script>
 
 <template>
-  <h2 class="voices-title">What people are saying...</h2>
+  <h2 class="voices-title">{{ title }}</h2>
   <div class="voices-container">
     <a v-for="voice in voices" :key="voice.handle" class="voice-card" :href="voice.url">
       <div class="voice-card-header">
@@ -123,7 +129,7 @@ const voices: Voice[] = [
     </a>
   </div>
   <div class="more-voices-container">
-    <a class="more-button" href="https://bsky.app/search?q=sky+follower+bridge" target="_blank">More Voices</a>
+    <a class="more-button" href="https://bsky.app/search?q=sky+follower+bridge" target="_blank">{{ moreLabel }}</a>
   </div>
 </template>
 

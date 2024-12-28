@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: Support multi-navigateurs
     details: Disponible sur Chrome, Firefox et Microsoft Edge pour votre commodité.
---- 
+---
+
+---
+
+<Voices
+  title="Ce que les gens disent..."
+  moreLabel="Plus"
+/>

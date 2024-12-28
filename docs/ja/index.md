@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: クロスブラウザ対応
     details: Chrome、Firefox、Microsoft Edgeで利用可能。
---- 
+---
+
+---
+
+<Voices
+  title="ユーザーの声"
+  moreLabel="もっと見る"
+/>

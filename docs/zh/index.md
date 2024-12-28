@@ -29,4 +29,11 @@ features:
   - icon: 🌐
     title: 跨浏览器支持
     details: 可在 Chrome、Firefox 和 Microsoft Edge 上使用，方便您的使用。
---- 
+---
+
+---
+
+<Voices
+  title="大家在说什么..."
+  moreLabel="更多"
+/>
