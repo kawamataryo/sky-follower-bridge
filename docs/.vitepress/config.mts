@@ -24,6 +24,15 @@ export default defineConfig({
     ['link', { rel: 'shortcut icon', href: '/favicon/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' }],
     ['link', { rel: 'manifest', href: '/favicon/site.webmanifest' }],
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=AW-975752054' }
+    ],
+    [
+      'script',
+      {},
+      "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-975752054');"
+    ]
   ],
 
   description: "Effortlessly migrate your followers from X, Twitter, and Threads to Bluesky with our free browser extension.",
