@@ -119,10 +119,9 @@ After building, you can load the extension:
 **For Firefox:**
 1. Go to `about:debugging#/runtime/this-firefox`
 2. Click "Load Temporary Add-on"
-3. Select the zip file from the `dist` directory
+3. Select the zip file from the `build` directory
 
 ### Notes
 - The built extension will be in the `build` directory
-- The packaged extension (.zip) will be in the `dist` directory
 - When using a custom PDS, users will need to use handles in the format `username.your-custom-domain.com`
 - Make sure your custom PDS server is compatible with the AT Protocol
