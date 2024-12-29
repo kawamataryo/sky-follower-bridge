@@ -31,7 +31,9 @@ features:
     details: Disponible sur Chrome, Firefox et Microsoft Edge pour votre commodité.
 ---
 
----
+<AppDemo
+  title="Voici comment fonctionne Sky Follower Bridge"
+/>
 
 <Voices
   title="Ce que les gens disent..."

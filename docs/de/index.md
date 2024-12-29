@@ -33,6 +33,10 @@ features:
 
 ---
 
+<AppDemo
+  title="So funktioniert Sky Follower Bridge"
+/>
+
 <Voices
   title="Was die Leute sagen..."
   moreLabel="Mehr"

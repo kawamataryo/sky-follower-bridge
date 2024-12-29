@@ -33,6 +33,10 @@ features:
 
 ---
 
+<AppDemo
+  title="アプリの使い方"
+/>
+
 <Voices
   title="ユーザーの声"
   moreLabel="もっと見る"

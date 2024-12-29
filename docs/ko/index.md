@@ -33,6 +33,10 @@ features:
 
 ---
 
+<AppDemo
+  title="이렇게 사용하세요"
+/>
+
 <Voices 
   title="사람들의 이야기"
   moreLabel="더 보기"

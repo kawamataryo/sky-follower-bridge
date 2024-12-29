@@ -33,6 +33,10 @@ features:
 
 ---
 
+<AppDemo
+  title="看看如何使用"
+/>
+
 <Voices
   title="大家在说什么..."
   moreLabel="更多"
