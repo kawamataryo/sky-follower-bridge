@@ -1,22 +1,8 @@
+import { searchUserCells } from "~lib/domHelpers";
 import { findFirstScrollableElements } from "~lib/utils";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
 const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
-
-const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
-  if (!userCell) {
-    return [];
-  }
-  const cellTextCount = (userCell.innerText ?? "").split("\n").length;
-  const hasAvatar = !!userCell.querySelector("img");
-  if (1 <= cellTextCount && cellTextCount <= 3 && hasAvatar) {
-    return [userCell];
-  }
-  if (userCell.children.length === 0) {
-    return [];
-  }
-  return Array.from(userCell.children).flatMap(searchUserCells);
-};
 
 export class InstagramService implements IService {
   messageName: MessageName;
