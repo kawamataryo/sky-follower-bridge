@@ -11,7 +11,7 @@ Sky Follower Bridgeは以下で利用可能です：
 <ul class="install-list">
   <li>
     <img src="/images/icon-chrome.svg" width="20" height="20">
-    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="link-to-chrome-store">Chrome ウェブストア</a>
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Chrome ウェブストア</a>
   </li>
 </ul>
 

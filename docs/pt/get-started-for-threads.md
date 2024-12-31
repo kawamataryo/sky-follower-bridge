@@ -11,7 +11,7 @@ O Sky Follower Bridge está disponível em:
 <ul class="install-list">
   <li>
     <img src="/images/icon-chrome.svg" width="20" height="20">
-    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="link-to-chrome-store">Chrome Web Store</a>
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Chrome Web Store</a>
   </li>
 </ul>
 

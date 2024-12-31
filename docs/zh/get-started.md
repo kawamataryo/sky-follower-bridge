@@ -12,19 +12,19 @@ Sky Follower Bridge 可在以下平台获取：
 <ul class="install-list">
   <li>
     <img src="/images/icon-chrome.svg" width="20" height="20">
-    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="link-to-chrome-store">Chrome 网上应用店</a>（推荐）
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Chrome 网上应用店</a>（推荐）
   </li>
   <li>
     <img src="/images/icon-firefox.svg" width="20" height="20">
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/" target="_blank" rel="noopener noreferrer" class="link-to-mozilla-addons">Firefox 附加组件</a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Firefox 附加组件</a>
   </li>
   <li>
     <img src="/images/icon-edge.svg" width="20" height="20">
-    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb" target="_blank" rel="noopener noreferrer" class="link-to-edge-store">Microsoft Edge 附加组件</a>
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Microsoft Edge 附加组件</a>
   </li>
   <li>
     <img src="/images/icon-safari.svg" width="20" height="20">
-    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12" target="_blank" rel="noopener noreferrer" class="link-to-safari-store">Safari 网页扩展</a> <span>（感谢 <a href="https://bsky.app/profile/knotbin.xyz">@knotbin.xyz</a> 的贡献！）</span>
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Safari 网页扩展</a> <span>（感谢 <a href="https://bsky.app/profile/knotbin.xyz">@knotbin.xyz</a> 的贡献！）</span>
   </li>
 </ul>
 
