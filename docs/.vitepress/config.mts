@@ -53,6 +53,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ]
       },
       { text: "Troubleshooting", link: "/troubleshooting" },
+      { text: "FAQ", link: "/faq" },
     ],
 
     socialLinks: [
@@ -120,6 +121,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "トラブルシューティング", link: "/ja/troubleshooting" },
+          { text: "よくある質問", link: "/ja/faq" },
         ],
       }
     },
@@ -141,6 +143,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
+          { text: "FAQ", link: "/it/faq" },
         ],
       }
     },
@@ -162,6 +165,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "故障排除指南", link: "/zh/troubleshooting" },
+          { text: "常见问题", link: "/zh/faq" },
         ],
       }
     },
@@ -183,6 +187,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
+          { text: "FAQ", link: "/fr/faq" },
         ],
       }
     },
@@ -204,6 +209,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
+          { text: "FAQ", link: "/pt/faq" },
         ],
       }
     },
@@ -225,6 +231,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
+          { text: "FAQ", link: "/es/faq" },
         ],
       }
     },
@@ -246,6 +253,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "문제 해결", link: "/ko/troubleshooting" },
+          { text: "자주 묻는 질문", link: "/ko/faq" },
         ],
       }
     },
@@ -267,6 +275,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ]
           },
           { text: "Fehlerbehebung", link: "/de/troubleshooting" },
+          { text: "FAQ", link: "/de/faq" },
         ],
       }
     }
