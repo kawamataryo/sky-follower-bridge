@@ -28,7 +28,7 @@ As it's a PC browser extension, it cannot be used on mobile devices. We are cons
 
 We would appreciate your support through the following link. It helps motivate development.
 
-- [ko-fi](https://ko-fi.com/kawamataryou)
+- [ko-fi](https://ko-fi.com/kawamataryo)
 
 ## What's the relationship with skyfollowerbridge.com?
 

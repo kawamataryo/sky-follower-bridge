@@ -28,7 +28,7 @@ Sky Follower Bridge检测满足以下任一标准的用户：
 
 我们感谢您通过以下链接提供支持。这有助于激励开发。
 
-- [ko-fi](https://ko-fi.com/kawamataryou)
+- [ko-fi](https://ko-fi.com/kawamataryo)
 
 ## 与skyfollowerbridge.com的关系是什么？
 

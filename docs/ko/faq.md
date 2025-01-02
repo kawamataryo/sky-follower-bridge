@@ -28,7 +28,7 @@ PC 브라우저 확장 프로그램이기 때문에 모바일 기기에서는 �
 
 다음 링크를 통해 지원해 주시면 감사하겠습니다. 개발 동기 부여에 도움이 됩니다.
 
-- [ko-fi](https://ko-fi.com/kawamataryou)
+- [ko-fi](https://ko-fi.com/kawamataryo)
 
 ## skyfollowerbridge.com과의 관계는 무엇인가요?
 

@@ -28,7 +28,7 @@ Da es sich um eine PC-Browser-Erweiterung handelt, kann sie nicht auf mobilen Ge
 
 Wir würden uns über Ihre Unterstützung über den folgenden Link freuen. Es hilft, die Entwicklung zu motivieren.
 
-- [ko-fi](https://ko-fi.com/kawamataryou)
+- [ko-fi](https://ko-fi.com/kawamataryo)
 
 ## Wie ist die Beziehung zu skyfollowerbridge.com?
 

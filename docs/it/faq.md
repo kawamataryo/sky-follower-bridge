@@ -28,7 +28,7 @@ Essendo un'estensione per browser PC, non può essere utilizzata su dispositivi 
 
 Apprezzeremmo il tuo supporto attraverso il seguente link. Aiuta a motivare lo sviluppo.
 
-- [ko-fi](https://ko-fi.com/kawamataryou)
+- [ko-fi](https://ko-fi.com/kawamataryo)
 
 ## Qual è il rapporto con skyfollowerbridge.com?
 
