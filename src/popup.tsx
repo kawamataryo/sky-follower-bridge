@@ -126,7 +126,7 @@ function IndexPopup() {
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       // if the current url is x.com, need to go to the following page
-      if (currentUrl.includes("https://x.com/")) {
+      if (currentUrl?.includes("https://x.com/")) {
         chrome.tabs.update({ url: "https://x.com/following" });
         await retrySearch();
         return;
@@ -394,17 +394,24 @@ function IndexPopup() {
               />
             </svg>
             <span>
-              {message.message}
+              {message.message}{" "}
               {message.documentLink && (
                 <a
                   href={message.documentLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="link ml-2"
+                  className="link mx-1"
                 >
                   {chrome.i18n.getMessage("learn_more")}
                 </a>
-              )}
+              )}{" "}
+              <span
+                className="text-xs"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+                dangerouslySetInnerHTML={{
+                  __html: getMessageWithLink("error_report_to_developer"),
+                }}
+              />
             </span>
           </div>
         )}

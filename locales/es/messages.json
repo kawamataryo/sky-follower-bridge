@@ -248,5 +248,9 @@
   "re_search_modal_title": {
     "message": "Resultados de búsqueda",
     "description": "Text for the re search modal title"
+  },
+  "error_report_to_developer": {
+    "message": "Si no puedes resolver el error, por favor contacta a <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
+    "description": "Texto para el informe de errores al desarrollador"
   }
 }
