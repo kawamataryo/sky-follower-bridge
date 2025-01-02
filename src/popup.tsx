@@ -103,6 +103,13 @@ function IndexPopup() {
     return true;
   };
 
+  const retrySearch = async () => {
+    setMessage(null);
+    setIsLoading(true);
+    await new Promise((r) => setTimeout(r, 3000));
+    await searchBskyUser();
+  };
+
   const searchBskyUser = async (e?: FormEvent) => {
     if (e) {
       e.preventDefault();
@@ -118,6 +125,12 @@ function IndexPopup() {
     });
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
+      // if the current url is x.com, need to go to the following page
+      if (currentUrl.includes("https://x.com/")) {
+        chrome.tabs.update({ url: "https://x.com/following" });
+        await retrySearch();
+        return;
+      }
       setErrorMessage(
         chrome.i18n.getMessage("error_invalid_page"),
         DOCUMENT_LINK.PAGE_ERROR,
@@ -213,8 +226,7 @@ function IndexPopup() {
       ) {
         setReloadCount((prev) => prev + 1);
         await reloadActiveTab();
-        await new Promise((r) => setTimeout(r, 3000));
-        await searchBskyUser();
+        await retrySearch();
       } else {
         setErrorMessage(
           chrome.i18n.getMessage("error_something_went_wrong"),
