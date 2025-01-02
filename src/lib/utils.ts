@@ -54,3 +54,7 @@ export const getMessageWithLink = (
 
   return message;
 };
+
+export const isFirefox = () => {
+  return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+};
