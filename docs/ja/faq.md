@@ -1,3 +1,7 @@
+---
+title: 'FAQ: sky'
+---
+
 # FAQ
 
 よくある質問をまとめました。もし、他にも質問があれば [@sky-follower-bridge.dev](https://bsky.app/profile/sky-follower-bridge.dev) までお気軽にご連絡ください。
