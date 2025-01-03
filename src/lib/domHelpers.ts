@@ -28,3 +28,18 @@ export const scrapeListNameFromPage = (): string => {
   }
   return "Imported List from X";
 };
+
+export const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
+  if (!userCell) {
+    return [];
+  }
+  const cellTextCount = (userCell.innerText ?? "").split("\n").length;
+  const hasAvatar = !!userCell.querySelector("img");
+  if (1 <= cellTextCount && cellTextCount <= 3 && hasAvatar) {
+    return [userCell];
+  }
+  if (userCell.children.length === 0) {
+    return [];
+  }
+  return Array.from(userCell.children).flatMap(searchUserCells);
+};

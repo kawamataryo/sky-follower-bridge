@@ -159,6 +159,10 @@ function IndexPopup() {
         P.when((url) => TARGET_URLS_REGEX.INSTAGRAM.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE,
       )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.TIKTOK.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
+      )
       .run();
 
     await chrome.storage.local.set({

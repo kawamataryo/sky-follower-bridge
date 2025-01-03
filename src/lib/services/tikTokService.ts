@@ -2,10 +2,9 @@ import { searchUserCells } from "~lib/domHelpers";
 import { findFirstScrollableElements } from "~lib/utils";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
-const TARGET_PAGE_SELECTOR = '[role="dialog"] [role="tab"]>[role="button"]';
-const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
+const SCROLL_TARGET_SELECTOR = '[data-e2e="follow-info-popup"]';
 
-export class ThreadsService implements IService {
+export class TikTokService implements IService {
   messageName: MessageName;
   crawledUserCells: Set<HTMLElement>;
 
@@ -35,7 +34,7 @@ export class ThreadsService implements IService {
   }
 
   isTargetPage(): [boolean, string] {
-    const isTargetPage = document.querySelector(TARGET_PAGE_SELECTOR);
+    const isTargetPage = document.querySelector(SCROLL_TARGET_SELECTOR);
     if (!isTargetPage) {
       return [false, chrome.i18n.getMessage("error_invalid_page_in_threads")];
     }
@@ -43,31 +42,33 @@ export class ThreadsService implements IService {
   }
 
   extractUserData(userCell: Element): CrawledUserInfo {
-    const [_accountName, displayName] =
-      (userCell as HTMLElement).innerText?.split("\n").map((t) => t.trim()) ??
-      [];
+    const [displayName, _accountName] =
+      (userCell as HTMLElement).innerText
+        ?.split("\n")
+        .map((t) => t.trim())
+        .filter((t) => t) ?? [];
     const accountName = _accountName.replaceAll(".", "");
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
-    const avatarElement = userCell.querySelector("img");
+    const avatarElement = userCell.querySelector('[shape="circle"]>img');
     const avatarSrc = avatarElement?.getAttribute("src") ?? "";
 
-    return {
+    const user = {
       accountName,
       displayName,
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
       bskyHandle: "",
       originalAvatar: avatarSrc,
-      originalProfileLink: `https://www.threads.net/@${_accountName}`,
+      originalProfileLink: `https://www.tiktok.com/@${_accountName}`,
     };
+    return user;
   }
 
   getCrawledUsers(): CrawledUserInfo[] {
     const userCells = searchUserCells(
       document.querySelector(SCROLL_TARGET_SELECTOR),
     );
-
     let newUserCellsSet: Set<HTMLElement>;
 
     if (
