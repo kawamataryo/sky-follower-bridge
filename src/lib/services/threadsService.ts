@@ -71,7 +71,7 @@ export class ThreadsService implements IService {
       displayName,
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
-      bskyHandle: "",
+      bskyHandleInDescription: "",
       originalAvatar: avatarSrc,
       originalProfileLink: `https://www.threads.net/@${_accountName}`,
     };

@@ -1,16 +1,12 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import type { CrawledUserInfo } from "~types";
 import { BSKY_PROFILE_LABEL, BSKY_USER_MATCH_TYPE } from "./constants";
 
-type xUserInfo = {
-  bskyHandleInDescription: string;
-  accountName: string;
-  accountNameRemoveUnderscore: string;
-  accountNameReplaceUnderscore: string;
-  displayName: string;
-};
-
 export const isSimilarUser = (
-  xUserInfo: xUserInfo,
+  crawledUserInfo: Omit<
+    CrawledUserInfo,
+    "originalAvatar" | "originalProfileLink"
+  >,
   bskyProfile: ProfileView | undefined,
 ): {
   isSimilar: boolean;
@@ -24,10 +20,10 @@ export const isSimilarUser = (
   }
 
   // this is to handle the case where the user has a bsky handle in their description
-  if (xUserInfo.bskyHandleInDescription) {
+  if (crawledUserInfo.bskyHandleInDescription) {
     const formattedBskyHandle = bskyProfile.handle.replace("@", "");
     const formattedBskyHandleInDescription =
-      xUserInfo.bskyHandleInDescription.replace("@", "");
+      crawledUserInfo.bskyHandleInDescription.replace("@", "");
     if (
       formattedBskyHandle === formattedBskyHandleInDescription ||
       formattedBskyHandle.includes(formattedBskyHandleInDescription)
@@ -39,16 +35,15 @@ export const isSimilarUser = (
     }
   }
 
-  const lowerCaseNames = Object.entries(xUserInfo).reduce<xUserInfo>(
-    (acc, [key, value]) => {
-      if (!value) {
-        return acc;
-      }
-      acc[key] = value.toLowerCase();
+  const lowerCaseNames = Object.entries(
+    crawledUserInfo,
+  ).reduce<CrawledUserInfo>((acc, [key, value]) => {
+    if (!value) {
       return acc;
-    },
-    {} as xUserInfo,
-  );
+    }
+    acc[key] = value.toLowerCase();
+    return acc;
+  }, {} as CrawledUserInfo);
 
   const bskyHandle = bskyProfile.handle
     .toLocaleLowerCase()

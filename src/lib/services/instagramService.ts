@@ -66,7 +66,7 @@ export class InstagramService implements IService {
       displayName,
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
-      bskyHandle: "",
+      bskyHandleInDescription: "",
       originalAvatar: avatarSrc,
       originalProfileLink: `https://www.instagram.com/${_accountName}`,
     };
