@@ -8,7 +8,7 @@
     "description": "Text for the extension description"
   },
   "learn_more": {
-    "message": "Learn more",
+    "message": "For more information, please see here.",
     "description": "Text for the learn more link"
   },
   "auth_factor_token": {
@@ -60,7 +60,7 @@
     "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
-    "message": "Error: Invalid page. please open the target page.",
+    "message": "Error:  Invalid active page. Use the extension with a valid web page active.",
     "description": "Text for the error message when the page is invalid"
   },
   "error_something_went_wrong": {

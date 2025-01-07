@@ -8,7 +8,7 @@
     "description": "Text for the extension description"
   },
   "learn_more": {
-    "message": "Scopri di più",
+    "message": "Scopri di più.",
     "description": "Text for the learn more link"
   },
   "auth_factor_token": {

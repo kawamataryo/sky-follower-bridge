@@ -8,7 +8,7 @@
     "description": "Text for the extension description"
   },
   "learn_more": {
-    "message": "자세히 보기",
+    "message": "자세히 보기.",
     "description": "Text for the learn more link"
   },
   "auth_factor_token": {

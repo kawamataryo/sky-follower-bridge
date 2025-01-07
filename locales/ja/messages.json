@@ -8,7 +8,7 @@
     "description": "Text for the extension description"
   },
   "learn_more": {
-    "message": "詳細を見る",
+    "message": "エラーの詳細を見る。",
     "description": "Text for the learn more link"
   },
   "auth_factor_token": {
@@ -60,7 +60,7 @@
     "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
-    "message": "エラー: 無効なページです。対象のページを開いてください。",
+    "message": "エラー: 現在開いているページでは起動することができません。対象のページを開いてください。",
     "description": "Text for the error message when the page is invalid"
   },
   "error_something_went_wrong": {
