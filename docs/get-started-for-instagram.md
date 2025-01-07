@@ -8,7 +8,12 @@ Sky Follower Bridge helps you find and follow your Threads connections on Bluesk
 
 Sky Follower Bridge is available on:
 
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko) (Recommended)
+<ul class="install-list">
+  <li>
+    <img src="/images/icon-chrome.svg" width="20" height="20">
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Chrome Web Store</a>
+  </li>
+</ul>
 
 ::: warning
 Sky Follower Bridge is only available on desktop browsers. Mobile browsers are not supported.

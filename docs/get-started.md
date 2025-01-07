@@ -13,19 +13,19 @@ Sky Follower Bridge is available on:
 <ul class="install-list">
   <li>
     <img src="/images/icon-chrome.svg" width="20" height="20">
-    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko">Chrome Web Store</a> (Recommended⭐)
+    <a href="https://chrome.google.com/webstore/detail/sky-follower-bridge/behhbpbpmailcnfbjagknjngnfdojpko" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Chrome Web Store</a> (Recommended⭐)
   </li>
   <li>
     <img src="/images/icon-firefox.svg" width="20" height="20">
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/">Firefox Add-ons</a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/sky-follower-bridge/" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Firefox Add-ons</a>
   </li>
   <li>
     <img src="/images/icon-edge.svg" width="20" height="20">
-    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb">Microsoft Edge Add-ons</a>
+    <a href="https://microsoftedge.microsoft.com/addons/detail/sky-follower-bridge/dpeolmdblhfolkhlhbhlofkkpaojnnbb" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Microsoft Edge Add-ons</a>
   </li>
   <li>
     <img src="/images/icon-safari.svg" width="20" height="20">
-    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12">Safari Web Extension</a> <span>(Thanks to <a href="https://bsky.app/profile/knotbin.xyz">@knotbin.xyz</a>)</span>
+    <a href="https://apps.apple.com/us/app/sky-follower-bridge/id6738878242?mt=12" target="_blank" rel="noopener noreferrer" class="gtm-link-to-store">Safari Web Extension</a> <span>(Thanks to <a href="https://bsky.app/profile/knotbin.xyz">@knotbin.xyz</a>)</span>
   </li>
 </ul>
 

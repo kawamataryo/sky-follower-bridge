@@ -26,12 +26,12 @@ export default defineConfig({
     ['link', { rel: 'manifest', href: '/favicon/site.webmanifest' }],
     [
       'script',
-      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=AW-975752054' }
-    ],
-    [
-      'script',
       {},
-      "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-975752054');"
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N9HZN4NL');`
     ]
   ],
 
@@ -53,6 +53,7 @@ export default defineConfig({
         ]
       },
       { text: "Troubleshooting", link: "/troubleshooting" },
+      { text: "FAQ", link: "/faq" },
     ],
 
     socialLinks: [
@@ -120,6 +121,7 @@ export default defineConfig({
             ]
           },
           { text: "トラブルシューティング", link: "/ja/troubleshooting" },
+          { text: "よくある質問", link: "/ja/faq" },
         ],
       }
     },
@@ -141,6 +143,7 @@ export default defineConfig({
             ]
           },
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
+          { text: "FAQ", link: "/it/faq" },
         ],
       }
     },
@@ -162,6 +165,7 @@ export default defineConfig({
             ]
           },
           { text: "故障排除指南", link: "/zh/troubleshooting" },
+          { text: "常见问题", link: "/zh/faq" },
         ],
       }
     },
@@ -183,6 +187,7 @@ export default defineConfig({
             ]
           },
           { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
+          { text: "FAQ", link: "/fr/faq" },
         ],
       }
     },
@@ -204,6 +209,7 @@ export default defineConfig({
             ]
           },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
+          { text: "FAQ", link: "/pt/faq" },
         ],
       }
     },
@@ -225,6 +231,7 @@ export default defineConfig({
             ]
           },
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
+          { text: "FAQ", link: "/es/faq" },
         ],
       }
     },
@@ -246,6 +253,7 @@ export default defineConfig({
             ]
           },
           { text: "문제 해결", link: "/ko/troubleshooting" },
+          { text: "자주 묻는 질문", link: "/ko/faq" },
         ],
       }
     },
@@ -267,6 +275,7 @@ export default defineConfig({
             ]
           },
           { text: "Fehlerbehebung", link: "/de/troubleshooting" },
+          { text: "FAQ", link: "/de/faq" },
         ],
       }
     }

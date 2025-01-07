@@ -12,7 +12,9 @@ export const searchBskyUser = async ({
   userData: CrawledUserInfo;
 }) => {
   const searchTerms = [
-    ...(userData.bskyHandle ? [userData.bskyHandle] : []),
+    ...(userData.bskyHandleInDescription
+      ? [userData.bskyHandleInDescription]
+      : []),
     userData.accountNameRemoveUnderscore,
     userData.accountNameReplaceUnderscore,
     userData.displayName,
@@ -39,7 +41,7 @@ export const searchBskyUser = async ({
         const { isSimilar: isUserFound, type } = isSimilarUser(
           // TODO: simplify
           {
-            bskyHandleInDescription: userData.bskyHandle,
+            bskyHandleInDescription: userData.bskyHandleInDescription,
             accountName: userData.accountName,
             accountNameRemoveUnderscore: userData.accountNameRemoveUnderscore,
             accountNameReplaceUnderscore: userData.accountNameReplaceUnderscore,

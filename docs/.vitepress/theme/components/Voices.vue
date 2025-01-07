@@ -241,7 +241,7 @@ const voices: Voice[] = [
   border-top: none;
 }
 
-::v-deep .highlight-word {
+:deep(.highlight-word) {
   color: var(--vp-c-brand-1);
   font-weight: 600;
 }
