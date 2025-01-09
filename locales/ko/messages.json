@@ -252,5 +252,14 @@
   "error_report_to_developer": {
     "message": "오류를 해결할 수 없는 경우 <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>에 문의하세요.",
     "description": "개발자에게 오류 보고를 위한 텍스트"
+  },
+  "login": {
+    "message": "로그인"
+  },
+  "logout": {
+    "message": "로그아웃"
+  },
+  "logging_in": {
+    "message": "로그인 중..."
   }
 }

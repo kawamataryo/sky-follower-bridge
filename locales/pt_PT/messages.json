@@ -252,5 +252,14 @@
   "error_report_to_developer": {
     "message": "Se você não conseguir resolver o erro, entre em contato com <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
     "description": "Texto para o relatório de erro ao desenvolvedor"
+  },
+  "login": {
+    "message": "Entrar"
+  },
+  "logout": {
+    "message": "Sair"
+  },
+  "logging_in": {
+    "message": "A entrar..."
   }
 }

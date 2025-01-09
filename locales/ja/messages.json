@@ -252,5 +252,14 @@
   "error_report_to_developer": {
     "message": "エラーを解決できない場合は、<a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>にお問い合わせください。",
     "description": "開発者へのエラーレポートのテキスト"
+  },
+  "login": {
+    "message": "ログイン"
+  },
+  "logout": {
+    "message": "ログアウト"
+  },
+  "logging_in": {
+    "message": "ログイン中..."
   }
 }
