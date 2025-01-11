@@ -1,6 +1,7 @@
 import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
+import { setToChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "./constants";
 
 export type BskyLoginParams = {
@@ -31,9 +32,7 @@ export class BskyServiceWorkerClient {
     });
     if (error) throw new Error(error.message);
 
-    chrome.storage.local.set({
-      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
-    });
+    await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, session);
 
     return new BskyServiceWorkerClient(session);
   }

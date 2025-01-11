@@ -1,18 +1,23 @@
+import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
+import { getChromeStorage } from "~lib/chromeHelper";
 import {
   ACTION_MODE,
   BSKY_USER_MATCH_TYPE,
   DEFAULT_LIST_NAME,
+  type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
 import type { BskyUser, MatchType } from "~types";
+
+type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
 
 export const useBskyUserManager = () => {
   const [users, setUsers] = useStorage<BskyUser[]>(
@@ -210,18 +215,22 @@ export const useBskyUserManager = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: force re-render option page
   React.useEffect(() => {
-    chrome.storage.local.get(
-      [STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME],
-      (result) => {
-        const session = result[STORAGE_KEYS.BSKY_CLIENT_SESSION];
-        bskyClient.current = new BskyServiceWorkerClient(session);
-        setActionMode(
-          MESSAGE_NAME_TO_ACTION_MODE_MAP[
-            result[STORAGE_KEYS.BSKY_MESSAGE_NAME]
-          ],
-        );
-      },
-    );
+    const initialize = async () => {
+      const storage = await getChromeStorage<{
+        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: AtpSessionData;
+        [STORAGE_KEYS.BSKY_MESSAGE_NAME]: MessageName;
+      }>([STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME]);
+      const session = storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
+      bskyClient.current = new BskyServiceWorkerClient(session);
+      setActionMode(
+        MESSAGE_NAME_TO_ACTION_MODE_MAP[
+          storage?.[STORAGE_KEYS.BSKY_MESSAGE_NAME]
+        ],
+      );
+    };
+    initialize().catch((e) => {
+      console.error(e);
+    });
   }, [key]);
 
   const matchTypeStats = React.useMemo(() => {

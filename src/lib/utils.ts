@@ -37,6 +37,10 @@ export const findFirstScrollableElements = (
   return scrollableElements[0] ?? null;
 };
 
+export const isFirefox = () => {
+  return navigator.userAgent.toLowerCase().includes("firefox");
+};
+
 export const getMessageWithLink = (
   key: string,
   placeholders: string[] = [],
@@ -53,28 +57,4 @@ export const getMessageWithLink = (
   }
 
   return message;
-};
-
-export const isFirefox = () => {
-  return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
-};
-
-export const setToChromeStorage = (key: string, value: unknown) => {
-  return chrome.storage.local.set({ [key]: value });
-};
-
-export const getFromChromeStorage = (keys: string | string[]) => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get(keys, (result) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-};
-
-export const removeFromChromeStorage = (keys: string | string[]) => {
-  return chrome.storage.local.remove(keys);
 };

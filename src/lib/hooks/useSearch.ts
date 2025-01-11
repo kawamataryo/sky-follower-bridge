@@ -2,13 +2,20 @@ import { sendToContentScript } from "@plasmohq/messaging";
 import { useState } from "react";
 import { P, match } from "ts-pattern";
 import {
+  getChromeActiveTab,
+  reloadChromeActiveTab,
+  removeChromeStorageItems,
+  setToChromeStorage,
+  updateChromeTab,
+} from "~lib/chromeHelper";
+import {
   DOCUMENT_LINK,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
-import { isFirefox, setToChromeStorage } from "~lib/utils";
+import { isFirefox } from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useSearch = () => {
@@ -18,11 +25,7 @@ export const useSearch = () => {
     useErrorMessage();
 
   const reloadActiveTab = async () => {
-    const [{ id: tabId }] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    await chrome.tabs.reload(tabId);
+    await reloadChromeActiveTab();
   };
 
   const retrySearch = async () => {
@@ -33,7 +36,7 @@ export const useSearch = () => {
   };
 
   const handleLoginError = async () => {
-    await chrome.storage.local.remove([
+    await removeChromeStorageItems([
       STORAGE_KEYS.BSKY_CLIENT_SESSION,
       STORAGE_KEYS.BSKY_PASSWORD,
       STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
@@ -46,14 +49,11 @@ export const useSearch = () => {
       e.preventDefault();
     }
 
-    const [{ url: currentUrl }] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+    const { url: currentUrl } = await getChromeActiveTab();
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       if (!isFirefox() && currentUrl?.includes("https://x.com/")) {
-        chrome.tabs.update({ url: "https://x.com/following" });
+        await updateChromeTab({ url: "https://x.com/following" });
         await retrySearch();
         return;
       }

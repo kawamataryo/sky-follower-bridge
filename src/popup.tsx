@@ -21,7 +21,7 @@ function IndexPopup() {
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,
-    message: authMessage,
+    errorMessage: authMessage,
     isAuthenticated,
     isAuthenticatedLoading,
     login,
@@ -32,12 +32,12 @@ function IndexPopup() {
 
   const {
     isLoading: isSearchLoading,
-    message: searchMessage,
+    errorMessage: searchMessage,
     searchBskyUser,
   } = useSearch();
 
   const message = authMessage || searchMessage;
-  const isShowErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
+  const isShowErrorMessage = !!message;
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">

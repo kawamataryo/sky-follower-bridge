@@ -4,6 +4,7 @@ import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
 import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
+import { getChromeStorage } from "~lib/chromeHelper";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { InstagramService } from "~lib/services/instagramService";
@@ -162,10 +163,11 @@ export const useRetrieveBskyUsers = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const initialize = React.useCallback(async () => {
-    const storage = await chrome.storage.local.get([
-      STORAGE_KEYS.BSKY_CLIENT_SESSION,
-      STORAGE_KEYS.BSKY_MESSAGE_NAME,
-    ]);
+    const storage = await getChromeStorage<{
+      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: AtpSessionData;
+      [STORAGE_KEYS.BSKY_MESSAGE_NAME]: MessageName;
+    }>([STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME]);
+
     const messageName = storage[STORAGE_KEYS.BSKY_MESSAGE_NAME];
     const session = storage[STORAGE_KEYS.BSKY_CLIENT_SESSION];
 

@@ -1,6 +1,11 @@
 import { sendToBackground } from "@plasmohq/messaging";
 import { useCallback, useEffect, useState } from "react";
 import {
+  getChromeStorage,
+  removeChromeStorageItems,
+  setToChromeStorage,
+} from "~lib/chromeHelper";
+import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
   BSKY_DOMAIN,
   DOCUMENT_LINK,
@@ -8,11 +13,6 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
-import {
-  getFromChromeStorage,
-  removeFromChromeStorage,
-  setToChromeStorage,
-} from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
@@ -35,7 +35,7 @@ export const useAuth = () => {
   };
 
   const clearPasswordFromStorage = async () => {
-    await removeFromChromeStorage(STORAGE_KEYS.BSKY_PASSWORD);
+    await removeChromeStorageItems([STORAGE_KEYS.BSKY_PASSWORD]);
   };
 
   const saveShowAuthFactorTokenInputToStorage = async (value: boolean) => {
@@ -50,23 +50,24 @@ export const useAuth = () => {
   };
 
   const loadCredentialsFromStorage = useCallback(async () => {
-    const storage = await getFromChromeStorage([
-      STORAGE_KEYS.BSKY_USER_ID,
-      STORAGE_KEYS.BSKY_PASSWORD,
-      STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
-      STORAGE_KEYS.BSKY_CLIENT_SESSION,
-    ]);
-    setIdentifier(storage[STORAGE_KEYS.BSKY_USER_ID] || "");
-    setPassword(storage[STORAGE_KEYS.BSKY_PASSWORD] || "");
+    const storage = await getChromeStorage<{
+      [STORAGE_KEYS.BSKY_USER_ID]: string;
+      [STORAGE_KEYS.BSKY_PASSWORD]: string;
+      [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: boolean;
+      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: string;
+    }>(null);
+
+    setIdentifier(storage?.[STORAGE_KEYS.BSKY_USER_ID] || "");
+    setPassword(storage?.[STORAGE_KEYS.BSKY_PASSWORD] || "");
     setIsShowAuthFactorTokenInput(
-      storage[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
+      storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
     );
     return {
-      identifier: storage[STORAGE_KEYS.BSKY_USER_ID],
-      password: storage[STORAGE_KEYS.BSKY_PASSWORD],
-      session: storage[STORAGE_KEYS.BSKY_CLIENT_SESSION],
+      identifier: storage?.[STORAGE_KEYS.BSKY_USER_ID],
+      password: storage?.[STORAGE_KEYS.BSKY_PASSWORD],
+      session: storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION],
       isShowAuthFactorTokenInput:
-        storage[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
+        storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
     };
   }, []);
 
@@ -95,7 +96,7 @@ export const useAuth = () => {
   const logout = async () => {
     setIsLoading(true);
     try {
-      await removeFromChromeStorage([
+      await removeChromeStorageItems([
         STORAGE_KEYS.BSKY_CLIENT_SESSION,
         STORAGE_KEYS.BSKY_PASSWORD,
         STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
@@ -114,6 +115,21 @@ export const useAuth = () => {
       setIsLoading(false);
     }
   };
+
+  const loadAndSetProfile = useCallback(async (session: string) => {
+    const { result, error } = await sendToBackground({
+      name: "getMyProfile",
+      body: {
+        session,
+      },
+    });
+    if (error) {
+      return false;
+    }
+    setDisplayName(result.displayName);
+    setAvatar(result.avatar);
+    return true;
+  }, []);
 
   const login = async (e?: React.FormEvent) => {
     if (e) {
@@ -160,6 +176,7 @@ export const useAuth = () => {
       }
 
       await saveSessionToStorage(session);
+      await loadAndSetProfile(session);
       await clearPasswordFromStorage();
       await saveShowAuthFactorTokenInputToStorage(false);
       setIsAuthenticated(true);
@@ -180,19 +197,12 @@ export const useAuth = () => {
         setIsAuthenticated(false);
         return;
       }
-      const { result, error } = await sendToBackground({
-        name: "getMyProfile",
-        body: {
-          session,
-        },
-      });
-      if (error) {
+      const isProfileLoaded = await loadAndSetProfile(session);
+      if (!isProfileLoaded) {
         setIsAuthenticated(false);
         return;
       }
       setIsAuthenticated(true);
-      setDisplayName(result.displayName);
-      setAvatar(result.avatar);
     };
 
     initialize()
@@ -202,7 +212,7 @@ export const useAuth = () => {
       .finally(() => {
         setIsAuthenticatedLoading(false);
       });
-  }, [loadCredentialsFromStorage]);
+  }, [loadCredentialsFromStorage, loadAndSetProfile]);
 
   return {
     isLoading,
