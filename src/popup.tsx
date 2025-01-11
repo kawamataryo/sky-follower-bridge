@@ -26,6 +26,8 @@ function IndexPopup() {
     isAuthenticatedLoading,
     login,
     logout,
+    displayName,
+    avatar,
   } = useAuth();
 
   const {
@@ -59,6 +61,8 @@ function IndexPopup() {
       ) : (
         <SearchForm
           isLoading={isSearchLoading}
+          displayName={displayName}
+          avatar={avatar}
           onSubmit={searchBskyUser}
           onLogout={logout}
         />

@@ -9,6 +9,11 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
+import {
+  getFromChromeStorage,
+  removeFromChromeStorage,
+  setToChromeStorage,
+} from "~lib/utils";
 
 interface Message {
   type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
@@ -25,47 +30,56 @@ export const useAuth = () => {
     useState(false);
   const [message, setMessage] = useState<Message | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthenticatedLoading, setIsAuthenticatedLoading] =
-    useState(true);
+  const [isAuthenticatedLoading, setIsAuthenticatedLoading] = useState(true);
+  const [displayName, setDisplayName] = useState("");
+  const [avatar, setAvatar] = useState("");
 
-  const setErrorMessage = (message: string, documentLink?: string) => {
-    setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
-  };
+  const setErrorMessage = useCallback(
+    (message: string, documentLink?: string) => {
+      setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
+    },
+    [],
+  );
 
   const saveCredentialsToStorage = async () => {
-    await chrome.storage.local.set({
-      [STORAGE_KEYS.BSKY_USER_ID]: identifier,
-      [STORAGE_KEYS.BSKY_PASSWORD]: password,
-    });
+    await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
+    await setToChromeStorage(STORAGE_KEYS.BSKY_PASSWORD, password);
   };
 
   const clearPasswordFromStorage = async () => {
-    await chrome.storage.local.remove([STORAGE_KEYS.BSKY_PASSWORD]);
+    await removeFromChromeStorage(STORAGE_KEYS.BSKY_PASSWORD);
   };
 
   const saveShowAuthFactorTokenInputToStorage = async (value: boolean) => {
-    await chrome.storage.local.set({
-      [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: value,
-    });
+    await setToChromeStorage(
+      STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
+      value,
+    );
+  };
+
+  const saveSessionToStorage = async (session: string) => {
+    await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, session);
   };
 
   const loadCredentialsFromStorage = useCallback(async () => {
-    chrome.storage.local.get(
-      [
-        STORAGE_KEYS.BSKY_USER_ID,
-        STORAGE_KEYS.BSKY_PASSWORD,
-        STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
-        STORAGE_KEYS.BSKY_CLIENT_SESSION,
-      ],
-      (result) => {
-        setIdentifier(result[STORAGE_KEYS.BSKY_USER_ID] || "");
-        setPassword(result[STORAGE_KEYS.BSKY_PASSWORD] || "");
-        setIsShowAuthFactorTokenInput(
-          result[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
-        );
-        setIsAuthenticated(!!result[STORAGE_KEYS.BSKY_CLIENT_SESSION]);
-      },
+    const storage = await getFromChromeStorage([
+      STORAGE_KEYS.BSKY_USER_ID,
+      STORAGE_KEYS.BSKY_PASSWORD,
+      STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
+      STORAGE_KEYS.BSKY_CLIENT_SESSION,
+    ]);
+    setIdentifier(storage[STORAGE_KEYS.BSKY_USER_ID] || "");
+    setPassword(storage[STORAGE_KEYS.BSKY_PASSWORD] || "");
+    setIsShowAuthFactorTokenInput(
+      storage[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
     );
+    return {
+      identifier: storage[STORAGE_KEYS.BSKY_USER_ID],
+      password: storage[STORAGE_KEYS.BSKY_PASSWORD],
+      session: storage[STORAGE_KEYS.BSKY_CLIENT_SESSION],
+      isShowAuthFactorTokenInput:
+        storage[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
+    };
   }, []);
 
   const validateForm = () => {
@@ -93,7 +107,7 @@ export const useAuth = () => {
   const logout = async () => {
     setIsLoading(true);
     try {
-      await chrome.storage.local.remove([
+      await removeFromChromeStorage([
         STORAGE_KEYS.BSKY_CLIENT_SESSION,
         STORAGE_KEYS.BSKY_PASSWORD,
         STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
@@ -120,7 +134,7 @@ export const useAuth = () => {
     if (!validateForm()) {
       return;
     }
-    saveCredentialsToStorage();
+    await saveCredentialsToStorage();
 
     setMessage(null);
     setIsLoading(true);
@@ -157,10 +171,7 @@ export const useAuth = () => {
         return;
       }
 
-      await chrome.storage.local.set({
-        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: session,
-      });
-
+      await saveSessionToStorage(session);
       await clearPasswordFromStorage();
       await saveShowAuthFactorTokenInputToStorage(false);
       setIsAuthenticated(true);
@@ -175,8 +186,34 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    loadCredentialsFromStorage();
-    setIsAuthenticatedLoading(false);
+    const initialize = async () => {
+      const { session } = await loadCredentialsFromStorage();
+      if (!session) {
+        setIsAuthenticated(false);
+        return;
+      }
+      const { result, error } = await sendToBackground({
+        name: "getMyProfile",
+        body: {
+          session,
+        },
+      });
+      if (error) {
+        setIsAuthenticated(false);
+        return;
+      }
+      setIsAuthenticated(true);
+      setDisplayName(result.displayName);
+      setAvatar(result.avatar);
+    };
+
+    initialize()
+      .catch(() => {
+        setIsAuthenticated(false);
+      })
+      .finally(() => {
+        setIsAuthenticatedLoading(false);
+      });
   }, [loadCredentialsFromStorage]);
 
   return {
@@ -191,6 +228,8 @@ export const useAuth = () => {
     message,
     isAuthenticated,
     isAuthenticatedLoading,
+    displayName,
+    avatar,
     login,
     logout,
   };

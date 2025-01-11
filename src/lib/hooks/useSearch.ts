@@ -9,7 +9,7 @@ import {
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
-import { isFirefox } from "~lib/utils";
+import { isFirefox, setToChromeStorage } from "~lib/utils";
 
 interface Message {
   type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
@@ -96,9 +96,7 @@ export const useSearch = () => {
       )
       .run();
 
-    await chrome.storage.local.set({
-      [STORAGE_KEYS.BSKY_MESSAGE_NAME]: messageName,
-    });
+    await setToChromeStorage(STORAGE_KEYS.BSKY_MESSAGE_NAME, messageName);
 
     setMessage(null);
     setIsLoading(true);
