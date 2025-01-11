@@ -16,14 +16,18 @@ export const SearchForm = ({
   return (
     <div className="mt-5 flex flex-col gap-3">
       <div className="flex justify-end gap-2">
-        <div className="flex gap-1 items-center">
-          <img
-            src={avatar}
-            alt={displayName}
-            className="w-5 h-5 rounded-full"
-          />
-          <span className="text-sm max-w-[150px] truncate">{displayName}</span>
-        </div>
+        {avatar && displayName && (
+          <div className="flex gap-1 items-center">
+            <img
+              src={avatar}
+              alt={displayName}
+              className="w-5 h-5 rounded-full"
+            />
+            <span className="text-sm max-w-[150px] truncate">
+              {displayName}
+            </span>
+          </div>
+        )}
         <button
           type="button"
           onClick={onLogout}

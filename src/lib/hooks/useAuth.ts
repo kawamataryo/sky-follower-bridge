@@ -13,6 +13,7 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
+import { isFirefox } from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
@@ -117,6 +118,10 @@ export const useAuth = () => {
   };
 
   const loadAndSetProfile = useCallback(async (session: string) => {
+    if (isFirefox()) {
+      // Firefox does not work getMyProfile
+      return true;
+    }
     const { result, error } = await sendToBackground({
       name: "getMyProfile",
       body: {

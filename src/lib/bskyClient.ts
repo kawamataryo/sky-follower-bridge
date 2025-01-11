@@ -174,13 +174,11 @@ export class BskyClient {
     const profile = await this.agent.getProfile({
       actor: this.me.did,
     });
-    console.log(profile.data);
     return {
       pdsUrl: this.agent.pdsUrl,
       did: this.agent.session.did,
       handle: this.agent.session.handle,
       displayName: profile.data.displayName,
-      description: profile.data.description,
       avatar: profile.data.avatar,
     };
   };
