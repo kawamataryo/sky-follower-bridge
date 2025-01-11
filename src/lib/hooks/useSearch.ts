@@ -5,26 +5,17 @@ import {
   DOCUMENT_LINK,
   MAX_RELOAD_COUNT,
   MESSAGE_NAMES,
-  MESSAGE_TYPE,
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
 import { isFirefox, setToChromeStorage } from "~lib/utils";
-
-interface Message {
-  type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
-  message: string;
-  documentLink?: string;
-}
+import { useErrorMessage } from "./useErrorMessage";
 
 export const useSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [reloadCount, setReloadCount] = useState(0);
-  const [message, setMessage] = useState<Message | null>(null);
-
-  const setErrorMessage = (message: string, documentLink?: string) => {
-    setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
-  };
+  const { errorMessage, setErrorMessage, clearErrorMessage } =
+    useErrorMessage();
 
   const reloadActiveTab = async () => {
     const [{ id: tabId }] = await chrome.tabs.query({
@@ -35,7 +26,7 @@ export const useSearch = () => {
   };
 
   const retrySearch = async () => {
-    setMessage(null);
+    clearErrorMessage();
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 3000));
     await searchBskyUser();
@@ -98,7 +89,7 @@ export const useSearch = () => {
 
     await setToChromeStorage(STORAGE_KEYS.BSKY_MESSAGE_NAME, messageName);
 
-    setMessage(null);
+    clearErrorMessage();
     setIsLoading(true);
 
     try {
@@ -149,7 +140,7 @@ export const useSearch = () => {
 
   return {
     isLoading,
-    message,
+    errorMessage,
     searchBskyUser,
   };
 };

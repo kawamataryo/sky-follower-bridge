@@ -5,7 +5,6 @@ import {
   BSKY_DOMAIN,
   DOCUMENT_LINK,
   INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE,
-  MESSAGE_TYPE,
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
@@ -14,12 +13,7 @@ import {
   removeFromChromeStorage,
   setToChromeStorage,
 } from "~lib/utils";
-
-interface Message {
-  type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
-  message: string;
-  documentLink?: string;
-}
+import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,18 +22,12 @@ export const useAuth = () => {
   const [authFactorToken, setAuthFactorToken] = useState("");
   const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
     useState(false);
-  const [message, setMessage] = useState<Message | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticatedLoading, setIsAuthenticatedLoading] = useState(true);
   const [displayName, setDisplayName] = useState("");
   const [avatar, setAvatar] = useState("");
-
-  const setErrorMessage = useCallback(
-    (message: string, documentLink?: string) => {
-      setMessage({ type: MESSAGE_TYPE.ERROR, message, documentLink });
-    },
-    [],
-  );
+  const { errorMessage, setErrorMessage, clearErrorMessage } =
+    useErrorMessage();
 
   const saveCredentialsToStorage = async () => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
@@ -116,7 +104,7 @@ export const useAuth = () => {
       setPassword("");
       setAuthFactorToken("");
       setIsShowAuthFactorTokenInput(false);
-      setMessage(null);
+      clearErrorMessage();
     } catch (e) {
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
@@ -136,7 +124,7 @@ export const useAuth = () => {
     }
     await saveCredentialsToStorage();
 
-    setMessage(null);
+    clearErrorMessage();
     setIsLoading(true);
 
     const formattedIdentifier = (
@@ -225,7 +213,7 @@ export const useAuth = () => {
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,
-    message,
+    errorMessage,
     isAuthenticated,
     isAuthenticatedLoading,
     displayName,
