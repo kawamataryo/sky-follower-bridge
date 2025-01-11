@@ -73,7 +73,7 @@ Most users won't hit these limits during normal usage. However, be mindful when 
 ### Invalid Page
 
 **Error Message:**  
-<span class="error-message">Error: Invalid page. please open the 𝕏 following or blocking or list page.</span>
+<span class="error-message">Error:  Invalid active page. Use the extension with a valid web page active.</span>
 
 **Solution:**
 Only use the extension on these 𝕏 (Twitter) pages:
