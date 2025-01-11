@@ -3,9 +3,8 @@ import { BskyClient } from "~lib/bskyClient";
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { session, userDid, listUri } = req.body;
-  const client = await BskyClient.createAgentFromSession(session);
-
   try {
+    const client = await BskyClient.createAgentFromSession(session);
     res.send({
       result: await client.addUserToList({ userDid, listUri }),
     });
