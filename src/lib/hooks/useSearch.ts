@@ -102,7 +102,8 @@ export const useSearch = () => {
         } else if (
           errorMessage.toLowerCase().includes("unauthorized") ||
           errorMessage.toLowerCase().includes("authentication") ||
-          errorMessage.toLowerCase().includes("login")
+          errorMessage.toLowerCase().includes("login") ||
+          errorMessage.toLowerCase().includes("token")
         ) {
           await handleLoginError();
           return;

@@ -13,7 +13,6 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
-import { isFirefox } from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
@@ -87,10 +86,6 @@ export const useAuth = () => {
       setErrorMessage(chrome.i18n.getMessage("error_enter_identifier"));
       return false;
     }
-    if (isShowAuthFactorTokenInput && !authFactorToken) {
-      setErrorMessage(chrome.i18n.getMessage("error_enter_auth_factor_token"));
-      return false;
-    }
     return true;
   };
 
@@ -118,14 +113,11 @@ export const useAuth = () => {
   };
 
   const loadAndSetProfile = useCallback(async (session: string) => {
-    if (isFirefox()) {
-      // Firefox does not work getMyProfile
-      return true;
-    }
+    // For some reason, it crashes on Firefox unless we communicate as a string, so we use JSON.stringify.
     const { result, error } = await sendToBackground({
       name: "getMyProfile",
       body: {
-        session,
+        session: JSON.stringify(session),
       },
     });
     if (error) {

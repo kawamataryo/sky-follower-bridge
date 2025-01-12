@@ -1,4 +1,5 @@
 import { AtUri, AtpAgent, type AtpSessionData } from "@atproto/api";
+import destr from "destr";
 import { BSKY_DOMAIN } from "./constants";
 
 // try and cut down the amount of session resumes by caching the clients
@@ -36,15 +37,14 @@ export class BskyClient {
       return clientCache.get(session.did);
     }
     const client = new BskyClient();
-    await client.agent.resumeSession(session);
+    const res = await client.agent.resumeSession(destr(session));
     client.me = {
-      did: session.did,
-      handle: session.handle,
-      email: session.email,
+      did: res.data.did,
+      handle: res.data.handle,
+      email: res.data.email,
     };
 
     clientCache.set(session.did, client);
-
     return client;
   }
 

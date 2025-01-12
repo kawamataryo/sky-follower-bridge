@@ -29,6 +29,7 @@
     "@tanstack/react-virtual": "^3.11.2",
     "@vitejs/plugin-react": "^4.3.3",
     "consola": "^3.3.1",
+    "destr": "^2.0.3",
     "framer-motion": "^11.11.11",
     "plasmo": "^0.84.2",
     "react": "18.2.0",
