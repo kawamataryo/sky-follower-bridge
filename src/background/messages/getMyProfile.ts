@@ -5,15 +5,9 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { session } = req.body;
   try {
     const client = await BskyClient.createAgentFromSession(session);
-    const profile = await client.getMyProfile();
+    const result = await client.getMyProfile();
     res.send({
-      result: {
-        pdsUrl: profile.pdsUrl,
-        did: profile.did,
-        handle: profile.handle,
-        displayName: profile.displayName,
-        avatar: profile.avatar,
-      },
+      result: JSON.stringify(await client.getMyProfile()),
     });
   } catch (e) {
     res.send({

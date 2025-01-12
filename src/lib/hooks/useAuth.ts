@@ -1,4 +1,5 @@
 import { sendToBackground } from "@plasmohq/messaging";
+import destr from "destr";
 import { useCallback, useEffect, useState } from "react";
 import {
   getChromeStorage,
@@ -123,8 +124,12 @@ export const useAuth = () => {
     if (error) {
       return false;
     }
-    setDisplayName(result.displayName);
-    setAvatar(result.avatar);
+    const parsedResult = destr<{
+      displayName: string;
+      avatar: string;
+    }>(result);
+    setDisplayName(parsedResult.displayName);
+    setAvatar(parsedResult.avatar);
     return true;
   }, []);
 
@@ -155,6 +160,13 @@ export const useAuth = () => {
       });
       if (error) {
         if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
+          if (isShowAuthFactorTokenInput) {
+            setErrorMessage(
+              chrome.i18n.getMessage("error_enter_auth_factor_token"),
+              DOCUMENT_LINK.LOGIN_ERROR,
+            );
+            return;
+          }
           setIsShowAuthFactorTokenInput(true);
           await saveShowAuthFactorTokenInputToStorage(true);
         } else if (error.message.includes(RATE_LIMIT_ERROR_MESSAGE)) {
