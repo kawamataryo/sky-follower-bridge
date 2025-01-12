@@ -1,4 +1,5 @@
 import type { AtpSessionData } from "@atproto/api";
+import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import React from "react";
@@ -70,6 +71,7 @@ export const useRetrieveBskyUsers = () => {
   const [currentService, setCurrentService] = React.useState<
     (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE]
   >(SERVICE_TYPE.X);
+  const [crawledUsers, setCrawledUsers] = React.useState<CrawledUserInfo[]>([]);
 
   const [retrievalParams, setRetrievalParams] = React.useState<null | {
     session: AtpSessionData;
@@ -132,6 +134,7 @@ export const useRetrieveBskyUsers = () => {
 
         const data = service.getCrawledUsers();
         service.scrollToBottom();
+        setCrawledUsers((prev) => [...prev, ...data]);
 
         await retrieveBskyUsers(data, service.processExtractedData);
 
@@ -217,6 +220,17 @@ export const useRetrieveBskyUsers = () => {
     [loading, errorMessage, users.length],
   );
 
+  const saveCrawledUsers = React.useCallback(async () => {
+    const profile = await bskyClient.current.getMyProfile();
+    const res = await sendToBackground({
+      name: "sendServer",
+      body: {
+        handle: profile.handle,
+        followings: crawledUsers,
+      },
+    });
+  }, [crawledUsers]);
+
   return {
     initialize,
     users,
@@ -228,5 +242,6 @@ export const useRetrieveBskyUsers = () => {
     isBottomReached,
     stopRetrieveLoop,
     currentService,
+    saveCrawledUsers,
   };
 };

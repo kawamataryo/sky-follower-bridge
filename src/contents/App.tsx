@@ -38,6 +38,7 @@ const App = () => {
     isBottomReached,
     errorMessage,
     currentService,
+    saveCrawledUsers,
   } = useRetrieveBskyUsers();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -85,8 +86,9 @@ const App = () => {
     (v) => (v === undefined ? "" : v),
   );
 
-  const openOptionPage = () => {
-    sendToBackground({ name: "openOptionPage" });
+  const openOptionPage = async () => {
+    await sendToBackground({ name: "openOptionPage" });
+    await saveCrawledUsers();
     // force re-render option page
     setKey(Date.now().toString());
   };

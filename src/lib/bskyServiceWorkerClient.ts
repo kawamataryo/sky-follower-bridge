@@ -3,6 +3,7 @@ import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/
 import { sendToBackground } from "@plasmohq/messaging";
 import { setToChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "./constants";
+import destr from "destr";
 
 export type BskyLoginParams = {
   identifier: string;
@@ -176,6 +177,11 @@ export class BskyServiceWorkerClient {
     });
     if (error) throw new Error(error.message);
 
-    return result;
+    return destr<{
+      did: string;
+      handle: string;
+      displayName: string;
+      avatar: string;
+    }>(result);
   };
 }
