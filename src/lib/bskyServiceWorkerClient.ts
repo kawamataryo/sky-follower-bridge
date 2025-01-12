@@ -1,9 +1,9 @@
 import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
+import destr from "destr";
 import { setToChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "./constants";
-import destr from "destr";
 
 export type BskyLoginParams = {
   identifier: string;
