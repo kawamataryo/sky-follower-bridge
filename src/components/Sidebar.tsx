@@ -1,12 +1,12 @@
 import React from "react";
 import { match } from "ts-pattern";
-import { getMessageWithLink } from "~lib/utils";
-import type { MatchType, MatchTypeFilterValue } from "../../types";
 import {
   ACTION_MODE,
   BSKY_USER_MATCH_TYPE,
   MATCH_TYPE_LABEL_AND_COLOR,
-} from "../constants";
+} from "~lib/constants";
+import { getMessageWithLink } from "~lib/utils";
+import type { MatchType, MatchTypeFilterValue } from "~types";
 import AsyncButton from "./AsyncButton";
 import SocialLinks from "./SocialLinks";
 

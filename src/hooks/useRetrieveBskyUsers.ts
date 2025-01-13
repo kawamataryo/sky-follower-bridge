@@ -7,10 +7,10 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
-import { InstagramService } from "~lib/services/instagramService";
-import { ThreadsService } from "~lib/services/threadsService";
-import { XService } from "~lib/services/xService";
 import { wait } from "~lib/utils";
+import { InstagramService } from "~services/instagramService";
+import { ThreadsService } from "~services/threadsService";
+import { XService } from "~services/xService";
 import type {
   BskyUser,
   CrawledUserInfo,

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import packageJson from "../package.json";
 
 import "./style.css";
@@ -7,9 +6,8 @@ import { AuthForm } from "~components/popup/AuthForm";
 import { ErrorMessage } from "~components/popup/ErrorMessage";
 import { Header } from "~components/popup/Header";
 import { SearchForm } from "~components/popup/SearchForm";
-import { MESSAGE_TYPE } from "~lib/constants";
-import { useAuth } from "~lib/hooks/useAuth";
-import { useSearch } from "~lib/hooks/useSearch";
+import { useAuth } from "~hooks/useAuth";
+import { useSearch } from "~hooks/useSearch";
 
 function IndexPopup() {
   const {

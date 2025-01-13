@@ -1,16 +1,15 @@
-import { useBskyUserManager } from "~lib/hooks/useBskyUserManager";
+import { useBskyUserManager } from "~hooks/useBskyUserManager";
 import "./style.css";
 import { ToastContainer, toast } from "react-toastify";
-import useConfirm from "~lib/components/ConfirmDialog";
-import Sidebar from "~lib/components/Sidebar";
+import useConfirm from "~components/ConfirmDialog";
+import Sidebar from "~components/Sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import DetectedUserListItem from "~components/DetectedUserListItem";
+import DonationCard from "~components/DonationCard";
 import ReSearchModal from "~components/ReSearchModal";
-import DetectedUserListItem from "~lib/components/DetectedUserListItem";
-import DonationCard from "~lib/components/DonationCard";
 
 const Option = () => {
   const {

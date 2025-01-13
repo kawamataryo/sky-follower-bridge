@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ACTION_MODE, BSKY_USER_MATCH_TYPE } from "../constants";
+import { ACTION_MODE, BSKY_USER_MATCH_TYPE } from "~lib/constants";
 import Sidebar from "./Sidebar";
 
 const meta = {

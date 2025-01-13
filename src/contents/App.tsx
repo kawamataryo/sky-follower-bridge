@@ -5,11 +5,11 @@ import { useStorage } from "@plasmohq/storage/hook";
 import type { PlasmoCSConfig } from "plasmo";
 import React from "react";
 import { match } from "ts-pattern";
-import AlertError from "~lib/components/AlertError";
-import LoadingCards from "~lib/components/LoadingCards";
-import Modal from "~lib/components/Modal";
+import AlertError from "~components/AlertError";
+import LoadingCards from "~components/LoadingCards";
+import Modal from "~components/Modal";
+import { useRetrieveBskyUsers } from "~hooks/useRetrieveBskyUsers";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
-import { useRetrieveBskyUsers } from "~lib/hooks/useRetrieveBskyUsers";
 
 export const config: PlasmoCSConfig = {
   matches: [
