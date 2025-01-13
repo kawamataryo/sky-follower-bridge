@@ -1,11 +1,12 @@
-import Hint from "~components/Hint";
 import packageJson from "../package.json";
 
 import "./style.css";
 
 import { AuthForm } from "~components/popup/AuthForm";
+import { Contact } from "~components/popup/Contact";
 import { ErrorMessage } from "~components/popup/ErrorMessage";
 import { Header } from "~components/popup/Header";
+import { Hint } from "~components/popup/Hint";
 import { SearchForm } from "~components/popup/SearchForm";
 import { useAuth } from "~hooks/useAuth";
 import { useSearch } from "~hooks/useSearch";
@@ -72,7 +73,10 @@ function IndexPopup() {
           documentLink={message.documentLink}
         />
       )}
-      {isAuthenticated && <Hint />}
+      <div className="flex flex-col gap-2 mt-4">
+        {isAuthenticated && <Hint />}
+        <Contact />
+      </div>
     </div>
   );
 }
