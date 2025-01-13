@@ -245,6 +245,10 @@
     "message": "加载中...",
     "description": "Text for the loading message"
   },
+  "noUsersFound": {
+    "message": "未找到用户",
+    "description": "Text for when no users are found"
+  },
   "re_search_modal_title": {
     "message": "搜索结果",
     "description": "Text for the re search modal title"
@@ -269,5 +273,9 @@
   "contact_title": {
     "message": "如果您有任何问题或疑问，请随时联系 <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>",
     "description": "Text for the contact title"
+  },
+  "findSimilarBlueskyUsers": {
+    "message": "🦋 查找相似的Bluesky用户",
+    "description": "Text for the find similar Bluesky users button"
   }
 }

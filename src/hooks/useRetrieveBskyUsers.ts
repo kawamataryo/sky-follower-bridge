@@ -15,6 +15,7 @@ import type {
   BskyUser,
   CrawledUserInfo,
   IService,
+  MatchType,
   MessageName,
   ServiceType,
 } from "~types";
@@ -100,7 +101,7 @@ export const useRetrieveBskyUsers = () => {
                 displayName: searchResult.bskyProfile.displayName,
                 handle: searchResult.bskyProfile.handle,
                 description: searchResult.bskyProfile.description,
-                matchType: searchResult.matchType,
+                matchType: searchResult.matchType as MatchType,
                 isFollowing: !!searchResult.bskyProfile.viewer?.following,
                 followingUri: searchResult.bskyProfile.viewer?.following,
                 isBlocking: !!searchResult.bskyProfile.viewer?.blocking,

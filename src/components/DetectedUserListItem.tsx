@@ -1,4 +1,3 @@
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import React from "react";
 import { match } from "ts-pattern";
 import { ACTION_MODE, MATCH_TYPE_LABEL_AND_COLOR } from "~lib/constants";

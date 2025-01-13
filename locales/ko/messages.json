@@ -245,6 +245,10 @@
     "message": "로딩 중...",
     "description": "Text for the loading message"
   },
+  "noUsersFound": {
+    "message": "사용자를 찾을 수 없습니다",
+    "description": "Text for when no users are found"
+  },
   "re_search_modal_title": {
     "message": "재검색",
     "description": "Text for the re search modal title"
@@ -269,5 +273,9 @@
   "contact_title": {
     "message": "문제나 질문이 있으시면 <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>로 문의해 주세요",
     "description": "Text for the contact title"
+  },
+  "findSimilarBlueskyUsers": {
+    "message": "🦋 유사한 Bluesky 사용자 찾기",
+    "description": "Text for the find similar Bluesky users button"
   }
 }

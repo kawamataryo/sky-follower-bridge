@@ -69,8 +69,10 @@ export type UserCardProps = {
   handleActionButtonClick: () => void;
   setIsBtnHovered: (value: boolean) => void;
   setIsJustClicked: (value: boolean) => void;
-  handleReSearchClick: () => void;
-  handleDeleteClick: () => void;
+  handleReSearchClick?: () => void;
+  handleDeleteClick?: () => void;
+  hasReSearchButton?: boolean;
+  hasDeleteButton?: boolean;
 };
 
 const UserCard = ({
@@ -82,6 +84,8 @@ const UserCard = ({
   setIsJustClicked,
   handleReSearchClick,
   handleDeleteClick = () => {},
+  hasReSearchButton = true,
+  hasDeleteButton = true,
 }: UserCardProps) => {
   return (
     <div className="relative py-3 pt-1 pl-0 pr-2 grid grid-cols-[50px_1fr]">
@@ -100,8 +104,10 @@ const UserCard = ({
           </div>
           <div className="card-actions flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <ReSearchButton onClick={handleReSearchClick} />
-              <DeleteButton onClick={handleDeleteClick} />
+              {hasReSearchButton && (
+                <ReSearchButton onClick={handleReSearchClick} />
+              )}
+              {hasDeleteButton && <DeleteButton onClick={handleDeleteClick} />}
             </div>
             <div className="w-[170px] flex justify-end">
               <ActionButton

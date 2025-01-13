@@ -245,6 +245,10 @@
     "message": "Carregando...",
     "description": "Text for the loading message"
   },
+  "noUsersFound": {
+    "message": "Nenhum usuário encontrado",
+    "description": "Text for when no users are found"
+  },
   "re_search_modal_title": {
     "message": "Resultados da pesquisa",
     "description": "Text for the re search modal title"
@@ -269,5 +273,9 @@
   "contact_title": {
     "message": "Se você tiver algum problema ou dúvida, não hesite em contatar <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>",
     "description": "Text for the contact title"
+  },
+  "findSimilarBlueskyUsers": {
+    "message": "🦋 Encontrar usuários similares no Bluesky",
+    "description": "Text for the find similar Bluesky users button"
   }
 }

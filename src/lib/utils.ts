@@ -1,6 +1,7 @@
-export const debugLog = (message: string) => {
+export const debugLog = (...messages: unknown[]) => {
   if (process.env.NODE_ENV === "development") {
-    console.log(`🔷 [Sky Follower Bridge] ${message}`);
+    console.log("🔷 [Sky Follower Bridge]");
+    console.log(...messages);
   }
 };
 
