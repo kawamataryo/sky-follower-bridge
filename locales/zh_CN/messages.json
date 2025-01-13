@@ -261,5 +261,13 @@
   },
   "logging_in": {
     "message": "登录中..."
+  },
+  "hint_title": {
+    "message": "要搜索Bluesky用户，请打开以下页面之一并点击搜索按钮：",
+    "description": "Title text for the hint section explaining which pages to open"
+  },
+  "contact_title": {
+    "message": "如果您有任何问题或疑问，请随时联系 <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>",
+    "description": "Text for the contact title"
   }
 }

@@ -7,10 +7,10 @@ interface ErrorMessageProps {
 
 export const ErrorMessage = ({ message, documentLink }: ErrorMessageProps) => {
   return (
-    <div className="flex gap-2 items-center text-red-600 border border-red-600 p-2 rounded-md mt-2 text-xs">
+    <div className="flex gap-2 items-start text-red-600 border border-red-600 p-2 rounded-md mt-2 text-xs">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="stroke-current flex-shrink-0 h-6 w-6"
+        className="stroke-current flex-shrink-0 h-4 w-4 mt-[2px]"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -35,7 +35,6 @@ export const ErrorMessage = ({ message, documentLink }: ErrorMessageProps) => {
         )}{" "}
         <span
           className="text-xs"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: getMessageWithLink("error_report_to_developer"),
           }}

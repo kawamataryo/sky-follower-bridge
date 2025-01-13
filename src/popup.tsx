@@ -1,3 +1,4 @@
+import Hint from "~components/Hint";
 import packageJson from "../package.json";
 
 import "./style.css";
@@ -71,6 +72,7 @@ function IndexPopup() {
           documentLink={message.documentLink}
         />
       )}
+      {isAuthenticated && <Hint />}
     </div>
   );
 }

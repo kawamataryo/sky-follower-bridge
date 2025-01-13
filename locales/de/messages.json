@@ -261,5 +261,13 @@
   },
   "logging_in": {
     "message": "Anmeldung läuft..."
+  },
+  "hint_title": {
+    "message": "Um nach Bluesky-Benutzern zu suchen, öffnen Sie bitte eine der folgenden Seiten und klicken Sie auf die Schaltfläche Suchen:",
+    "description": "Title text for the hint section explaining which pages to open"
+  },
+  "contact_title": {
+    "message": "Bei Problemen oder Fragen können Sie sich gerne an <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a> wenden",
+    "description": "Text for the contact title"
   }
 }

@@ -188,7 +188,6 @@ const Sidebar = ({
         <div className="divider" />
         <p
           className="mb-2 text-xs"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: getMessageWithLink("donate_message"),
           }}

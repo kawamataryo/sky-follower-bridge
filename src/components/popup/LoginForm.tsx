@@ -76,7 +76,6 @@ export const LoginForm = ({
         </div>
         <span className="text-xs">
           <span
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
             dangerouslySetInnerHTML={{
               __html: getMessageWithLink("recommended_to_use_app_password"),
             }}

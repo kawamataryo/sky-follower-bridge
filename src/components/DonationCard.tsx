@@ -52,7 +52,6 @@ const DonationCard = () => {
               <div className="flex gap-2 items-center">
                 <p
                   className="text-sm"
-                  // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
                   dangerouslySetInnerHTML={{
                     __html: getMessageWithLink("donate_message"),
                   }}

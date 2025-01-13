@@ -115,7 +115,6 @@ const App = () => {
           )}
           <p
             className="text-2xl font-bold"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
             dangerouslySetInnerHTML={{
               __html: chrome.i18n.getMessage("detected_users", [
                 users.length.toString(),

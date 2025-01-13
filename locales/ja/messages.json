@@ -261,5 +261,13 @@
   },
   "logging_in": {
     "message": "ログイン中..."
+  },
+  "hint_title": {
+    "message": "Blueskyユーザーを検索するには、以下のページのいずれかを開いて検索ボタンを押してください：",
+    "description": "Title text for the hint section explaining which pages to open"
+  },
+  "contact_title": {
+    "message": "問題や質問がある場合は、<a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>までお気軽にお問い合わせください",
+    "description": "Text for the contact title"
   }
 }
