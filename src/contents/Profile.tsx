@@ -1,21 +1,15 @@
 import cssText from "data-text:~style.content.css";
-import { sendToBackground } from "@plasmohq/messaging";
-import { Storage } from "@plasmohq/storage";
-import { useStorage } from "@plasmohq/storage/hook";
 import type { PlasmoCSConfig } from "plasmo";
 import React, { useEffect } from "react";
-import { match } from "ts-pattern";
-import AlertError from "~components/AlertError";
-import LoadingCards from "~components/LoadingCards";
 import Modal from "~components/Modal";
-import { useRetrieveBskyUsers } from "~hooks/useRetrieveBskyUsers";
-import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
+import UserCard from "~components/UserCard";
+import { useProfileSearch } from "~hooks/useProfileSearch";
+import { getChromeStorage } from "~lib/chromeHelper";
+import { STORAGE_KEYS } from "~lib/constants";
+import { XProfileService } from "~services/xProfileService";
 
 export const config: PlasmoCSConfig = {
-  matches: [
-    "https://twitter.com/*",
-    "https://x.com/*",
-  ],
+  matches: ["https://twitter.com/*", "https://x.com/*"],
   all_frames: true,
 };
 
@@ -27,44 +21,89 @@ export const getStyle = () => {
 };
 
 const Profile = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [userData, setUserData] = React.useState<{
+    displayName: string;
+    handleName: string;
+    bioText: string;
+  }>({ displayName: "", handleName: "", bioText: "" });
+  const { bskyUsers, searchUser, initialize } = useProfileSearch();
+  const [isLoading, setIsLoading] = React.useState(false);
+
   useEffect(() => {
-    const checkAndAddButton = () => {
-      console.log("checkAndAddButton");
-      const userNameElement = document.querySelector('[data-testid="UserName"]');
-      if (userNameElement && !document.getElementById("bsky-search-button")) {
-        const button = document.createElement("button");
-        button.id = "bsky-search-button";
-        button.textContent = "🦋 Search Bluesky";
-        button.style.backgroundColor = "#000000";
-        button.style.color = "#ffffff";
-        button.style.borderRadius = "9999px";
-        button.style.padding = "4px 8px";
-        button.style.fontWeight = "bold";
-        button.style.width = "fit-content";
-        button.style.cursor = "pointer";
-        button.onclick = () => {
-          // ボタンがクリックされたときの処理をここに追加
-          console.log("Search Bluesky User button clicked");
-        };
-        userNameElement.parentElement.insertBefore(button, userNameElement);
+    const profileService = new XProfileService();
+
+    const checkAndAddButton = async () => {
+      const session = (
+        await getChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION)
+      )?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
+      const hasSession = !!session;
+
+      if (
+        hasSession &&
+        profileService.isTargetPage() &&
+        !profileService.hasSearchBlueskyButton()
+      ) {
+        profileService.mountSearchBlueskyButton({
+          clickAction: async (userData) => {
+            setIsModalOpen(true);
+            setIsLoading(true);
+            await initialize(session);
+            await searchUser(userData);
+            setIsLoading(false);
+          },
+        });
       }
     };
 
     const observer = new MutationObserver(checkAndAddButton);
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // 初期チェック
     checkAndAddButton();
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [searchUser, initialize]);
 
   return (
-    <div>
-      <p>Profile</p>
-    </div>
+    <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <div className="flex flex-col gap-2">
+        {isLoading && (
+          <div className="text-center flex justify-center items-center flex-col gap-4 mt-5">
+            <span className="loading loading-spinner loading-lg" />
+            <div className="text-center flex justify-center items-center text-sm">
+              {chrome.i18n.getMessage("loading")}
+            </div>
+          </div>
+        )}
+        {!isLoading && bskyUsers.length > 0 && (
+          <div className="flex flex-col gap-2">
+            {bskyUsers.map((user) => (
+              <div
+                className="border-b-[1px] border-gray-500 last:border-b-0"
+                key={user.did}
+              >
+                <UserCard
+                  user={user}
+                  loading={isLoading}
+                  actionBtnLabelAndClass={{
+                    label: "Follow",
+                    class: "bg-blue-500",
+                  }}
+                  handleActionButtonClick={() => {}}
+                  setIsBtnHovered={() => {}}
+                  setIsJustClicked={() => {}}
+                  hasReSearchButton={false}
+                  hasDeleteButton={false}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        {!isLoading && bskyUsers.length === 0 && <div>No users found</div>}
+      </div>
+    </Modal>
   );
 };
 

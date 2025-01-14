@@ -1,6 +1,6 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import Modal from "components/Modal";
-import UserCardWithoutActionButton from "components/UserCardWithoutActionButton";
+import Modal from "~components/Modal";
+import UserCardWithoutActionButton from "~components/UserCardWithoutActionButton";
 
 interface ReSearchModalProps {
   open: boolean;

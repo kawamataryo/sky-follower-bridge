@@ -28,3 +28,35 @@ export const scrapeListNameFromPage = (): string => {
   }
   return "Imported List from X";
 };
+
+export const createSearchBlueskyButton = () => {
+  const button = document.createElement("button");
+  button.id = "bsky-search-button";
+  button.textContent = "🦋 Search Bluesky User";
+
+  // Set button styles
+  Object.assign(button.style, {
+    padding: "4px 8px",
+    fontWeight: "bold",
+    width: "fit-content",
+    fontFamily:
+      "-apple-system, 'system-ui', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    cursor: "pointer",
+    borderRadius: "9999px",
+    background: "rgb(32, 139, 254)",
+    transition: "background 0.3s ease",
+    fontSize: "12px",
+    color: "white",
+    border: "none",
+  });
+
+  // Add hover effects
+  button.onmouseover = () => {
+    button.style.background = "rgb(76, 162, 254)";
+  };
+  button.onmouseout = () => {
+    button.style.background = "rgb(32, 139, 254)";
+  };
+
+  return button;
+};
