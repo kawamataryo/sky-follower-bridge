@@ -107,9 +107,7 @@ const UserCard = ({
               {hasReSearchButton && (
                 <ReSearchButton onClick={handleReSearchClick} />
               )}
-              {hasDeleteButton && (
-                <DeleteButton onClick={handleDeleteClick} />
-              )}
+              {hasDeleteButton && <DeleteButton onClick={handleDeleteClick} />}
             </div>
             <div className="w-[170px] flex justify-end">
               <ActionButton

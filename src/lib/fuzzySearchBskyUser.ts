@@ -1,9 +1,8 @@
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { debugLog, isOneSymbol } from "~lib/utils";
 import type { CrawledUserInfo } from "~types";
 import { isImpersonationUser } from "./bskyHelpers";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-
 
 export async function fuzzySearchBskyUser({
   client,
@@ -17,13 +16,15 @@ export async function fuzzySearchBskyUser({
     userData.accountNameRemoveUnderscore,
     userData.accountNameReplaceUnderscore,
     userData.displayName,
-  ].filter(term =>
-    // one symbol is not a valid search term for bsky
-    term && !isOneSymbol(term));
+  ].filter(
+    (term) =>
+      // one symbol is not a valid search term for bsky
+      term && !isOneSymbol(term),
+  );
 
   const detectedUsers: {
-    [key: string]: ProfileView
-  } = {}
+    [key: string]: ProfileView;
+  } = {};
 
   const uniqueSearchTerms = new Set(searchTerms);
   debugLog("uniqueSearchTerms: ", uniqueSearchTerms);

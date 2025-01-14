@@ -10,8 +10,12 @@ export class XProfileService {
     return userNameElement !== null;
   }
 
-  extractData(): Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink"> {
-    const userNameElement = document.querySelector<HTMLDivElement>(USER_NAME_SELECTOR);
+  extractData(): Omit<
+    CrawledUserInfo,
+    "originalAvatar" | "originalProfileLink"
+  > {
+    const userNameElement =
+      document.querySelector<HTMLDivElement>(USER_NAME_SELECTOR);
     const [displayName, accountName] = userNameElement.innerText.split("\n");
     const bioElement = document.querySelector(
       '[data-testid="UserDescription"]',
@@ -19,12 +23,18 @@ export class XProfileService {
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in account, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
     const bioText = bioElement ? bioElement.textContent : "";
-    const userUrl = document.querySelector("[data-testid='UserUrl']")?.textContent
+    const userUrl = document.querySelector(
+      "[data-testid='UserUrl']",
+    )?.textContent;
     const bskyHandleInDescription =
       bioText?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
-      bioText?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]?.replace("…", "") ??
+      bioText
+        ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
+        ?.replace("…", "") ??
       userUrl?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
-      userUrl?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]?.replace("…", "") ??
+      userUrl
+        ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
+        ?.replace("…", "") ??
       "";
     return {
       displayName,
@@ -79,8 +89,12 @@ export class XProfileService {
     return button;
   }
 
-  mountSearchBlueskyButton({ clickAction }: {
-    clickAction: (userData: Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink">) => void,
+  mountSearchBlueskyButton({
+    clickAction,
+  }: {
+    clickAction: (
+      userData: Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink">,
+    ) => void;
   }) {
     console.log("mountSearchBlueskyButton");
     this.removeSearchBlueskyButton();
@@ -92,6 +106,5 @@ export class XProfileService {
     };
     const userNameElement = document.querySelector(USER_NAME_SELECTOR);
     userNameElement.parentElement.insertBefore(button, userNameElement);
-  };
-
+  }
 }

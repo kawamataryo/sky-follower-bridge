@@ -1,21 +1,30 @@
-import type { BskyUser, CrawledUserInfo, MatchType } from "~types";
+import type { AtpSessionData } from "@atproto/api/dist/types";
 import React from "react";
+import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "~lib/constants";
-import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import type { AtpSessionData } from "@atproto/api/dist/types";
 import { fuzzySearchBskyUser } from "~lib/fuzzySearchBskyUser";
+import type { BskyUser, CrawledUserInfo, MatchType } from "~types";
 
 export const useProfileSearch = () => {
-  const [bskyUsers, setBskyUsers] = React.useState<Omit<BskyUser, "originalAvatar" | "originalHandle" | "originalDisplayName" | "originalProfileLink">[]>([]);
+  const [bskyUsers, setBskyUsers] = React.useState<
+    Omit<
+      BskyUser,
+      | "originalAvatar"
+      | "originalHandle"
+      | "originalDisplayName"
+      | "originalProfileLink"
+    >[]
+  >([]);
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
-
 
   const initialize = React.useCallback(async (session: AtpSessionData) => {
     bskyClient.current = new BskyServiceWorkerClient(session);
   }, []);
 
-  const searchUser = async (userData: Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink">) => {
+  const searchUser = async (
+    userData: Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink">,
+  ) => {
     setBskyUsers([]);
     if (!bskyClient.current) {
       return;
