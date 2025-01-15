@@ -5,6 +5,7 @@ export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_BLOCK_PAGE: "search_bsky_user_on_block_page",
   SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
   SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE: "search_bsky_user_on_instagram_page",
+  SEARCH_BSKY_USER_ON_TIKTOK_PAGE: "search_bsky_user_on_tiktok_page",
 } as const;
 
 export const ACTION_MODE = {
@@ -20,6 +21,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: ACTION_MODE.BLOCK,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: ACTION_MODE.FOLLOW,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE]: ACTION_MODE.FOLLOW,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -41,6 +43,7 @@ export const TARGET_URLS_REGEX = {
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
   THREADS: /^https:\/\/www\.threads\.net/,
   INSTAGRAM: /^https:\/\/www\.instagram\.com\/[^/]+\/(followers|following)\/?/,
+  TIKTOK: /^https:\/\/www\.tiktok\.com/,
 } as const;
 
 export const MESSAGE_TYPE = {
@@ -115,4 +118,5 @@ export const SERVICE_TYPE = {
   X: "x",
   THREADS: "threads",
   INSTAGRAM: "instagram",
+  TIKTOK: "tiktok",
 } as const;
