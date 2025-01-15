@@ -1,5 +1,5 @@
 import { isSimilarUser } from "~lib/bskyHelpers";
-import { isOneSymbol } from "~lib/utils";
+import { debugLog, isOneSymbol } from "~lib/utils";
 import type { CrawledUserInfo } from "~types";
 import { isImpersonationUser } from "./bskyHelpers";
 import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
@@ -20,6 +20,7 @@ export const searchBskyUser = async ({
     userData.displayName,
   ];
   const uniqueSearchTerms = new Set(searchTerms);
+  debugLog("uniqueSearchTerms", uniqueSearchTerms);
 
   for (const term of uniqueSearchTerms) {
     // one symbol is not a valid search term for bsky
