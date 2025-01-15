@@ -10,6 +10,7 @@ import { searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
 import { InstagramService } from "~services/instagramService";
 import { ThreadsService } from "~services/threadsService";
+import { TikTokService } from "~services/tikTokService";
 import { XService } from "~services/xService";
 import type {
   BskyUser,
@@ -39,6 +40,10 @@ const getServiceType = (messageName: MessageName): ServiceType => {
       MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE,
       () => SERVICE_TYPE.INSTAGRAM,
     )
+    .with(
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
+      () => SERVICE_TYPE.TIKTOK,
+    )
     .run();
 };
 
@@ -51,6 +56,7 @@ const buildService = (
     .with(SERVICE_TYPE.X, () => new XService(messageName))
     .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
     .with(SERVICE_TYPE.INSTAGRAM, () => new InstagramService(messageName))
+    .with(SERVICE_TYPE.TIKTOK, () => new TikTokService(messageName))
     .run();
 };
 

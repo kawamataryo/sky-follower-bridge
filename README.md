@@ -9,7 +9,7 @@
 <a href="https://www.producthunt.com/posts/sky-follower-bridge?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-sky&#0045;follower&#0045;bridge" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=666851&theme=light" alt="Sky&#0032;Follower&#0032;Bridge - Migrate&#0032;your&#0032;social&#0032;connections&#0032;from&#0032;𝕏&#0032;to&#0032;Bluesky | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 
-Instantly find and follow the same users from your 𝕏(Twitter) follows on Bluesky.
+Instantly find and follow the same users from your 𝕏(Twitter), Instagram, TikTok, and Threads follows on Bluesky.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
 
