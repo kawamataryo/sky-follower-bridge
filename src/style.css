@@ -5,3 +5,58 @@
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+.share-button {
+  transition: opacity 0.2s ease-in-out;
+  transition: 1s box-shadow;
+  position: relative;
+  overflow: auto;
+}
+
+
+.share-button:before {
+    content: '';
+    background: linear-gradient(45deg, #0000ff, #0040ff, #0080ff, #00bfff, #00ffff, #00bfff, #0080ff, #0040ff, #0000ff);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: 0;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.share-button:active {
+    color: #000
+}
+
+.share-button:active:after {
+    background: transparent;
+}
+
+.share-button:hover:before {
+    opacity: 1;
+}
+
+.share-button:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}

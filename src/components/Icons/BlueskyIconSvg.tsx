@@ -1,14 +1,17 @@
-function BlueskyIconSvg() {
+type Props = {
+  className?: string;
+};
+
+function BlueskyIconSvg({ className }: Props) {
   return (
     <svg
       version="1.0"
       id="katman_1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      x="0px"
-      y="0px"
-      viewBox="0 0 591 595.3"
+      viewBox="267.5 33.3 315.4 261.5"
       xmlSpace="preserve"
+      className={className}
     >
       <style>{".st0{fill:url(#SVGID_1_);}"}</style>
       <g>

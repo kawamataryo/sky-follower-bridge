@@ -8,6 +8,7 @@ import {
 import { getMessageWithLink } from "~lib/utils";
 import type { MatchType, MatchTypeFilterValue } from "~types";
 import AsyncButton from "./AsyncButton";
+import BlueskyIconSvg from "./Icons/BlueskyIconSvg";
 import SocialLinks from "./SocialLinks";
 
 type Props = {
@@ -31,6 +32,12 @@ const Sidebar = ({
   followAll,
   blockAll,
 }: Props) => {
+  const shareText = encodeURIComponent(`I've discovered ${detectedCount} Bluesky users from my social network using the Sky Follower Bridge.✨
+
+Check it out: https://share.sky-follower-bridge.dev?q=${detectedCount}
+
+#skyfollowerbridge`);
+
   return (
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
       <div className="flex-grow">
@@ -95,6 +102,17 @@ const Sidebar = ({
               {matchTypeStats[BSKY_USER_MATCH_TYPE.DESCRIPTION]}
             </div>
           </div>
+        </div>
+        <div>
+          <a
+            className="btn btn-sm btn-wide btn-ghost btn-outline share-button"
+            href={`https://bsky.app/intent/compose?text=${shareText}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <BlueskyIconSvg className="w-5 h-5" />
+            Share on Blueskv{" "}
+          </a>
         </div>
         <div className="divider" />
         <div className="flex items-center gap-2 mb-2">
