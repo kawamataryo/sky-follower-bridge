@@ -32,7 +32,7 @@ const DonationCard = () => {
       if (userClosed) return;
       setIsVisible(true);
     };
-    const timeoutId = setTimeout(showDonationCard, 4000);
+    const timeoutId = setTimeout(showDonationCard, 6000);
     return () => clearTimeout(timeoutId);
   }, [userClosed]);
 
