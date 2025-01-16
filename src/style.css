@@ -6,7 +6,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.gradient-effect  {
+.gradient-effect {
   transition: opacity 0.2s ease-in-out;
   transition: 1s box-shadow;
   position: relative;
@@ -14,25 +14,41 @@
 }
 
 .gradient-effect:before {
-    content: '';
-    background: linear-gradient(45deg, #0000ff, #0040ff, #0080ff, #00bfff, #00ffff, #00bfff, #0080ff, #0040ff, #0000ff);
-    position: absolute;
-    top: -2px;
-    left:-2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 1;
-    transition: opacity .3s ease-in-out;
-    border-radius: 10px;
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #0000ff,
+    #0040ff,
+    #0080ff,
+    #00bfff,
+    #00ffff,
+    #00bfff,
+    #0080ff,
+    #0040ff,
+    #0000ff
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+  border-radius: 10px;
 }
 
-
 @keyframes glowing {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
