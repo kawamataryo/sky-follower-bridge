@@ -6,9 +6,9 @@ type Props = {
 
 export const ShareButton = ({ shareText }: Props) => {
   return (
-    <div className="share-button-wrapper inline-block">
+    <div className="gradient-effect inline-block">
       <a
-        className="btn btn-sm btn-wide share-button"
+        className="btn btn-sm btn-wide"
         href={`https://bsky.app/intent/compose?text=${encodeURIComponent(shareText)}`}
         target="_blank"
         rel="noopener noreferrer"

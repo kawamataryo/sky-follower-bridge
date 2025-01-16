@@ -6,14 +6,14 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.share-button-wrapper {
+.gradient-effect  {
   transition: opacity 0.2s ease-in-out;
   transition: 1s box-shadow;
   position: relative;
   z-index: 0;
 }
 
-.share-button-wrapper:before {
+.gradient-effect:before {
     content: '';
     background: linear-gradient(45deg, #0000ff, #0040ff, #0080ff, #00bfff, #00ffff, #00bfff, #0080ff, #0040ff, #0000ff);
     position: absolute;
