@@ -8,7 +8,7 @@ import {
 import { getMessageWithLink } from "~lib/utils";
 import type { MatchType, MatchTypeFilterValue } from "~types";
 import AsyncButton from "./AsyncButton";
-import BlueskyIconSvg from "./Icons/BlueskyIconSvg";
+import { ShareButton } from "./ShareButton";
 import SocialLinks from "./SocialLinks";
 
 type Props = {
@@ -32,11 +32,9 @@ const Sidebar = ({
   followAll,
   blockAll,
 }: Props) => {
-  const shareText = encodeURIComponent(`I've discovered ${detectedCount} Bluesky users from my social network using the Sky Follower Bridge.✨
-
-Check it out: https://share.sky-follower-bridge.dev?q=${detectedCount}
-
-#skyfollowerbridge`);
+  const shareText = chrome.i18n.getMessage("share_text", [
+    detectedCount.toString(),
+  ]);
 
   return (
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
@@ -103,16 +101,8 @@ Check it out: https://share.sky-follower-bridge.dev?q=${detectedCount}
             </div>
           </div>
         </div>
-        <div>
-          <a
-            className="btn btn-sm btn-wide btn-ghost btn-outline share-button"
-            href={`https://bsky.app/intent/compose?text=${shareText}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <BlueskyIconSvg className="w-5 h-5" />
-            Share on Blueskv{" "}
-          </a>
+        <div className="flex justify-center mt-4">
+          <ShareButton shareText={shareText} />
         </div>
         <div className="divider" />
         <div className="flex items-center gap-2 mb-2">
@@ -169,7 +159,7 @@ Check it out: https://share.sky-follower-bridge.dev?q=${detectedCount}
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 items-center">
           {match(actionMode)
             .with(ACTION_MODE.FOLLOW, () => (
               <AsyncButton

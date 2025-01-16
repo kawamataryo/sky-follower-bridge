@@ -277,5 +277,18 @@
   "findSimilarBlueskyUsers": {
     "message": "🦋 查找相似的Bluesky用户",
     "description": "Text for the find similar Bluesky users button"
+  },
+  "share_text": {
+    "message": "使用Sky Follower Bridge，我在社交网络中发现了$number$位Bluesky用户✨\n\n快来看看：https://share.sky-follower-bridge.dev?q=$number$\n\n#skyfollowerbridge",
+    "description": "Text for sharing the app",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "share_on_bluesky": {
+    "message": "在Bluesky上分享",
+    "description": "Text for the share on Bluesky button"
   }
 }

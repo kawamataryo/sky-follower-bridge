@@ -277,5 +277,18 @@
   "findSimilarBlueskyUsers": {
     "message": "🦋 Find Similar Bluesky Users",
     "description": "Text for the find similar Bluesky users button"
+  },
+  "share_text": {
+    "message": "I've discovered $number$ Bluesky users from my social network using the Sky Follower Bridge.✨\n\nCheck it out: https://share.sky-follower-bridge.dev?q=$number$\n\n#skyfollowerbridge",
+    "description": "Text for sharing the app",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "share_on_bluesky": {
+    "message": "Share on Bluesky",
+    "description": "Text for the share on Bluesky button"
   }
 }
