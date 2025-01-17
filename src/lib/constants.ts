@@ -43,6 +43,11 @@ export const TARGET_URLS_REGEX = {
   INSTAGRAM: /^https:\/\/www\.instagram\.com\/[^/]+\/(followers|following)\/?/,
 } as const;
 
+export const PROFILE_TARGET_URLS_REGEX = {
+  THREADS: /^https:\/\/www\.threads\.net/,
+  X: /^https:\/\/(twitter|x)\.com/,
+} as const;
+
 export const MESSAGE_TYPE = {
   ERROR: "error",
   SUCCESS: "success",
