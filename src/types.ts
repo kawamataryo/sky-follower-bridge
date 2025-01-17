@@ -63,3 +63,19 @@ export interface IService {
 
   checkEnd(): boolean;
 }
+
+export interface IProfileService {
+  isTargetPage(): boolean;
+  extractData(): Omit<
+    CrawledUserInfo,
+    "originalAvatar" | "originalProfileLink"
+  >;
+  hasSearchBlueskyButton(): boolean;
+  removeSearchBlueskyButton(): void;
+  createSearchBlueskyButton(): HTMLButtonElement;
+  mountSearchBlueskyButton(params: {
+    clickAction: (
+      userData: Omit<CrawledUserInfo, "originalAvatar" | "originalProfileLink">,
+    ) => void;
+  }): void;
+}

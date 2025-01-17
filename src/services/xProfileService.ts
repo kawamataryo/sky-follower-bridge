@@ -1,10 +1,10 @@
 import { BSKY_DOMAIN } from "~lib/constants";
-import type { CrawledUserInfo } from "~types";
+import type { CrawledUserInfo, IProfileService } from "~types";
 
 const USER_NAME_SELECTOR = '[data-testid="UserName"]';
 const SEARCH_BLUESKY_BUTTON_ID = "bsky-search-button";
 
-export class XProfileService {
+export class XProfileService implements IProfileService {
   isTargetPage() {
     const userNameElement = document.querySelector(USER_NAME_SELECTOR);
     return userNameElement !== null;
