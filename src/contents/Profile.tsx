@@ -113,7 +113,9 @@ const Profile = () => {
           </div>
         )}
         {!isLoading && bskyUsers.length === 0 && (
-          <div>😢 {chrome.i18n.getMessage("noUsersFound")}</div>
+          <div className="text-center text-md mt-10">
+            😢 {chrome.i18n.getMessage("noUsersFound")}
+          </div>
         )}
       </div>
     </Modal>
