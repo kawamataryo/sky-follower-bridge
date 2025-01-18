@@ -22,14 +22,14 @@ export async function fuzzySearchBskyUser({
       term && !isOneSymbol(term),
   );
 
-  debugLog("searchTerms: ", searchTerms);
+  debugLog({ searchTerms });
 
   const detectedUsers: {
     [key: string]: ProfileView;
   } = {};
 
   const uniqueSearchTerms = new Set(searchTerms);
-  debugLog("uniqueSearchTerms: ", uniqueSearchTerms);
+  debugLog({ uniqueSearchTerms });
   for (const term of uniqueSearchTerms) {
     try {
       const searchResults = await client.searchUser({
@@ -37,7 +37,7 @@ export async function fuzzySearchBskyUser({
         limit: 3,
       });
 
-      debugLog("searchResults: ", searchResults);
+      debugLog({ searchResults });
       for (const searchResult of searchResults) {
         // skip impersonation users
         if (isImpersonationUser(searchResult)) {

@@ -1,8 +1,6 @@
 import type { AtpSessionData } from "@atproto/api/dist/types";
 import React from "react";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
-import { getChromeStorage } from "~lib/chromeHelper";
-import { STORAGE_KEYS } from "~lib/constants";
 import { fuzzySearchBskyUser } from "~lib/fuzzySearchBskyUser";
 import type { BskyUser, CrawledUserInfo, MatchType } from "~types";
 
