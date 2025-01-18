@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@atproto/api": "^0.13.12",
-    "@changesets/cli": "^2.27.1",
+    "@changesets/cli": "^2.27.11",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.12.0",
     "@tanstack/react-virtual": "^3.11.2",
