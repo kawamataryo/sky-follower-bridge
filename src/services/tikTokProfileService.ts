@@ -107,6 +107,9 @@ export class TikTokProfileService {
       clickAction(userData);
     };
     const userNameElement = document.querySelector(ACCOUNT_NAME_SELECTOR);
-    userNameElement.parentElement.parentElement.appendChild(button);
+    userNameElement.parentElement.parentElement.parentElement.insertAdjacentElement(
+      "afterbegin",
+      button,
+    );
   }
 }
