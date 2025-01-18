@@ -8,6 +8,7 @@ import { match } from "ts-pattern";
 import AlertError from "~components/AlertError";
 import LoadingCards from "~components/LoadingCards";
 import Modal from "~components/Modal";
+import ServiceAlert from "~components/ServiceAlert";
 import { useRetrieveBskyUsers } from "~hooks/useRetrieveBskyUsers";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 
@@ -109,6 +110,9 @@ const App = () => {
   return (
     <>
       <Modal open={isModalOpen} onClose={closeModal}>
+        {currentService !== SERVICE_TYPE.X && loading && (
+          <ServiceAlert serviceName={serviceName} />
+        )}
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">

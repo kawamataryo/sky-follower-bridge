@@ -290,5 +290,14 @@
   "share_on_bluesky": {
     "message": "在Bluesky上分享",
     "description": "Text for the share on Bluesky button"
+  },
+  "service_scanning_warning": {
+    "message": "$service$扫描是一项实验性功能。结果可能包含误报或不稳定。请在关注前验证。",
+    "description": "Text for the service scanning warning message",
+    "placeholders": {
+      "service": {
+        "content": "$1"
+      }
+    }
   }
 }
