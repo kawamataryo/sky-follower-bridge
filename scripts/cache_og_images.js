@@ -1,6 +1,6 @@
 const BASE_URL = "https://share.sky-follower-bridge.dev/og";
 const START_NUM = 1;
-const END_NUM = 3000;
+const END_NUM = 2000;
 const CONCURRENT_LIMIT = 10;
 const DELAY_MS = 100;
 

@@ -1,0 +1,27 @@
+name: Cache OG Images
+
+on:
+  schedule:
+    # 毎日午前3時(JST)に実行
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache OG Images
+        run: node scripts/cache_og_images.js
