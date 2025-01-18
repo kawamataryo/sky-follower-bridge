@@ -5,6 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "hono": "^4.6.16",
     "workers-og": "^0.0.25"
   },

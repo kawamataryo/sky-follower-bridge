@@ -1,6 +1,6 @@
 name = "lp"
-main = "src/index.ts"
-compatibility_date = "2025-01-15"
+main = "src/index.tsx"
+compatibility_date = "2025-01-17"
 
 # compatibility_flags = [ "nodejs_compat" ]
 
