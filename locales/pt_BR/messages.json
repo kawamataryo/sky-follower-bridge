@@ -290,5 +290,14 @@
   "share_on_bluesky": {
     "message": "Compartilhar no Bluesky",
     "description": "Text for the share on Bluesky button"
+  },
+  "service_scanning_warning": {
+    "message": "A varredura do $service$ é um recurso experimental. Os resultados podem conter falsos positivos ou serem instáveis. Por favor, verifique antes de seguir.",
+    "description": "Text for the service scanning warning message",
+    "placeholders": {
+      "service": {
+        "content": "$1"
+      }
+    }
   }
 }

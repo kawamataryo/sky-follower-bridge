@@ -290,5 +290,14 @@
   "share_on_bluesky": {
     "message": "Bluesky에서 공유",
     "description": "Text for the share on Bluesky button"
+  },
+  "service_scanning_warning": {
+    "message": "$service$ 스캔은 실험적인 기능입니다. 결과에 오탐지가 포함되거나 불안정할 수 있습니다. 팔로우하기 전에 확인해 주세요.",
+    "description": "Text for the service scanning warning message",
+    "placeholders": {
+      "service": {
+        "content": "$1"
+      }
+    }
   }
 }

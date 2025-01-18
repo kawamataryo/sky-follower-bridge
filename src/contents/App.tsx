@@ -8,6 +8,7 @@ import { match } from "ts-pattern";
 import AlertError from "~components/AlertError";
 import LoadingCards from "~components/LoadingCards";
 import Modal from "~components/Modal";
+import ServiceAlert from "~components/ServiceAlert";
 import { useRetrieveBskyUsers } from "~hooks/useRetrieveBskyUsers";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 
@@ -17,6 +18,7 @@ export const config: PlasmoCSConfig = {
     "https://x.com/*",
     "https://www.threads.net/*",
     "https://www.instagram.com/*",
+    "https://www.tiktok.com/*",
   ],
   all_frames: true,
 };
@@ -101,12 +103,16 @@ const App = () => {
       .with(SERVICE_TYPE.X, () => "X")
       .with(SERVICE_TYPE.THREADS, () => "Threads")
       .with(SERVICE_TYPE.INSTAGRAM, () => "Instagram")
+      .with(SERVICE_TYPE.TIKTOK, () => "TikTok")
       .exhaustive();
   }, [currentService]);
 
   return (
     <>
       <Modal open={isModalOpen} onClose={closeModal}>
+        {currentService !== SERVICE_TYPE.X && loading && (
+          <ServiceAlert serviceName={serviceName} />
+        )}
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">

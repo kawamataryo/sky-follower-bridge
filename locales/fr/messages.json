@@ -290,5 +290,14 @@
   "share_on_bluesky": {
     "message": "Partager sur Bluesky",
     "description": "Text for the share on Bluesky button"
+  },
+  "service_scanning_warning": {
+    "message": "L'analyse de $service$ est une fonctionnalité expérimentale. Les résultats peuvent contenir des faux positifs ou être instables. Veuillez vérifier avant de suivre.",
+    "description": "Text for the service scanning warning message",
+    "placeholders": {
+      "service": {
+        "content": "$1"
+      }
+    }
   }
 }

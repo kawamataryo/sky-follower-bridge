@@ -6,10 +6,16 @@ import { ProfileDetectedUserListItem } from "~components/ProfileDetectedUserList
 import { useProfileSearch } from "~hooks/useProfileSearch";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "~lib/constants";
+import { debugLog } from "~lib/utils";
+import { TikTokProfileService } from "~services/tikTokProfileService";
 import { XProfileService } from "~services/xProfileService";
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://twitter.com/*", "https://x.com/*"],
+  matches: [
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://www.tiktok.com/*",
+  ],
   all_frames: true,
 };
 
@@ -20,6 +26,14 @@ export const getStyle = () => {
   return style;
 };
 
+const getProfileService = () => {
+  const hostname = window.location.hostname;
+  if (hostname === "www.tiktok.com") {
+    return new TikTokProfileService();
+  }
+  return new XProfileService();
+};
+
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { bskyUsers, searchUser, initialize, handleClickAction } =
@@ -27,13 +41,18 @@ const Profile = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
-    const profileService = new XProfileService();
+    const profileService = getProfileService();
 
     const checkAndAddButton = async () => {
       const session = (
         await getChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION)
       )?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
       const hasSession = !!session;
+      debugLog({
+        hasSession,
+        isTargetPage: profileService.isTargetPage(),
+        hasSearchBlueskyButton: profileService.hasSearchBlueskyButton(),
+      });
 
       if (
         hasSession &&
