@@ -14,6 +14,7 @@ import {
   RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
+import { debugLog } from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
@@ -122,12 +123,14 @@ export const useAuth = () => {
       },
     });
     if (error) {
+      debugLog(error);
       return false;
     }
     const parsedResult = destr<{
       displayName: string;
       avatar: string;
     }>(result);
+    debugLog(parsedResult);
     setDisplayName(parsedResult.displayName);
     setAvatar(parsedResult.avatar);
     return true;

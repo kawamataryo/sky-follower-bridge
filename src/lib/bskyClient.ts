@@ -1,6 +1,7 @@
 import { AtUri, AtpAgent, type AtpSessionData } from "@atproto/api";
 import destr from "destr";
 import { BSKY_DOMAIN } from "./constants";
+import { debugLog } from "./utils";
 
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
@@ -33,18 +34,23 @@ export class BskyClient {
   public static async createAgentFromSession(
     session: AtpSessionData,
   ): Promise<BskyClient> {
-    if (clientCache.has(session.did)) {
-      return clientCache.get(session.did);
-    }
-    const client = new BskyClient();
-    const res = await client.agent.resumeSession(destr(session));
-    client.me = {
-      did: res.data.did,
-      handle: res.data.handle,
-      email: res.data.email,
-    };
+    debugLog("session", session);
+    let client = clientCache.get(session.did);
 
-    clientCache.set(session.did, client);
+    if (!client) {
+      debugLog("cache miss", session.did);
+      client = new BskyClient();
+      await client.agent.resumeSession(destr(session));
+      clientCache.set(session.did, client);
+    } else {
+      debugLog("cache hit", session.did);
+    }
+    client.me = {
+      did: session.did,
+      handle: session.handle,
+      email: session.email,
+    };
+    debugLog("client", client);
     return client;
   }
 
@@ -172,7 +178,7 @@ export class BskyClient {
 
   public getMyProfile = async () => {
     const profile = await this.agent.getProfile({
-      actor: this.me.did,
+      actor: this.agent.session.did,
     });
     return {
       pdsUrl: this.agent.pdsUrl,
