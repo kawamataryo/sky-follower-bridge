@@ -1,7 +1,8 @@
+import { consola } from "consola";
+
 export const debugLog = (...messages: unknown[]) => {
   if (process.env.NODE_ENV === "development") {
-    console.log("🔷 [Sky Follower Bridge]");
-    console.log(...messages);
+    consola.info("🔷 [Sky Follower Bridge]", ...messages);
   }
 };
 

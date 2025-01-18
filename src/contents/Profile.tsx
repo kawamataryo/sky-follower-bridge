@@ -6,6 +6,7 @@ import { ProfileDetectedUserListItem } from "~components/ProfileDetectedUserList
 import { useProfileSearch } from "~hooks/useProfileSearch";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "~lib/constants";
+import { debugLog } from "~lib/utils";
 import { TikTokProfileService } from "~services/tikTokProfileService";
 import { XProfileService } from "~services/xProfileService";
 
@@ -47,7 +48,7 @@ const Profile = () => {
         await getChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION)
       )?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
       const hasSession = !!session;
-      console.log({
+      debugLog({
         hasSession,
         isTargetPage: profileService.isTargetPage(),
         hasSearchBlueskyButton: profileService.hasSearchBlueskyButton(),
