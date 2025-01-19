@@ -1,5 +1,5 @@
-import type { AtpSessionData } from "@atproto/api";
 import cssText from "data-text:~style.content.css";
+import type { AtpSessionData } from "@atproto/api";
 import type { PlasmoCSConfig } from "plasmo";
 import React, { useCallback, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";

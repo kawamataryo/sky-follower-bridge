@@ -3,5 +3,10 @@ pre-commit:
   commands:
     check:
       glob: "src/*.{ts,tsx}"
-      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      run: |
+        npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+        if [ $? -ne 0 ]; then
+          echo "Code style issues found. Please fix them before committing."
+          exit 1
+        fi
       staged_fixed: true
