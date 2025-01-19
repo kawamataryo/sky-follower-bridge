@@ -1,9 +1,12 @@
+import type { AtpSessionData } from "@atproto/api";
 import cssText from "data-text:~style.content.css";
 import type { PlasmoCSConfig } from "plasmo";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import Modal from "~components/Modal";
 import { ProfileDetectedUserListItem } from "~components/ProfileDetectedUserListItem";
 import { useProfileSearch } from "~hooks/useProfileSearch";
+import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "~lib/constants";
 import { debugLog } from "~lib/utils";
@@ -34,52 +37,56 @@ const getProfileService = () => {
   return new XProfileService();
 };
 
+const hasValidSession = async (session: AtpSessionData) => {
+  let isValid = false;
+  try {
+    const client = new BskyServiceWorkerClient(session);
+    await client.getMyProfile();
+    isValid = true;
+  } catch (e) {
+    isValid = false;
+  }
+  debugLog({ isValidSession: isValid });
+  return isValid;
+};
+
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { bskyUsers, searchUser, initialize, handleClickAction } =
     useProfileSearch();
   const [isLoading, setIsLoading] = React.useState(false);
 
-  useEffect(() => {
+  const checkAndAddButton = useDebouncedCallback(async () => {
     const profileService = getProfileService();
-
-    const checkAndAddButton = async () => {
-      const session = (
-        await getChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION)
-      )?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
-      const hasSession = !!session;
-      debugLog({
-        hasSession,
-        isTargetPage: profileService.isTargetPage(),
-        hasSearchBlueskyButton: profileService.hasSearchBlueskyButton(),
+    const session = (
+      await getChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION)
+    )?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];
+    const hasSession = !!session;
+    if (
+      hasSession &&
+      profileService.isTargetPage() &&
+      !profileService.hasSearchBlueskyButton() &&
+      (await hasValidSession(session))
+    ) {
+      profileService.mountSearchBlueskyButton({
+        clickAction: async (userData) => {
+          setIsModalOpen(true);
+          setIsLoading(true);
+          await initialize(session);
+          await searchUser(userData);
+          setIsLoading(false);
+        },
       });
+    }
+  }, 500);
 
-      if (
-        hasSession &&
-        profileService.isTargetPage() &&
-        !profileService.hasSearchBlueskyButton()
-      ) {
-        profileService.mountSearchBlueskyButton({
-          clickAction: async (userData) => {
-            setIsModalOpen(true);
-            setIsLoading(true);
-            await initialize(session);
-            await searchUser(userData);
-            setIsLoading(false);
-          },
-        });
-      }
-    };
-
+  useEffect(() => {
     const observer = new MutationObserver(checkAndAddButton);
     observer.observe(document.body, { childList: true, subtree: true });
-
-    checkAndAddButton();
-
     return () => {
       observer.disconnect();
     };
-  }, [searchUser, initialize]);
+  }, [checkAndAddButton]);
 
   return (
     <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} width={700}>
