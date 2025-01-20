@@ -50,6 +50,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           { text: "For 𝕏", link: "/get-started" },
           { text: "For Threads", link: "/get-started-for-threads" },
           { text: "For Instagram", link: "/get-started-for-instagram" },
+          { text: "For TikTok", link: "/get-started-for-tiktok" },
         ]
       },
       { text: "Troubleshooting", link: "/troubleshooting" },
@@ -118,6 +119,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "𝕏", link: "/ja/get-started" },
               { text: "Threads", link: "/ja/get-started-for-threads" },
               { text: "Instagram", link: "/ja/get-started-for-instagram" },
+              { text: "TikTok", link: "/ja/get-started-for-tiktok" }
             ]
           },
           { text: "トラブルシューティング", link: "/ja/troubleshooting" },
@@ -140,6 +142,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "Per 𝕏", link: "/it/get-started" },
               { text: "Per Threads", link: "/it/get-started-for-threads" },
               { text: "Per Instagram", link: "/it/get-started-for-instagram" },
+              { text: "Per TikTok", link: "/it/get-started-for-tiktok" },
             ]
           },
           { text: "Risoluzione dei problemi", link: "/it/troubleshooting" },
@@ -162,6 +165,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "𝕏的场景", link: "/zh/get-started" },
               { text: "Threads的场景", link: "/zh/get-started-for-threads" },
               { text: "Instagram的场景", link: "/zh/get-started-for-instagram" },
+              { text: "TikTok的场景", link: "/zh/get-started-for-tiktok" },
             ]
           },
           { text: "故障排除指南", link: "/zh/troubleshooting" },
@@ -184,6 +188,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "Pour 𝕏", link: "/fr/get-started" },
               { text: "Pour Threads", link: "/fr/get-started-for-threads" },
               { text: "Pour Instagram", link: "/fr/get-started-for-instagram" },
+              { text: "Pour TikTok", link: "/fr/get-started-for-tiktok" },
             ]
           },
           { text: "Résolution des problèmes", link: "/fr/troubleshooting" },
@@ -206,6 +211,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "Para 𝕏", link: "/pt/get-started" },
               { text: "Para Threads", link: "/pt/get-started-for-threads" },
               { text: "Para Instagram", link: "/pt/get-started-for-instagram" },
+              { text: "Para TikTok", link: "/pt/get-started-for-tiktok" },
             ]
           },
           { text: "Guia de Solução de Problemas", link: "/pt/troubleshooting" },
@@ -228,6 +234,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "Para 𝕏", link: "/es/get-started" },
               { text: "Para Threads", link: "/es/get-started-for-threads" },
               { text: "Para Instagram", link: "/es/get-started-for-instagram" },
+              { text: "Para TikTok", link: "/es/get-started-for-tiktok" },
             ]
           },
           { text: "Guía de solución de problemas", link: "/es/troubleshooting" },
@@ -250,6 +257,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "𝕏용", link: "/ko/get-started" },
               { text: "Threads용", link: "/ko/get-started-for-threads" },
               { text: "Instagram용", link: "/ko/get-started-for-instagram" },
+              { text: "TikTok용", link: "/ko/get-started-for-tiktok" },
             ]
           },
           { text: "문제 해결", link: "/ko/troubleshooting" },
@@ -272,6 +280,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               { text: "Für 𝕏", link: "/de/get-started" },
               { text: "Für Threads", link: "/de/get-started-for-threads" },
               { text: "Für Instagram", link: "/de/get-started-for-instagram" },
+              { text: "Für TikTok", link: "/de/get-started-for-tiktok" },
             ]
           },
           { text: "Fehlerbehebung", link: "/de/troubleshooting" },
