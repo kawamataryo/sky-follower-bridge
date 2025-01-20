@@ -78,7 +78,7 @@ const Profile = () => {
         },
       });
     }
-  }, 500);
+  }, 200);
 
   useEffect(() => {
     const observer = new MutationObserver(checkAndAddButton);
