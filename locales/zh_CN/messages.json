@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "删除用户",
+    "description": "删除用户按钮的工具提示文本"
+  },
+  "search_again": {
+    "message": "再次搜索",
+    "description": "再次搜索按钮的工具提示文本"
   }
 }

@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "Delete user",
+    "description": "Tooltip text for the delete user button"
+  },
+  "search_again": {
+    "message": "Search again",
+    "description": "Tooltip text for the search again button"
   }
 }

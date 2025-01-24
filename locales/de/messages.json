@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "Benutzer löschen",
+    "description": "Tooltip-Text für den Benutzer löschen Button"
+  },
+  "search_again": {
+    "message": "Erneut suchen",
+    "description": "Tooltip-Text für den Erneut suchen Button"
   }
 }

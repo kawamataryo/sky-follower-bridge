@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "Excluir usuário",
+    "description": "Texto da dica de ferramenta para o botão de excluir usuário"
+  },
+  "search_again": {
+    "message": "Pesquisar novamente",
+    "description": "Texto da dica de ferramenta para o botão de pesquisar novamente"
   }
 }

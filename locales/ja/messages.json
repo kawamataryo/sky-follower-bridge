@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "ユーザーを削除",
+    "description": "削除ボタンのツールチップテキスト"
+  },
+  "search_again": {
+    "message": "再検索",
+    "description": "再検索ボタンのツールチップテキスト"
   }
 }

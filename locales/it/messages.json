@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "Elimina utente",
+    "description": "Testo della descrizione del pulsante elimina utente"
+  },
+  "search_again": {
+    "message": "Cerca di nuovo",
+    "description": "Testo della descrizione del pulsante cerca di nuovo"
   }
 }

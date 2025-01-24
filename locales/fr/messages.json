@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "Supprimer l'utilisateur",
+    "description": "Texte de l'info-bulle pour le bouton de suppression d'utilisateur"
+  },
+  "search_again": {
+    "message": "Rechercher à nouveau",
+    "description": "Texte de l'info-bulle pour le bouton de recherche à nouveau"
   }
 }

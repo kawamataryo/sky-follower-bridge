@@ -299,5 +299,13 @@
         "content": "$1"
       }
     }
+  },
+  "delete_user": {
+    "message": "사용자 삭제",
+    "description": "사용자 삭제 버튼의 도구 설명 텍스트"
+  },
+  "search_again": {
+    "message": "다시 검색",
+    "description": "다시 검색 버튼의 도구 설명 텍스트"
   }
 }
