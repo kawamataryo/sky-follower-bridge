@@ -91,7 +91,7 @@ const Profile = () => {
   return (
     <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} width={700}>
       <h2 className="text-lg font-bold text-center py-2">
-        {chrome.i18n.getMessage("re_search_modal_title")}
+        {chrome.i18n.getMessage("re_search_modal_title")} asssss
       </h2>
       <div className="flex flex-col gap-2">
         {isLoading && (
@@ -122,6 +122,14 @@ const Profile = () => {
             😢 {chrome.i18n.getMessage("noUsersFound")}
           </div>
         )}
+      </div>
+      <div className="flex justify-center items-center">
+        <p className="text-xs mt-10">
+          Powered by{" "}
+          <a href="https://sky-follower-bridge.dev" className="link">
+            Sky Follower Bridge
+          </a>
+        </p>
       </div>
     </Modal>
   );
