@@ -1,5 +1,5 @@
 {
-  "name": "lp",
+  "name": "server",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify"
@@ -11,6 +11,6 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
-    "wrangler": "^3.101.0"
+    "wrangler": "^3.105.1"
   }
 }

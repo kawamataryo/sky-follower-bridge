@@ -43,5 +43,3 @@ app.get("/og", async (c) => {
 app.get("/lp", (c) => {
   return generateLandingHtml(c);
 });
-
-export default app;
