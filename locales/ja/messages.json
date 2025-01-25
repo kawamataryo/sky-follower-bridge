@@ -72,7 +72,7 @@
     "description": "Text for the error message when the page is invalid in threads"
   },
   "scanning_users": {
-    "message": "$service$のからBlueskyのユーザーを検索中...",
+    "message": "$service$からBlueskyのユーザーを検索中...",
     "description": "Text for the scanning users message",
     "placeholders": {
       "service": {
@@ -275,7 +275,7 @@
     "description": "Text for the contact title"
   },
   "findSimilarBlueskyUsers": {
-    "message": "🦋 類似のBlueskyユーザーを探す",
+    "message": "🦋 類似したBlueskyユーザーを探す",
     "description": "Text for the find similar Bluesky users button"
   },
   "share_text": {
@@ -302,7 +302,7 @@
   },
   "delete_user": {
     "message": "ユーザーを削除",
-    "description": "削除ボタンのツールチップテキスト"
+    "description": "削除ボタンのツールチップ"
   },
   "search_again": {
     "message": "再検索",
