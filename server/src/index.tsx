@@ -43,3 +43,42 @@ app.get("/og", async (c) => {
 app.get("/lp", (c) => {
   return generateLandingHtml(c);
 });
+
+// CORS Proxy endpoint
+app.on(["GET", "OPTIONS"], "/proxy", async (c) => {
+  // Handle preflight request
+  if (c.req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }
+    });
+  }
+
+  const targetUrl = c.req.query("url");
+  if (!targetUrl) {
+    return c.text("Missing URL parameter", 400);
+  }
+
+  try {
+    const response = await fetch(targetUrl);
+    const data = await response.text();
+
+    return new Response(data, {
+      status: response.status,
+      headers: {
+        "Content-Type": response.headers.get("Content-Type") || "text/plain",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "public, max-age=300"
+      }
+    });
+  } catch (error) {
+    console.error("Proxy error:", error);
+    return c.text("Failed to fetch target URL", 500);
+  }
+});
+
+export default app;
