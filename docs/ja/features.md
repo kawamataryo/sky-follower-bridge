@@ -9,7 +9,7 @@ Sky Follower Bridgeは、以下の機能を提供しています。
 
 詳細は、以下をご覧ください。
 
-- [Xのフォロー機能](/ja/get-started-for-x)
+- [Xのフォロー機能](/ja/get-started)
 - [Instagramのフォロー機能](/ja/get-started-for-instagram)
 - [Threadsのフォロー機能](/ja/get-started-for-threads)
 - [TikTokのフォロー機能](/ja/get-started-for-tiktok)
