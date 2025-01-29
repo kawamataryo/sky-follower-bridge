@@ -1,6 +1,8 @@
 import type { AtpSessionData } from "@atproto/api";
+import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
+import consola from "consola";
 import React from "react";
 import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
@@ -95,6 +97,16 @@ export const useRetrieveBskyUsers = () => {
         });
         if (searchResult) {
           const processedUser = await processExtractedData(userData);
+          const { result: isAvatarSimilar, error } = await sendToBackground({
+            name: "checkImageSimilarity",
+            body: {
+              url1: processedUser.originalAvatar,
+              url2: searchResult.bskyProfile.avatar,
+            },
+          });
+          if (error) {
+            consola.error(error);
+          }
           await setUsers((prev) => {
             if (prev.some((u) => u.did === searchResult.bskyProfile.did)) {
               return prev;
@@ -116,6 +128,7 @@ export const useRetrieveBskyUsers = () => {
                 originalHandle: processedUser.accountName,
                 originalDisplayName: processedUser.displayName,
                 originalProfileLink: processedUser.originalProfileLink,
+                isAvatarSimilar: isAvatarSimilar ?? undefined,
               },
             ];
           });

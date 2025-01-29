@@ -24,6 +24,7 @@ export type BskyUser = {
   originalHandle: string;
   originalDisplayName: string;
   originalProfileLink: string;
+  isAvatarSimilar?: boolean;
 };
 
 export type MatchTypeFilterValue = {

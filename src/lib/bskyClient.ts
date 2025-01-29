@@ -34,23 +34,18 @@ export class BskyClient {
   public static async createAgentFromSession(
     session: AtpSessionData,
   ): Promise<BskyClient> {
-    debugLog("session", session);
     let client = clientCache.get(session.did);
 
     if (!client) {
-      debugLog("cache miss", session.did);
       client = new BskyClient();
       await client.agent.resumeSession(destr(session));
       clientCache.set(session.did, client);
-    } else {
-      debugLog("cache hit", session.did);
     }
     client.me = {
       did: session.did,
       handle: session.handle,
       email: session.email,
     };
-    debugLog("client", client);
     return client;
   }
 
