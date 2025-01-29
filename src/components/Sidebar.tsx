@@ -2,21 +2,21 @@ import React from "react";
 import { match } from "ts-pattern";
 import {
   ACTION_MODE,
-  BSKY_USER_MATCH_TYPE,
-  MATCH_TYPE_LABEL_AND_COLOR,
+  FILTER_TYPE,
+  FILTER_TYPE_LABEL_AND_COLOR,
 } from "~lib/constants";
 import { getMessageWithLink } from "~lib/utils";
-import type { MatchType, MatchTypeFilterValue } from "~types";
+import type { MatchType, FilterValue, FilterType } from "~types";
 import AsyncButton from "./AsyncButton";
 import { ShareButton } from "./ShareButton";
 import SocialLinks from "./SocialLinks";
 
 type Props = {
   detectedCount: number;
-  filterValue: MatchTypeFilterValue;
-  onChangeFilter: (key: MatchType) => void;
+  filterValue: FilterValue;
+  onChangeFilter: (key: FilterType) => void;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
-  matchTypeStats: Record<Exclude<MatchType, "none">, number>;
+  matchTypeStats: Record<Exclude<FilterType, "none">, number>;
   importList: () => Promise<void>;
   followAll: () => Promise<void>;
   blockAll: () => Promise<void>;
@@ -89,15 +89,15 @@ const Sidebar = ({
             <div className="stat-value text-base-content">{detectedCount}</div>
             <div className="stat-desc">
               {chrome.i18n.getMessage("same_handle_name")}:{" "}
-              {matchTypeStats[BSKY_USER_MATCH_TYPE.HANDLE]}
+              {matchTypeStats[FILTER_TYPE.HANDLE]}
             </div>
             <div className="stat-desc">
               {chrome.i18n.getMessage("same_display_name")}:{" "}
-              {matchTypeStats[BSKY_USER_MATCH_TYPE.DISPLAY_NAME]}
+              {matchTypeStats[FILTER_TYPE.DISPLAY_NAME]}
             </div>
             <div className="stat-desc">
               {chrome.i18n.getMessage("included_handle_in_description")}:{" "}
-              {matchTypeStats[BSKY_USER_MATCH_TYPE.DESCRIPTION]}
+              {matchTypeStats[FILTER_TYPE.DESCRIPTION]}
             </div>
           </div>
         </div>
@@ -122,14 +122,14 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Filter</p>
         </div>
-        {Object.keys(filterValue).map((key: MatchType) => (
+        {Object.keys(filterValue).map((key: FilterType) => (
           <div className="form-control" key={key}>
             <label htmlFor={key} className="label cursor-pointer">
               <span className="text-sm">
-                {key === BSKY_USER_MATCH_TYPE.FOLLOWING &&
+                {key === FILTER_TYPE.FOLLOWING &&
                 actionMode === ACTION_MODE.BLOCK
                   ? chrome.i18n.getMessage("blocked_user")
-                  : MATCH_TYPE_LABEL_AND_COLOR[key].label}
+                  : FILTER_TYPE_LABEL_AND_COLOR[key].label}
               </span>
               <input
                 type="checkbox"

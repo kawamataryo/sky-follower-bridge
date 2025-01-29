@@ -7,11 +7,12 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import {
   ACTION_MODE,
-  BSKY_USER_MATCH_TYPE,
+  FILTER_TYPE,
   DEFAULT_LIST_NAME,
   type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
+  BSKY_USER_MATCH_TYPE,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
@@ -35,10 +36,11 @@ export const useBskyUserManager = () => {
     (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
   >(ACTION_MODE.FOLLOW);
   const [matchTypeFilter, setMatchTypeFilter] = React.useState({
-    [BSKY_USER_MATCH_TYPE.FOLLOWING]: true,
-    [BSKY_USER_MATCH_TYPE.HANDLE]: true,
-    [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: true,
-    [BSKY_USER_MATCH_TYPE.DESCRIPTION]: true,
+    [FILTER_TYPE.FOLLOWING]: true,
+    [FILTER_TYPE.HANDLE]: true,
+    [FILTER_TYPE.DISPLAY_NAME]: true,
+    [FILTER_TYPE.DESCRIPTION]: true,
+    [FILTER_TYPE.AVATAR_NOT_SIMILAR]: true,
   });
 
   const handleClickAction = React.useCallback(
@@ -119,6 +121,12 @@ export const useBskyUserManager = () => {
         !matchTypeFilter[BSKY_USER_MATCH_TYPE.FOLLOWING] &&
         actionMode === ACTION_MODE.BLOCK &&
         user.isBlocking
+      ) {
+        return false;
+      }
+      if (
+        !matchTypeFilter[FILTER_TYPE.AVATAR_NOT_SIMILAR] &&
+        !user.isAvatarSimilar
       ) {
         return false;
       }
