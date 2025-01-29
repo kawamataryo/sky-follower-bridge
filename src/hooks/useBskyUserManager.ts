@@ -7,12 +7,12 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import {
   ACTION_MODE,
-  FILTER_TYPE,
+  BSKY_USER_MATCH_TYPE,
   DEFAULT_LIST_NAME,
+  FILTER_TYPE,
   type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
-  BSKY_USER_MATCH_TYPE,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";

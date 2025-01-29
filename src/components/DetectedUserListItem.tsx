@@ -118,9 +118,7 @@ const DetectedUserListItem = ({
             {FILTER_TYPE_LABEL_AND_COLOR[user.matchType].label}
           </div>
         </div>
-        <div
-          className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5"
-        >
+        <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
           <DetectedUserSource user={user} />
           <UserCard
             user={user}

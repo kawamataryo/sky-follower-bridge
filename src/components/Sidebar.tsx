@@ -6,7 +6,7 @@ import {
   FILTER_TYPE_LABEL_AND_COLOR,
 } from "~lib/constants";
 import { getMessageWithLink } from "~lib/utils";
-import type { MatchType, FilterValue, FilterType } from "~types";
+import type { FilterType, FilterValue, MatchType } from "~types";
 import AsyncButton from "./AsyncButton";
 import { ShareButton } from "./ShareButton";
 import SocialLinks from "./SocialLinks";

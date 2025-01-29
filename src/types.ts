@@ -8,8 +8,7 @@ import type {
 export type MatchType =
   (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE];
 
-export type FilterType =
-  (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
+export type FilterType = (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
 
 export type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
 
