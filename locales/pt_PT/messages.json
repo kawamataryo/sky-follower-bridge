@@ -290,5 +290,9 @@
   "share_on_bluesky": {
     "message": "Partilhar no Bluesky",
     "description": "Text for the share on Bluesky button"
+  },
+  "text_avatar_is_similar": {
+    "message": "✅ Avatar semelhante",
+    "description": "Text shown when the avatar is similar to the source user"
   }
 }

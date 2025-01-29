@@ -63,28 +63,39 @@ export const BSKY_USER_MATCH_TYPE = {
   HANDLE: "handle",
   DISPLAY_NAME: "display_name",
   DESCRIPTION: "description",
-  FOLLOWING: "following",
   NONE: "none",
+} as const;
+
+export const FILTER_TYPE = {
+  HANDLE: "handle",
+  DISPLAY_NAME: "display_name",
+  DESCRIPTION: "description",
+  FOLLOWING: "following",
+  AVATAR_NOT_SIMILAR: "avatar_not_similar",
 } as const;
 
 export const MAX_RELOAD_COUNT = 1;
 
-export const MATCH_TYPE_LABEL_AND_COLOR = {
-  [BSKY_USER_MATCH_TYPE.HANDLE]: {
+export const FILTER_TYPE_LABEL_AND_COLOR = {
+  [FILTER_TYPE.HANDLE]: {
     label: chrome.i18n.getMessage("same_handle_name"),
     color: "info",
   },
-  [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: {
+  [FILTER_TYPE.DISPLAY_NAME]: {
     label: chrome.i18n.getMessage("same_display_name"),
     color: "warning",
   },
-  [BSKY_USER_MATCH_TYPE.DESCRIPTION]: {
+  [FILTER_TYPE.DESCRIPTION]: {
     label: chrome.i18n.getMessage("included_handle_in_description"),
     color: "secondary",
   },
-  [BSKY_USER_MATCH_TYPE.FOLLOWING]: {
+  [FILTER_TYPE.FOLLOWING]: {
     label: chrome.i18n.getMessage("followed_users"),
     color: "success",
+  },
+  [FILTER_TYPE.AVATAR_NOT_SIMILAR]: {
+    label: chrome.i18n.getMessage("filter_type_avatar_not_similar"),
+    color: "danger",
   },
 };
 
@@ -124,3 +135,5 @@ export const SERVICE_TYPE = {
   TIKTOK: "tiktok",
   FACEBOOK: "facebook",
 } as const;
+
+export const AVATAR_SIMILARITY_SCORE_THRESHOLD = 0.6;

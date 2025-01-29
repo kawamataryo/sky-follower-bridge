@@ -307,5 +307,17 @@
   "search_again": {
     "message": "再検索",
     "description": "再検索ボタンのツールチップテキスト"
+  },
+  "text_avatar_is_similar": {
+    "message": "✅ アバター類似",
+    "description": "Text shown when the avatar is similar to the source user"
+  },
+  "include_non_avatar_similar_users": {
+    "message": "アバターが異なるユーザーも含める",
+    "description": "Label for the checkbox to include users whose avatars are not similar"
+  },
+  "filter_type_avatar_not_similar": {
+    "message": "アバターが異なる",
+    "description": "Label for the filter type when avatar is not similar"
   }
 }

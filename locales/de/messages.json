@@ -307,5 +307,17 @@
   "search_again": {
     "message": "Erneut suchen",
     "description": "Tooltip-Text für den Erneut suchen Button"
+  },
+  "text_avatar_is_similar": {
+    "message": "✅ Ähnlicher Avatar",
+    "description": "Text shown when the avatar is similar to the source user"
+  },
+  "include_non_avatar_similar_users": {
+    "message": "Unähnliche Avatare einschließen",
+    "description": "Label for the checkbox to include users whose avatars are not similar"
+  },
+  "filter_type_avatar_not_similar": {
+    "message": "Avatar unähnlich",
+    "description": "Label for the filter type when avatar is not similar"
   }
 }

@@ -7,8 +7,10 @@ import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import {
   ACTION_MODE,
+  AVATAR_SIMILARITY_SCORE_THRESHOLD,
   BSKY_USER_MATCH_TYPE,
   DEFAULT_LIST_NAME,
+  FILTER_TYPE,
   type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
   STORAGE_KEYS,
@@ -35,10 +37,11 @@ export const useBskyUserManager = () => {
     (typeof ACTION_MODE)[keyof typeof ACTION_MODE]
   >(ACTION_MODE.FOLLOW);
   const [matchTypeFilter, setMatchTypeFilter] = React.useState({
-    [BSKY_USER_MATCH_TYPE.FOLLOWING]: true,
-    [BSKY_USER_MATCH_TYPE.HANDLE]: true,
-    [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: true,
-    [BSKY_USER_MATCH_TYPE.DESCRIPTION]: true,
+    [FILTER_TYPE.AVATAR_NOT_SIMILAR]: true,
+    [FILTER_TYPE.FOLLOWING]: true,
+    [FILTER_TYPE.HANDLE]: true,
+    [FILTER_TYPE.DISPLAY_NAME]: true,
+    [FILTER_TYPE.DESCRIPTION]: true,
   });
 
   const handleClickAction = React.useCallback(
@@ -94,9 +97,7 @@ export const useBskyUserManager = () => {
   );
 
   const changeMatchTypeFilter = React.useCallback(
-    (
-      matchType: (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE],
-    ) => {
+    (matchType: (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE]) => {
       setMatchTypeFilter((prev) => {
         return {
           ...prev,
@@ -109,16 +110,19 @@ export const useBskyUserManager = () => {
 
   const filteredUsers = React.useMemo(() => {
     return users.filter((user) => {
+      if (!matchTypeFilter[FILTER_TYPE.FOLLOWING] && user.isFollowing) {
+        return false;
+      }
       if (
-        !matchTypeFilter[BSKY_USER_MATCH_TYPE.FOLLOWING] &&
-        user.isFollowing
+        !matchTypeFilter[FILTER_TYPE.FOLLOWING] &&
+        actionMode === ACTION_MODE.BLOCK &&
+        user.isBlocking
       ) {
         return false;
       }
       if (
-        !matchTypeFilter[BSKY_USER_MATCH_TYPE.FOLLOWING] &&
-        actionMode === ACTION_MODE.BLOCK &&
-        user.isBlocking
+        !matchTypeFilter[FILTER_TYPE.AVATAR_NOT_SIMILAR] &&
+        user.avatarSimilarityScore < AVATAR_SIMILARITY_SCORE_THRESHOLD
       ) {
         return false;
       }
@@ -127,81 +131,111 @@ export const useBskyUserManager = () => {
   }, [users, matchTypeFilter, actionMode]);
 
   // Import list
-  const importList = React.useCallback(async () => {
-    if (!bskyClient.current) return;
-    const storage = new Storage({
-      area: "local",
-    });
-    const listName = await storage.get(STORAGE_KEYS.LIST_NAME);
-    const listUri = await bskyClient.current.createListAndAddUsers({
-      name: listName || DEFAULT_LIST_NAME,
-      description: "List imported via Sky Follower Bridge",
-      userDids: filteredUsers.map((user) => user.did),
-    });
-    // TODO: Commented out temporarily due to failure in Firefox
-    // const myProfile = await bskyClient.current.getMyProfile();
-    // return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
-    return "https://bsky.app/lists";
-  }, [filteredUsers]);
+  const importList = React.useCallback(
+    async ({
+      includeNonAvatarSimilarUsers,
+    }: { includeNonAvatarSimilarUsers: boolean }) => {
+      if (!bskyClient.current) return;
+      const storage = new Storage({
+        area: "local",
+      });
+      const listName = await storage.get(STORAGE_KEYS.LIST_NAME);
+      const _filteredUsers = filteredUsers.filter(
+        (user) =>
+          includeNonAvatarSimilarUsers ||
+          user.avatarSimilarityScore > AVATAR_SIMILARITY_SCORE_THRESHOLD,
+      );
+      const listUri = await bskyClient.current.createListAndAddUsers({
+        name: listName || DEFAULT_LIST_NAME,
+        description: "List imported via Sky Follower Bridge",
+        userDids: _filteredUsers.map((user) => user.did),
+      });
+      // TODO: Commented out temporarily due to failure in Firefox
+      // const myProfile = await bskyClient.current.getMyProfile();
+      // return `https://bsky.app/profile/${myProfile.handle}/lists/${listUri}`;
+      return "https://bsky.app/lists";
+    },
+    [filteredUsers],
+  );
 
   // Follow All
-  const followAll = React.useCallback(async () => {
-    if (!bskyClient.current) return;
-    let actionCount = 0;
-
-    for (const user of filteredUsers) {
-      // follow
-      if (user.isFollowing) {
-        continue;
-      }
-      const result = await bskyClient.current.follow(user.did);
-      const resultUri = result.uri;
-      await setUsers((prev) =>
-        prev.map((prevUser) => {
-          if (prevUser.did === user.did) {
-            return {
-              ...prevUser,
-              isFollowing: !prevUser.isFollowing,
-              followingUri: resultUri ?? prevUser.followingUri,
-            };
-          }
-          return prevUser;
-        }),
+  const followAll = React.useCallback(
+    async ({
+      includeNonAvatarSimilarUsers,
+    }: { includeNonAvatarSimilarUsers: boolean }) => {
+      if (!bskyClient.current) return;
+      let actionCount = 0;
+      const _filteredUsers = filteredUsers.filter(
+        (user) =>
+          includeNonAvatarSimilarUsers ||
+          user.avatarSimilarityScore > AVATAR_SIMILARITY_SCORE_THRESHOLD,
       );
-      await wait(300);
-      actionCount++;
-    }
-    return actionCount;
-  }, [filteredUsers, setUsers]);
+
+      for (const user of _filteredUsers) {
+        // follow
+        if (user.isFollowing) {
+          continue;
+        }
+        const result = await bskyClient.current.follow(user.did);
+        const resultUri = result.uri;
+        await setUsers((prev) =>
+          prev.map((prevUser) => {
+            if (prevUser.did === user.did) {
+              return {
+                ...prevUser,
+                isFollowing: !prevUser.isFollowing,
+                followingUri: resultUri ?? prevUser.followingUri,
+              };
+            }
+            return prevUser;
+          }),
+        );
+        await wait(300);
+        actionCount++;
+      }
+      return actionCount;
+    },
+    [filteredUsers, setUsers],
+  );
 
   // Block All
-  const blockAll = React.useCallback(async () => {
-    if (!bskyClient.current) return;
-    // block
-    let actionCount = 0;
-    for (const user of filteredUsers) {
-      if (user.isBlocking) {
-        continue;
-      }
-      const result = await bskyClient.current.block(user.did);
-      const resultUri = result.uri;
-      await setUsers((prev) =>
-        prev.map((prevUser) => {
-          if (prevUser.did === user.did) {
-            return {
-              ...prevUser,
-              isBlocking: !prevUser.isBlocking,
-              blockingUri: resultUri ?? prevUser.blockingUri,
-            };
-          }
-          return prevUser;
-        }),
+  const blockAll = React.useCallback(
+    async ({
+      includeNonAvatarSimilarUsers,
+    }: { includeNonAvatarSimilarUsers: boolean }) => {
+      if (!bskyClient.current) return;
+      let actionCount = 0;
+      const _filteredUsers = filteredUsers.filter(
+        (user) =>
+          includeNonAvatarSimilarUsers ||
+          user.avatarSimilarityScore > AVATAR_SIMILARITY_SCORE_THRESHOLD,
       );
-      await wait(300);
-      actionCount++;
-    }
-    return actionCount;
-  }, [filteredUsers, setUsers]);
+
+      for (const user of _filteredUsers) {
+        if (user.isBlocking) {
+          continue;
+        }
+        const result = await bskyClient.current.block(user.did);
+        const resultUri = result.uri;
+        await setUsers((prev) =>
+          prev.map((prevUser) => {
+            if (prevUser.did === user.did) {
+              return {
+                ...prevUser,
+                isBlocking: !prevUser.isBlocking,
+                blockingUri: resultUri ?? prevUser.blockingUri,
+              };
+            }
+            return prevUser;
+          }),
+        );
+        await wait(300);
+        actionCount++;
+      }
+      return actionCount;
+    },
+    [filteredUsers, setUsers],
+  );
 
   const [key] = useStorage<string>(
     {
@@ -234,18 +268,16 @@ export const useBskyUserManager = () => {
   }, [key]);
 
   const matchTypeStats = React.useMemo(() => {
-    return Object.keys(matchTypeFilter).reduce(
+    return Object.values(BSKY_USER_MATCH_TYPE).reduce(
       (acc, key) => {
-        if (key === BSKY_USER_MATCH_TYPE.FOLLOWING) {
-          return acc;
-        }
+        if (key === BSKY_USER_MATCH_TYPE.NONE) return acc;
         const count = users.filter((user) => user.matchType === key).length;
         acc[key] = count;
         return acc;
       },
-      {} as Record<MatchType, number>,
+      {} as Record<Exclude<MatchType, "none">, number>,
     );
-  }, [users, matchTypeFilter]);
+  }, [users]);
 
   const [reSearchResults, setReSearchResults] = React.useState<{
     sourceDid: string;

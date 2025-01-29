@@ -1,11 +1,14 @@
 import type {
   BSKY_USER_MATCH_TYPE,
+  FILTER_TYPE,
   MESSAGE_NAMES,
   SERVICE_TYPE,
 } from "~lib/constants";
 
 export type MatchType =
   (typeof BSKY_USER_MATCH_TYPE)[keyof typeof BSKY_USER_MATCH_TYPE];
+
+export type FilterType = (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
 
 export type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
 
@@ -24,13 +27,15 @@ export type BskyUser = {
   originalHandle: string;
   originalDisplayName: string;
   originalProfileLink: string;
+  avatarSimilarityScore: number;
 };
 
-export type MatchTypeFilterValue = {
-  [BSKY_USER_MATCH_TYPE.DESCRIPTION]: boolean;
-  [BSKY_USER_MATCH_TYPE.DISPLAY_NAME]: boolean;
-  [BSKY_USER_MATCH_TYPE.HANDLE]: boolean;
-  [BSKY_USER_MATCH_TYPE.FOLLOWING]: boolean;
+export type FilterValue = {
+  [FILTER_TYPE.AVATAR_NOT_SIMILAR]: boolean;
+  [FILTER_TYPE.DESCRIPTION]: boolean;
+  [FILTER_TYPE.DISPLAY_NAME]: boolean;
+  [FILTER_TYPE.HANDLE]: boolean;
+  [FILTER_TYPE.FOLLOWING]: boolean;
 };
 
 export type CrawledUserInfo = {

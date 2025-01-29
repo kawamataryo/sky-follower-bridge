@@ -1,6 +1,8 @@
 import type { AtpSessionData } from "@atproto/api";
+import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
+import consola from "consola";
 import React from "react";
 import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
@@ -100,7 +102,22 @@ export const useRetrieveBskyUsers = () => {
           userData,
         });
         if (searchResult) {
+          // Post processing
           const processedUser = await processExtractedData(userData);
+          // Image comparison
+          const {
+            result: similarityScore,
+            error: getImageSimilarityScoreError,
+          } = await sendToBackground({
+            name: "getImageSimilarityScore",
+            body: {
+              url1: processedUser.originalAvatar,
+              url2: searchResult.bskyProfile.avatar,
+            },
+          });
+          if (getImageSimilarityScoreError) {
+            consola.error(getImageSimilarityScoreError);
+          }
           await setUsers((prev) => {
             if (prev.some((u) => u.did === searchResult.bskyProfile.did)) {
               return prev;
@@ -122,6 +139,7 @@ export const useRetrieveBskyUsers = () => {
                 originalHandle: processedUser.accountName,
                 originalDisplayName: processedUser.displayName,
                 originalProfileLink: processedUser.originalProfileLink,
+                avatarSimilarityScore: similarityScore ?? 0,
               },
             ];
           });
