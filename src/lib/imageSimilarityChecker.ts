@@ -6,9 +6,9 @@ const SIMILARITY_THRESHOLD = 0.65;
 async function fetchImage(url: string): Promise<Blob> {
   consola.warn("fetching image from", url);
 
-  if (url.startsWith('data:')) {
-    const mimeType = url.substring(5, url.indexOf(';'));
-    const base64Data = url.split(',')[1];
+  if (url.startsWith("data:")) {
+    const mimeType = url.substring(5, url.indexOf(";"));
+    const base64Data = url.split(",")[1];
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
