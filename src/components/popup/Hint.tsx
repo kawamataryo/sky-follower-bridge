@@ -69,6 +69,14 @@ export const Hint = () => {
             >
               Instagram
             </button>
+            {" , "}
+            <button
+              type="button"
+              onClick={() => handleNavigate("https://www.tiktok.com")}
+              className="text-blue-400 hover:underline"
+            >
+              TikTok
+            </button>
             {" following page"}
           </li>
         </ul>
