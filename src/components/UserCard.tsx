@@ -124,7 +124,7 @@ const UserCard = ({
             </div>
           </div>
         </div>
-        <p className="text-sm break-all">{user.description}</p>
+        <p className="text-sm break-word">{user.description}</p>
       </div>
     </div>
   );

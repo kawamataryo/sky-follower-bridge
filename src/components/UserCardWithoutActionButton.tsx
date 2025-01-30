@@ -23,7 +23,7 @@ const UserCardWithoutActionButton = ({
       <div className="flex justify-between items-center gap-2">
         <UserInfo handle={user.handle} displayName={user.displayName} />
       </div>
-      <p className="text-sm break-all text-left">{user.description}</p>
+      <p className="text-sm break-word text-left">{user.description}</p>
     </div>
   </button>
 );
