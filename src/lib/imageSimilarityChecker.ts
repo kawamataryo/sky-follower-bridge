@@ -1,8 +1,25 @@
+import consola from "consola";
+
 const proxyUrl = "https://server.sky-follower-bridge.dev/proxy?url=";
-const SIMILARITY_THRESHOLD = 0.55;
+const SIMILARITY_THRESHOLD = 0.65;
 
 async function fetchImage(url: string): Promise<Blob> {
+  consola.warn("fetching image from", url);
+
+  if (url.startsWith('data:')) {
+    const mimeType = url.substring(5, url.indexOf(';'));
+    const base64Data = url.split(',')[1];
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
   const response = await fetch(proxyUrl + encodeURIComponent(url));
+  consola.warn("response", response);
   return await response.blob();
 }
 
@@ -46,14 +63,15 @@ function calculateSimilaritySimple(
   if (data1.length !== data2.length) return 0;
 
   let similarPixels = 0;
-  for (let i = 0; i < data1.length; i += 8) {
-    const gray1 = (data1[i] + data1[i + 1] + data1[i + 2]) / 3;
-    const gray2 = (data2[i] + data2[i + 1] + data2[i + 2]) / 3;
+  for (let i = 0; i < data1.length; i += 4) {
+    const rDiff = Math.abs(data1[i] - data2[i]);
+    const gDiff = Math.abs(data1[i + 1] - data2[i + 1]);
+    const bDiff = Math.abs(data1[i + 2] - data2[i + 2]);
 
-    if (Math.abs(gray1 - gray2) < 50) {
+    if (rDiff < 50 && gDiff < 50 && bDiff < 50) {
       similarPixels++;
     }
   }
 
-  return similarPixels / (data1.length / 8);
+  return similarPixels / (data1.length / 4);
 }
