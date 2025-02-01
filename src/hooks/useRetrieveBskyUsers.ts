@@ -8,6 +8,7 @@ import { getChromeStorage } from "~lib/chromeHelper";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
 import { searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
+import { FacebookService } from "~services/facebookService";
 import { InstagramService } from "~services/instagramService";
 import { ThreadsService } from "~services/threadsService";
 import { TikTokService } from "~services/tikTokService";
@@ -44,6 +45,10 @@ const getServiceType = (messageName: MessageName): ServiceType => {
       MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
       () => SERVICE_TYPE.TIKTOK,
     )
+    .with(
+      MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FACEBOOK_PAGE,
+      () => SERVICE_TYPE.FACEBOOK,
+    )
     .run();
 };
 
@@ -57,6 +62,7 @@ const buildService = (
     .with(SERVICE_TYPE.THREADS, () => new ThreadsService(messageName))
     .with(SERVICE_TYPE.INSTAGRAM, () => new InstagramService(messageName))
     .with(SERVICE_TYPE.TIKTOK, () => new TikTokService(messageName))
+    .with(SERVICE_TYPE.FACEBOOK, () => new FacebookService(messageName))
     .run();
 };
 
