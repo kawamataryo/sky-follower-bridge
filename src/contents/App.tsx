@@ -19,6 +19,7 @@ export const config: PlasmoCSConfig = {
     "https://www.threads.net/*",
     "https://www.instagram.com/*",
     "https://www.tiktok.com/*",
+    "https://www.facebook.com/*",
   ],
   all_frames: true,
 };
@@ -104,6 +105,7 @@ const App = () => {
       .with(SERVICE_TYPE.THREADS, () => "Threads")
       .with(SERVICE_TYPE.INSTAGRAM, () => "Instagram")
       .with(SERVICE_TYPE.TIKTOK, () => "TikTok")
+      .with(SERVICE_TYPE.FACEBOOK, () => "Facebook")
       .exhaustive();
   }, [currentService]);
 

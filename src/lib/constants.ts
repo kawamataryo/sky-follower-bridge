@@ -6,6 +6,7 @@ export const MESSAGE_NAMES = {
   SEARCH_BSKY_USER_ON_THREADS_PAGE: "search_bsky_user_on_threads_page",
   SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE: "search_bsky_user_on_instagram_page",
   SEARCH_BSKY_USER_ON_TIKTOK_PAGE: "search_bsky_user_on_tiktok_page",
+  SEARCH_BSKY_USER_ON_FACEBOOK_PAGE: "search_bsky_user_on_facebook_page",
 } as const;
 
 export const ACTION_MODE = {
@@ -22,6 +23,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_THREADS_PAGE]: ACTION_MODE.FOLLOW,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_INSTAGRAM_PAGE]: ACTION_MODE.FOLLOW,
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE]: ACTION_MODE.FOLLOW,
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FACEBOOK_PAGE]: ACTION_MODE.FOLLOW,
 };
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
@@ -44,6 +46,7 @@ export const TARGET_URLS_REGEX = {
   THREADS: /^https:\/\/www\.threads\.net/,
   INSTAGRAM: /^https:\/\/www\.instagram\.com\/[^/]+\/(followers|following)\/?/,
   TIKTOK: /^https:\/\/www\.tiktok\.com/,
+  FACEBOOK: /^https:\/\/www\.facebook\.com\/friends\/list/,
 } as const;
 
 export const MESSAGE_TYPE = {
@@ -119,4 +122,5 @@ export const SERVICE_TYPE = {
   THREADS: "threads",
   INSTAGRAM: "instagram",
   TIKTOK: "tiktok",
+  FACEBOOK: "facebook",
 } as const;

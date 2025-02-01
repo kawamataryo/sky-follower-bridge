@@ -61,7 +61,7 @@ export const Hint = () => {
             >
               Threads
             </button>
-            {" or "}
+            {", "}
             <button
               type="button"
               onClick={() => handleNavigate("https://www.instagram.com")}
@@ -69,7 +69,7 @@ export const Hint = () => {
             >
               Instagram
             </button>
-            {" , "}
+            {", "}
             <button
               type="button"
               onClick={() => handleNavigate("https://www.tiktok.com")}
@@ -77,7 +77,16 @@ export const Hint = () => {
             >
               TikTok
             </button>
-            {" following page"}
+            {", "}
+            <button
+              type="button"
+              onClick={() =>
+                handleNavigate("https://www.facebook.com/friends/list")
+              }
+              className="text-blue-400 hover:underline"
+            >
+              Facebook
+            </button>
           </li>
         </ul>
       </div>

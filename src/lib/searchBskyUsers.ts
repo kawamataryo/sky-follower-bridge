@@ -12,13 +12,14 @@ export const searchBskyUser = async ({
   userData: CrawledUserInfo;
 }) => {
   const searchTerms = [
+    userData.accountName,
     ...(userData.bskyHandleInDescription
       ? [userData.bskyHandleInDescription]
       : []),
     userData.accountNameRemoveUnderscore,
     userData.accountNameReplaceUnderscore,
     userData.displayName,
-  ];
+  ].filter(Boolean);
   const uniqueSearchTerms = new Set(searchTerms);
   debugLog("uniqueSearchTerms", uniqueSearchTerms);
 

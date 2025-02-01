@@ -1,4 +1,5 @@
 import { sendToContentScript } from "@plasmohq/messaging";
+import consola from "consola";
 import { useState } from "react";
 import { P, match } from "ts-pattern";
 import {
@@ -57,6 +58,11 @@ export const useSearch = () => {
         await retrySearch();
         return;
       }
+      if (!isFirefox() && currentUrl?.includes("https://www.facebook.com/")) {
+        await updateChromeTab({ url: "https://www.facebook.com/friends/list" });
+        await retrySearch();
+        return;
+      }
       setErrorMessage(
         chrome.i18n.getMessage("error_invalid_page"),
         DOCUMENT_LINK.PAGE_ERROR,
@@ -89,6 +95,10 @@ export const useSearch = () => {
         P.when((url) => TARGET_URLS_REGEX.TIKTOK.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_TIKTOK_PAGE,
       )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.FACEBOOK.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FACEBOOK_PAGE,
+      )
       .run();
 
     await setToChromeStorage(STORAGE_KEYS.BSKY_MESSAGE_NAME, messageName);
@@ -119,6 +129,7 @@ export const useSearch = () => {
 
       window.close();
     } catch (e) {
+      consola.error(e);
       if (
         e.message?.includes("Could not establish connection") &&
         reloadCount < MAX_RELOAD_COUNT
