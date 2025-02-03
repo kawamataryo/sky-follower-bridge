@@ -1,6 +1,10 @@
 import React from "react";
 import { match } from "ts-pattern";
-import { ACTION_MODE, MATCH_TYPE_LABEL_AND_COLOR } from "~lib/constants";
+import {
+  ACTION_MODE,
+  AVATAR_SIMILARITY_SCORE_THRESHOLD,
+  FILTER_TYPE_LABEL_AND_COLOR,
+} from "~lib/constants";
 import type { BskyUser } from "~types";
 import DetectedUserSource from "./DetectedUserSource";
 import UserCard from "./UserCard";
@@ -105,7 +109,7 @@ const DetectedUserListItem = ({
     deleteUser(user.did);
   };
 
-  const matchTypeColor = MATCH_TYPE_LABEL_AND_COLOR[user.matchType].color;
+  const matchTypeColor = FILTER_TYPE_LABEL_AND_COLOR[user.matchType].color;
 
   return (
     <div>
@@ -113,9 +117,17 @@ const DetectedUserListItem = ({
         <div
           className={`w-full border-t border-gray-500 text-${matchTypeColor} grid grid-cols-[22%_1fr] text-xs`}
         >
-          <div className="px-3 bg-slate-100 dark:bg-slate-800" />
-          <div className="px-3">
-            {MATCH_TYPE_LABEL_AND_COLOR[user.matchType].label}
+          <div className="px-3 py-1 bg-slate-100 dark:bg-slate-800">
+            {user.avatarSimilarityScore > AVATAR_SIMILARITY_SCORE_THRESHOLD ? (
+              <div className="text-base-content">
+                {chrome.i18n.getMessage("text_avatar_is_similar")}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="px-3 py-1">
+            {FILTER_TYPE_LABEL_AND_COLOR[user.matchType].label}
           </div>
         </div>
         <div className="bg-base-100 w-full relative grid grid-cols-[22%_1fr] gap-5">
@@ -136,4 +148,11 @@ const DetectedUserListItem = ({
   );
 };
 
-export default DetectedUserListItem;
+export default React.memo(DetectedUserListItem, (prevProps, nextProps) => {
+  return (
+    prevProps.user.did === nextProps.user.did &&
+    prevProps.actionMode === nextProps.actionMode &&
+    prevProps.user.isFollowing === nextProps.user.isFollowing &&
+    prevProps.user.isBlocking === nextProps.user.isBlocking
+  );
+});

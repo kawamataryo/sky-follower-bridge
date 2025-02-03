@@ -7,7 +7,7 @@ import { googleFont } from "./lib/getFonts";
 import { OG_FONT } from "./constants";
 
 const app = new Hono();
-const cacheSeconds = 60 * 60 * 24;
+const cacheSeconds = 60 * 60 * 24 * 7;
 
 app.use(
   "*",
@@ -65,12 +65,12 @@ app.on(["GET", "OPTIONS"], "/proxy", async (c) => {
 
   try {
     const response = await fetch(targetUrl);
-    const data = await response.text();
+    const data = await response.arrayBuffer();
 
     return new Response(data, {
       status: response.status,
       headers: {
-        "Content-Type": response.headers.get("Content-Type") || "text/plain",
+        "Content-Type": response.headers.get("Content-Type") || "application/octet-stream",
         "Access-Control-Allow-Origin": "*",
         "Cache-Control": "public, max-age=300"
       }

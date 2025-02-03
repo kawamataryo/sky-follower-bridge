@@ -3,23 +3,30 @@ import { match } from "ts-pattern";
 import {
   ACTION_MODE,
   BSKY_USER_MATCH_TYPE,
-  MATCH_TYPE_LABEL_AND_COLOR,
+  FILTER_TYPE,
+  FILTER_TYPE_LABEL_AND_COLOR,
 } from "~lib/constants";
 import { getMessageWithLink } from "~lib/utils";
-import type { MatchType, MatchTypeFilterValue } from "~types";
+import type { FilterType, FilterValue, MatchType } from "~types";
 import AsyncButton from "./AsyncButton";
 import { ShareButton } from "./ShareButton";
 import SocialLinks from "./SocialLinks";
 
 type Props = {
   detectedCount: number;
-  filterValue: MatchTypeFilterValue;
-  onChangeFilter: (key: MatchType) => void;
+  filterValue: FilterValue;
+  onChangeFilter: (key: FilterType) => void;
   actionMode: (typeof ACTION_MODE)[keyof typeof ACTION_MODE];
   matchTypeStats: Record<Exclude<MatchType, "none">, number>;
-  importList: () => Promise<void>;
-  followAll: () => Promise<void>;
-  blockAll: () => Promise<void>;
+  importList: ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
+  followAll: ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
+  blockAll: ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
 };
 
 const Sidebar = ({
@@ -35,6 +42,8 @@ const Sidebar = ({
   const shareText = chrome.i18n.getMessage("share_text", [
     detectedCount.toString(),
   ]);
+  const [includeNonAvatarSimilarUsers, setIncludeNonAvatarSimilarUsers] =
+    React.useState(false);
 
   return (
     <aside className="bg-base-300 w-80 min-h-screen p-4 border-r border-base-300 flex flex-col">
@@ -122,14 +131,17 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Filter</p>
         </div>
-        {Object.keys(filterValue).map((key: MatchType) => (
+        {Object.keys(filterValue).map((key: FilterType) => (
           <div className="form-control" key={key}>
             <label htmlFor={key} className="label cursor-pointer">
               <span className="text-sm">
-                {key === BSKY_USER_MATCH_TYPE.FOLLOWING &&
+                {key === FILTER_TYPE.FOLLOWING &&
                 actionMode === ACTION_MODE.BLOCK
                   ? chrome.i18n.getMessage("blocked_user")
-                  : MATCH_TYPE_LABEL_AND_COLOR[key].label}
+                  : FILTER_TYPE_LABEL_AND_COLOR[key].label}
+                {key === FILTER_TYPE.AVATAR_NOT_SIMILAR && (
+                  <span className="ml-2 badge badge-sm badge-accent">New!</span>
+                )}{" "}
               </span>
               <input
                 type="checkbox"
@@ -159,30 +171,47 @@ const Sidebar = ({
           </svg>
           <p className="text-xl font-bold">Action</p>
         </div>
+        <label
+          htmlFor="include_non_avatar_similar_users"
+          className="label cursor-pointer mb-1 px-5"
+        >
+          <span className="text-xs">
+            {chrome.i18n.getMessage("include_non_avatar_similar_users")}
+          </span>
+          <input
+            type="checkbox"
+            id="include_non_avatar_similar_users"
+            checked={includeNonAvatarSimilarUsers}
+            onChange={() =>
+              setIncludeNonAvatarSimilarUsers(!includeNonAvatarSimilarUsers)
+            }
+            className="checkbox checkbox-primary checkbox-xs"
+          />
+        </label>
         <div className="flex flex-col gap-2 items-center">
           {match(actionMode)
             .with(ACTION_MODE.FOLLOW, () => (
               <AsyncButton
-                onClick={followAll}
+                onClick={() => followAll({ includeNonAvatarSimilarUsers })}
                 label={chrome.i18n.getMessage("follow_all")}
               />
             ))
             .with(ACTION_MODE.BLOCK, () => (
               <AsyncButton
-                onClick={blockAll}
+                onClick={() => blockAll({ includeNonAvatarSimilarUsers })}
                 label={chrome.i18n.getMessage("block_all")}
               />
             ))
             .with(ACTION_MODE.IMPORT_LIST, () => (
               <>
                 <AsyncButton
-                  onClick={importList}
+                  onClick={() => importList({ includeNonAvatarSimilarUsers })}
                   label={chrome.i18n.getMessage("import_list")}
                 />
                 <AsyncButton
-                  onClick={followAll}
+                  onClick={() => importList({ includeNonAvatarSimilarUsers })}
                   className="btn-primary"
-                  label={chrome.i18n.getMessage("follow_all")}
+                  label={chrome.i18n.getMessage("import_list")}
                 />
               </>
             ))

@@ -36,6 +36,22 @@ export class XService implements IService {
   }
 
   async processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo> {
+    const avatarUrl = user.originalAvatar;
+    if (avatarUrl) {
+      try {
+        const response = await fetch(avatarUrl);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        const base64Url = await new Promise<string>((resolve, reject) => {
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+        user.originalAvatar = base64Url;
+      } catch (error) {
+        console.error("Failed to convert avatar to base64:", error);
+      }
+    }
     return user;
   }
 

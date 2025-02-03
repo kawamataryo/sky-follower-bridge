@@ -307,5 +307,17 @@
   "search_again": {
     "message": "再次搜索",
     "description": "再次搜索按钮的工具提示文本"
+  },
+  "text_avatar_is_similar": {
+    "message": "✅ 头像相似",
+    "description": "Text shown when the avatar is similar to the source user"
+  },
+  "include_non_avatar_similar_users": {
+    "message": "包含非相似头像",
+    "description": "Label for the checkbox to include users whose avatars are not similar"
+  },
+  "filter_type_avatar_not_similar": {
+    "message": "头像不相似",
+    "description": "Label for the filter type when avatar is not similar"
   }
 }

@@ -50,11 +50,13 @@ const Option = () => {
     okText: chrome.i18n.getMessage("confirmation_ok"),
   });
 
-  const handleFollowAll = async () => {
+  const handleFollowAll = async ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => {
     if (!(await followAllConfirm())) {
       return;
     }
-    toast.promise(followAll, {
+    toast.promise(followAll({ includeNonAvatarSimilarUsers }), {
       pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
@@ -70,11 +72,13 @@ const Option = () => {
     });
   };
 
-  const handleBlockAll = async () => {
+  const handleBlockAll = async ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => {
     if (!(await followAllConfirm())) {
       return;
     }
-    toast.promise(blockAll, {
+    toast.promise(blockAll({ includeNonAvatarSimilarUsers }), {
       pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
@@ -90,11 +94,13 @@ const Option = () => {
     });
   };
 
-  const handleImportList = async () => {
+  const handleImportList = async ({
+    includeNonAvatarSimilarUsers,
+  }: { includeNonAvatarSimilarUsers: boolean }) => {
     if (!(await importListConfirm())) {
       return;
     }
-    toast.promise(importList, {
+    toast.promise(importList({ includeNonAvatarSimilarUsers }), {
       pending: chrome.i18n.getMessage("toast_pending"),
       success: {
         render({ data }) {
@@ -157,6 +163,11 @@ const Option = () => {
     count: filteredUsers.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 50,
+    overscan: 5,
+    initialRect: {
+      height: 0,
+      width: 0,
+    },
   });
 
   return (
