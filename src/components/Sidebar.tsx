@@ -209,9 +209,9 @@ const Sidebar = ({
                   label={chrome.i18n.getMessage("import_list")}
                 />
                 <AsyncButton
-                  onClick={() => importList({ includeNonAvatarSimilarUsers })}
-                  className="btn-primary"
-                  label={chrome.i18n.getMessage("import_list")}
+                  onClick={() => followAll({ includeNonAvatarSimilarUsers })}
+                  className="btn-primary btn-outline"
+                  label={chrome.i18n.getMessage("follow_all")}
                 />
               </>
             ))

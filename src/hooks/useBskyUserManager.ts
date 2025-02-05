@@ -50,7 +50,10 @@ export const useBskyUserManager = () => {
       let resultUri: string | null = null;
 
       // follow
-      if (actionMode === ACTION_MODE.FOLLOW) {
+      if (
+        actionMode === ACTION_MODE.FOLLOW ||
+        actionMode === ACTION_MODE.IMPORT_LIST
+      ) {
         if (user.isFollowing) {
           await bskyClient.current.unfollow(user.followingUri);
         } else {
