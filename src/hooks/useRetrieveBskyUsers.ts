@@ -3,7 +3,7 @@ import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import consola from "consola";
-import React from "react";
+import React, { useEffect } from "react";
 import { P, match } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
@@ -247,6 +247,12 @@ export const useRetrieveBskyUsers = () => {
     () => !loading && !errorMessage && users.length > 0,
     [loading, errorMessage, users.length],
   );
+
+  useEffect(() => {
+    return () => {
+      stopRetrieveLoop();
+    };
+  }, [stopRetrieveLoop]);
 
   return {
     initialize,
