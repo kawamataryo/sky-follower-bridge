@@ -47,7 +47,7 @@ export const AuthForm = ({
         <input
           type="text"
           name="identifier"
-          placeholder={`your-username.${BSKY_DOMAIN}`}
+          placeholder={`@your-username.${BSKY_DOMAIN}`}
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
           className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none mt-1"
