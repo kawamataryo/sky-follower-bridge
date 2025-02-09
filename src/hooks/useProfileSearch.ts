@@ -12,6 +12,7 @@ export const useProfileSearch = () => {
       | "originalHandle"
       | "originalDisplayName"
       | "originalProfileLink"
+      | "avatarSimilarityScore"
     >[]
   >([]);
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);

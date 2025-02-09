@@ -111,7 +111,7 @@ export const useRetrieveBskyUsers = () => {
           } = await sendToBackground({
             name: "getImageSimilarityScore",
             body: {
-              url1: processedUser.originalAvatar,
+              url1: processedUser.originalAvatarDataUrl,
               url2: searchResult.bskyProfile.avatar,
             },
           });

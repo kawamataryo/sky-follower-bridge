@@ -27,6 +27,7 @@ export class FacebookService implements IService {
           reader.readAsDataURL(blob);
         });
         user.originalAvatar = base64Url;
+        user.originalAvatarDataUrl = base64Url;
       } catch (error) {
         console.error("Failed to convert avatar to base64:", error);
       }
@@ -58,6 +59,7 @@ export class FacebookService implements IService {
       accountNameReplaceUnderscore: "",
       bskyHandleInDescription: "",
       originalAvatar,
+      originalAvatarDataUrl: "",
       originalProfileLink: profileUrl,
     };
   }

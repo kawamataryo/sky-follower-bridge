@@ -45,6 +45,7 @@ export type CrawledUserInfo = {
   accountNameReplaceUnderscore: string;
   bskyHandleInDescription: string;
   originalAvatar: string;
+  originalAvatarDataUrl: string;
   originalProfileLink: string;
 };
 
