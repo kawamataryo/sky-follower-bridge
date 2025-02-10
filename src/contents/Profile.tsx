@@ -91,7 +91,7 @@ const Profile = () => {
   return (
     <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} width={700}>
       <h2 className="text-lg font-bold text-center py-2">
-        {chrome.i18n.getMessage("re_search_modal_title")} asssss
+        {chrome.i18n.getMessage("re_search_modal_title")}
       </h2>
       <div className="flex flex-col gap-2">
         {isLoading && (

@@ -9,6 +9,7 @@ export type Props = {
     | "originalHandle"
     | "originalDisplayName"
     | "originalProfileLink"
+    | "avatarSimilarityScore"
   >;
   clickAction: (
     user: Omit<
