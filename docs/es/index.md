@@ -21,13 +21,13 @@ features:
     title: Detección automática de perfiles
     details: Detecta automáticamente usuarios de Bluesky similares a tus seguidos en 𝕏.
   - icon: 🚀
-    title: Función de seguimiento masivo
-    details: Ahorra tiempo siguiendo a múltiples usuarios a la vez con nuestro botón "Seguir a todos".
+    title: Soporte multiplataforma
+    details: Encuentra y sigue tus conexiones de 𝕏, Instagram, TikTok, Threads y Facebook en Bluesky.
   - icon: 📋
     title: Soporte para múltiples listas
     details: Funciona con listas de Seguidos, Seguidores, Usuarios bloqueados e incluso listas públicas de 𝕏.
   - icon: 🌐
-    title: Soporte multiplataforma
+    title: Soporte para múltiples navegadores
     details: Disponible en Chrome, Firefox y Microsoft Edge para tu conveniencia.
 ---
 

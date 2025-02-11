@@ -21,8 +21,8 @@ features:
     title: Correspondance automatique des profils
     details: Détectez automatiquement les utilisateurs de Bluesky similaires à vos suivis sur 𝕏.
   - icon: 🚀
-    title: Fonction de suivi en masse
-    details: Gagnez du temps en suivant plusieurs utilisateurs à la fois avec notre bouton "Follow All".
+    title: Support multi-plateformes
+    details: Trouvez et suivez vos connexions de 𝕏, Instagram, TikTok, Threads et Facebook sur Bluesky.
   - icon: 📋
     title: Support de plusieurs listes
     details: Fonctionne avec les listes de suivis, de bloqués et même les listes publiques de 𝕏.

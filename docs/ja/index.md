@@ -19,16 +19,16 @@ hero:
 features:
   - icon: 🔍
     title: 自動プロフィールマッチング
-    details: 𝕏でフォローしているユーザーに類似したBlueskyユーザーを自動的に検出します。
+    details: Xのフォローと類似したBlueskyユーザーを自動検出
   - icon: 🚀
-    title: 一括フォロー機能
-    details: 「すべてフォロー」ボタンで複数のユーザーを一度にフォローして時間を節約。
+    title: マルチプラットフォーム対応
+    details: X、Instagram、TikTok、Threads、Facebookからの接続をBlueskyで発見・フォロー
   - icon: 📋
-    title: 複数リストのサポート
-    details: フォロー、フォロワー、ブロックユーザーリスト、さらには公開𝕏リストにも対応。
+    title: 複数リスト対応
+    details: フォロー中、フォロワー、ブロックリストだけでなく公開Xリストにも対応
   - icon: 🌐
     title: クロスブラウザ対応
-    details: Chrome、Firefox、Microsoft Edgeで利用可能。
+    details: Chrome、Firefox、Microsoft Edgeで利用可能
 ---
 
 ---

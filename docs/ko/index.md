@@ -21,8 +21,8 @@ features:
     title: "자동 프로필 매칭"
     details: "𝕏에서 팔로우하는 사용자와 유사한 Bluesky 사용자를 자동으로 감지합니다."
   - icon: 🚀
-    title: "일괄 팔로우 기능"
-    details: "\"모두 팔로우\" 버튼으로 여러 사용자를 한 번에 팔로우하여 시간을 절약하세요."
+    title: "멀티 플랫폼 지원"
+    details: "𝕏, Instagram, TikTok, Threads, Facebook의 연결을 Bluesky에서 찾아 팔로우하세요."
   - icon: 📋
     title: "다중 리스트 지원"
     details: "팔로우, 팔로워, 차단된 사용자 리스트, 그리고 공개 𝕏 리스트도 지원합니다."

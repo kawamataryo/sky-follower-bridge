@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "Sky Follower Bridge"
   text: "Bridge Your Social Networks"
-  tagline: Seamlessly migrate your social connections from 𝕏 to Bluesky
+  tagline: Seamlessly migrate your social connections from 𝕏, Threads, Facebook, and more to Bluesky
   actions:
     - theme: brand
       text: Get Started
@@ -22,8 +22,8 @@ features:
     title: Automatic Profile Matching
     details: Automatically detect Bluesky users similar to your 𝕏 follows.
   - icon: 🚀
-    title: Bulk Follow Feature
-    details: Save time by following multiple users at once with our "Follow All" button.
+    title: Multi-Platform Support
+    details: Find and follow your connections from 𝕏, Instagram, TikTok, Threads, and Facebook on Bluesky.
   - icon: 📋
     title: Multiple List Support
     details: Works with Following, Followers, Blocked users lists, and even public 𝕏 Lists.

@@ -21,8 +21,8 @@ features:
     title: Rilevamento automatico dei profili
     details: Rileva automaticamente gli utenti Bluesky simili ai tuoi seguiti su 𝕏.
   - icon: 🚀
-    title: Funzione di seguito in massa
-    details: Risparmia tempo seguendo più utenti contemporaneamente con il nostro pulsante "Follow All".
+    title: Supporto multi-piattaforma
+    details: Trova e segui i tuoi contatti da 𝕏, Instagram, TikTok, Threads e Facebook su Bluesky.
   - icon: 📋
     title: Supporto per liste multiple
     details: Funziona con le liste di seguiti, bloccati e persino con le liste pubbliche di 𝕏.
