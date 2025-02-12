@@ -6,9 +6,18 @@ export type Props = {
   open: boolean;
   onClose?: () => void;
   width?: number;
+  hasCloseButton?: boolean;
+  isCloseOnOverlayClick?: boolean;
 };
 
-const Modal = ({ children, open = false, onClose, width = 500 }: Props) => {
+const Modal = ({
+  children,
+  open = false,
+  onClose,
+  width = 500,
+  hasCloseButton = false,
+  isCloseOnOverlayClick = true,
+}: Props) => {
   const anchorRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -74,11 +83,23 @@ const Modal = ({ children, open = false, onClose, width = 500 }: Props) => {
           style={{ width }}
           ref={modalContainerRef}
         >
+          {hasCloseButton && (
+            <form method="dialog">
+              <button
+                type="submit"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+          )}
           <div className="cursor-auto">{children}</div>
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button type="submit">close</button>
-        </form>
+        {isCloseOnOverlayClick && (
+          <form method="dialog" className="modal-backdrop">
+            <button type="submit">close</button>
+          </form>
+        )}
       </dialog>
     </>
   );

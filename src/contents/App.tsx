@@ -111,7 +111,12 @@ const App = () => {
 
   return (
     <>
-      <Modal open={isModalOpen} onClose={closeModal}>
+      <Modal
+        open={isModalOpen}
+        onClose={closeModal}
+        hasCloseButton
+        isCloseOnOverlayClick={false}
+      >
         {currentService !== SERVICE_TYPE.X && loading && (
           <ServiceAlert serviceName={serviceName} />
         )}
