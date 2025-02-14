@@ -72,17 +72,21 @@
     "description": "Text for the error message when the page is invalid in threads"
   },
   "scanning_users": {
-    "message": "Scanning $service$ users to find bsky users...",
+    "message": "Scanning $scannedUserCount$ $service$ users to find bsky users...",
     "description": "Text for the scanning users message",
     "placeholders": {
       "service": {
         "content": "$1",
         "example": "X"
+      },
+      "scannedUserCount": {
+        "content": "$2",
+        "example": "100"
       }
     }
   },
   "detected_users": {
-    "message": "Found <span class='text-4xl'>$users$</span> users",
+    "message": "Found <span class='text-5xl'>$users$</span> bsky users",
     "description": "Text for the detected users message",
     "placeholders": {
       "users": {

@@ -1,11 +1,12 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import distance from "jaro-winkler";
 import type { CrawledUserInfo } from "~types";
 import { BSKY_PROFILE_LABEL, BSKY_USER_MATCH_TYPE } from "./constants";
 
 export const isSimilarUser = (
   crawledUserInfo: Omit<
     CrawledUserInfo,
-    "originalAvatar" | "originalProfileLink"
+    "originalAvatar" | "originalProfileLink" | "originalAvatarDataUrl"
   >,
   bskyProfile: ProfileView | undefined,
 ): {
@@ -53,7 +54,8 @@ export const isSimilarUser = (
   if (
     lowerCaseNames.accountName === bskyHandle ||
     lowerCaseNames.accountNameRemoveUnderscore === bskyHandle ||
-    lowerCaseNames.accountNameReplaceUnderscore === bskyHandle
+    lowerCaseNames.accountNameReplaceUnderscore === bskyHandle ||
+    distance(lowerCaseNames.accountName, bskyHandle) > 0.92
   ) {
     return {
       isSimilar: true,

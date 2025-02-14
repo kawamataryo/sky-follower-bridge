@@ -41,6 +41,7 @@ const App = () => {
     isBottomReached,
     errorMessage,
     currentService,
+    scannedUserCount,
   } = useRetrieveBskyUsers();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -116,6 +117,7 @@ const App = () => {
         onClose={closeModal}
         hasCloseButton
         isCloseOnOverlayClick={false}
+        width={550}
       >
         {currentService !== SERVICE_TYPE.X && loading && (
           <ServiceAlert serviceName={serviceName} />
@@ -123,7 +125,10 @@ const App = () => {
         <div className="flex flex-col gap-2 items-center">
           {loading && (
             <p className="text-lg font-bold">
-              {chrome.i18n.getMessage("scanning_users", [serviceName])}
+              {chrome.i18n.getMessage("scanning_users", [
+                serviceName,
+                scannedUserCount.toLocaleString(),
+              ])}
             </p>
           )}
           <p

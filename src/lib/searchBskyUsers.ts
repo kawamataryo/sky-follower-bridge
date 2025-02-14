@@ -16,8 +16,6 @@ export const searchBskyUser = async ({
     ...(userData.bskyHandleInDescription
       ? [userData.bskyHandleInDescription]
       : []),
-    userData.accountNameRemoveUnderscore,
-    userData.accountNameReplaceUnderscore,
     userData.displayName,
   ].filter(Boolean);
   const uniqueSearchTerms = new Set(searchTerms);

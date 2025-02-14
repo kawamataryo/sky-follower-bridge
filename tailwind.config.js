@@ -13,7 +13,7 @@ module.exports = {
       pattern: /(link)/,
     },
     {
-      pattern: /(text-4xl)/,
+      pattern: /(text-\dxl)/,
     },
   ],
   daisyui: {

@@ -72,17 +72,21 @@
     "description": "Text for the error message when the page is invalid in threads"
   },
   "scanning_users": {
-    "message": "Escaneando usuarios de $service$ para encontrar usuarios de Bluesky...",
+    "message": "Escaneando usuarios de $scannedUserCount$ $service$ para encontrar usuarios de Bluesky...",
     "description": "Text for the scanning users message",
     "placeholders": {
       "service": {
         "content": "$1",
         "example": "X"
+      },
+      "scannedUserCount": {
+        "content": "$2",
+        "example": "100"
       }
     }
   },
   "detected_users": {
-    "message": "Se han detectado <span class='text-4xl'>$users$</span> usuarios",
+    "message": "Se han detectado <span class='text-5xl'>$users$</span> usuarios",
     "description": "Text for the detected users message",
     "placeholders": {
       "users": {

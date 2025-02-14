@@ -85,6 +85,7 @@ export const useRetrieveBskyUsers = () => {
   const [currentService, setCurrentService] = React.useState<
     (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE]
   >(SERVICE_TYPE.X);
+  const [scannedUserCount, setScannedUserCount] = React.useState(0);
 
   const [retrievalParams, setRetrievalParams] = React.useState<null | {
     session: AtpSessionData;
@@ -97,6 +98,7 @@ export const useRetrieveBskyUsers = () => {
       processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
     ) => {
       for (const userData of usersData) {
+        setScannedUserCount((prev) => prev + 1);
         const searchResult = await searchBskyUser({
           client: bskyClient.current,
           userData,
@@ -265,5 +267,6 @@ export const useRetrieveBskyUsers = () => {
     isBottomReached,
     stopRetrieveLoop,
     currentService,
+    scannedUserCount,
   };
 };
