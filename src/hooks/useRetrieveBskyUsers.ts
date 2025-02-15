@@ -158,11 +158,13 @@ export const useRetrieveBskyUsers = () => {
       usersData: CrawledUserInfo[],
       processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
     ) => {
+      const promises = [];
       for (const userData of usersData) {
         setScannedUserCount((prev) => prev + 1);
         await wait(100);
-        searchAndStoreBskyUser(userData, processExtractedData);
+        promises.push(searchAndStoreBskyUser(userData, processExtractedData));
       }
+      await Promise.all(promises);
     },
     [searchAndStoreBskyUser],
   );
