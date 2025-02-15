@@ -1,4 +1,5 @@
 import type { AtpSessionData } from "@atproto/api";
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
@@ -92,13 +93,12 @@ export const useRetrieveBskyUsers = () => {
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
 
-  const retrieveBskyUsers = React.useCallback(
+  const searchAndStoreBskyUser = React.useCallback(
     async (
-      usersData: CrawledUserInfo[],
+      userData: CrawledUserInfo,
       processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
     ) => {
-      for (const userData of usersData) {
-        setScannedUserCount((prev) => prev + 1);
+      try {
         const searchResult = await searchBskyUser({
           client: bskyClient.current,
           userData,
@@ -146,9 +146,25 @@ export const useRetrieveBskyUsers = () => {
             ];
           });
         }
+      } catch (error) {
+        consola.error(error);
       }
     },
     [setUsers],
+  );
+
+  const retrieveBskyUsers = React.useCallback(
+    async (
+      usersData: CrawledUserInfo[],
+      processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
+    ) => {
+      for (const userData of usersData) {
+        setScannedUserCount((prev) => prev + 1);
+        await wait(100);
+        searchAndStoreBskyUser(userData, processExtractedData);
+      }
+    },
+    [searchAndStoreBskyUser],
   );
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
