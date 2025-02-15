@@ -79,7 +79,7 @@ export const isSimilarUser = (
 };
 
 export const isImpersonationUser = (user: ProfileView) => {
-  return user.labels.some(
+  return user.labels?.some(
     (label) => label.val === BSKY_PROFILE_LABEL.IMPERSONATION,
   );
 };
