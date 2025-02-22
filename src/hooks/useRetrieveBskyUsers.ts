@@ -238,14 +238,16 @@ export const useRetrieveBskyUsers = () => {
       throw new Error(errorMessage);
     }
 
+    setErrorMessage("");
+    await setUsers([]);
+    setScannedUserCount(0);
+    setLoading(true);
+
     startRetrieveLoop(service).catch((e) => {
       console.error(e);
       setErrorMessage(e.message);
       setLoading(false);
     });
-    setErrorMessage("");
-    setLoading(true);
-    await setUsers([]);
   }, []);
 
   const restart = React.useCallback(() => {
