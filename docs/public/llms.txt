@@ -1,0 +1,47 @@
+# Sky Follower Bridge
+
+> Sky Follower Bridge is a browser extension that helps you find and follow your connections from existing social networks such as 𝕏 (Twitter), Instagram, Threads, TikTok, and Facebook on Bluesky. The tool makes social network migration seamless by automatically matching profiles between platforms.
+
+Sky Follower Bridge is designed to make transitions between social media platforms seamless. This tool automatically matches users from your follower lists, following lists, block lists, and public lists with Bluesky users, making migration easy. It's available as a browser extension for Chrome, Firefox, Microsoft Edge, and Safari.
+
+The extension uses multiple matching criteria to find your connections:
+- Same handle name across platforms
+- Same display name across platforms
+- Social media bio containing Bluesky handle or profile links
+- Fuzzy matching for similar usernames and display names
+
+Key features include:
+- Auto-detection of Bluesky profiles matching your connections
+- Batch following capability for efficient migration
+- Support for different types of lists (Following, Followers, Blocked, Public Lists)
+- Cross-browser compatibility
+- Privacy-focused design that processes data locally in your browser
+
+## Documentation
+
+- [Getting Started Guide](https://sky-follower-bridge.dev/get-started.html): Overview of basic usage and features of Sky Follower Bridge
+- [Instagram User Guide](https://sky-follower-bridge.dev/get-started-for-instagram.html): Steps for Instagram users to migrate to Bluesky
+- [Threads User Guide](https://sky-follower-bridge.dev/get-started-for-threads.html): Steps for Threads users to migrate to Bluesky
+- [TikTok User Guide](https://sky-follower-bridge.dev/get-started-for-tiktok.html): Steps for TikTok users to migrate to Bluesky
+- [Facebook User Guide](https://sky-follower-bridge.dev/get-started-for-facebook.html): Steps for Facebook users to migrate to Bluesky
+- [Troubleshooting](https://sky-follower-bridge.dev/troubleshooting.html): Common issues and solutions
+
+## Frequently Asked Questions
+
+- [FAQ](https://sky-follower-bridge.dev/faq.html): Common questions and answers about usage, matching criteria, mobile support, and more
+
+## Privacy
+
+- [Privacy Policy](https://sky-follower-bridge.dev/privacy-policy.html): Sky Follower Bridge's privacy policy and handling of personal data
+
+## Development
+
+- [Technical Implementation](https://github.com/kawamataryo/sky-follower-bridge/blob/main/src/lib/bskyHelpers.ts): Details on how the profile matching algorithm works
+- [Extension Architecture](https://github.com/kawamataryo/sky-follower-bridge/blob/main/README.md): Overview of the extension's architecture and components
+- [Browser APIs Used](https://github.com/kawamataryo/sky-follower-bridge/blob/main/manifest.json): Information on browser APIs and permissions used by the extension
+
+## Optional
+
+- [GitHub Repository](https://github.com/kawamataryo/sky-follower-bridge): Source code and contribution guidelines
+- [Developer Profile](https://bsky.app/profile/kawamataryo.bsky.social): The extension developer's Bluesky profile
+- [Support the Project](https://ko-fi.com/kawamataryo): Information on how to support the continued development
