@@ -17,6 +17,7 @@ export const config: PlasmoCSConfig = {
     "https://twitter.com/*",
     "https://x.com/*",
     "https://www.threads.net/*",
+    "https://www.threads.com/*",
     "https://www.instagram.com/*",
     "https://www.tiktok.com/*",
     "https://www.facebook.com/*",
