@@ -3,63 +3,99 @@ import destr from "destr";
 import { BSKY_DOMAIN } from "./constants";
 import { debugLog } from "./utils";
 
-// try and cut down the amount of session resumes by caching the clients
+// Extend session type to hold service URL for resume
+interface CustomSessionData extends AtpSessionData {
+  service?: string;
+}
+
+// Cache to reuse clients by DID
 const clientCache = new Map<string, BskyClient>();
 
 export type BskyLoginParams = {
+  domain: string; // optional domain for custom servers
   identifier: string;
   password: string;
   authFactorToken?: string;
 };
 
 export class BskyClient {
-  private service = `https://${BSKY_DOMAIN}`;
-  me: {
+  private service: string;
+  me!: {
     did: string;
     handle: string;
     email: string;
   };
   agent: AtpAgent;
-  session = {};
+  session: Partial<CustomSessionData> = {};
 
-  private constructor() {
+  private constructor(service: string) {
+    if (!service) {
+      throw new Error("[BskyClient] service URL must be provided");
+    }
+    this.service = service;
     this.agent = new AtpAgent({
       service: this.service,
       persistSession: (evt, session) => {
-        this.session = session;
+        // Save session with domain info for resuming later
+        this.session = {
+          ...session,
+          service: this.service,
+        };
+        debugLog("[BskyClient] Persisted session with service:", this.service);
       },
     });
   }
 
   public static async createAgentFromSession(
-    session: AtpSessionData,
+    session: CustomSessionData,
   ): Promise<BskyClient> {
     let client = clientCache.get(session.did);
 
+    // Use service from session or fallback to default
+    const service = session.service ?? `https://${BSKY_DOMAIN}`;
     if (!client) {
-      client = new BskyClient();
+      client = new BskyClient(service);
       await client.agent.resumeSession(destr(session));
       clientCache.set(session.did, client);
+      debugLog(
+        `[BskyClient] Resumed session for DID ${session.did} using service ${service}`,
+      );
+    } else {
+      debugLog(`[BskyClient] Using cached client for DID ${session.did}`);
     }
+
     client.me = {
       did: session.did,
       handle: session.handle,
       email: session.email,
     };
+
     return client;
   }
 
   public static async createAgent({
+    domain,
     identifier,
     password,
     authFactorToken,
   }: BskyLoginParams): Promise<BskyClient> {
-    const client = new BskyClient();
+    const selectedDomain = domain ?? BSKY_DOMAIN;
+    if (!selectedDomain)
+      throw new Error(
+        "[BskyClient] No domain specified and BSKY_DOMAIN is undefined",
+      );
+
+    const service = `https://${selectedDomain}`;
+    debugLog("[BskyClient] Creating new agent with service:", service);
+
+    const client = new BskyClient(service);
+
     const { data } = await client.agent.login({
       identifier,
       password,
       ...(authFactorToken && { authFactorToken }),
     });
+
     client.me = {
       did: data.did,
       handle: data.handle,
@@ -67,7 +103,6 @@ export class BskyClient {
     };
 
     clientCache.set(data.did, client);
-
     return client;
   }
 
@@ -107,7 +142,6 @@ export class BskyClient {
   };
 
   public unblock = async (blockUri: string) => {
-    // TODO: unblock is not working. Need to fix it.
     const { rkey } = new AtUri(blockUri);
     return await this.agent.app.bsky.graph.block.delete({
       repo: this.me.did,

@@ -52,3 +52,6 @@
     background-position: 0 0;
   }
 }
+.w-full.block.domain {
+  padding-bottom: 18px;
+}

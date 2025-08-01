@@ -19,8 +19,9 @@ import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [password, setPassword] = useState("");
+  const [domain, setDomain] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
   const [authFactorToken, setAuthFactorToken] = useState("");
   const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
     useState(false);
@@ -32,6 +33,7 @@ export const useAuth = () => {
     useErrorMessage();
 
   const saveCredentialsToStorage = async () => {
+    await setToChromeStorage(STORAGE_KEYS.BSKY_DOMAIN, domain);
     await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
     await setToChromeStorage(STORAGE_KEYS.BSKY_PASSWORD, password);
   };
@@ -53,18 +55,20 @@ export const useAuth = () => {
 
   const loadCredentialsFromStorage = useCallback(async () => {
     const storage = await getChromeStorage<{
+      [STORAGE_KEYS.BSKY_DOMAIN]: string;
       [STORAGE_KEYS.BSKY_USER_ID]: string;
       [STORAGE_KEYS.BSKY_PASSWORD]: string;
       [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: boolean;
       [STORAGE_KEYS.BSKY_CLIENT_SESSION]: string;
     }>(null);
-
+    setDomain(storage?.[STORAGE_KEYS.BSKY_DOMAIN] || "");
     setIdentifier(storage?.[STORAGE_KEYS.BSKY_USER_ID] || "");
     setPassword(storage?.[STORAGE_KEYS.BSKY_PASSWORD] || "");
     setIsShowAuthFactorTokenInput(
       storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
     );
     return {
+      domain: storage?.[STORAGE_KEYS.BSKY_DOMAIN],
       identifier: storage?.[STORAGE_KEYS.BSKY_USER_ID],
       password: storage?.[STORAGE_KEYS.BSKY_PASSWORD],
       session: storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION],
@@ -156,6 +160,7 @@ export const useAuth = () => {
       const { session, error } = await sendToBackground({
         name: "login",
         body: {
+          domain,
           identifier: formattedIdentifier,
           password,
           ...(authFactorToken && { authFactorToken: authFactorToken }),
@@ -230,6 +235,8 @@ export const useAuth = () => {
     isLoading,
     password,
     setPassword,
+    domain,
+    setDomain,
     identifier,
     setIdentifier,
     authFactorToken,

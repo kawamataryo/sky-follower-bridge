@@ -5,6 +5,7 @@ import { setToChromeStorage } from "~lib/chromeHelper";
 import { STORAGE_KEYS } from "./constants";
 
 export type BskyLoginParams = {
+  domain: string;
   identifier: string;
   password: string;
   authFactorToken?: string;
@@ -18,6 +19,7 @@ export class BskyServiceWorkerClient {
   }
 
   public static async createAgentFromLoginParams({
+    domain,
     identifier,
     password,
     authFactorToken,

@@ -17,6 +17,8 @@ function IndexPopup() {
     password,
     setPassword,
     identifier,
+    domain,
+    setDomain,
     setIdentifier,
     authFactorToken,
     setAuthFactorToken,
@@ -51,6 +53,8 @@ function IndexPopup() {
           isLoading={isAuthLoading}
           password={password}
           setPassword={setPassword}
+          domain={domain}
+          setDomain={setDomain}
           identifier={identifier}
           setIdentifier={setIdentifier}
           authFactorToken={authFactorToken}

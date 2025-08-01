@@ -1,10 +1,11 @@
 import { BSKY_DOMAIN } from "~lib/constants";
 import { getMessageWithLink } from "~lib/utils";
-
 interface AuthFormProps {
   isLoading: boolean;
   password: string;
   setPassword: (value: string) => void;
+  domain: string;
+  setDomain: (value: string) => void;
   identifier: string;
   setIdentifier: (value: string) => void;
   authFactorToken: string;
@@ -17,6 +18,8 @@ export const AuthForm = ({
   isLoading,
   password,
   setPassword,
+  domain,
+  setDomain,
   identifier,
   setIdentifier,
   authFactorToken,
@@ -26,6 +29,32 @@ export const AuthForm = ({
 }: AuthFormProps) => {
   return (
     <form onSubmit={onSubmit} className="mt-5">
+      <label className="w-full block domain" htmlFor="domain">
+        <div className="text-sm flex gap-2 items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12,1A11,11,0,1,0,23,12,10.95,10.95,0,0,0,12,1ZM20.05,8H17.6a13.9,13.9,0,0,0-1.5-4A9.25,9.25,0,0,1,20.05,8ZM21,12a8.75,8.75,0,0,1-.25,2H17.9c0-.65,0-1.3,0-2s0-1.35,0-2h3.85A8.75,8.75,0,0,1,21,12ZM3,12a8.75,8.75,0,0,1,.25-2h3.85c0,.65,0,1.3,0,2s0,1.35,0,2H3.25A8.75,8.75,0,0,1,3,12Zm5,0c0-.7,0-1.35,0-2H11v4H8.1C8,13.35,8,12.7,8,12ZM13,3.35a5.85,5.85,0,0,1,1.5,1.85A10.85,10.85,0,0,1,15.55,8H13Zm-2,0V8H8.45A10.85,10.85,0,0,1,9.5,5.2,5.85,5.85,0,0,1,11,3.35ZM11,16v4.65a5.85,5.85,0,0,1-1.5-1.85A10.85,10.85,0,0,1,8.45,16Zm2,4.65V16h2.55A10.85,10.85,0,0,1,14.5,18.8,5.85,5.85,0,0,1,13,20.65ZM13,14v-4h2.9c0,.65,0,1.3,0,2s0,1.35,0,2ZM7.9,4a13.9,13.9,0,0,0-1.5,4H3.95A9.25,9.25,0,0,1,7.9,4ZM3.95,16h2.45a13.9,13.9,0,0,0,1.5,4A9.25,9.25,0,0,1,3.95,16Zm12.15,4a13.9,13.9,0,0,0,1.5-4h2.45A9.25,9.25,0,0,1,16.1,20Z" />
+          </svg>
+          Domain
+        </div>
+
+        <input
+          type="text"
+          name="domain"
+          placeholder="bsky.social"
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)}
+          className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none mt-1"
+        />
+      </label>
       <label className="w-full block" htmlFor="identifier">
         <div className="text-sm flex gap-2 items-center">
           <svg

@@ -4,14 +4,28 @@ import { AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE } from "~lib/constants";
 import { BskyClient } from "../../lib/bskyClient";
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const { identifier, password, authFactorToken } = req.body;
+  const { domain, identifier, password, authFactorToken } = req.body;
+  console.log("[handler] Received domain:", domain); // DEBUG domain received
 
   try {
-    const agent = await BskyClient.createAgent({
+    // Prepare params, only include domain if truthy
+    const params: {
+      identifier: string;
+      password: string;
+      domain?: string;
+      authFactorToken?: string;
+    } = {
       identifier,
       password,
-      ...(authFactorToken && { authFactorToken: authFactorToken }),
-    });
+    };
+
+    if (domain) params.domain = domain;
+    if (authFactorToken) params.authFactorToken = authFactorToken;
+
+    console.log("[Caller] Using domain:", params.domain);
+
+    // Pass the prepared params object here instead of hardcoded values
+    const agent = await BskyClient.createAgent(params);
 
     res.send({
       session: agent.session,
