@@ -22,7 +22,7 @@ const LoadingCards = () => {
     );
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Animation effect runs independently
   React.useEffect(() => {
     const interval = setInterval(() => {
       moveToEnd(0);

@@ -59,7 +59,7 @@ const useConfirm = ({
   const [promise, setPromise] = useState(null);
 
   const confirm = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       setPromise({ resolve });
     });
   };

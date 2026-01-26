@@ -1,5 +1,3 @@
-import type React from "react";
-
 export const Hint = () => {
   const handleNavigate = (url: string) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

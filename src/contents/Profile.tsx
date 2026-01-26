@@ -1,7 +1,7 @@
 import cssText from "data-text:~style.content.css";
 import type { AtpSessionData } from "@atproto/api";
 import type { PlasmoCSConfig } from "plasmo";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Modal from "~components/Modal";
 import { ProfileDetectedUserListItem } from "~components/ProfileDetectedUserListItem";
@@ -43,7 +43,7 @@ const hasValidSession = async (session: AtpSessionData) => {
     const client = new BskyServiceWorkerClient(session);
     await client.getMyProfile();
     isValid = true;
-  } catch (e) {
+  } catch (_e) {
     isValid = false;
   }
   debugLog({ isValidSession: isValid });

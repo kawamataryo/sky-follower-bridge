@@ -104,7 +104,7 @@ export const useAuth = () => {
       setAuthFactorToken("");
       setIsShowAuthFactorTokenInput(false);
       clearErrorMessage();
-    } catch (e) {
+    } catch (_e) {
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
         DOCUMENT_LINK.OTHER_ERROR,
@@ -192,7 +192,7 @@ export const useAuth = () => {
       await clearPasswordFromStorage();
       await saveShowAuthFactorTokenInputToStorage(false);
       setIsAuthenticated(true);
-    } catch (e) {
+    } catch (_e) {
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
         DOCUMENT_LINK.OTHER_ERROR,

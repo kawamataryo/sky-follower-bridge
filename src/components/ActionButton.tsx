@@ -1,5 +1,3 @@
-import React from "react";
-
 type ActionButtonProps = {
   loading: boolean;
   actionBtnLabelAndClass: { label: string; class: string };

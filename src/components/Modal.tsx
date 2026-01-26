@@ -76,32 +76,30 @@ const Modal = ({
   }, []);
 
   return (
-    <>
-      <dialog className="modal" ref={anchorRef} open={open}>
-        <div
-          className="modal-box p-10 bg-base-100 max-w-none text-base-content absolute cursor-move"
-          style={{ width }}
-          ref={modalContainerRef}
-        >
-          {hasCloseButton && (
-            <form method="dialog">
-              <button
-                type="submit"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-              >
-                ✕
-              </button>
-            </form>
-          )}
-          <div className="cursor-auto">{children}</div>
-        </div>
-        {isCloseOnOverlayClick && (
-          <form method="dialog" className="modal-backdrop">
-            <button type="submit">close</button>
+    <dialog className="modal" ref={anchorRef} open={open}>
+      <div
+        className="modal-box p-10 bg-base-100 max-w-none text-base-content absolute cursor-move"
+        style={{ width }}
+        ref={modalContainerRef}
+      >
+        {hasCloseButton && (
+          <form method="dialog">
+            <button
+              type="submit"
+              className="btn btn-sm btn-circle absolute right-2 top-2"
+            >
+              ✕
+            </button>
           </form>
         )}
-      </dialog>
-    </>
+        <div className="cursor-auto">{children}</div>
+      </div>
+      {isCloseOnOverlayClick && (
+        <form method="dialog" className="modal-backdrop">
+          <button type="submit">close</button>
+        </form>
+      )}
+    </dialog>
   );
 };
 

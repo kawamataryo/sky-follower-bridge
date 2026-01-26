@@ -112,86 +112,84 @@ const App = () => {
   }, [currentService]);
 
   return (
-    <>
-      <Modal
-        open={isModalOpen}
-        onClose={closeModal}
-        hasCloseButton
-        isCloseOnOverlayClick={false}
-        width={550}
-      >
-        {currentService !== SERVICE_TYPE.X && loading && (
-          <ServiceAlert serviceName={serviceName} />
+    <Modal
+      open={isModalOpen}
+      onClose={closeModal}
+      hasCloseButton
+      isCloseOnOverlayClick={false}
+      width={550}
+    >
+      {currentService !== SERVICE_TYPE.X && loading && (
+        <ServiceAlert serviceName={serviceName} />
+      )}
+      <div className="flex flex-col gap-2 items-center">
+        {loading && (
+          <p className="text-lg font-bold">
+            {chrome.i18n.getMessage("scanning_users", [
+              serviceName,
+              scannedUserCount.toLocaleString(),
+            ])}
+          </p>
         )}
-        <div className="flex flex-col gap-2 items-center">
-          {loading && (
-            <p className="text-lg font-bold">
-              {chrome.i18n.getMessage("scanning_users", [
-                serviceName,
-                scannedUserCount.toLocaleString(),
-              ])}
-            </p>
-          )}
-          <p
-            className="text-2xl font-bold"
-            dangerouslySetInnerHTML={{
-              __html: chrome.i18n.getMessage("detected_users", [
-                users.length.toString(),
-              ]),
-            }}
-          />
-          {errorMessage && <AlertError>{errorMessage}</AlertError>}
-          {loading && (
-            <>
-              <button
-                type="button"
-                className="btn btn-primary mt-5 btn-ghost"
-                onClick={stopAndShowDetectedUsers}
-              >
-                {chrome.i18n.getMessage("stop_scanning_and_view_results")}
-              </button>
-              <LoadingCards />
-            </>
-          )}
-          {!loading && !isBottomReached && (
-            <div className="flex flex-col gap-2 items-center">
-              <button
-                type="button"
-                className="btn btn-primary mt-5 btn-ghost"
-                onClick={openOptionPage}
-              >
-                {chrome.i18n.getMessage("view_detected_users")}
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary mt-5"
-                onClick={restart}
-              >
-                {chrome.i18n.getMessage("resume_scanning")}
-              </button>
-            </div>
-          )}
-          {!loading && isBottomReached && (
-            <div className="flex flex-col gap-2 items-center">
-              <button
-                type="button"
-                className="btn btn-primary mt-5"
-                onClick={openOptionPage}
-              >
-                {chrome.i18n.getMessage("view_detected_users")}
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary mt-5 btn-ghost"
-                onClick={restart}
-              >
-                {chrome.i18n.getMessage("resume_scanning")}
-              </button>
-            </div>
-          )}
-        </div>
-      </Modal>
-    </>
+        <p
+          className="text-2xl font-bold"
+          dangerouslySetInnerHTML={{
+            __html: chrome.i18n.getMessage("detected_users", [
+              users.length.toString(),
+            ]),
+          }}
+        />
+        {errorMessage && <AlertError>{errorMessage}</AlertError>}
+        {loading && (
+          <>
+            <button
+              type="button"
+              className="btn btn-primary mt-5 btn-ghost"
+              onClick={stopAndShowDetectedUsers}
+            >
+              {chrome.i18n.getMessage("stop_scanning_and_view_results")}
+            </button>
+            <LoadingCards />
+          </>
+        )}
+        {!loading && !isBottomReached && (
+          <div className="flex flex-col gap-2 items-center">
+            <button
+              type="button"
+              className="btn btn-primary mt-5 btn-ghost"
+              onClick={openOptionPage}
+            >
+              {chrome.i18n.getMessage("view_detected_users")}
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary mt-5"
+              onClick={restart}
+            >
+              {chrome.i18n.getMessage("resume_scanning")}
+            </button>
+          </div>
+        )}
+        {!loading && isBottomReached && (
+          <div className="flex flex-col gap-2 items-center">
+            <button
+              type="button"
+              className="btn btn-primary mt-5"
+              onClick={openOptionPage}
+            >
+              {chrome.i18n.getMessage("view_detected_users")}
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary mt-5 btn-ghost"
+              onClick={restart}
+            >
+              {chrome.i18n.getMessage("resume_scanning")}
+            </button>
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 };
 

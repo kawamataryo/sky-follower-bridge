@@ -1,7 +1,7 @@
 import { sendToContentScript } from "@plasmohq/messaging";
 import consola from "consola";
 import { useState } from "react";
-import { P, match } from "ts-pattern";
+import { match, P } from "ts-pattern";
 import {
   getChromeActiveTab,
   reloadChromeActiveTab,

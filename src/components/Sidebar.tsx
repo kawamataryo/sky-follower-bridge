@@ -20,13 +20,19 @@ type Props = {
   matchTypeStats: Record<Exclude<MatchType, "none">, number>;
   importList: ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => Promise<void>;
   followAll: ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => Promise<void>;
   blockAll: ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => Promise<void>;
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => Promise<void>;
 };
 
 const Sidebar = ({

@@ -11,8 +11,8 @@ import {
   BSKY_USER_MATCH_TYPE,
   DEFAULT_LIST_NAME,
   FILTER_TYPE,
-  type MESSAGE_NAMES,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
+  type MESSAGE_NAMES,
   STORAGE_KEYS,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
@@ -137,7 +137,9 @@ export const useBskyUserManager = () => {
   const importList = React.useCallback(
     async ({
       includeNonAvatarSimilarUsers,
-    }: { includeNonAvatarSimilarUsers: boolean }) => {
+    }: {
+      includeNonAvatarSimilarUsers: boolean;
+    }) => {
       if (!bskyClient.current) return;
       const storage = new Storage({
         area: "local",
@@ -148,7 +150,7 @@ export const useBskyUserManager = () => {
           includeNonAvatarSimilarUsers ||
           user.avatarSimilarityScore > AVATAR_SIMILARITY_SCORE_THRESHOLD,
       );
-      const listUri = await bskyClient.current.createListAndAddUsers({
+      const _listUri = await bskyClient.current.createListAndAddUsers({
         name: listName || DEFAULT_LIST_NAME,
         description: "List imported via Sky Follower Bridge",
         userDids: _filteredUsers.map((user) => user.did),
@@ -165,7 +167,9 @@ export const useBskyUserManager = () => {
   const followAll = React.useCallback(
     async ({
       includeNonAvatarSimilarUsers,
-    }: { includeNonAvatarSimilarUsers: boolean }) => {
+    }: {
+      includeNonAvatarSimilarUsers: boolean;
+    }) => {
       if (!bskyClient.current) return;
       let actionCount = 0;
       const _filteredUsers = filteredUsers.filter(
@@ -205,7 +209,9 @@ export const useBskyUserManager = () => {
   const blockAll = React.useCallback(
     async ({
       includeNonAvatarSimilarUsers,
-    }: { includeNonAvatarSimilarUsers: boolean }) => {
+    }: {
+      includeNonAvatarSimilarUsers: boolean;
+    }) => {
       if (!bskyClient.current) return;
       let actionCount = 0;
       const _filteredUsers = filteredUsers.filter(

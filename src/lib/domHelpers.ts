@@ -1,7 +1,10 @@
 export const getUserCells = ({
   queryParam,
   filterInsertedElement,
-}: { queryParam: string; filterInsertedElement: boolean }) => {
+}: {
+  queryParam: string;
+  filterInsertedElement: boolean;
+}) => {
   const userCells = document.querySelectorAll(queryParam);
 
   // filter out already inserted elements
