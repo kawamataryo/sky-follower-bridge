@@ -20,7 +20,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "test": "vitest ./src"
+    "test": "vitest ./src",
+    "source-zip": "bash scripts/create_source_zip.sh"
   },
   "dependencies": {
     "@atproto/api": "^0.13.12",
