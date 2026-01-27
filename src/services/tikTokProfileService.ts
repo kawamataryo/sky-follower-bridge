@@ -16,17 +16,18 @@ export class TikTokProfileService {
     CrawledUserInfo,
     "originalAvatar" | "originalProfileLink"
   > {
-    const displayName = document.querySelector<HTMLDivElement>(
-      DISPLAY_NAME_SELECTOR,
-    )?.textContent;
-    const accountName = document.querySelector<HTMLDivElement>(
-      ACCOUNT_NAME_SELECTOR,
-    )?.textContent;
+    const displayName =
+      document.querySelector<HTMLElement>(DISPLAY_NAME_SELECTOR)?.textContent ??
+      "";
+    const accountName =
+      document.querySelector<HTMLElement>(ACCOUNT_NAME_SELECTOR)?.textContent ??
+      "";
     const bioText =
-      document.querySelector<HTMLDivElement>(BIO_SELECTOR)?.textContent;
+      document.querySelector<HTMLElement>(BIO_SELECTOR)?.textContent ?? "";
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in account, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
-    const userUrl = document.querySelector(BIO_LINK_SELECTOR)?.textContent;
+    const userUrl =
+      document.querySelector<HTMLElement>(BIO_LINK_SELECTOR)?.textContent ?? "";
     const bskyHandleInDescription =
       bioText?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
       bioText
@@ -43,6 +44,7 @@ export class TikTokProfileService {
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
       bskyHandleInDescription,
+      originalAvatarDataUrl: "",
     };
   }
 
@@ -107,9 +109,11 @@ export class TikTokProfileService {
       clickAction(userData);
     };
     const userNameElement = document.querySelector(ACCOUNT_NAME_SELECTOR);
-    userNameElement.parentElement.parentElement.parentElement.insertAdjacentElement(
-      "afterbegin",
-      button,
-    );
+    const mountTarget =
+      userNameElement?.parentElement?.parentElement?.parentElement ?? null;
+    if (!mountTarget) {
+      return;
+    }
+    mountTarget.insertAdjacentElement("afterbegin", button);
   }
 }
