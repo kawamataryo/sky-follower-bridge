@@ -16,7 +16,17 @@ export class XProfileService {
   > {
     const userNameElement =
       document.querySelector<HTMLDivElement>(USER_NAME_SELECTOR);
-    const [displayName, accountName] = userNameElement.innerText
+    if (!userNameElement) {
+      return {
+        displayName: "",
+        accountName: "",
+        accountNameRemoveUnderscore: "",
+        accountNameReplaceUnderscore: "",
+        bskyHandleInDescription: "",
+        originalAvatarDataUrl: "",
+      };
+    }
+    const [displayName = "", accountName = ""] = userNameElement.innerText
       .split("\n")
       .map((text) => text.trim().replaceAll("@", ""));
     const bioElement = document.querySelector(
@@ -44,6 +54,7 @@ export class XProfileService {
       accountNameRemoveUnderscore,
       accountNameReplaceUnderscore,
       bskyHandleInDescription,
+      originalAvatarDataUrl: "",
     };
   }
 
@@ -107,6 +118,9 @@ export class XProfileService {
       clickAction(userData);
     };
     const userNameElement = document.querySelector(USER_NAME_SELECTOR);
+    if (!userNameElement?.parentElement) {
+      return;
+    }
     userNameElement.parentElement.insertBefore(button, userNameElement);
   }
 }

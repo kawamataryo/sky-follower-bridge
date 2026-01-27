@@ -59,7 +59,7 @@ export class XService implements IService {
     const accountName = avatarEl?.getAttribute("href")?.replace("/", "") ?? "";
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
-    const displayName = displayNameEl?.textContent;
+    const displayName = displayNameEl?.textContent ?? "";
     const bskyHandleInDescription =
       userCell.textContent?.match(
         new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`),
