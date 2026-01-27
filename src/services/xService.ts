@@ -1,7 +1,5 @@
 import { Storage } from "@plasmohq/storage";
-import { MESSAGE_NAMES } from "~lib/constants";
-import { BSKY_DOMAIN } from "~lib/constants";
-import { STORAGE_KEYS } from "~lib/constants";
+import { BSKY_DOMAIN, MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { scrapeListNameFromPage } from "~lib/domHelpers";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
