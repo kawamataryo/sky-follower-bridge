@@ -1,5 +1,3 @@
-import type React from "react";
-
 export const Contact = () => {
   return (
     <div className="flex gap-2 items-start p-2 rounded-md text-xs bg-slate-100 dark:bg-slate-800">

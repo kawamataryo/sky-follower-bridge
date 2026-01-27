@@ -1,7 +1,6 @@
-import { AtUri, AtpAgent, type AtpSessionData } from "@atproto/api";
+import { AtpAgent, type AtpSessionData, AtUri } from "@atproto/api";
 import destr from "destr";
 import { BSKY_DOMAIN } from "./constants";
-import { debugLog } from "./utils";
 
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
@@ -25,7 +24,7 @@ export class BskyClient {
   private constructor() {
     this.agent = new AtpAgent({
       service: this.service,
-      persistSession: (evt, session) => {
+      persistSession: (_evt, session) => {
         this.session = session;
       },
     });

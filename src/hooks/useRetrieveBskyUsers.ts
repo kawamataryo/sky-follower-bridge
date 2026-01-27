@@ -1,11 +1,10 @@
 import type { AtpSessionData } from "@atproto/api";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 import consola from "consola";
 import React, { useEffect } from "react";
-import { P, match } from "ts-pattern";
+import { match, P } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
@@ -212,7 +211,7 @@ export const useRetrieveBskyUsers = () => {
     }
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Initialize only once on mount
   const initialize = React.useCallback(async () => {
     const storage = await getChromeStorage<{
       [STORAGE_KEYS.BSKY_CLIENT_SESSION]: AtpSessionData;

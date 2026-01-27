@@ -58,7 +58,7 @@ const CardsTemplate: Story = {
     <div className="divide-y divide-gray-400 border-y border-gray-400">
       {args.items.map((arg, i) => (
         <DetectedUserListItem
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          // biome-ignore lint/suspicious/noArrayIndexKey: Storybook example data
           key={i}
           user={arg.user}
           clickAction={arg.action}

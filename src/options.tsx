@@ -52,7 +52,9 @@ const Option = () => {
 
   const handleFollowAll = async ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => {
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => {
     if (!(await followAllConfirm())) {
       return;
     }
@@ -74,7 +76,9 @@ const Option = () => {
 
   const handleBlockAll = async ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => {
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => {
     if (!(await followAllConfirm())) {
       return;
     }
@@ -96,7 +100,9 @@ const Option = () => {
 
   const handleImportList = async ({
     includeNonAvatarSimilarUsers,
-  }: { includeNonAvatarSimilarUsers: boolean }) => {
+  }: {
+    includeNonAvatarSimilarUsers: boolean;
+  }) => {
     if (!(await importListConfirm())) {
       return;
     }
@@ -171,70 +177,68 @@ const Option = () => {
   });
 
   return (
-    <>
-      <div className="flex h-screen">
-        <div className="fixed top-0 left-0 h-full">
-          <Sidebar
-            detectedCount={users.length}
-            filterValue={matchTypeFilter}
-            onChangeFilter={changeMatchTypeFilter}
-            actionMode={actionMode}
-            matchTypeStats={matchTypeStats}
-            importList={handleImportList}
-            followAll={handleFollowAll}
-            blockAll={handleBlockAll}
-          />
-        </div>
-        <div className="flex-1 ml-80 p-6 pt-0 overflow-y-auto">
-          <div className="grid grid-cols-[22%_1fr] sticky top-0 z-10 bg-base-100 border-b-[1px] border-gray-500">
-            <h2 className="text-lg font-bold text-center py-2">
-              {chrome.i18n.getMessage("source")}
-            </h2>
-            <h2 className="text-lg font-bold text-center py-2">
-              {chrome.i18n.getMessage("detected")}
-            </h2>
-          </div>
-          <div
-            className="flex flex-col border-b-[1px] border-gray-500"
-            ref={parentRef}
-            data-testid="scroll-parent"
-          >
-            {rowVirtualizer.getVirtualItems().map((virtualItem) => (
-              <div
-                key={virtualItem.key}
-                data-index={virtualItem.index}
-                ref={rowVirtualizer.measureElement}
-              >
-                <DetectedUserListItem
-                  key={filteredUsers[virtualItem.index].handle}
-                  user={filteredUsers[virtualItem.index]}
-                  clickAction={handleClickAction}
-                  actionMode={actionMode}
-                  reSearch={handleReSearch}
-                  deleteUser={deleteUser}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="fixed bottom-5 right-5">
-          <DonationCard />
-        </div>
-        <ReSearchModal
-          open={showReSearchModal}
-          onClose={handleCloseReSearchModal}
-          reSearchResults={reSearchResults}
-          handleClickReSearchResult={handleClickReSearchResult}
+    <div className="flex h-screen">
+      <div className="fixed top-0 left-0 h-full">
+        <Sidebar
+          detectedCount={users.length}
+          filterValue={matchTypeFilter}
+          onChangeFilter={changeMatchTypeFilter}
+          actionMode={actionMode}
+          matchTypeStats={matchTypeStats}
+          importList={handleImportList}
+          followAll={handleFollowAll}
+          blockAll={handleBlockAll}
         />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          className="text-sm"
-        />
-        <FollowAllConfirmationDialog />
-        <ImportListConfirmationDialog />
       </div>
-    </>
+      <div className="flex-1 ml-80 p-6 pt-0 overflow-y-auto">
+        <div className="grid grid-cols-[22%_1fr] sticky top-0 z-10 bg-base-100 border-b-[1px] border-gray-500">
+          <h2 className="text-lg font-bold text-center py-2">
+            {chrome.i18n.getMessage("source")}
+          </h2>
+          <h2 className="text-lg font-bold text-center py-2">
+            {chrome.i18n.getMessage("detected")}
+          </h2>
+        </div>
+        <div
+          className="flex flex-col border-b-[1px] border-gray-500"
+          ref={parentRef}
+          data-testid="scroll-parent"
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+            <div
+              key={virtualItem.key}
+              data-index={virtualItem.index}
+              ref={rowVirtualizer.measureElement}
+            >
+              <DetectedUserListItem
+                key={filteredUsers[virtualItem.index].handle}
+                user={filteredUsers[virtualItem.index]}
+                clickAction={handleClickAction}
+                actionMode={actionMode}
+                reSearch={handleReSearch}
+                deleteUser={deleteUser}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="fixed bottom-5 right-5">
+        <DonationCard />
+      </div>
+      <ReSearchModal
+        open={showReSearchModal}
+        onClose={handleCloseReSearchModal}
+        reSearchResults={reSearchResults}
+        handleClickReSearchResult={handleClickReSearchResult}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        className="text-sm"
+      />
+      <FollowAllConfirmationDialog />
+      <ImportListConfirmationDialog />
+    </div>
   );
 };
 

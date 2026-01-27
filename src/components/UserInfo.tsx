@@ -1,5 +1,3 @@
-import React from "react";
-
 type UserInfoProps = {
   handle: string;
   displayName: string;
@@ -20,7 +18,7 @@ export const UserInfo = ({ handle, displayName, url }: UserInfoProps) => (
           {displayName}
         </a>
       ) : (
-        <>{displayName}</>
+        displayName
       )}
     </h2>
     <p className="w-fit break-word text-gray-500 dark:text-gray-400 text-sm">

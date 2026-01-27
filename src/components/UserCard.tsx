@@ -1,14 +1,9 @@
-import React from "react";
 import type { BskyUser } from "~types";
 import ActionButton from "./ActionButton";
 import UserInfo from "./UserInfo";
 import UserProfile from "./UserProfile";
 
-const DeleteButton = ({
-  onClick,
-}: {
-  onClick: () => void;
-}) => {
+const DeleteButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <div className="tooltip" data-tip={chrome.i18n.getMessage("delete_user")}>
       <button
@@ -35,11 +30,7 @@ const DeleteButton = ({
   );
 };
 
-const ReSearchButton = ({
-  onClick,
-}: {
-  onClick: () => void;
-}) => {
+const ReSearchButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <div className="tooltip" data-tip={chrome.i18n.getMessage("search_again")}>
       <button

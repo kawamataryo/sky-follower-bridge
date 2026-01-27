@@ -1,5 +1,3 @@
-import packageJson from "../../../package.json";
-
 interface HeaderProps {
   version: string;
 }
