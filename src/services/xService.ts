@@ -56,7 +56,7 @@ export class XService implements IService {
   extractUserData(userCell: Element): CrawledUserInfo {
     const anchors = Array.from(userCell.querySelectorAll("a"));
     const [avatarEl, displayNameEl] = anchors;
-    const accountName = avatarEl?.getAttribute("href")?.replace("/", "");
+    const accountName = avatarEl?.getAttribute("href")?.replace("/", "") ?? "";
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
     const displayName = displayNameEl?.textContent;
