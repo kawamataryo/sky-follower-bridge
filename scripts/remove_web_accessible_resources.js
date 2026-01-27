@@ -9,6 +9,10 @@ const manifestPaths = [
 ];
 
 for (const manifestPath of manifestPaths) {
+  if (!fs.existsSync(manifestPath)) {
+    consola.info(`File not found, skipping: ${manifestPath}`);
+    continue;
+  }
   const manifestData = fs.readFileSync(manifestPath);
   const manifestObj = JSON.parse(manifestData);
   delete manifestObj.web_accessible_resources;
