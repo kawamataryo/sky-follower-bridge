@@ -21,6 +21,7 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [service, setService] = useState(BSKY_DOMAIN);
   const [authFactorToken, setAuthFactorToken] = useState("");
   const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
     useState(false);
@@ -34,6 +35,7 @@ export const useAuth = () => {
   const saveCredentialsToStorage = async () => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
     await setToChromeStorage(STORAGE_KEYS.BSKY_PASSWORD, password);
+    await setToChromeStorage(STORAGE_KEYS.BSKY_SERVICE_URL, service);
   };
 
   const clearPasswordFromStorage = async () => {
@@ -55,18 +57,21 @@ export const useAuth = () => {
     const storage = await getChromeStorage<{
       [STORAGE_KEYS.BSKY_USER_ID]: string;
       [STORAGE_KEYS.BSKY_PASSWORD]: string;
+      [STORAGE_KEYS.BSKY_SERVICE_URL]: string;
       [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: boolean;
       [STORAGE_KEYS.BSKY_CLIENT_SESSION]: string;
     }>(null);
 
     setIdentifier(storage?.[STORAGE_KEYS.BSKY_USER_ID] || "");
     setPassword(storage?.[STORAGE_KEYS.BSKY_PASSWORD] || "");
+    setService(storage?.[STORAGE_KEYS.BSKY_SERVICE_URL] || BSKY_DOMAIN);
     setIsShowAuthFactorTokenInput(
       storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
     );
     return {
       identifier: storage?.[STORAGE_KEYS.BSKY_USER_ID],
       password: storage?.[STORAGE_KEYS.BSKY_PASSWORD],
+      service: storage?.[STORAGE_KEYS.BSKY_SERVICE_URL],
       session: storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION],
       isShowAuthFactorTokenInput:
         storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
@@ -149,7 +154,7 @@ export const useAuth = () => {
     setIsLoading(true);
 
     const formattedIdentifier = (
-      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
+      identifier.includes(".") ? identifier : `${identifier}.${service}`
     ).replace(/^@/, "");
 
     try {
@@ -158,6 +163,7 @@ export const useAuth = () => {
         body: {
           identifier: formattedIdentifier,
           password,
+          service,
           ...(authFactorToken && { authFactorToken: authFactorToken }),
         },
       });
@@ -232,6 +238,8 @@ export const useAuth = () => {
     setPassword,
     identifier,
     setIdentifier,
+    service,
+    setService,
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,

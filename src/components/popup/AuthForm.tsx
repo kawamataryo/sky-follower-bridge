@@ -7,6 +7,8 @@ interface AuthFormProps {
   setPassword: (value: string) => void;
   identifier: string;
   setIdentifier: (value: string) => void;
+  service: string;
+  setService: (value: string) => void;
   authFactorToken: string;
   setAuthFactorToken: (value: string) => void;
   isShowAuthFactorTokenInput: boolean;
@@ -19,6 +21,8 @@ export const AuthForm = ({
   setPassword,
   identifier,
   setIdentifier,
+  service,
+  setService,
   authFactorToken,
   setAuthFactorToken,
   isShowAuthFactorTokenInput,
@@ -27,6 +31,35 @@ export const AuthForm = ({
   return (
     <form onSubmit={onSubmit} className="mt-5">
       <label className="w-full block" htmlFor="identifier">
+        <div className="text-sm flex gap-2 items-center mb-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 6.75v10.5m-10.5-10.5v10.5m15-10.5H2.25m19.5 10.5H2.25"
+            />
+          </svg>
+          <span>Hosting Provider</span>
+        </div>
+        <select
+          name="service"
+          value={service}
+          onChange={(e) => setService(e.target.value)}
+          className="select select-bordered select-sm w-full max-w-xs focus:outline-none"
+        >
+          <option value={BSKY_DOMAIN}>{BSKY_DOMAIN}</option>
+          <option value="blacksky.app">blacksky.app</option>
+        </select>
+      </label>
+
+      <label className="w-full block mt-3" htmlFor="identifier">
         <div className="text-sm flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +80,7 @@ export const AuthForm = ({
         <input
           type="text"
           name="identifier"
-          placeholder={`@your-username.${BSKY_DOMAIN}`}
+          placeholder={`@your-username.${service}`}
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
           className="input input-bordered input-sm w-full max-w-xs join-item focus:outline-none mt-1"

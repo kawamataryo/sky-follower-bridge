@@ -1,5 +1,5 @@
 import { Storage } from "@plasmohq/storage";
-import { BSKY_DOMAIN, MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
+import { BSKY_HANDLE_REGEX, MESSAGE_NAMES, STORAGE_KEYS } from "~lib/constants";
 import { scrapeListNameFromPage } from "~lib/domHelpers";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
 
@@ -61,9 +61,7 @@ export class XService implements IService {
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
     const displayName = displayNameEl?.textContent ?? "";
     const bskyHandleInDescription =
-      userCell.textContent?.match(
-        new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`),
-      )?.[1] ??
+      userCell.textContent?.match(BSKY_HANDLE_REGEX)?.[1] ??
       userCell.textContent
         ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
         ?.replace("…", "") ??

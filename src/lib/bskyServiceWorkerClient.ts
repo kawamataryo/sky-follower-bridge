@@ -8,6 +8,7 @@ export type BskyLoginParams = {
   identifier: string;
   password: string;
   authFactorToken?: string;
+  service?: string;
 };
 
 export class BskyServiceWorkerClient {
@@ -21,12 +22,14 @@ export class BskyServiceWorkerClient {
     identifier,
     password,
     authFactorToken,
+    service,
   }: BskyLoginParams): Promise<BskyServiceWorkerClient> {
     const { session, error } = await sendToBackground({
       name: "login",
       body: {
         identifier,
         password,
+        service,
         ...(authFactorToken && { authFactorToken: authFactorToken }),
       },
     });

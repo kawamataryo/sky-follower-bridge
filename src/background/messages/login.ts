@@ -4,12 +4,13 @@ import { AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE } from "~lib/constants";
 import { BskyClient } from "../../lib/bskyClient";
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const { identifier, password, authFactorToken } = req.body;
+  const { identifier, password, authFactorToken, service } = req.body;
 
   try {
     const agent = await BskyClient.createAgent({
       identifier,
       password,
+      service,
       ...(authFactorToken && { authFactorToken: authFactorToken }),
     });
 

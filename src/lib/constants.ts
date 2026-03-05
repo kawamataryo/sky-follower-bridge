@@ -30,6 +30,7 @@ const STORAGE_PREFIX = "sky_follower_bridge_storage";
 export const STORAGE_KEYS = {
   BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_password`,
   BSKY_PASSWORD: `${STORAGE_PREFIX}_bsky_user`,
+  BSKY_SERVICE_URL: `${STORAGE_PREFIX}_bsky_service_url`,
   BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: `${STORAGE_PREFIX}_bsky_show_auth_factor_token_input`,
   BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
   BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,
@@ -121,6 +122,15 @@ export const DOCUMENT_LINK = {
 
 export const BSKY_DOMAIN =
   process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
+
+export const KNOWN_BSKY_DOMAINS = ["bsky.social", "blacksky.app"] as const;
+
+const escapedDomains = KNOWN_BSKY_DOMAINS.map((domain) =>
+  domain.replace(/\./g, "\\."),
+).join("|");
+export const BSKY_HANDLE_REGEX = new RegExp(
+  `([^/\\s]+\\.(?:${escapedDomains}))`,
+);
 
 export const BSKY_PROFILE_LABEL = {
   IMPERSONATION: "impersonation",

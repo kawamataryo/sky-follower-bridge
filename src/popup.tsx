@@ -18,6 +18,8 @@ function IndexPopup() {
     setPassword,
     identifier,
     setIdentifier,
+    service,
+    setService,
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,
@@ -53,6 +55,8 @@ function IndexPopup() {
           setPassword={setPassword}
           identifier={identifier}
           setIdentifier={setIdentifier}
+          service={service}
+          setService={setService}
           authFactorToken={authFactorToken}
           setAuthFactorToken={setAuthFactorToken}
           isShowAuthFactorTokenInput={isShowAuthFactorTokenInput}

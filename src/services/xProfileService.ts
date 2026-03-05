@@ -1,4 +1,4 @@
-import { BSKY_DOMAIN } from "~lib/constants";
+import { BSKY_HANDLE_REGEX } from "~lib/constants";
 import type { CrawledUserInfo } from "~types";
 
 const USER_NAME_SELECTOR = '[data-testid="UserName"]';
@@ -39,11 +39,11 @@ export class XProfileService {
       "[data-testid='UserUrl']",
     )?.textContent;
     const bskyHandleInDescription =
-      bioText?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
+      bioText?.match(BSKY_HANDLE_REGEX)?.[1] ??
       bioText
         ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
         ?.replace("…", "") ??
-      userUrl?.match(new RegExp(`([^/\\s]+\\.${BSKY_DOMAIN})`))?.[1] ??
+      userUrl?.match(BSKY_HANDLE_REGEX)?.[1] ??
       userUrl
         ?.match(/bsky\.app\/profile\/([^/\s]+)…?/)?.[1]
         ?.replace("…", "") ??

@@ -5,45 +5,83 @@ import { BSKY_DOMAIN } from "./constants";
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
 
+export type BskyStoredSession = AtpSessionData & {
+  service?: string;
+};
+
 export type BskyLoginParams = {
   identifier: string;
   password: string;
   authFactorToken?: string;
+  service?: string;
 };
 
 export class BskyClient {
-  private service = `https://${BSKY_DOMAIN}`;
+  private service: string;
   me: {
     did: string;
     handle: string;
     email: string;
   };
   agent: AtpAgent;
-  session = {};
+  session = {} as BskyStoredSession;
 
-  private constructor() {
+  private static normalizeService(service?: string) {
+    if (!service) {
+      return `https://${BSKY_DOMAIN}`;
+    }
+    return service.startsWith("http") ? service : `https://${service}`;
+  }
+
+  private static getCacheKey({
+    did,
+    service,
+  }: {
+    did: string;
+    service: string;
+  }) {
+    return `${service}::${did}`;
+  }
+
+  private constructor(service?: string) {
+    this.service = BskyClient.normalizeService(service);
     this.agent = new AtpAgent({
       service: this.service,
       persistSession: (_evt, session) => {
-        this.session = session;
+        this.session = {
+          ...session,
+          service: this.service,
+        };
       },
     });
   }
 
   public static async createAgentFromSession(
-    session: AtpSessionData,
+    session: BskyStoredSession,
   ): Promise<BskyClient> {
-    let client = clientCache.get(session.did);
+    const normalizedService = BskyClient.normalizeService(session.service);
+    const cacheKey = BskyClient.getCacheKey({
+      did: session.did,
+      service: normalizedService,
+    });
+
+    let client = clientCache.get(cacheKey);
 
     if (!client) {
-      client = new BskyClient();
-      await client.agent.resumeSession(destr(session));
-      clientCache.set(session.did, client);
+      client = new BskyClient(normalizedService);
+      const parsedSession = destr<BskyStoredSession>(session);
+      const { service: _service, ...atpSession } = parsedSession;
+      await client.agent.resumeSession(atpSession);
+      clientCache.set(cacheKey, client);
     }
     client.me = {
       did: session.did,
       handle: session.handle,
       email: session.email,
+    };
+    client.session = {
+      ...session,
+      service: normalizedService,
     };
     return client;
   }
@@ -53,7 +91,7 @@ export class BskyClient {
     password,
     authFactorToken,
   }: BskyLoginParams): Promise<BskyClient> {
-    const client = new BskyClient();
+    const client = new BskyClient(service);
     const { data } = await client.agent.login({
       identifier,
       password,
@@ -65,7 +103,18 @@ export class BskyClient {
       email: data.email,
     };
 
-    clientCache.set(data.did, client);
+    client.session = {
+      ...client.agent.session,
+      service: client.service,
+    };
+
+    clientCache.set(
+      BskyClient.getCacheKey({
+        did: data.did,
+        service: client.service,
+      }),
+      client,
+    );
 
     return client;
   }
