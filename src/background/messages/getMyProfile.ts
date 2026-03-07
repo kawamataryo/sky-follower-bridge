@@ -1,11 +1,10 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging";
-import destr from "destr";
 import { BskyClient } from "~lib/bskyClient";
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { session } = req.body;
   try {
-    const client = await BskyClient.createAgentFromSession(destr(session));
+    const client = await BskyClient.createAgentFromSession(session);
     res.send({
       result: JSON.stringify(await client.getMyProfile()),
     });

@@ -1,40 +1,11 @@
-import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
-import { setToChromeStorage } from "~lib/chromeHelper";
-import { STORAGE_KEYS } from "./constants";
-
-export type BskyLoginParams = {
-  identifier: string;
-  password: string;
-  authFactorToken?: string;
-};
 
 export class BskyServiceWorkerClient {
-  private session = {} as AtpSessionData;
+  private session: unknown;
 
-  constructor(session: AtpSessionData) {
+  constructor(session?: unknown) {
     this.session = session;
-  }
-
-  public static async createAgentFromLoginParams({
-    identifier,
-    password,
-    authFactorToken,
-  }: BskyLoginParams): Promise<BskyServiceWorkerClient> {
-    const { session, error } = await sendToBackground({
-      name: "login",
-      body: {
-        identifier,
-        password,
-        ...(authFactorToken && { authFactorToken: authFactorToken }),
-      },
-    });
-    if (error) throw new Error(error.message);
-
-    await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, session);
-
-    return new BskyServiceWorkerClient(session);
   }
 
   public searchUser = async ({

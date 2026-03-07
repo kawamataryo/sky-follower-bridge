@@ -24,7 +24,9 @@
     "source-zip": "bash scripts/create_source_zip.sh"
   },
   "dependencies": {
-    "@atproto/api": "^0.13.12",
+    "@atproto/api": "^0.19.3",
+    "@atproto/jwk-webcrypto": "^0.2.0",
+    "@atproto/oauth-client": "^0.6.0",
     "@changesets/cli": "^2.27.1",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.12.0",
@@ -76,6 +78,10 @@
   "manifest": {
     "name": "__MSG_extension_name__",
     "default_locale": "en",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqE/I1mO9G/vMxYgz+PeU3QQabm3rrRXHCatyBZU3x0n0ObkeBRIhDZLxBJ6tV7tgTkH78C8RvjfFR01CS5IQtyoFQQKebn/IGQmcFIOgjZMJDoZHikt4fMdmqroEzYfITLIsBgtopj2jcJ56Am7mK/oe0i/KnEy/fINjNyoTWxwyoh4blOhPbYoIF1cXaVPb9IWsPWkAhzRkDYaZ30MASdRj0FDVo9wKoXBTQGQ1ExLS+kSaiJUsIuQnZYqV+jbNHIpPnNNtNa7gR5PRTJd6Ph3nyVlA5/4Ptig3pxHoUNLPRohAZCeWXRmPyi2NCB6EaXTRzGarAm2gUDfAzRU4ZwIDAQAB",
+    "permissions": [
+      "identity"
+    ],
     "host_permissions": [
       "https://bsky.social/*",
       "https://twitter.com/*",

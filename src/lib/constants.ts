@@ -32,6 +32,7 @@ export const STORAGE_KEYS = {
   BSKY_PASSWORD: `${STORAGE_PREFIX}_bsky_user`,
   BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: `${STORAGE_PREFIX}_bsky_show_auth_factor_token_input`,
   BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
+  BSKY_OAUTH_SUB: `${STORAGE_PREFIX}_bsky_oauth_sub`,
   BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,
   DETECTED_BSKY_USERS: `${STORAGE_PREFIX}_detected_bsky_users`,
   LIST_NAME: `${STORAGE_PREFIX}_list_name`,
@@ -121,6 +122,19 @@ export const DOCUMENT_LINK = {
 
 export const BSKY_DOMAIN =
   process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
+
+export const BSKY_OAUTH_CLIENT_ID =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_CLIENT_ID || "";
+
+export const BSKY_OAUTH_REDIRECT_URI =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_REDIRECT_URI || "";
+
+export const BSKY_OAUTH_SCOPE =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_SCOPE || "atproto transition:generic";
+
+export const BSKY_OAUTH_HANDLE_RESOLVER =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_HANDLE_RESOLVER ||
+  `https://${BSKY_DOMAIN}`;
 
 export const BSKY_PROFILE_LABEL = {
   IMPERSONATION: "impersonation",
