@@ -1,4 +1,10 @@
-import { Agent, AtpAgent, type AtpSessionData, AtUri } from "@atproto/api";
+import {
+  Agent,
+  AtpAgent,
+  type AtpSessionData,
+  AtUri,
+  type ProfileView,
+} from "@atproto/api";
 import destr from "destr";
 import { restoreOAuthSession } from "./bskyOAuthClient";
 import { BSKY_DOMAIN } from "./constants";
@@ -143,6 +149,11 @@ export class BskyClient {
       limit,
     });
     return result.data.actors;
+  };
+
+  public getProfile = async (actor: string): Promise<ProfileView> => {
+    const result = await this.agent.getProfile({ actor });
+    return result.data as ProfileView;
   };
 
   public follow = async (subjectDid: string) => {

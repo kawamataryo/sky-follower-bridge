@@ -286,6 +286,7 @@ const createOAuthClient = async () => {
   }
 
   const db = new BskyOAuthDatabase();
+  const clientOrigin = new URL(BSKY_OAUTH_CLIENT_ID).origin;
 
   return new OAuthClient({
     handleResolver: BSKY_OAUTH_HANDLE_RESOLVER,
@@ -293,8 +294,8 @@ const createOAuthClient = async () => {
     clientMetadata: {
       client_id: BSKY_OAUTH_CLIENT_ID,
       client_name: "Sky Follower Bridge",
-      client_uri: "https://www.sky-follower-bridge.dev",
-      policy_uri: "https://www.sky-follower-bridge.dev/privacy-policy",
+      client_uri: clientOrigin,
+      policy_uri: `${clientOrigin}/privacy-policy`,
       redirect_uris: [BSKY_OAUTH_REDIRECT_URI],
       scope: BSKY_OAUTH_SCOPE,
       grant_types: ["authorization_code", "refresh_token"],

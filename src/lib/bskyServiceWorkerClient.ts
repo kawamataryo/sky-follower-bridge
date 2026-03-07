@@ -28,6 +28,19 @@ export class BskyServiceWorkerClient {
     return actors as ProfileView[];
   };
 
+  public getProfile = async (actor: string) => {
+    const { result, error } = await sendToBackground({
+      name: "getProfile",
+      body: {
+        session: this.session,
+        actor,
+      },
+    });
+    if (error) throw new Error(error.message);
+
+    return result as ProfileView;
+  };
+
   public follow = async (subjectDid: string) => {
     const { result, error } = await sendToBackground({
       name: "follow",

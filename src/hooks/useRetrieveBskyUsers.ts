@@ -8,7 +8,7 @@ import { match, P } from "ts-pattern";
 import { BskyServiceWorkerClient } from "~lib/bskyServiceWorkerClient";
 import { getChromeStorage } from "~lib/chromeHelper";
 import { MESSAGE_NAMES, SERVICE_TYPE, STORAGE_KEYS } from "~lib/constants";
-import { searchBskyUser } from "~lib/searchBskyUsers";
+import { clearBskySearchCaches, searchBskyUser } from "~lib/searchBskyUsers";
 import { wait } from "~lib/utils";
 import { FacebookService } from "~services/facebookService";
 import { InstagramService } from "~services/instagramService";
@@ -70,6 +70,7 @@ const buildService = (
 
 export const useRetrieveBskyUsers = () => {
   const bskyClient = React.useRef<BskyServiceWorkerClient | null>(null);
+  const processedUserKeysRef = React.useRef<Set<string>>(new Set());
   const [users, setUsers] = useStorage<BskyUser[]>(
     {
       key: STORAGE_KEYS.DETECTED_BSKY_USERS,
@@ -91,6 +92,14 @@ export const useRetrieveBskyUsers = () => {
     session: AtpSessionData;
     messageName: (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
   }>(null);
+
+  const getProcessedUserKey = React.useCallback((userData: CrawledUserInfo) => {
+    if (userData.originalProfileLink) {
+      return userData.originalProfileLink.toLowerCase();
+    }
+
+    return `${userData.accountName.toLowerCase()}::${userData.displayName.toLowerCase()}`;
+  }, []);
 
   const searchAndStoreBskyUser = React.useCallback(
     async (
@@ -157,15 +166,31 @@ export const useRetrieveBskyUsers = () => {
       usersData: CrawledUserInfo[],
       processExtractedData: (user: CrawledUserInfo) => Promise<CrawledUserInfo>,
     ) => {
-      const promises = [];
-      for (const userData of usersData) {
-        setScannedUserCount((prev) => prev + 1);
-        await wait(100);
-        promises.push(searchAndStoreBskyUser(userData, processExtractedData));
+      const unprocessedUsers = usersData.filter((userData) => {
+        const processedUserKey = getProcessedUserKey(userData);
+        if (processedUserKeysRef.current.has(processedUserKey)) {
+          return false;
+        }
+
+        processedUserKeysRef.current.add(processedUserKey);
+        return true;
+      });
+
+      const CONCURRENCY = 10;
+      for (let i = 0; i < unprocessedUsers.length; i += CONCURRENCY) {
+        const chunk = unprocessedUsers.slice(i, i + CONCURRENCY);
+        await Promise.all(
+          chunk.map(async (userData) => {
+            setScannedUserCount((prev) => prev + 1);
+            await searchAndStoreBskyUser(userData, processExtractedData);
+          }),
+        );
+        if (i + CONCURRENCY < unprocessedUsers.length) {
+          await wait(300);
+        }
       }
-      await Promise.all(promises);
     },
-    [searchAndStoreBskyUser],
+    [getProcessedUserKey, searchAndStoreBskyUser],
   );
 
   const abortControllerRef = React.useRef<AbortController | null>(null);
@@ -239,6 +264,8 @@ export const useRetrieveBskyUsers = () => {
 
     setErrorMessage("");
     await setUsers([]);
+    clearBskySearchCaches();
+    processedUserKeysRef.current = new Set();
     setScannedUserCount(0);
     setLoading(true);
 

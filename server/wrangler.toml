@@ -4,8 +4,9 @@ compatibility_date = "2025-01-17"
 
 # compatibility_flags = [ "nodejs_compat" ]
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+OAUTH_REDIRECT_URI = "https://server.sky-follower-bridge.dev/oauth/callback"
+OAUTH_EXTENSION_REDIRECT_URI = "https://jmbbljkmlomkcbikmliioecjbijopigk.chromiumapp.org/oauth-success"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

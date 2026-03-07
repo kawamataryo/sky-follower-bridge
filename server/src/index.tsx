@@ -11,13 +11,18 @@ const cacheSeconds = 60 * 60 * 24 * 7;
 
 app.use(
   "*",
-  cache({
-    cacheName: async (c) => {
-      const url = new URL(c.req.url);
-      return `${c.req.method} ${url.pathname}${url.searchParams}`;
-    },
-    cacheControl: `max-age=${cacheSeconds}`,
-  }),
+  async (c, next) => {
+    if (c.req.path.startsWith("/oauth/")) {
+      return next();
+    }
+    return cache({
+      cacheName: async (ctx) => {
+        const url = new URL(ctx.req.url);
+        return `${ctx.req.method} ${url.pathname}${url.searchParams}`;
+      },
+      cacheControl: `max-age=${cacheSeconds}`,
+    })(c, next);
+  },
 );
 
 app.get("/", (c) => {
@@ -51,8 +56,8 @@ app.get("/oauth/client-metadata.json", (c) => {
   return c.json({
     client_id: clientId,
     client_name: "Sky Follower Bridge",
-    client_uri: "https://www.sky-follower-bridge.dev",
-    policy_uri: "https://www.sky-follower-bridge.dev/privacy-policy",
+    client_uri: origin,
+    policy_uri: `${origin}/privacy-policy`,
     redirect_uris: [redirectUri],
     scope,
     grant_types: ["authorization_code", "refresh_token"],
