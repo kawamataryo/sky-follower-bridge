@@ -261,16 +261,19 @@ class BskyOAuthRuntime {
 
   async requestLock<T>(name: string, fn: () => Promise<T> | T): Promise<T> {
     const current = this.locks.get(name) || Promise.resolve();
-    const next = current
-      .then(fn)
+    // fn の結果を呼び出し元に返すためのプロミス
+    const resultPromise = current.then(fn);
+    // ロックチェーン用: エラーを握りつぶして後続のロックがブロックされないようにする
+    const lockPromise = resultPromise
       .catch(() => {})
       .finally(() => {
-        if (this.locks.get(name) === next) {
+        if (this.locks.get(name) === lockPromise) {
           this.locks.delete(name);
         }
       });
-    this.locks.set(name, next);
-    return (await next) as T;
+    this.locks.set(name, lockPromise as Promise<void>);
+    // エラーをそのまま伝播させる
+    return resultPromise;
   }
 }
 
@@ -413,6 +416,25 @@ export const restoreOAuthSession = async () => {
         // scan 中に並列 restore が走ると refresh 競合でセッションを壊しやすい。
         return await client.restore(sub, false);
       } catch (error) {
+        // Service Worker の停止・再起動等で OAuthClient の内部状態が
+        // 陳腐化している場合、キャッシュをクリアして再試行する。
+        if (oauthClientPromise) {
+          console.warn(
+            "Retrying OAuth session restore with fresh client.",
+            error,
+          );
+          oauthClientPromise = null;
+          try {
+            const freshClient = await getOAuthClient();
+            return await freshClient.restore(sub, false);
+          } catch (retryError) {
+            console.error(
+              "Failed to restore OAuth session after retry.",
+              retryError,
+            );
+            return null;
+          }
+        }
         console.error("Failed to restore OAuth session.", error);
         return null;
       } finally {
@@ -430,6 +452,10 @@ export const clearOAuthSession = async () => {
   ]);
 };
 
+export const resetOAuthClientCache = () => {
+  oauthClientPromise = null;
+};
+
 export const logoutOAuthSession = async () => {
   const storage = await getChromeStorage<{
     [STORAGE_KEYS.BSKY_OAUTH_SUB]: string;
@@ -440,5 +466,6 @@ export const logoutOAuthSession = async () => {
     await session.signOut();
   }
   clearBskyClientCache(sub);
+  oauthClientPromise = null;
   await clearOAuthSession();
 };

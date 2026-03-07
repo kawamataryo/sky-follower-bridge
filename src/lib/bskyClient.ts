@@ -232,13 +232,14 @@ export class BskyClient {
   };
 
   public getMyProfile = async () => {
+    const actorDid = this.me?.did || this.agent.session?.did;
     const profile = await this.agent.getProfile({
-      actor: this.agent.session.did,
+      actor: actorDid,
     });
     return {
       pdsUrl: this.agent.pdsUrl,
-      did: this.agent.session.did,
-      handle: this.agent.session.handle,
+      did: actorDid,
+      handle: this.me?.handle || profile.data.handle,
       displayName: profile.data.displayName,
       avatar: profile.data.avatar,
     };
