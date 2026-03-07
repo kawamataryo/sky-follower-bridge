@@ -19,7 +19,11 @@ server/src/index.tsx で追加したエンドポイントを使う前提
 Worker側の環境変数を設定
 OAUTH_REDIRECT_URI=https://<your-domain>/oauth/callback
 OAUTH_EXTENSION_REDIRECT_URI=https://<extension-id>.chromiumapp.org/oauth-success
+Firefox も使う場合は任意で以下も設定
+OAUTH_EXTENSION_REDIRECT_URIS=https://<extension-id>.chromiumapp.org/oauth-success,https://<firefox-hash>.extensions.allizom.org/oauth-success
 <extension-id> は拡張の固定IDを使う（開発中に変わるとredirectが不一致になる）
+開発用と公開用で拡張IDが違う場合: OAUTH_EXTENSION_REDIRECT_URIS に両方の redirect URL をカンマ区切りで並べれば、どちらの環境でも OAuth が通る（拡張は実行時に getRedirectURL で自分の ID の URL を送るため）
+Firefox 側の redirect URL は browser.identity.getRedirectURL("oauth-success") の値に合わせる
 拡張を起動
 
 npm run dev
@@ -43,6 +47,7 @@ OAuth is not configured が出る
 .env の PLASMO_PUBLIC_BSKY_OAUTH_CLIENT_ID / ...REDIRECT_URI を再確認
 認可後に戻れない
 OAUTH_EXTENSION_REDIRECT_URI の拡張ID不一致が多いです
+Firefox も対象なら OAUTH_EXTENSION_REDIRECT_URIS に Firefox の redirect URL が入っているか確認
 client_id / redirect_uri 不整合
 client-metadata.json の client_id と配信URLが完全一致しているか確認
 必要なら次に、上記手順をそのまま docs/ に追加するところまで進めます。

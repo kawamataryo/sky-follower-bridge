@@ -280,6 +280,27 @@ class BskyOAuthRuntime {
 let oauthClientPromise: Promise<OAuthClient> | null = null;
 let restoreOAuthSessionPromise: Promise<unknown | null> | null = null;
 
+const buildCallbackRedirectUri = (extensionRedirectUri?: string) => {
+  const redirectUri = new URL(BSKY_OAUTH_REDIRECT_URI);
+  if (extensionRedirectUri) {
+    redirectUri.searchParams.set("redirect_uri", extensionRedirectUri);
+  }
+  return redirectUri.toString();
+};
+
+const getExtensionRedirectUri = () => {
+  type IdentityApi = {
+    getRedirectURL?: (path?: string) => string;
+  };
+  const chromeIdentity = (chrome as unknown as { identity?: IdentityApi })
+    .identity;
+  const browserIdentity = (
+    globalThis as unknown as { browser?: { identity?: IdentityApi } }
+  ).browser?.identity;
+  const identity = chromeIdentity || browserIdentity;
+  return identity?.getRedirectURL?.("oauth-success");
+};
+
 const createOAuthClient = async () => {
   if (!BSKY_OAUTH_CLIENT_ID || !BSKY_OAUTH_REDIRECT_URI) {
     throw new Error("OAuth is not configured. Set OAuth client env variables.");
@@ -287,6 +308,10 @@ const createOAuthClient = async () => {
 
   const db = new BskyOAuthDatabase();
   const clientOrigin = new URL(BSKY_OAUTH_CLIENT_ID).origin;
+  const extensionRedirect = getExtensionRedirectUri();
+  const redirectUri = buildCallbackRedirectUri(extensionRedirect);
+  console.log("[OAuth] extension getRedirectURL:", extensionRedirect);
+  console.log("[OAuth] redirect_uri sent to provider:", redirectUri);
 
   return new OAuthClient({
     handleResolver: BSKY_OAUTH_HANDLE_RESOLVER,
@@ -296,7 +321,7 @@ const createOAuthClient = async () => {
       client_name: "Sky Follower Bridge",
       client_uri: clientOrigin,
       policy_uri: `${clientOrigin}/privacy-policy`,
-      redirect_uris: [BSKY_OAUTH_REDIRECT_URI],
+      redirect_uris: [redirectUri],
       scope: BSKY_OAUTH_SCOPE,
       grant_types: ["authorization_code", "refresh_token"],
       response_types: ["code"],
@@ -384,7 +409,20 @@ export const loginWithOAuth = async (identifier: string) => {
     scope: BSKY_OAUTH_SCOPE,
     responseMode: "query",
   });
-  const redirectedUrl = await launchWebAuthFlow(authUrl.toString());
+  const authUrlString = authUrl.toString();
+  console.log(
+    "[OAuth] authorization URL (redirect_uri in query):",
+    authUrlString,
+  );
+  try {
+    const redirectInUrl = new URL(authUrlString).searchParams.get(
+      "redirect_uri",
+    );
+    console.log("[OAuth] redirect_uri param in auth request:", redirectInUrl);
+  } catch {
+    // ignore
+  }
+  const redirectedUrl = await launchWebAuthFlow(authUrlString);
   const callbackParams = parseCallbackParams(redirectedUrl);
   const { session } = await client.callback(callbackParams);
 

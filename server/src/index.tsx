@@ -9,6 +9,32 @@ import { OgImage } from "./lib/ogImage";
 const app = new Hono();
 const cacheSeconds = 60 * 60 * 24 * 7;
 
+const buildCallbackRedirectUri = (
+  callbackUri: string,
+  extensionRedirectUri?: string,
+) => {
+  const redirectUri = new URL(callbackUri);
+  if (extensionRedirectUri) {
+    redirectUri.searchParams.set("redirect_uri", extensionRedirectUri);
+  }
+  return redirectUri.toString();
+};
+
+const getExtensionRedirectUris = (env: Record<string, string | undefined>) => {
+  const redirectUris = env.OAUTH_EXTENSION_REDIRECT_URIS
+    ?.split(",")
+    .map((uri) => uri.trim())
+    .filter(Boolean);
+
+  if (redirectUris?.length) {
+    return redirectUris;
+  }
+
+  return env.OAUTH_EXTENSION_REDIRECT_URI
+    ? [env.OAUTH_EXTENSION_REDIRECT_URI]
+    : [];
+};
+
 app.use(
   "*",
   async (c, next) => {
@@ -50,30 +76,45 @@ app.get("/oauth/client-metadata.json", (c) => {
   const env = c.env as Record<string, string | undefined>;
   const origin = new URL(c.req.url).origin;
   const clientId = `${origin}/oauth/client-metadata.json`;
-  const redirectUri = env.OAUTH_REDIRECT_URI || `${origin}/oauth/callback`;
+  const callbackUri = env.OAUTH_REDIRECT_URI || `${origin}/oauth/callback`;
+  const extensionRedirectUris = getExtensionRedirectUris(env);
   const scope = env.OAUTH_SCOPE || "atproto transition:generic";
+  const redirectUris = [
+    callbackUri,
+    ...extensionRedirectUris.map((extensionRedirectUri) =>
+      buildCallbackRedirectUri(callbackUri, extensionRedirectUri),
+    ),
+  ];
 
-  return c.json({
-    client_id: clientId,
-    client_name: "Sky Follower Bridge",
-    client_uri: origin,
-    policy_uri: `${origin}/privacy-policy`,
-    redirect_uris: [redirectUri],
-    scope,
-    grant_types: ["authorization_code", "refresh_token"],
-    response_types: ["code"],
-    token_endpoint_auth_method: "none",
-    application_type: "web",
-    dpop_bound_access_tokens: true,
-  });
+  return c.json(
+    {
+      client_id: clientId,
+      client_name: "Sky Follower Bridge",
+      client_uri: origin,
+      policy_uri: `${origin}/privacy-policy`,
+      redirect_uris: [...new Set(redirectUris)],
+      scope,
+      grant_types: ["authorization_code", "refresh_token"],
+      response_types: ["code"],
+      token_endpoint_auth_method: "none",
+      application_type: "web",
+      dpop_bound_access_tokens: true,
+    },
+    200,
+    {
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      "Pragma": "no-cache",
+      "Expires": "0",
+    },
+  );
 });
 
 app.get("/oauth/callback", (c) => {
   const env = c.env as Record<string, string | undefined>;
   const extensionRedirect =
-    env.OAUTH_EXTENSION_REDIRECT_URI || c.req.query("redirect_uri");
+    c.req.query("redirect_uri") || env.OAUTH_EXTENSION_REDIRECT_URI;
   if (!extensionRedirect) {
-    return c.text("Missing OAUTH_EXTENSION_REDIRECT_URI", 500);
+    return c.text("Missing redirect_uri or OAUTH_EXTENSION_REDIRECT_URI", 500);
   }
 
   const redirectUrl = new URL(extensionRedirect);
