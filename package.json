@@ -1,7 +1,7 @@
 {
   "name": "sky-follower-bridge",
   "displayName": "Sky Follower Bridge",
-  "version": "2.9.3",
+  "version": "3.0.0",
   "description": "__MSG_extension_description__",
   "author": "kawamataryou",
   "scripts": {
@@ -24,7 +24,9 @@
     "source-zip": "bash scripts/create_source_zip.sh"
   },
   "dependencies": {
-    "@atproto/api": "^0.13.12",
+    "@atproto/api": "^0.19.3",
+    "@atproto/jwk-webcrypto": "^0.2.0",
+    "@atproto/oauth-client": "^0.6.0",
     "@changesets/cli": "^2.27.1",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.12.0",
@@ -75,8 +77,13 @@
   },
   "manifest": {
     "name": "__MSG_extension_name__",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnZzW3Pn0OCTcigjKRX+pD2Vc/iSNfP0O3zKVDmTnCvojLUDiFfakvE38JRPZ9jMuWQ9a5/9igSGB0CInwE2ifUFk9sraFjfkpwSdL5lQoyFaikj4eRIAAIU1nSv623ZTNuVu2HAptAJUujZY05fP/U+osBOUlB/3cjQi/ebNdyrbHLZ7YoXJz1/5rUSd4iQPfUk1/uhZNVBXhnDpz+khbmgBe/T0dRr8y2n2Hvk+GcPSZhqriaXI5GJG1vHvd8eDf2EQv04qZCnE+DUlk/J+t7tTb8TDsj4tTNwDo0YooSYin2dESXOJCsSggfr7eqyK2DygRTXncC34SLP8Zi5mKwIDAQAB",
     "default_locale": "en",
+    "permissions": [
+      "identity"
+    ],
     "host_permissions": [
+      "https://server.sky-follower-bridge.dev/*",
       "https://bsky.social/*",
       "https://twitter.com/*",
       "https://x.com/*",

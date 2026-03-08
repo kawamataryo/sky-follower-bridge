@@ -14,13 +14,15 @@ import { useSearch } from "~hooks/useSearch";
 function IndexPopup() {
   const {
     isLoading: isAuthLoading,
-    password,
-    setPassword,
     identifier,
     setIdentifier,
+    password,
+    setPassword,
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,
+    authMethod,
+    setAuthMethod,
     errorMessage: authMessage,
     isAuthenticated,
     isAuthenticatedLoading,
@@ -49,13 +51,15 @@ function IndexPopup() {
       ) : !isAuthenticated ? (
         <AuthForm
           isLoading={isAuthLoading}
-          password={password}
-          setPassword={setPassword}
           identifier={identifier}
           setIdentifier={setIdentifier}
+          password={password}
+          setPassword={setPassword}
           authFactorToken={authFactorToken}
           setAuthFactorToken={setAuthFactorToken}
           isShowAuthFactorTokenInput={isShowAuthFactorTokenInput}
+          authMethod={authMethod}
+          setAuthMethod={setAuthMethod}
           onSubmit={login}
         />
       ) : (

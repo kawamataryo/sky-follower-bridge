@@ -11,14 +11,6 @@
     "message": "En savoir plus.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Jeton d'authentification",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "Un jeton 2FA a été envoyé à votre e-mail",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Trouver des utilisateurs Bluesky",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,17 @@
     "message": "Recherche d'utilisateurs Bluesky",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Mot de passe",
-    "description": "Text for the password input"
+  "handle": {
+    "message": "Handle",
+    "description": "Text for the handle input"
   },
   "handle_or_email": {
-    "message": "Identifiant ou e-mail",
-    "description": "Text for the handle or email input"
-  },
-  "recommended_to_use_app_password": {
-    "message": "Nous recommandons d'utiliser le [Mot de passe d'application](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Erreur : Veuillez saisir votre mot de passe.",
-    "description": "Text for the error message when the password is not entered"
+    "message": "Handle ou e-mail",
+    "description": "Text for the handle or email input on App Password tab"
   },
   "error_enter_identifier": {
-    "message": "Erreur : Veuillez saisir votre identifiant ou e-mail.",
-    "description": "Text for the error message when the handle or email is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Erreur : Veuillez saisir votre identifiant ou e-mail et mot de passe.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Erreur : Veuillez saisir votre jeton d'authentification.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Erreur : Identifiant ou mot de passe invalide.",
-    "description": "Text for the error message when the handle or password is invalid"
+    "message": "Erreur : Veuillez saisir votre handle.",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_invalid_page": {
     "message": "Erreur : Page invalide. Veuillez ouvrir la page cible.",
@@ -261,6 +233,14 @@
     "message": "Si vous ne pouvez pas résoudre l'erreur, veuillez contacter <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
     "description": "Texte pour le rapport d'erreur au développeur"
   },
+  "oauth_sign_in_description": {
+    "message": "Connectez-vous en toute sécurité avec votre compte Bluesky.",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Se connecter avec Bluesky",
+    "description": "Text for the sign in with Bluesky button"
+  },
   "login": {
     "message": "Connexion"
   },
@@ -323,5 +303,25 @@
   "filter_type_avatar_not_similar": {
     "message": "Avatar non similaire",
     "description": "Label for the filter type when avatar is not similar"
+  },
+  "app_password": {
+    "message": "App Password",
+    "description": "Label for the app password input"
+  },
+  "two_factor_auth_code": {
+    "message": "Code de confirmation 2FA",
+    "description": "Label for the two factor authentication code input"
+  },
+  "error_enter_password": {
+    "message": "Erreur : Veuillez saisir votre App Password.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "Erreur : Identifiant ou mot de passe invalide. Veuillez vérifier vos identifiants.",
+    "description": "Text for the error message when credentials are invalid"
+  },
+  "error_two_factor_authentication_required": {
+    "message": "Erreur : L'authentification à deux facteurs est requise. Veuillez saisir le code de confirmation envoyé par e-mail.",
+    "description": "Text for the error message when 2FA is required"
   }
 }

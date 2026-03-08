@@ -11,14 +11,6 @@
     "message": "エラーの詳細を見る。",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "2要素認証トークン",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "2要素認証トークンがメールに送信されました",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Blueskyユーザーを探す",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,17 @@
     "message": "検索中",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "パスワード",
-    "description": "Text for the password input"
+  "handle": {
+    "message": "ハンドル名",
+    "description": "Text for the handle input"
   },
   "handle_or_email": {
-    "message": "ハンドル名またはメールアドレス",
-    "description": "Text for the handle or email input"
-  },
-  "recommended_to_use_app_password": {
-    "message": "[アプリパスワード](https://bsky.app/settings/app-passwords)の使用をお勧めします",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "エラー: パスワードを入力してください。",
-    "description": "Text for the error message when the password is not entered"
+    "message": "ハンドルまたはメールアドレス",
+    "description": "Text for the handle or email input on App Password tab"
   },
   "error_enter_identifier": {
-    "message": "エラー: ハンドルまたはメールを入力してください。",
-    "description": "Text for the error message when the handle or email is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "エラー: ハンドルまたはメールとパスワードを入力してください。",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "エラー: 2要素認証トークンを入力してください。",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "エラー: ハンドル名またはパスワードが無効です。",
-    "description": "Text for the error message when the handle or password is invalid"
+    "message": "エラー: ハンドルを入力してください。",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_invalid_page": {
     "message": "エラー: 現在開いているページでは起動することができません。対象のページを開いてください。",
@@ -261,6 +233,14 @@
     "message": "エラーを解決できない場合は、<a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>にお問い合わせください。",
     "description": "開発者へのエラーレポートのテキスト"
   },
+  "oauth_sign_in_description": {
+    "message": "Blueskyアカウントで安全にサインインします。",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Blueskyでサインイン",
+    "description": "Text for the sign in with Bluesky button"
+  },
   "login": {
     "message": "ログイン"
   },
@@ -323,5 +303,25 @@
   "filter_type_avatar_not_similar": {
     "message": "アバターが異なる",
     "description": "Label for the filter type when avatar is not similar"
+  },
+  "app_password": {
+    "message": "App Password",
+    "description": "Label for the app password input"
+  },
+  "two_factor_auth_code": {
+    "message": "2FA 確認コード",
+    "description": "Label for the two factor authentication code input"
+  },
+  "error_enter_password": {
+    "message": "エラー: App Passwordを入力してください。",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "エラー: ハンドルまたはパスワードが無効です。認証情報を確認してください。",
+    "description": "Text for the error message when credentials are invalid"
+  },
+  "error_two_factor_authentication_required": {
+    "message": "エラー: 二要素認証が必要です。メールに送信された確認コードを入力してください。",
+    "description": "Text for the error message when 2FA is required"
   }
 }

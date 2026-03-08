@@ -9,21 +9,26 @@ import {
 import {
   AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE,
   BSKY_DOMAIN,
+  BSKY_OAUTH_CLIENT_ID,
+  BSKY_OAUTH_REDIRECT_URI,
   DOCUMENT_LINK,
   INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE,
-  RATE_LIMIT_ERROR_MESSAGE,
   STORAGE_KEYS,
 } from "~lib/constants";
 import { debugLog } from "~lib/utils";
+import type { SessionData } from "~types";
 import { useErrorMessage } from "./useErrorMessage";
+
+export type AuthMethod = "oauth" | "app-password";
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
   const [authFactorToken, setAuthFactorToken] = useState("");
   const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
     useState(false);
+  const [authMethod, setAuthMethod] = useState<AuthMethod>("oauth");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticatedLoading, setIsAuthenticatedLoading] = useState(true);
   const [displayName, setDisplayName] = useState("");
@@ -31,80 +36,83 @@ export const useAuth = () => {
   const { errorMessage, setErrorMessage, clearErrorMessage } =
     useErrorMessage();
 
-  const saveCredentialsToStorage = async () => {
+  const saveIdentifierToStorage = async () => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
-    await setToChromeStorage(STORAGE_KEYS.BSKY_PASSWORD, password);
   };
 
-  const clearPasswordFromStorage = async () => {
-    await removeChromeStorageItems([STORAGE_KEYS.BSKY_PASSWORD]);
-  };
-
-  const saveShowAuthFactorTokenInputToStorage = async (value: boolean) => {
-    await setToChromeStorage(
-      STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
-      value,
-    );
-  };
-
-  const saveSessionToStorage = async (session: string) => {
+  const saveSessionToStorage = async (session: SessionData) => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, session);
   };
+
+  const applyProfile = useCallback(
+    (profile: { avatar?: string; displayName?: string }) => {
+      setDisplayName(profile.displayName || "");
+      setAvatar(profile.avatar || "");
+    },
+    [],
+  );
 
   const loadCredentialsFromStorage = useCallback(async () => {
     const storage = await getChromeStorage<{
       [STORAGE_KEYS.BSKY_USER_ID]: string;
-      [STORAGE_KEYS.BSKY_PASSWORD]: string;
-      [STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT]: boolean;
-      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: string;
+      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: SessionData;
     }>(null);
 
     setIdentifier(storage?.[STORAGE_KEYS.BSKY_USER_ID] || "");
-    setPassword(storage?.[STORAGE_KEYS.BSKY_PASSWORD] || "");
-    setIsShowAuthFactorTokenInput(
-      storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT] || false,
-    );
     return {
       identifier: storage?.[STORAGE_KEYS.BSKY_USER_ID],
-      password: storage?.[STORAGE_KEYS.BSKY_PASSWORD],
       session: storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION],
-      isShowAuthFactorTokenInput:
-        storage?.[STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT],
     };
   }, []);
 
   const validateForm = () => {
-    if (!password && !identifier) {
-      setErrorMessage(
-        chrome.i18n.getMessage("error_enter_identifier_and_password"),
-      );
-      return false;
-    }
-    if (!password) {
-      setErrorMessage(chrome.i18n.getMessage("error_enter_password"));
-      return false;
-    }
     if (!identifier) {
       setErrorMessage(chrome.i18n.getMessage("error_enter_identifier"));
       return false;
     }
+    if (authMethod === "oauth") {
+      if (!BSKY_OAUTH_CLIENT_ID || !BSKY_OAUTH_REDIRECT_URI) {
+        setErrorMessage("OAuth is not configured.", DOCUMENT_LINK.OTHER_ERROR);
+        return false;
+      }
+    } else {
+      if (!password) {
+        setErrorMessage(chrome.i18n.getMessage("error_enter_password"));
+        return false;
+      }
+    }
     return true;
+  };
+
+  const getSessionAuthMethod = (session: SessionData): AuthMethod => {
+    if (session?.authMethod) {
+      return session.authMethod;
+    }
+    // Legacy sessions without authMethod are OAuth
+    return "oauth";
   };
 
   const logout = async () => {
     setIsLoading(true);
     try {
-      await removeChromeStorageItems([
-        STORAGE_KEYS.BSKY_CLIENT_SESSION,
-        STORAGE_KEYS.BSKY_PASSWORD,
-        STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
-      ]);
+      const { session } = await loadCredentialsFromStorage();
+      const currentAuthMethod = session
+        ? getSessionAuthMethod(session)
+        : "oauth";
+
+      const { error } = await sendToBackground({
+        name: "logout",
+        body: { authMethod: currentAuthMethod },
+      });
+      if (error) {
+        throw new Error(error.message);
+      }
+      await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
       setIsAuthenticated(false);
-      setPassword("");
-      setAuthFactorToken("");
       setIsShowAuthFactorTokenInput(false);
       clearErrorMessage();
-    } catch (_e) {
+    } catch (e) {
+      debugLog(e);
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
         DOCUMENT_LINK.OTHER_ERROR,
@@ -114,27 +122,28 @@ export const useAuth = () => {
     }
   };
 
-  const loadAndSetProfile = useCallback(async (session: string) => {
-    // For some reason, it crashes on Firefox unless we communicate as a string, so we use JSON.stringify.
-    const { result, error } = await sendToBackground({
-      name: "getMyProfile",
-      body: {
-        session: JSON.stringify(session),
-      },
-    });
-    if (error) {
-      debugLog(error);
-      return false;
-    }
-    const parsedResult = destr<{
-      displayName: string;
-      avatar: string;
-    }>(result);
-    debugLog(parsedResult);
-    setDisplayName(parsedResult.displayName);
-    setAvatar(parsedResult.avatar);
-    return true;
-  }, []);
+  const loadAndSetProfile = useCallback(
+    async (session: SessionData) => {
+      const { result, error } = await sendToBackground({
+        name: "getMyProfile",
+        body: {
+          session,
+        },
+      });
+      if (error) {
+        debugLog(error);
+        return false;
+      }
+      const parsedResult = destr<{
+        displayName: string;
+        avatar: string;
+      }>(result);
+      debugLog(parsedResult);
+      applyProfile(parsedResult);
+      return true;
+    },
+    [applyProfile],
+  );
 
   const login = async (e?: React.FormEvent) => {
     if (e) {
@@ -143,55 +152,17 @@ export const useAuth = () => {
     if (!validateForm()) {
       return;
     }
-    await saveCredentialsToStorage();
+    await saveIdentifierToStorage();
 
     clearErrorMessage();
     setIsLoading(true);
 
-    const formattedIdentifier = (
-      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
-    ).replace(/^@/, "");
-
     try {
-      const { session, error } = await sendToBackground({
-        name: "login",
-        body: {
-          identifier: formattedIdentifier,
-          password,
-          ...(authFactorToken && { authFactorToken: authFactorToken }),
-        },
-      });
-      if (error) {
-        if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
-          if (isShowAuthFactorTokenInput) {
-            setErrorMessage(
-              chrome.i18n.getMessage("error_enter_auth_factor_token"),
-              DOCUMENT_LINK.LOGIN_ERROR,
-            );
-            return;
-          }
-          setIsShowAuthFactorTokenInput(true);
-          await saveShowAuthFactorTokenInputToStorage(true);
-        } else if (error.message.includes(RATE_LIMIT_ERROR_MESSAGE)) {
-          setErrorMessage(error.message, DOCUMENT_LINK.RATE_LIMIT_ERROR);
-        } else if (
-          error.message.includes(INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE)
-        ) {
-          setErrorMessage(
-            chrome.i18n.getMessage("error_invalid_identifier_or_password"),
-            DOCUMENT_LINK.LOGIN_ERROR,
-          );
-        } else {
-          setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
-        }
-        return;
+      if (authMethod === "app-password") {
+        await loginWithAppPassword();
+      } else {
+        await loginWithOAuth();
       }
-
-      await saveSessionToStorage(session);
-      await loadAndSetProfile(session);
-      await clearPasswordFromStorage();
-      await saveShowAuthFactorTokenInputToStorage(false);
-      setIsAuthenticated(true);
     } catch (_e) {
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
@@ -200,6 +171,95 @@ export const useAuth = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const loginWithOAuth = async () => {
+    const formattedIdentifier = (
+      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
+    ).replace(/^@/, "");
+
+    const { session, profile, error } = await sendToBackground({
+      name: "login",
+      body: {
+        identifier: formattedIdentifier,
+        authMethod: "oauth",
+      },
+    });
+    if (error) {
+      setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
+      return;
+    }
+
+    await saveSessionToStorage(session);
+    if (profile) {
+      applyProfile(profile);
+      setIsAuthenticated(true);
+      return;
+    }
+    const isProfileLoaded = await loadAndSetProfile(session);
+    if (!isProfileLoaded) {
+      await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
+      setErrorMessage(
+        chrome.i18n.getMessage("error_something_went_wrong"),
+        DOCUMENT_LINK.OTHER_ERROR,
+      );
+    }
+    setIsAuthenticated(isProfileLoaded);
+  };
+
+  const loginWithAppPassword = async () => {
+    const formattedIdentifier = (
+      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
+    ).replace(/^@/, "");
+
+    const { session, profile, error } = await sendToBackground({
+      name: "login",
+      body: {
+        identifier: formattedIdentifier,
+        password,
+        authFactorToken: authFactorToken || undefined,
+        service: `https://${BSKY_DOMAIN}`,
+        authMethod: "app-password",
+      },
+    });
+
+    if (error) {
+      if (error.message.includes(AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE)) {
+        setIsShowAuthFactorTokenInput(true);
+        setErrorMessage(
+          chrome.i18n.getMessage("error_two_factor_authentication_required"),
+          DOCUMENT_LINK.TWO_FACTOR_AUTHENTICATION,
+        );
+        return;
+      }
+      if (
+        error.message.includes(INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE)
+      ) {
+        setErrorMessage(
+          chrome.i18n.getMessage("error_invalid_identifier_or_password"),
+          DOCUMENT_LINK.LOGIN_ERROR,
+        );
+        return;
+      }
+      setErrorMessage(error.message, DOCUMENT_LINK.LOGIN_ERROR);
+      return;
+    }
+
+    await saveSessionToStorage(session);
+    if (profile) {
+      applyProfile(profile);
+      setIsAuthenticated(true);
+      return;
+    }
+    const isProfileLoaded = await loadAndSetProfile(session);
+    if (!isProfileLoaded) {
+      await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
+      setErrorMessage(
+        chrome.i18n.getMessage("error_something_went_wrong"),
+        DOCUMENT_LINK.OTHER_ERROR,
+      );
+    }
+    setIsAuthenticated(isProfileLoaded);
   };
 
   useEffect(() => {
@@ -209,8 +269,14 @@ export const useAuth = () => {
         setIsAuthenticated(false);
         return;
       }
-      const isProfileLoaded = await loadAndSetProfile(session);
+      // Normalize legacy sessions
+      const normalizedSession: SessionData = session.authMethod
+        ? session
+        : { ...session, authMethod: "oauth" as const };
+
+      const isProfileLoaded = await loadAndSetProfile(normalizedSession);
       if (!isProfileLoaded) {
+        await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
         setIsAuthenticated(false);
         return;
       }
@@ -228,13 +294,15 @@ export const useAuth = () => {
 
   return {
     isLoading,
-    password,
-    setPassword,
     identifier,
     setIdentifier,
+    password,
+    setPassword,
     authFactorToken,
     setAuthFactorToken,
     isShowAuthFactorTokenInput,
+    authMethod,
+    setAuthMethod,
     errorMessage,
     isAuthenticated,
     isAuthenticatedLoading,

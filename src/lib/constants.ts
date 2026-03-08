@@ -28,10 +28,9 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
 export const STORAGE_KEYS = {
-  BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_password`,
-  BSKY_PASSWORD: `${STORAGE_PREFIX}_bsky_user`,
-  BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: `${STORAGE_PREFIX}_bsky_show_auth_factor_token_input`,
+  BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_user_id`,
   BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
+  BSKY_OAUTH_SUB: `${STORAGE_PREFIX}_bsky_oauth_sub`,
   BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,
   DETECTED_BSKY_USERS: `${STORAGE_PREFIX}_detected_bsky_users`,
   LIST_NAME: `${STORAGE_PREFIX}_list_name`,
@@ -99,14 +98,6 @@ export const FILTER_TYPE_LABEL_AND_COLOR = {
   },
 };
 
-export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
-  "AuthFactorTokenRequiredError";
-
-export const INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE =
-  "Invalid identifier or password";
-
-export const RATE_LIMIT_ERROR_MESSAGE = "Rate limit";
-
 export const DOCUMENT_LINK = {
   OTHER_ERROR: "https://www.sky-follower-bridge.dev/troubleshooting.html",
   LOGIN_ERROR:
@@ -121,6 +112,21 @@ export const DOCUMENT_LINK = {
 
 export const BSKY_DOMAIN =
   process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
+
+export const BSKY_OAUTH_CLIENT_ID =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_CLIENT_ID ||
+  "https://server.sky-follower-bridge.dev/oauth/client-metadata.json";
+
+export const BSKY_OAUTH_REDIRECT_URI =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_REDIRECT_URI ||
+  "https://server.sky-follower-bridge.dev/oauth/callback";
+
+export const BSKY_OAUTH_SCOPE =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_SCOPE || "atproto transition:generic";
+
+export const BSKY_OAUTH_HANDLE_RESOLVER =
+  process.env.PLASMO_PUBLIC_BSKY_OAUTH_HANDLE_RESOLVER ||
+  `https://${BSKY_DOMAIN}`;
 
 export const BSKY_PROFILE_LABEL = {
   IMPERSONATION: "impersonation",
@@ -137,3 +143,9 @@ export const SERVICE_TYPE = {
 } as const;
 
 export const AVATAR_SIMILARITY_SCORE_THRESHOLD = 0.6;
+
+export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
+  "AuthFactorTokenRequiredError";
+
+export const INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE =
+  "Invalid identifier or password";

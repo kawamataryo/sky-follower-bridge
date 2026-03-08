@@ -1,4 +1,3 @@
-import type { AtpSessionData } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
@@ -12,14 +11,11 @@ import {
   DEFAULT_LIST_NAME,
   FILTER_TYPE,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
-  type MESSAGE_NAMES,
   STORAGE_KEYS,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
-import type { BskyUser, MatchType } from "~types";
-
-type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
+import type { BskyUser, MatchType, MessageName, SessionData } from "~types";
 
 export const useBskyUserManager = () => {
   const [users, setUsers] = useStorage<BskyUser[]>(
@@ -260,7 +256,7 @@ export const useBskyUserManager = () => {
   React.useEffect(() => {
     const initialize = async () => {
       const storage = await getChromeStorage<{
-        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: AtpSessionData;
+        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: SessionData;
         [STORAGE_KEYS.BSKY_MESSAGE_NAME]: MessageName;
       }>([STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME]);
       const session = storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];

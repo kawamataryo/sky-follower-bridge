@@ -1,73 +1,181 @@
-import { AtpAgent, type AtpSessionData, AtUri } from "@atproto/api";
+import type { AtpSessionData } from "@atproto/api";
+import { Agent, AtpAgent, AtUri, type ProfileView } from "@atproto/api";
 import destr from "destr";
-import { BSKY_DOMAIN } from "./constants";
+import type {
+  AppPasswordSessionData,
+  OAuthSessionData,
+  SessionData,
+} from "~types";
+import { restoreOAuthSession } from "./bskyOAuthClient";
 
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
+const clientLoadPromiseCache = new Map<string, Promise<BskyClient>>();
 
-export type BskyLoginParams = {
-  identifier: string;
-  password: string;
-  authFactorToken?: string;
+export const clearBskyClientCache = (id?: string) => {
+  if (id) {
+    clientCache.delete(id);
+    clientLoadPromiseCache.delete(id);
+    return;
+  }
+
+  clientCache.clear();
+  clientLoadPromiseCache.clear();
 };
 
 export class BskyClient {
-  private service = `https://${BSKY_DOMAIN}`;
   me: {
     did: string;
     handle: string;
-    email: string;
   };
-  agent: AtpAgent;
+  agent: Agent;
   session = {};
 
-  private constructor() {
-    this.agent = new AtpAgent({
-      service: this.service,
-      persistSession: (_evt, session) => {
-        this.session = session;
-      },
-    });
-  }
-
-  public static async createAgentFromSession(
-    session: AtpSessionData,
-  ): Promise<BskyClient> {
-    let client = clientCache.get(session.did);
-
-    if (!client) {
-      client = new BskyClient();
-      await client.agent.resumeSession(destr(session));
-      clientCache.set(session.did, client);
-    }
-    client.me = {
-      did: session.did,
-      handle: session.handle,
-      email: session.email,
-    };
-    return client;
-  }
+  private constructor() {}
 
   public static async createAgent({
     identifier,
     password,
     authFactorToken,
-  }: BskyLoginParams): Promise<BskyClient> {
-    const client = new BskyClient();
-    const { data } = await client.agent.login({
+    service,
+  }: {
+    identifier: string;
+    password: string;
+    authFactorToken?: string;
+    service: string;
+  }): Promise<{
+    client: BskyClient;
+    sessionData: AtpSessionData;
+  }> {
+    const atpAgent = new AtpAgent({
+      service,
+    });
+    const response = await atpAgent.login({
       identifier,
       password,
-      ...(authFactorToken && { authFactorToken }),
+      ...(authFactorToken ? { authFactorToken } : {}),
     });
+    const client = new BskyClient();
+    client.agent = atpAgent as unknown as Agent;
     client.me = {
-      did: data.did,
-      handle: data.handle,
-      email: data.email,
+      did: response.data.did,
+      handle: response.data.handle,
     };
+    const cacheKey = response.data.did;
+    clientCache.set(cacheKey, client);
+    return {
+      client,
+      sessionData: atpAgent.session as AtpSessionData,
+    };
+  }
 
-    clientCache.set(data.did, client);
+  public static async createAgentFromSession(
+    session?: SessionData | string,
+  ): Promise<BskyClient> {
+    const parsedSession =
+      typeof session === "string" ? destr<SessionData>(session) : session;
 
-    return client;
+    if (!parsedSession) {
+      throw new Error("No active session found.");
+    }
+
+    // Normalize legacy sessions (no authMethod field) as OAuth
+    const authMethod = parsedSession.authMethod ?? "oauth";
+
+    if (authMethod === "app-password") {
+      return BskyClient.createAgentFromAppPasswordSession(
+        parsedSession as AppPasswordSessionData,
+      );
+    }
+
+    return BskyClient.createAgentFromOAuthSession(
+      parsedSession as OAuthSessionData,
+    );
+  }
+
+  private static async createAgentFromOAuthSession(
+    session: OAuthSessionData,
+  ): Promise<BskyClient> {
+    const sub = session.sub;
+    if (!sub) {
+      throw new Error("No active OAuth session found.");
+    }
+
+    const cachedClient = clientCache.get(sub);
+    if (cachedClient) {
+      return cachedClient;
+    }
+
+    let clientPromise = clientLoadPromiseCache.get(sub);
+    if (!clientPromise) {
+      clientPromise = (async () => {
+        const oauthSession = await restoreOAuthSession();
+        if (!oauthSession) {
+          throw new Error("No active OAuth session found.");
+        }
+
+        let client = clientCache.get(sub);
+        if (!client) {
+          client = new BskyClient();
+          client.agent = new Agent(
+            oauthSession as ConstructorParameters<typeof Agent>[0],
+          );
+          const profile = await client.agent.getProfile({ actor: sub });
+          client.me = {
+            did: sub,
+            handle: profile.data.handle,
+          };
+          clientCache.set(sub, client);
+        }
+        return client;
+      })().finally(() => {
+        clientLoadPromiseCache.delete(sub);
+      });
+      clientLoadPromiseCache.set(sub, clientPromise);
+    }
+
+    return await clientPromise;
+  }
+
+  private static async createAgentFromAppPasswordSession(
+    session: AppPasswordSessionData,
+  ): Promise<BskyClient> {
+    const atpSession = destr<AtpSessionData>(session.session);
+    if (!atpSession?.did) {
+      throw new Error("No active app password session found.");
+    }
+
+    const cacheKey = atpSession.did;
+    const cachedClient = clientCache.get(cacheKey);
+    if (cachedClient) {
+      return cachedClient;
+    }
+
+    let clientPromise = clientLoadPromiseCache.get(cacheKey);
+    if (!clientPromise) {
+      clientPromise = (async () => {
+        let client = clientCache.get(cacheKey);
+        if (!client) {
+          const atpAgent = new AtpAgent({
+            service: session.service,
+          });
+          await atpAgent.resumeSession(atpSession);
+          client = new BskyClient();
+          client.agent = atpAgent as unknown as Agent;
+          client.me = {
+            did: atpSession.did,
+            handle: atpSession.handle,
+          };
+          clientCache.set(cacheKey, client);
+        }
+        return client;
+      })().finally(() => {
+        clientLoadPromiseCache.delete(cacheKey);
+      });
+      clientLoadPromiseCache.set(cacheKey, clientPromise);
+    }
+
+    return await clientPromise;
   }
 
   public searchUser = async ({
@@ -82,6 +190,11 @@ export class BskyClient {
       limit,
     });
     return result.data.actors;
+  };
+
+  public getProfile = async (actor: string): Promise<ProfileView> => {
+    const result = await this.agent.getProfile({ actor });
+    return result.data as ProfileView;
   };
 
   public follow = async (subjectDid: string) => {
@@ -171,13 +284,14 @@ export class BskyClient {
   };
 
   public getMyProfile = async () => {
+    const actorDid = this.me?.did || this.agent.session?.did;
     const profile = await this.agent.getProfile({
-      actor: this.agent.session.did,
+      actor: actorDid,
     });
     return {
       pdsUrl: this.agent.pdsUrl,
-      did: this.agent.session.did,
-      handle: this.agent.session.handle,
+      did: actorDid,
+      handle: this.me?.handle || profile.data.handle,
       displayName: profile.data.displayName,
       avatar: profile.data.avatar,
     };

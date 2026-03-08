@@ -11,14 +11,6 @@
     "message": "For more information, please see here.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Auth Factor Token",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "A 2FA token has been sent to your email",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Find Bluesky Users",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,17 @@
     "message": "Finding Bluesky Users",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Password",
-    "description": "Text for the password input"
+  "handle": {
+    "message": "Handle",
+    "description": "Text for the handle input on OAuth tab"
   },
   "handle_or_email": {
     "message": "Handle or Email",
-    "description": "Text for the handle or email input"
-  },
-  "recommended_to_use_app_password": {
-    "message": "We recommend using the [App Password](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Error: Please enter your password.",
-    "description": "Text for the error message when the password is not entered"
+    "description": "Text for the handle or email input on App Password tab"
   },
   "error_enter_identifier": {
-    "message": "Error: Please enter your handle or email.",
-    "description": "Text for the error message when the handle or email is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Error: Please enter your handle or email and password.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Error: Please enter your auth factor token.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Error: Invalid handle or password.",
-    "description": "Text for the error message when the handle or password is invalid"
+    "message": "Error: Please enter your handle.",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_invalid_page": {
     "message": "Error:  Invalid active page. Use the extension with a valid web page active.",
@@ -261,6 +233,14 @@
     "message": "If you cannot resolve the error, please contact <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
     "description": "Text for the error report to developer"
   },
+  "oauth_sign_in_description": {
+    "message": "Sign in securely with your Bluesky account.",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Sign in with Bluesky",
+    "description": "Text for the sign in with Bluesky button"
+  },
   "login": {
     "message": "Login"
   },
@@ -323,5 +303,25 @@
   "filter_type_avatar_not_similar": {
     "message": "Avatar not similar",
     "description": "Label for the filter type when avatar is not similar"
+  },
+  "app_password": {
+    "message": "App Password",
+    "description": "Label for the app password input"
+  },
+  "two_factor_auth_code": {
+    "message": "2FA Confirmation Code",
+    "description": "Label for the two factor authentication code input"
+  },
+  "error_enter_password": {
+    "message": "Error: Please enter your app password.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "Error: Invalid handle or password. Please check your credentials.",
+    "description": "Text for the error message when credentials are invalid"
+  },
+  "error_two_factor_authentication_required": {
+    "message": "Error: Two-factor authentication is required. Please enter the confirmation code sent to your email.",
+    "description": "Text for the error message when 2FA is required"
   }
 }

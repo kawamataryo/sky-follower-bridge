@@ -4,8 +4,13 @@ compatibility_date = "2025-01-17"
 
 # compatibility_flags = [ "nodejs_compat" ]
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+OAUTH_REDIRECT_URI = "https://server.sky-follower-bridge.dev/oauth/callback"
+# 本番（Chrome Web Store）・開発（unpacked / manifest key）の両方
+# Firefox: getRedirectURL() が返す extensions.allizom.org 形式（gecko.id から算出されるハッシュで固定）
+OAUTH_EXTENSION_REDIRECT_URIS = "https://behhbpbpmailcnfbjagknjngnfdojpko.chromiumapp.org/oauth-success,https://jmbbljkmlomkcbikmliioecjbijopigk.chromiumapp.org/oauth-success,https://76121d9d3ae7660b6c925ec7d15ee3ac5e683cd2.extensions.allizom.org/oauth-success"
+# callback で redirect_uri クエリがないときのフォールバック（本番用）
+OAUTH_EXTENSION_REDIRECT_URI = "https://behhbpbpmailcnfbjagknjngnfdojpko.chromiumapp.org/oauth-success"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

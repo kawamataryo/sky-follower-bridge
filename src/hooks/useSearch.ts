@@ -39,8 +39,7 @@ export const useSearch = () => {
   const handleLoginError = async () => {
     await removeChromeStorageItems([
       STORAGE_KEYS.BSKY_CLIENT_SESSION,
-      STORAGE_KEYS.BSKY_PASSWORD,
-      STORAGE_KEYS.BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT,
+      STORAGE_KEYS.BSKY_OAUTH_SUB,
     ]);
     window.location.reload();
   };

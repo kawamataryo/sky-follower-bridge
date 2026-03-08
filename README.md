@@ -32,7 +32,9 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 
 1. On 𝕏 open Your [Following](https://x.com/following), [Followers](https://x.com/followers), or [Blocked](https://x.com/settings/blocked/all) users list, or the Members page of a public List.
 2. Use the `Alt + B` shortcut or click on the toolbar icon to launch the Sky Follower Bridge extension.
-3. Input your Bluesky login email or handle and an [app password](https://bsky.app/settings/app-passwords).
+3. Sign in to Bluesky:
+   - **Bluesky (OAuth)** (recommended): Enter your handle and click "Sign in with Bluesky". A browser window will open for secure OAuth login.
+   - **App Password**: Switch to the "App Password" tab and enter your email or handle plus an [app password](https://bsky.app/settings/app-passwords).
 4. Press the `Finding Bluesky Users` btn.
 5. Bluesky users will appear in the Modal.
 6. Click the "Follow" button to follow them on Bluesky.
