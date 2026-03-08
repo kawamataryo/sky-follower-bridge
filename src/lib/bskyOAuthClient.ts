@@ -13,6 +13,7 @@ import {
   BSKY_OAUTH_SCOPE,
   STORAGE_KEYS,
 } from "./constants";
+import { debugLog } from "./utils";
 
 const DB_NAME = "@atproto-oauth-client-sky-follower-bridge";
 const DB_VERSION = 1;
@@ -310,8 +311,8 @@ const createOAuthClient = async () => {
   const clientOrigin = new URL(BSKY_OAUTH_CLIENT_ID).origin;
   const extensionRedirect = getExtensionRedirectUri();
   const redirectUri = buildCallbackRedirectUri(extensionRedirect);
-  console.log("[OAuth] extension getRedirectURL:", extensionRedirect);
-  console.log("[OAuth] redirect_uri sent to provider:", redirectUri);
+  debugLog("[OAuth] extension getRedirectURL:", extensionRedirect);
+  debugLog("[OAuth] redirect_uri sent to provider:", redirectUri);
 
   return new OAuthClient({
     handleResolver: BSKY_OAUTH_HANDLE_RESOLVER,
@@ -410,15 +411,12 @@ export const loginWithOAuth = async (identifier: string) => {
     responseMode: "query",
   });
   const authUrlString = authUrl.toString();
-  console.log(
-    "[OAuth] authorization URL (redirect_uri in query):",
-    authUrlString,
-  );
+  debugLog("[OAuth] authorization URL (redirect_uri in query):", authUrlString);
   try {
     const redirectInUrl = new URL(authUrlString).searchParams.get(
       "redirect_uri",
     );
-    console.log("[OAuth] redirect_uri param in auth request:", redirectInUrl);
+    debugLog("[OAuth] redirect_uri param in auth request:", redirectInUrl);
   } catch {
     // ignore
   }

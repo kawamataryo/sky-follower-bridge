@@ -7,7 +7,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
 
   try {
     const session = await loginWithOAuth(identifier);
-    const agent = new Agent(session as never);
+    const agent = new Agent(session as ConstructorParameters<typeof Agent>[0]);
     const profile = await agent.getProfile({
       actor: session.sub,
     });
@@ -24,7 +24,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   } catch (e) {
     res.send({
       error: {
-        message: e.message,
+        message: e instanceof Error ? e.message : String(e),
       },
     });
   }

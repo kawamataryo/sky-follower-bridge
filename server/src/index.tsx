@@ -102,28 +102,37 @@ app.get("/oauth/client-metadata.json", (c) => {
     },
     200,
     {
-      "Cache-Control": "no-store, no-cache, must-revalidate",
-      "Pragma": "no-cache",
-      "Expires": "0",
+      "Cache-Control": "no-store",
     },
   );
 });
 
 app.get("/oauth/callback", (c) => {
   const env = c.env as Record<string, string | undefined>;
-  const extensionRedirect =
-    c.req.query("redirect_uri") || env.OAUTH_EXTENSION_REDIRECT_URI;
+  const allowedRedirectUris = getExtensionRedirectUris(env);
+  const requestedRedirect = c.req.query("redirect_uri");
+  let extensionRedirect: string | undefined;
+
+  if (requestedRedirect) {
+    if (allowedRedirectUris.includes(requestedRedirect)) {
+      extensionRedirect = requestedRedirect;
+    } else {
+      return c.text("Invalid redirect_uri", 400);
+    }
+  } else {
+    extensionRedirect = env.OAUTH_EXTENSION_REDIRECT_URI;
+  }
+
   if (!extensionRedirect) {
     return c.text("Missing redirect_uri or OAUTH_EXTENSION_REDIRECT_URI", 500);
   }
 
   const redirectUrl = new URL(extensionRedirect);
-  const code = c.req.query("code");
-  const state = c.req.query("state");
-  const iss = c.req.query("iss");
-  if (code) redirectUrl.searchParams.set("code", code);
-  if (state) redirectUrl.searchParams.set("state", state);
-  if (iss) redirectUrl.searchParams.set("iss", iss);
+  const forwardParams = ["code", "state", "iss", "error", "error_description"];
+  for (const param of forwardParams) {
+    const value = c.req.query(param);
+    if (value) redirectUrl.searchParams.set(param, value);
+  }
 
   return Response.redirect(redirectUrl.toString(), 302);
 });

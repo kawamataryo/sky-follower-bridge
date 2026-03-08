@@ -24,12 +24,6 @@ export const clearBskyClientCache = (id?: string) => {
   clientLoadPromiseCache.clear();
 };
 
-export type BskyLoginParams = {
-  identifier: string;
-  password: string;
-  authFactorToken?: string;
-};
-
 export class BskyClient {
   private service = `https://${BSKY_DOMAIN}`;
   me: {
@@ -95,7 +89,7 @@ export class BskyClient {
         if (!client) {
           client = new BskyClient();
           client.agent = new Agent(
-            oauthSession as never,
+            oauthSession as ConstructorParameters<typeof Agent>[0],
           ) as unknown as AtpAgent;
           const profile = await client.agent.getProfile({ actor: sub });
           client.me = {
@@ -113,28 +107,6 @@ export class BskyClient {
     }
 
     return await clientPromise;
-  }
-
-  public static async createAgent({
-    identifier,
-    password,
-    authFactorToken,
-  }: BskyLoginParams): Promise<BskyClient> {
-    const client = new BskyClient();
-    const { data } = await client.agent.login({
-      identifier,
-      password,
-      ...(authFactorToken && { authFactorToken }),
-    });
-    client.me = {
-      did: data.did,
-      handle: data.handle,
-      email: data.email,
-    };
-
-    clientCache.set(data.did, client);
-
-    return client;
   }
 
   public searchUser = async ({

@@ -8,8 +8,16 @@ import type { BskyServiceWorkerClient } from "./bskyServiceWorkerClient";
 const MAX_RETRIES = 3;
 const INITIAL_BACKOFF_MS = 1000;
 const SEARCH_RESULT_LIMIT = 3;
+const MAX_CACHE_SIZE = 5000;
 const searchResultCache = new Map<string, Promise<ProfileView[]>>();
 const profileCache = new Map<string, Promise<ProfileView>>();
+
+const evictOldestIfNeeded = <T>(cache: Map<string, T>, maxSize: number) => {
+  if (cache.size > maxSize) {
+    const firstKey = cache.keys().next().value;
+    if (firstKey !== undefined) cache.delete(firstKey);
+  }
+};
 
 export const clearBskySearchCaches = () => {
   searchResultCache.clear();
@@ -47,12 +55,13 @@ const getCachedSearchResults = async (
   let cachedPromise = searchResultCache.get(cacheKey);
 
   if (!cachedPromise) {
-    cachedPromise = runWithRetry(() => client.searchUser({ term, limit })).catch(
-      (error) => {
-        searchResultCache.delete(cacheKey);
-        throw error;
-      },
-    );
+    cachedPromise = runWithRetry(() =>
+      client.searchUser({ term, limit }),
+    ).catch((error) => {
+      searchResultCache.delete(cacheKey);
+      throw error;
+    });
+    evictOldestIfNeeded(searchResultCache, MAX_CACHE_SIZE);
     searchResultCache.set(cacheKey, cachedPromise);
   }
 
@@ -67,10 +76,13 @@ const getCachedProfile = async (
   let cachedPromise = profileCache.get(cacheKey);
 
   if (!cachedPromise) {
-    cachedPromise = runWithRetry(() => client.getProfile(actor)).catch((error) => {
-      profileCache.delete(cacheKey);
-      throw error;
-    });
+    cachedPromise = runWithRetry(() => client.getProfile(actor)).catch(
+      (error) => {
+        profileCache.delete(cacheKey);
+        throw error;
+      },
+    );
+    evictOldestIfNeeded(profileCache, MAX_CACHE_SIZE);
     profileCache.set(cacheKey, cachedPromise);
   }
 
@@ -127,10 +139,9 @@ export const searchBskyUser = async ({
   client: BskyServiceWorkerClient;
   userData: CrawledUserInfo;
 }) => {
-  const searchTerms = [
-    userData.accountName,
-    userData.displayName,
-  ].filter(Boolean);
+  const searchTerms = [userData.accountName, userData.displayName].filter(
+    Boolean,
+  );
   const uniqueSearchTerms = new Set(searchTerms);
   debugLog("uniqueSearchTerms", uniqueSearchTerms);
 

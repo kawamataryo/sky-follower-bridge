@@ -8,7 +8,7 @@ const handler: PlasmoMessaging.MessageHandler = async (_req, res) => {
   } catch (e) {
     res.send({
       error: {
-        message: e.message,
+        message: e instanceof Error ? e.message : String(e),
       },
     });
   }

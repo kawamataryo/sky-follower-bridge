@@ -77,7 +77,8 @@ export const useAuth = () => {
       await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
       setIsAuthenticated(false);
       clearErrorMessage();
-    } catch (_e) {
+    } catch (e) {
+      debugLog(e);
       setErrorMessage(
         chrome.i18n.getMessage("error_something_went_wrong"),
         DOCUMENT_LINK.OTHER_ERROR,
