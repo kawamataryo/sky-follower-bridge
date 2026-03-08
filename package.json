@@ -78,7 +78,6 @@
   "manifest": {
     "name": "__MSG_extension_name__",
     "default_locale": "en",
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqE/I1mO9G/vMxYgz+PeU3QQabm3rrRXHCatyBZU3x0n0ObkeBRIhDZLxBJ6tV7tgTkH78C8RvjfFR01CS5IQtyoFQQKebn/IGQmcFIOgjZMJDoZHikt4fMdmqroEzYfITLIsBgtopj2jcJ56Am7mK/oe0i/KnEy/fINjNyoTWxwyoh4blOhPbYoIF1cXaVPb9IWsPWkAhzRkDYaZ30MASdRj0FDVo9wKoXBTQGQ1ExLS+kSaiJUsIuQnZYqV+jbNHIpPnNNtNa7gR5PRTJd6Ph3nyVlA5/4Ptig3pxHoUNLPRohAZCeWXRmPyi2NCB6EaXTRzGarAm2gUDfAzRU4ZwIDAQAB",
     "permissions": [
       "identity"
     ],
