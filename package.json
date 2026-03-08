@@ -82,6 +82,7 @@
       "identity"
     ],
     "host_permissions": [
+      "https://server.sky-follower-bridge.dev/*",
       "https://bsky.social/*",
       "https://twitter.com/*",
       "https://x.com/*",
