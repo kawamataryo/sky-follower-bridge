@@ -43,7 +43,7 @@ export const AuthForm = ({
         />
       </label>
       <p className="text-xs mt-2 opacity-75">
-        OAuthでBlueskyにサインインします。App Passwordは不要です。
+        {chrome.i18n.getMessage("oauth_sign_in_description")}
       </p>
       <button
         type="submit"
@@ -55,7 +55,7 @@ export const AuthForm = ({
         {isLoading && <span className="w-4 loading loading-spinner" />}
         {isLoading
           ? chrome.i18n.getMessage("logging_in")
-          : "Sign in with Bluesky"}
+          : chrome.i18n.getMessage("sign_in_with_bluesky")}
       </button>
     </form>
   );
