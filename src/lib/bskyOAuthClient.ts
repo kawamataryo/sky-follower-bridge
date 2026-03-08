@@ -434,6 +434,7 @@ export const loginWithOAuth = async (identifier: string) => {
   // for the same DID across re-logins. Drop that in-memory client so the
   // next API call is bound to the newly issued OAuth session / DPoP key.
   clearBskyClientCache(session.sub);
+  restoreOAuthSessionPromises.delete(session.sub);
 
   await setToChromeStorage(STORAGE_KEYS.BSKY_OAUTH_SUB, session.sub);
   await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, {
@@ -479,14 +480,18 @@ export const restoreOAuthSession = async (): Promise<OAuthSession | null> => {
             "Failed to restore OAuth session after retry.",
             retryError,
           );
+          // Clear cache on failure so the next call can retry
+          restoreOAuthSessionPromises.delete(sub);
           return null;
         }
       }
       console.error("Failed to restore OAuth session.", error);
-      return null;
-    } finally {
+      // Clear cache on failure so the next call can retry
       restoreOAuthSessionPromises.delete(sub);
+      return null;
     }
+    // On success, keep the cached promise so subsequent calls within the
+    // same session avoid redundant IndexedDB access
   })();
   restoreOAuthSessionPromises.set(sub, promise);
   return await promise;
@@ -513,6 +518,9 @@ export const logoutOAuthSession = async () => {
     await session.signOut();
   }
   clearBskyClientCache(sub);
+  if (sub) {
+    restoreOAuthSessionPromises.delete(sub);
+  }
   oauthClientPromise = null;
   await clearOAuthSession();
 };
