@@ -2,7 +2,13 @@
 
 ## Authentication Errors
 
-### Login Issues
+::: info Sign in with Bluesky (OAuth) — from v3.0.0
+From **v3.0.0**, you can sign in via OAuth by choosing the "Bluesky" tab, entering your handle, and clicking "Sign in with Bluesky". A browser window opens for login; no app password is needed. If you have trouble with OAuth, try the "App Password" tab (see [Login Issues](#login-issues) below).
+:::
+
+### Login Issues (App Password method)
+
+The following applies when you sign in using the **App Password** tab. If you use **Bluesky (OAuth)** (v3.0.0+), see the note at the top of this section.
 
 **Error Message:**  
 <span class="error-message">Error: Invalid identifier or password</span>

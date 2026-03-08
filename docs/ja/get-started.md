@@ -61,7 +61,14 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Blueskyにサインイン
 
-あなたのBlueskyハンドル（またはメール）と[アプリパスワード](https://bsky.app/settings/app-passwords)を入力してください。
+**v3.0.0 以降**、次のいずれかの方法でサインインできます。
+
+- **Bluesky（OAuth）**（推奨）: ハンドルを入力し「Sign in with Bluesky」をクリック。ブラウザが開き、安全な OAuth ログインが行われます。アプリパスワードは不要です。
+- **App Password**: 「App Password」タブに切り替え、Bluesky のハンドル（またはメール）と[アプリパスワード](https://bsky.app/settings/app-passwords)を入力してください。
+
+::: info バージョンについて
+OAuth でのサインインは **v3.0.0 以降**で利用できます。それ以前のバージョンでは App Password のみ利用可能です。
+:::
 
 ::: tip
 ログインエラーが発生した場合は、[トラブルシューティングガイド](/ja/troubleshooting)を参照してください。

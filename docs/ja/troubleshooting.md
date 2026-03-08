@@ -2,7 +2,13 @@
 
 ## 認証エラー
 
-### ログインの問題
+::: info Bluesky（OAuth）でサインイン — v3.0.0 以降
+**v3.0.0 以降**では、「Bluesky」タブを選び、ハンドルを入力して「Sign in with Bluesky」をクリックすると OAuth でサインインできます。ブラウザが開いてログインするため、アプリパスワードは不要です。OAuth で問題がある場合は「App Password」タブ（下記[ログインの問題](#ログインの問題-app-password-の場合)を参照）を試してください。
+:::
+
+### ログインの問題（App Password の場合）
+
+以下は**App Password**タブでサインインする場合の内容です。**Bluesky（OAuth）**（v3.0.0 以降）を使う場合は、上記の説明を参照してください。
 
 **エラーメッセージ:**  
 <span class="error-message">Error: Invalid identifier or password</span>

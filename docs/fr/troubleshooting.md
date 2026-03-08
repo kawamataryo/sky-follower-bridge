@@ -2,7 +2,13 @@
 
 ## Erreurs d'authentification
 
-### Problèmes de connexion
+::: info Connexion avec Bluesky (OAuth) — à partir de la v3.0.0
+À partir de la **v3.0.0**, vous pouvez vous connecter via OAuth en choisissant l'onglet « Bluesky », en saisissant votre handle et en cliquant sur « Sign in with Bluesky ». Une fenêtre du navigateur s'ouvrira pour la connexion ; aucun mot de passe d'application n'est requis. En cas de problème avec OAuth, essayez l'onglet « App Password » (voir [Problèmes de connexion](#problèmes-de-connexion-méthode-app-password) ci-dessous).
+:::
+
+### Problèmes de connexion (méthode App Password)
+
+Ce qui suit s'applique lorsque vous vous connectez avec l'onglet **App Password**. Si vous utilisez **Bluesky (OAuth)** (v3.0.0+), reportez-vous à la note en tête de cette section.
 
 **Message d'erreur :**  
 <span class="error-message">Error: Invalid identifier or password</span>

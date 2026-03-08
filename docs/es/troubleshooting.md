@@ -2,7 +2,13 @@
 
 ## Errores de autenticación
 
-### Problemas de inicio de sesión
+::: info Iniciar sesión con Bluesky (OAuth) — desde la v3.0.0
+Desde la **v3.0.0** puedes iniciar sesión por OAuth eligiendo la pestaña "Bluesky", ingresando tu handle y haciendo clic en "Sign in with Bluesky". Se abrirá una ventana del navegador para iniciar sesión; no se requiere contraseña de aplicación. Si tienes problemas con OAuth, prueba la pestaña "App Password" (ver [Problemas de inicio de sesión](#problemas-de-inicio-de-sesión-método-app-password) abajo).
+:::
+
+### Problemas de inicio de sesión (método App Password)
+
+Lo siguiente aplica cuando inicias sesión con la pestaña **App Password**. Si usas **Bluesky (OAuth)** (v3.0.0+), consulta la nota al inicio de esta sección.
 
 **Mensaje de error:**  
 <span class="error-message">Error: Invalid identifier or password</span>

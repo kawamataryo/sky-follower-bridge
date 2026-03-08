@@ -45,7 +45,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Bei Bluesky anmelden
 
-Geben Sie Ihren Bluesky-Handle (oder E-Mail) und [App-Passwort](https://bsky.app/settings/app-passwords) ein.
+**Ab v3.0.0** können Sie sich mit OAuth (empfohlen) oder App Password anmelden. Details finden Sie in der [Anleitung Erste Schritte](/de/get-started).
 
 ::: tip
 Wenn Sie auf Anmeldefehler stoßen, lesen Sie bitte den [Fehlerbehebungsleitfaden](/de/troubleshooting).
