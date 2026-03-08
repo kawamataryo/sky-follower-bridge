@@ -77,6 +77,7 @@
   },
   "manifest": {
     "name": "__MSG_extension_name__",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnZzW3Pn0OCTcigjKRX+pD2Vc/iSNfP0O3zKVDmTnCvojLUDiFfakvE38JRPZ9jMuWQ9a5/9igSGB0CInwE2ifUFk9sraFjfkpwSdL5lQoyFaikj4eRIAAIU1nSv623ZTNuVu2HAptAJUujZY05fP/U+osBOUlB/3cjQi/ebNdyrbHLZ7YoXJz1/5rUSd4iQPfUk1/uhZNVBXhnDpz+khbmgBe/T0dRr8y2n2Hvk+GcPSZhqriaXI5GJG1vHvd8eDf2EQv04qZCnE+DUlk/J+t7tTb8TDsj4tTNwDo0YooSYin2dESXOJCsSggfr7eqyK2DygRTXncC34SLP8Zi5mKwIDAQAB",
     "default_locale": "en",
     "permissions": [
       "identity"
