@@ -52,8 +52,17 @@ export type CrawledUserInfo = {
 export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE];
 
 export type OAuthSessionData = {
+  authMethod: "oauth";
   sub: string;
 };
+
+export type AppPasswordSessionData = {
+  authMethod: "app-password";
+  service: string;
+  session: string; // JSON.stringify'd AtpSessionData
+};
+
+export type SessionData = OAuthSessionData | AppPasswordSessionData;
 
 export interface IService {
   messageName: MessageName;

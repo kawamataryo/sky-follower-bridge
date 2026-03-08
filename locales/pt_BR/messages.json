@@ -19,9 +19,13 @@
     "message": "Procurando usuários do Bluesky",
     "description": "Text for the finding bluesky users message"
   },
-  "handle_or_email": {
+  "handle": {
     "message": "Handle",
     "description": "Text for the handle input"
+  },
+  "handle_or_email": {
+    "message": "Handle ou e-mail",
+    "description": "Text for the handle or email input on App Password tab"
   },
   "error_enter_identifier": {
     "message": "Erro: Por favor, insira seu handle.",
@@ -230,7 +234,7 @@
     "description": "Texto para o relatório de erro ao desenvolvedor"
   },
   "oauth_sign_in_description": {
-    "message": "Entrar no Bluesky via OAuth.",
+    "message": "Faça login com segurança com sua conta Bluesky.",
     "description": "Text for the OAuth sign-in description"
   },
   "sign_in_with_bluesky": {
@@ -299,5 +303,25 @@
   "filter_type_avatar_not_similar": {
     "message": "Avatar não semelhante",
     "description": "Label for the filter type when avatar is not similar"
+  },
+  "app_password": {
+    "message": "App Password",
+    "description": "Label for the app password input"
+  },
+  "two_factor_auth_code": {
+    "message": "Código de confirmação 2FA",
+    "description": "Label for the two factor authentication code input"
+  },
+  "error_enter_password": {
+    "message": "Erro: Por favor, insira sua App Password.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "Erro: Identificador ou senha inválidos. Verifique suas credenciais.",
+    "description": "Text for the error message when credentials are invalid"
+  },
+  "error_two_factor_authentication_required": {
+    "message": "Erro: A autenticação de dois fatores é necessária. Insira o código de confirmação enviado para seu e-mail.",
+    "description": "Text for the error message when 2FA is required"
   }
 }

@@ -19,9 +19,13 @@
     "message": "검색 중",
     "description": "Text for the finding bluesky users message"
   },
-  "handle_or_email": {
+  "handle": {
     "message": "핸들명",
     "description": "Text for the handle input"
+  },
+  "handle_or_email": {
+    "message": "핸들 또는 이메일",
+    "description": "Text for the handle or email input on App Password tab"
   },
   "error_enter_identifier": {
     "message": "오류: 핸들을 입력하세요.",
@@ -230,7 +234,7 @@
     "description": "개발자에게 오류 보고를 위한 텍스트"
   },
   "oauth_sign_in_description": {
-    "message": "OAuth를 통해 Bluesky에 로그인합니다.",
+    "message": "Bluesky 계정으로 안전하게 로그인합니다.",
     "description": "Text for the OAuth sign-in description"
   },
   "sign_in_with_bluesky": {
@@ -299,5 +303,25 @@
   "filter_type_avatar_not_similar": {
     "message": "아바타 비유사",
     "description": "Label for the filter type when avatar is not similar"
+  },
+  "app_password": {
+    "message": "App Password",
+    "description": "Label for the app password input"
+  },
+  "two_factor_auth_code": {
+    "message": "2FA 인증 코드",
+    "description": "Label for the two factor authentication code input"
+  },
+  "error_enter_password": {
+    "message": "오류: App Password를 입력해주세요.",
+    "description": "Text for the error message when the password is not entered"
+  },
+  "error_invalid_identifier_or_password": {
+    "message": "오류: 핸들 또는 비밀번호가 올바르지 않습니다. 인증 정보를 확인해주세요.",
+    "description": "Text for the error message when credentials are invalid"
+  },
+  "error_two_factor_authentication_required": {
+    "message": "오류: 이중 인증이 필요합니다. 이메일로 전송된 인증 코드를 입력해주세요.",
+    "description": "Text for the error message when 2FA is required"
   }
 }

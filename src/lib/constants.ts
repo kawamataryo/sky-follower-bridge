@@ -143,3 +143,9 @@ export const SERVICE_TYPE = {
 } as const;
 
 export const AVATAR_SIMILARITY_SCORE_THRESHOLD = 0.6;
+
+export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE =
+  "AuthFactorTokenRequiredError";
+
+export const INVALID_IDENTIFIER_OR_PASSWORD_ERROR_MESSAGE =
+  "Invalid identifier or password";

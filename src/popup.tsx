@@ -16,6 +16,13 @@ function IndexPopup() {
     isLoading: isAuthLoading,
     identifier,
     setIdentifier,
+    password,
+    setPassword,
+    authFactorToken,
+    setAuthFactorToken,
+    isShowAuthFactorTokenInput,
+    authMethod,
+    setAuthMethod,
     errorMessage: authMessage,
     isAuthenticated,
     isAuthenticatedLoading,
@@ -46,6 +53,13 @@ function IndexPopup() {
           isLoading={isAuthLoading}
           identifier={identifier}
           setIdentifier={setIdentifier}
+          password={password}
+          setPassword={setPassword}
+          authFactorToken={authFactorToken}
+          setAuthFactorToken={setAuthFactorToken}
+          isShowAuthFactorTokenInput={isShowAuthFactorTokenInput}
+          authMethod={authMethod}
+          setAuthMethod={setAuthMethod}
           onSubmit={login}
         />
       ) : (
