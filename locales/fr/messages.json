@@ -32,8 +32,8 @@
     "description": "Text for the password input"
   },
   "handle_or_email": {
-    "message": "Identifiant ou e-mail",
-    "description": "Text for the handle or email input"
+    "message": "Handle",
+    "description": "Text for the handle input"
   },
   "recommended_to_use_app_password": {
     "message": "Nous recommandons d'utiliser le [Mot de passe d'application](https://bsky.app/settings/app-passwords).",
@@ -44,8 +44,8 @@
     "description": "Text for the error message when the password is not entered"
   },
   "error_enter_identifier": {
-    "message": "Erreur : Veuillez saisir votre identifiant ou e-mail.",
-    "description": "Text for the error message when the handle or email is not entered"
+    "message": "Erreur : Veuillez saisir votre handle.",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_enter_identifier_and_password": {
     "message": "Erreur : Veuillez saisir votre identifiant ou e-mail et mot de passe.",
@@ -260,6 +260,14 @@
   "error_report_to_developer": {
     "message": "Si vous ne pouvez pas résoudre l'erreur, veuillez contacter <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
     "description": "Texte pour le rapport d'erreur au développeur"
+  },
+  "oauth_sign_in_description": {
+    "message": "Se connecter à Bluesky via OAuth.",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Se connecter avec Bluesky",
+    "description": "Text for the sign in with Bluesky button"
   },
   "login": {
     "message": "Connexion"

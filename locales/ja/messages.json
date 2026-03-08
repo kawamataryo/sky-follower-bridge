@@ -32,8 +32,8 @@
     "description": "Text for the password input"
   },
   "handle_or_email": {
-    "message": "ハンドル名またはメールアドレス",
-    "description": "Text for the handle or email input"
+    "message": "ハンドル名",
+    "description": "Text for the handle input"
   },
   "recommended_to_use_app_password": {
     "message": "[アプリパスワード](https://bsky.app/settings/app-passwords)の使用をお勧めします",
@@ -44,8 +44,8 @@
     "description": "Text for the error message when the password is not entered"
   },
   "error_enter_identifier": {
-    "message": "エラー: ハンドルまたはメールを入力してください。",
-    "description": "Text for the error message when the handle or email is not entered"
+    "message": "エラー: ハンドルを入力してください。",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_enter_identifier_and_password": {
     "message": "エラー: ハンドルまたはメールとパスワードを入力してください。",
@@ -260,6 +260,14 @@
   "error_report_to_developer": {
     "message": "エラーを解決できない場合は、<a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>にお問い合わせください。",
     "description": "開発者へのエラーレポートのテキスト"
+  },
+  "oauth_sign_in_description": {
+    "message": "OAuthでBlueskyにサインインします。",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Blueskyでサインイン",
+    "description": "Text for the sign in with Bluesky button"
   },
   "login": {
     "message": "ログイン"

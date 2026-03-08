@@ -32,8 +32,8 @@
     "description": "Text for the password input"
   },
   "handle_or_email": {
-    "message": "Usuario o correo electrónico",
-    "description": "Text for the handle or email input"
+    "message": "Handle",
+    "description": "Text for the handle input"
   },
   "recommended_to_use_app_password": {
     "message": "Recomendamos usar la [Contraseña de aplicación](https://bsky.app/settings/app-passwords).",
@@ -44,8 +44,8 @@
     "description": "Text for the error message when the password is not entered"
   },
   "error_enter_identifier": {
-    "message": "Error: Por favor, introduce tu usuario o correo electrónico.",
-    "description": "Text for the error message when the handle or email is not entered"
+    "message": "Error: Por favor, introduce tu handle.",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_enter_identifier_and_password": {
     "message": "Error: Por favor, introduce tu usuario o correo electrónico y contraseña.",
@@ -260,6 +260,14 @@
   "error_report_to_developer": {
     "message": "Si no puedes resolver el error, por favor contacta a <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>.",
     "description": "Texto para el informe de errores al desarrollador"
+  },
+  "oauth_sign_in_description": {
+    "message": "Iniciar sesión en Bluesky mediante OAuth.",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Iniciar sesión con Bluesky",
+    "description": "Text for the sign in with Bluesky button"
   },
   "login": {
     "message": "Iniciar sesión"

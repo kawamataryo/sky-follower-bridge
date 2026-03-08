@@ -32,8 +32,8 @@
     "description": "Text for the password input"
   },
   "handle_or_email": {
-    "message": "핸들명 또는 이메일 주소",
-    "description": "Text for the handle or email input"
+    "message": "핸들명",
+    "description": "Text for the handle input"
   },
   "recommended_to_use_app_password": {
     "message": "[앱 비밀번호](https://bsky.app/settings/app-passwords)를 사용하는 것이 좋습니다",
@@ -44,8 +44,8 @@
     "description": "Text for the error message when the password is not entered"
   },
   "error_enter_identifier": {
-    "message": "오류: 핸들이나 이메일을 입력하세요.",
-    "description": "Text for the error message when the handle or email is not entered"
+    "message": "오류: 핸들을 입력하세요.",
+    "description": "Text for the error message when the handle is not entered"
   },
   "error_enter_identifier_and_password": {
     "message": "오류: 핸들이나 이메일과 비밀번호를 입력하세요.",
@@ -260,6 +260,14 @@
   "error_report_to_developer": {
     "message": "오류를 해결할 수 없는 경우 <a class='link' href='https://bsky.app/profile/sky-follower-bridge.dev' target='_blank' rel='noopener noreferrer'>@sky-follower-bridge.dev</a>에 문의하세요.",
     "description": "개발자에게 오류 보고를 위한 텍스트"
+  },
+  "oauth_sign_in_description": {
+    "message": "OAuth를 통해 Bluesky에 로그인합니다.",
+    "description": "Text for the OAuth sign-in description"
+  },
+  "sign_in_with_bluesky": {
+    "message": "Bluesky로 로그인",
+    "description": "Text for the sign in with Bluesky button"
   },
   "login": {
     "message": "로그인"
