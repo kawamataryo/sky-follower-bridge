@@ -137,7 +137,25 @@ app.get("/oauth/callback", (c) => {
   return Response.redirect(redirectUrl.toString(), 302);
 });
 
-// CORS Proxy endpoint
+// Allowed proxy target domains (Bluesky CDN only)
+const PROXY_ALLOWED_HOSTS = new Set([
+  "cdn.bsky.app",
+  "av-cdn.bsky.app",
+]);
+
+const isAllowedProxyUrl = (url: string): boolean => {
+  try {
+    const parsed = new URL(url);
+    return (
+      (parsed.protocol === "https:" || parsed.protocol === "http:") &&
+      PROXY_ALLOWED_HOSTS.has(parsed.hostname)
+    );
+  } catch {
+    return false;
+  }
+};
+
+// CORS Proxy endpoint (restricted to Bluesky CDN domains)
 app.on(["GET", "OPTIONS"], "/proxy", async (c) => {
   // Handle preflight request
   if (c.req.method === "OPTIONS") {
@@ -154,6 +172,10 @@ app.on(["GET", "OPTIONS"], "/proxy", async (c) => {
   const targetUrl = c.req.query("url");
   if (!targetUrl) {
     return c.text("Missing URL parameter", 400);
+  }
+
+  if (!isAllowedProxyUrl(targetUrl)) {
+    return c.text("Forbidden: URL is not in the allowed domains", 403);
   }
 
   try {

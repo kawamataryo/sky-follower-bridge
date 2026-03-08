@@ -353,7 +353,10 @@ const createOAuthClient = async () => {
 
 const getOAuthClient = async () => {
   if (!oauthClientPromise) {
-    oauthClientPromise = createOAuthClient();
+    oauthClientPromise = createOAuthClient().catch((error) => {
+      oauthClientPromise = null;
+      throw error;
+    });
   }
   return await oauthClientPromise;
 };

@@ -1,14 +1,7 @@
-import {
-  Agent,
-  AtpAgent,
-  type AtpSessionData,
-  AtUri,
-  type ProfileView,
-} from "@atproto/api";
+import { Agent, AtUri, type ProfileView } from "@atproto/api";
 import destr from "destr";
 import type { OAuthSessionData } from "~types";
 import { restoreOAuthSession } from "./bskyOAuthClient";
-import { BSKY_DOMAIN } from "./constants";
 
 // try and cut down the amount of session resumes by caching the clients
 const clientCache = new Map<string, BskyClient>();
@@ -26,47 +19,20 @@ export const clearBskyClientCache = (id?: string) => {
 };
 
 export class BskyClient {
-  private service = `https://${BSKY_DOMAIN}`;
   me: {
     did: string;
     handle: string;
-    email: string;
   };
-  agent: AtpAgent | Agent;
+  agent: Agent;
   session = {};
 
-  private constructor() {
-    this.agent = new AtpAgent({
-      service: this.service,
-      persistSession: (_evt, session) => {
-        this.session = session;
-      },
-    });
-  }
+  private constructor() {}
 
   public static async createAgentFromSession(
-    session?: AtpSessionData | OAuthSessionData | string,
+    session?: OAuthSessionData | string,
   ): Promise<BskyClient> {
     const parsedSession =
-      typeof session === "string"
-        ? destr<AtpSessionData | OAuthSessionData>(session)
-        : session;
-
-    if (parsedSession?.did) {
-      let client = clientCache.get(parsedSession.did);
-
-      if (!client) {
-        client = new BskyClient();
-        await (client.agent as AtpAgent).resumeSession(destr(parsedSession));
-        clientCache.set(parsedSession.did, client);
-      }
-      client.me = {
-        did: parsedSession.did,
-        handle: parsedSession.handle,
-        email: parsedSession.email,
-      };
-      return client;
-    }
+      typeof session === "string" ? destr<OAuthSessionData>(session) : session;
 
     const sub = parsedSession?.sub;
     if (!sub) {
@@ -96,7 +62,6 @@ export class BskyClient {
           client.me = {
             did: sub,
             handle: profile.data.handle,
-            email: "",
           };
           clientCache.set(sub, client);
         }

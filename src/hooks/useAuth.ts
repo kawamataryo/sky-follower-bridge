@@ -148,6 +148,7 @@ export const useAuth = () => {
       }
       const isProfileLoaded = await loadAndSetProfile(session);
       if (!isProfileLoaded) {
+        await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
         setErrorMessage(
           chrome.i18n.getMessage("error_something_went_wrong"),
           DOCUMENT_LINK.OTHER_ERROR,
@@ -173,6 +174,7 @@ export const useAuth = () => {
       }
       const isProfileLoaded = await loadAndSetProfile(session);
       if (!isProfileLoaded) {
+        await removeChromeStorageItems([STORAGE_KEYS.BSKY_CLIENT_SESSION]);
         setIsAuthenticated(false);
         return;
       }
