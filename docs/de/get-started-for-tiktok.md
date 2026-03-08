@@ -47,7 +47,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Bei Bluesky anmelden
 
-**Ab v3.0.0** können Sie sich mit OAuth (empfohlen) oder App Password anmelden. Details finden Sie in der [Anleitung Erste Schritte](/de/get-started).
+**Ab v3.0.0** können Sie sich im Browser anmelden (OAuth, empfohlen) oder mit App Password. Details finden Sie in der [Anleitung Erste Schritte](/de/get-started).
 
 ::: tip
 Wenn Sie auf Anmeldefehler stoßen, lesen Sie bitte den [Fehlerbehebungsleitfaden](/de/troubleshooting).

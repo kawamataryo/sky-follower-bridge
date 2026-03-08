@@ -2,13 +2,13 @@
 
 ## Errori di autenticazione
 
-::: info Accedi con Bluesky (OAuth) — dalla v3.0.0
-Dalla **v3.0.0** puoi accedere tramite OAuth scegliendo la scheda "Bluesky", inserendo il tuo handle e cliccando su "Sign in with Bluesky". Si aprirà una finestra del browser per l'accesso; non è necessaria la password dell'app. In caso di problemi con OAuth, prova la scheda "App Password" (vedi [Problemi di accesso](#problemi-di-accesso-metodo-app-password) sotto).
+::: info Accedi nel browser (OAuth) — dalla v3.0.0
+Dalla **v3.0.0** puoi accedere nel browser (OAuth) scegliendo la scheda "Bluesky", inserendo il tuo handle e cliccando su "Sign in with Bluesky". Si aprirà una finestra del browser per l'accesso; non è necessaria la password dell'app. In caso di problemi, prova la scheda "App Password" (vedi [Problemi di accesso](#problemi-di-accesso-metodo-app-password) sotto).
 :::
 
 ### Problemi di accesso (metodo App Password)
 
-Quanto segue si applica quando accedi usando la scheda **App Password**. Se usi **Bluesky (OAuth)** (v3.0.0+), consulta la nota in cima a questa sezione.
+Quanto segue si applica quando accedi usando la scheda **App Password**. Se usi **accedi nel browser (OAuth)** (v3.0.0+), consulta la nota in cima a questa sezione.
 
 **Messaggio di errore:**  
 <span class="error-message">Error: Invalid identifier or password</span>

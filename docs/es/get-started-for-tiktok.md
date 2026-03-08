@@ -47,7 +47,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Inicia sesión en Bluesky
 
-**Desde la v3.0.0** puedes iniciar sesión con OAuth (recomendado) o App Password. Consulta la [Guía de inicio](/es/get-started) para más detalles.
+**Desde la v3.0.0** puedes iniciar sesión en el navegador (OAuth, recomendado) o con App Password. Consulta la [Guía de inicio](/es/get-started) para más detalles.
 
 ::: tip
 Si encuentras errores de inicio de sesión, consulta la [Guía de solución de problemas](/es/troubleshooting).

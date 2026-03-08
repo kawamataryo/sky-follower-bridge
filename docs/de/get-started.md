@@ -39,11 +39,11 @@ Sky Follower Bridge ist nur für Desktop-Browser verfügbar. Mobile Browser werd
 
 **Ab v3.0.0** können Sie sich auf eine der folgenden Arten anmelden:
 
-- **Bluesky (OAuth)** (empfohlen): Geben Sie Ihren Handle ein und klicken Sie auf „Sign in with Bluesky“. Ein Browserfenster öffnet sich für die sichere OAuth-Anmeldung. Kein App-Passwort erforderlich.
+- **Bluesky (im Browser anmelden)** (empfohlen, OAuth): Geben Sie Ihren Handle ein und klicken Sie auf „Sign in with Bluesky“. Ein Browserfenster öffnet sich zur Anmeldung. Kein App-Passwort erforderlich.
 - **App Password**: Wechseln Sie zum Tab „App Password“ und geben Sie Ihren Bluesky-Handle (oder E-Mail) und [App-Passwort](https://bsky.app/settings/app-passwords) ein.
 
 ::: info Versionshinweis
-Die OAuth-Anmeldung ist ab **v3.0.0** verfügbar. In älteren Versionen ist nur die App-Password-Methode verfügbar.
+Die Anmeldung im Browser (OAuth) ist ab **v3.0.0** verfügbar. In älteren Versionen ist nur die App-Password-Methode verfügbar.
 :::
 
 ::: tip

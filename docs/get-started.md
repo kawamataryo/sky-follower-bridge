@@ -64,11 +64,11 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 **From v3.0.0**, you can sign in with either of the following methods:
 
-- **Bluesky (OAuth)** (recommended): Enter your handle and click "Sign in with Bluesky". A browser window will open for secure OAuth login. No app password is required.
+- **Bluesky (sign in in browser)** (recommended, OAuth): Enter your handle and click "Sign in with Bluesky". A browser window will open for sign-in; no app password is required.
 - **App Password**: Switch to the "App Password" tab and enter your Bluesky handle (or email) and [App password](https://bsky.app/settings/app-passwords).
 
 ::: info Version note
-OAuth sign-in is available from **v3.0.0**. If you are on an older version, only the App Password method is available.
+Sign-in in browser (OAuth) is available from **v3.0.0**. If you are on an older version, only the App Password method is available.
 :::
 
 ::: tip

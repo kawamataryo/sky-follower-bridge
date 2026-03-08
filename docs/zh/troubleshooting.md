@@ -2,13 +2,13 @@
 
 ## 身份验证错误
 
-::: info 使用 Bluesky（OAuth）登录 — v3.0.0 起
-自 **v3.0.0** 起，您可选择「Bluesky」标签，输入手柄并点击「Sign in with Bluesky」通过 OAuth 登录。浏览器将打开登录页面，无需应用密码。若 OAuth 遇到问题，可尝试「App Password」标签（见下方[登录问题](#登录问题-app-password-方式)）。
+::: info 浏览器登录（OAuth）— v3.0.0 起
+自 **v3.0.0** 起，您可选择「Bluesky」标签，输入手柄并点击「Sign in with Bluesky」在浏览器中登录（OAuth）。无需应用密码。若遇到问题，可尝试「App Password」标签（见下方[登录问题](#登录问题-app-password-方式)）。
 :::
 
 ### 登录问题（App Password 方式）
 
-以下内容适用于使用 **App Password** 标签登录时。若使用 **Bluesky（OAuth）**（v3.0.0 起），请参阅本小节开头的说明。
+以下内容适用于使用 **App Password** 标签登录时。若使用 **浏览器登录（OAuth）**（v3.0.0 起），请参阅本小节开头的说明。
 
 **错误信息:**  
 <span class="error-message">Error: Invalid identifier or password</span>

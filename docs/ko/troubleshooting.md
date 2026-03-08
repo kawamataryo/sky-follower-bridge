@@ -2,13 +2,13 @@
 
 ## 인증 오류
 
-::: info Bluesky(OAuth)로 로그인 — v3.0.0부터
-**v3.0.0**부터 "Bluesky" 탭을 선택하고 핸들을 입력한 뒤 "Sign in with Bluesky"를 클릭하면 OAuth로 로그인할 수 있습니다. 브라우저 창이 열려 로그인하며 앱 비밀번호는 필요하지 않습니다. OAuth에 문제가 있으면 "App Password" 탭(아래 [로그인 문제](#로그인-문제-app-password-방식) 참조)을 사용해 보세요.
+::: info 브라우저에서 로그인(OAuth) — v3.0.0부터
+**v3.0.0**부터 "Bluesky" 탭을 선택하고 핸들을 입력한 뒤 "Sign in with Bluesky"를 클릭하면 브라우저에서 로그인할 수 있습니다(OAuth). 앱 비밀번호는 필요하지 않습니다. 문제가 있으면 "App Password" 탭(아래 [로그인 문제](#로그인-문제-app-password-방식) 참조)을 사용해 보세요.
 :::
 
 ### 로그인 문제 (App Password 방식)
 
-아래 내용은 **App Password** 탭으로 로그인할 때 해당합니다. **Bluesky(OAuth)**(v3.0.0+)를 사용하는 경우 본 섹션 상단의 안내를 참조하세요.
+아래 내용은 **App Password** 탭으로 로그인할 때 해당합니다. **브라우저에서 로그인(OAuth)**(v3.0.0+)를 사용하는 경우 본 섹션 상단의 안내를 참조하세요.
 
 **오류 메시지:**  
 <span class="error-message">Error: Invalid identifier or password</span>

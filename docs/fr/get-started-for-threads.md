@@ -50,7 +50,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Connectez-vous à Bluesky
 
-**À partir de la v3.0.0**, vous pouvez vous connecter avec OAuth (recommandé) ou App Password. Consultez le [Guide de démarrage](/fr/get-started) pour les détails.
+**À partir de la v3.0.0**, vous pouvez vous connecter dans le navigateur (OAuth, recommandé) ou avec App Password. Consultez le [Guide de démarrage](/fr/get-started) pour les détails.
 
 ::: tip
 Si vous rencontrez des erreurs de connexion, veuillez consulter le [Guide de dépannage](/fr/troubleshooting).

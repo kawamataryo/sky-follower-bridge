@@ -63,11 +63,11 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 **自 v3.0.0 起**，您可以使用以下任一方式登录：
 
-- **Bluesky（OAuth）**（推荐）：输入您的手柄并点击「Sign in with Bluesky」。浏览器将打开以进行安全的 OAuth 登录，无需应用密码。
+- **Bluesky（浏览器登录）**（推荐，OAuth）：输入您的手柄并点击「Sign in with Bluesky」。浏览器将打开以登录，无需应用密码。
 - **App Password**：切换到「App Password」标签页，输入您的 Bluesky 句柄（或电子邮件）和 [App password](https://bsky.app/settings/app-passwords)。
 
 ::: info 版本说明
-OAuth 登录自 **v3.0.0** 起可用。若使用更早版本，仅支持 App Password 方式。
+浏览器登录（OAuth）自 **v3.0.0** 起可用。若使用更早版本，仅支持 App Password 方式。
 :::
 
 ::: tip
