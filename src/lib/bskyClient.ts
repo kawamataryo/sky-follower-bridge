@@ -6,6 +6,7 @@ import {
   type ProfileView,
 } from "@atproto/api";
 import destr from "destr";
+import type { OAuthSessionData } from "~types";
 import { restoreOAuthSession } from "./bskyOAuthClient";
 import { BSKY_DOMAIN } from "./constants";
 
@@ -31,7 +32,7 @@ export class BskyClient {
     handle: string;
     email: string;
   };
-  agent: AtpAgent;
+  agent: AtpAgent | Agent;
   session = {};
 
   private constructor() {
@@ -44,11 +45,11 @@ export class BskyClient {
   }
 
   public static async createAgentFromSession(
-    session?: AtpSessionData | { sub?: string } | string,
+    session?: AtpSessionData | OAuthSessionData | string,
   ): Promise<BskyClient> {
     const parsedSession =
       typeof session === "string"
-        ? destr<AtpSessionData | { sub?: string }>(session)
+        ? destr<AtpSessionData | OAuthSessionData>(session)
         : session;
 
     if (parsedSession?.did) {
@@ -56,7 +57,7 @@ export class BskyClient {
 
       if (!client) {
         client = new BskyClient();
-        await client.agent.resumeSession(destr(parsedSession));
+        await (client.agent as AtpAgent).resumeSession(destr(parsedSession));
         clientCache.set(parsedSession.did, client);
       }
       client.me = {
@@ -90,7 +91,7 @@ export class BskyClient {
           client = new BskyClient();
           client.agent = new Agent(
             oauthSession as ConstructorParameters<typeof Agent>[0],
-          ) as unknown as AtpAgent;
+          );
           const profile = await client.agent.getProfile({ actor: sub });
           client.me = {
             did: sub,

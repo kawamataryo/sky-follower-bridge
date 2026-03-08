@@ -11,14 +11,6 @@
     "message": "了解更多",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "验证令牌",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "双重验证令牌已发送至您的邮箱",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "查找Bluesky用户",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "正在查找Bluesky用户",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "密码",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "用户名",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "建议使用[应用密码](https://bsky.app/settings/app-passwords)",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "错误：请输入密码",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "错误：请输入用户名",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "错误：请输入用户名或邮箱和密码",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "错误：请输入验证令牌",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "错误：用户名或密码无效",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "错误：无效页面。请打开目标页面",

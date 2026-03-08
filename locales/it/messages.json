@@ -11,14 +11,6 @@
     "message": "Scopri di più.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Token di autenticazione",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "Un token 2FA è stato inviato alla tua email",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Trova utenti Bluesky",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "Ricerca utenti Bluesky",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Password",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "Handle",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "Si consiglia di utilizzare la [Password dell'app](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Errore: Inserisci la tua password.",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "Errore: Inserisci il tuo handle.",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Errore: Inserisci il tuo nome utente o email e password.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Errore: Inserisci il tuo token di autenticazione.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Errore: Nome utente o password non validi.",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "Errore: Pagina non valida. Apri la pagina di destinazione.",

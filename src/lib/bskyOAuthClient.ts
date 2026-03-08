@@ -1,5 +1,5 @@
 import { WebcryptoKey } from "@atproto/jwk-webcrypto";
-import { OAuthClient } from "@atproto/oauth-client";
+import { OAuthClient, type OAuthSession } from "@atproto/oauth-client";
 import { clearBskyClientCache } from "./bskyClient";
 import {
   getChromeStorage,
@@ -279,7 +279,10 @@ class BskyOAuthRuntime {
 }
 
 let oauthClientPromise: Promise<OAuthClient> | null = null;
-let restoreOAuthSessionPromise: Promise<unknown | null> | null = null;
+const restoreOAuthSessionPromises = new Map<
+  string,
+  Promise<OAuthSession | null>
+>();
 
 const buildCallbackRedirectUri = (extensionRedirectUri?: string) => {
   const redirectUri = new URL(BSKY_OAUTH_REDIRECT_URI);
@@ -437,7 +440,7 @@ export const loginWithOAuth = async (identifier: string) => {
   return session;
 };
 
-export const restoreOAuthSession = async () => {
+export const restoreOAuthSession = async (): Promise<OAuthSession | null> => {
   const storage = await getChromeStorage<{
     [STORAGE_KEYS.BSKY_OAUTH_SUB]: string;
   }>(STORAGE_KEYS.BSKY_OAUTH_SUB);
@@ -445,41 +448,45 @@ export const restoreOAuthSession = async () => {
   if (!sub) {
     return null;
   }
-  if (!restoreOAuthSessionPromise) {
-    restoreOAuthSessionPromise = (async () => {
-      try {
-        const client = await getOAuthClient();
-        // 復元時に即 refresh させず、保存済みセッションをそのまま使う。
-        // scan 中に並列 restore が走ると refresh 競合でセッションを壊しやすい。
-        return await client.restore(sub, false);
-      } catch (error) {
-        // Service Worker の停止・再起動等で OAuthClient の内部状態が
-        // 陳腐化している場合、キャッシュをクリアして再試行する。
-        if (oauthClientPromise) {
-          console.warn(
-            "Retrying OAuth session restore with fresh client.",
-            error,
-          );
-          oauthClientPromise = null;
-          try {
-            const freshClient = await getOAuthClient();
-            return await freshClient.restore(sub, false);
-          } catch (retryError) {
-            console.error(
-              "Failed to restore OAuth session after retry.",
-              retryError,
-            );
-            return null;
-          }
-        }
-        console.error("Failed to restore OAuth session.", error);
-        return null;
-      } finally {
-        restoreOAuthSessionPromise = null;
-      }
-    })();
+  const existingPromise = restoreOAuthSessionPromises.get(sub);
+  if (existingPromise) {
+    return await existingPromise;
   }
-  return await restoreOAuthSessionPromise;
+
+  const promise = (async () => {
+    try {
+      const client = await getOAuthClient();
+      // 復元時に即 refresh させず、保存済みセッションをそのまま使う。
+      // scan 中に並列 restore が走ると refresh 競合でセッションを壊しやすい。
+      return await client.restore(sub, false);
+    } catch (error) {
+      // Service Worker の停止・再起動等で OAuthClient の内部状態が
+      // 陳腐化している場合、キャッシュをクリアして再試行する。
+      if (oauthClientPromise) {
+        console.warn(
+          "Retrying OAuth session restore with fresh client.",
+          error,
+        );
+        oauthClientPromise = null;
+        try {
+          const freshClient = await getOAuthClient();
+          return await freshClient.restore(sub, false);
+        } catch (retryError) {
+          console.error(
+            "Failed to restore OAuth session after retry.",
+            retryError,
+          );
+          return null;
+        }
+      }
+      console.error("Failed to restore OAuth session.", error);
+      return null;
+    } finally {
+      restoreOAuthSessionPromises.delete(sub);
+    }
+  })();
+  restoreOAuthSessionPromises.set(sub, promise);
+  return await promise;
 };
 
 export const clearOAuthSession = async () => {

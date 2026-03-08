@@ -11,14 +11,6 @@
     "message": "For more information, please see here.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Auth Factor Token",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "A 2FA token has been sent to your email",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Find Bluesky Users",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "Finding Bluesky Users",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Password",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "Handle",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "We recommend using the [App Password](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Error: Please enter your password.",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "Error: Please enter your handle.",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Error: Please enter your handle or email and password.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Error: Please enter your auth factor token.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Error: Invalid handle or password.",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "Error:  Invalid active page. Use the extension with a valid web page active.",

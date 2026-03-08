@@ -1,10 +1,11 @@
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { sendToBackground } from "@plasmohq/messaging";
+import type { OAuthSessionData } from "~types";
 
 export class BskyServiceWorkerClient {
-  private session: unknown;
+  private session: OAuthSessionData;
 
-  constructor(session?: unknown) {
+  constructor(session?: OAuthSessionData) {
     this.session = session;
   }
 

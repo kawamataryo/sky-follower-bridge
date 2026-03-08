@@ -14,6 +14,7 @@ import {
   STORAGE_KEYS,
 } from "~lib/constants";
 import { debugLog } from "~lib/utils";
+import type { OAuthSessionData } from "~types";
 import { useErrorMessage } from "./useErrorMessage";
 
 export const useAuth = () => {
@@ -30,7 +31,7 @@ export const useAuth = () => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_USER_ID, identifier);
   };
 
-  const saveSessionToStorage = async (session: unknown) => {
+  const saveSessionToStorage = async (session: OAuthSessionData) => {
     await setToChromeStorage(STORAGE_KEYS.BSKY_CLIENT_SESSION, session);
   };
 
@@ -45,7 +46,7 @@ export const useAuth = () => {
   const loadCredentialsFromStorage = useCallback(async () => {
     const storage = await getChromeStorage<{
       [STORAGE_KEYS.BSKY_USER_ID]: string;
-      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: unknown;
+      [STORAGE_KEYS.BSKY_CLIENT_SESSION]: OAuthSessionData;
     }>(null);
 
     setIdentifier(storage?.[STORAGE_KEYS.BSKY_USER_ID] || "");
@@ -89,7 +90,7 @@ export const useAuth = () => {
   };
 
   const loadAndSetProfile = useCallback(
-    async (session: unknown) => {
+    async (session: OAuthSessionData) => {
       const { result, error } = await sendToBackground({
         name: "getMyProfile",
         body: {

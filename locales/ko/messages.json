@@ -11,14 +11,6 @@
     "message": "자세히 보기.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "2단계 인증 토큰",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "2단계 인증 토큰이 이메일로 전송되었습니다",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Bluesky 사용자 찾기",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "검색 중",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "비밀번호",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "핸들명",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "[앱 비밀번호](https://bsky.app/settings/app-passwords)를 사용하는 것이 좋습니다",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "오류: 비밀번호를 입력하세요.",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "오류: 핸들을 입력하세요.",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "오류: 핸들이나 이메일과 비밀번호를 입력하세요.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "오류: 2단계 인증 토큰을 입력하세요.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "오류: 핸들이나 비밀번호가 유효하지 않습니다.",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "오류: 유효하지 않은 페이지입니다. 대상 페이지를 열어주세요.",

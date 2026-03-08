@@ -11,14 +11,16 @@ import {
   DEFAULT_LIST_NAME,
   FILTER_TYPE,
   MESSAGE_NAME_TO_ACTION_MODE_MAP,
-  type MESSAGE_NAMES,
   STORAGE_KEYS,
 } from "~lib/constants";
 import { reSearchBskyUser } from "~lib/reSearchBskyUsers";
 import { wait } from "~lib/utils";
-import type { BskyUser, MatchType } from "~types";
-
-type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
+import type {
+  BskyUser,
+  MatchType,
+  MessageName,
+  OAuthSessionData,
+} from "~types";
 
 export const useBskyUserManager = () => {
   const [users, setUsers] = useStorage<BskyUser[]>(
@@ -259,7 +261,7 @@ export const useBskyUserManager = () => {
   React.useEffect(() => {
     const initialize = async () => {
       const storage = await getChromeStorage<{
-        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: unknown;
+        [STORAGE_KEYS.BSKY_CLIENT_SESSION]: OAuthSessionData;
         [STORAGE_KEYS.BSKY_MESSAGE_NAME]: MessageName;
       }>([STORAGE_KEYS.BSKY_CLIENT_SESSION, STORAGE_KEYS.BSKY_MESSAGE_NAME]);
       const session = storage?.[STORAGE_KEYS.BSKY_CLIENT_SESSION];

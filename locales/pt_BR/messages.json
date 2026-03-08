@@ -11,14 +11,6 @@
     "message": "Saiba mais",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Token de autenticação",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "Um token 2FA foi enviado para seu e-mail",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Encontrar usuários do Bluesky",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "Procurando usuários do Bluesky",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Senha",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "Handle",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "Recomendamos usar a [Senha do aplicativo](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Erro: Por favor, insira sua senha.",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "Erro: Por favor, insira seu handle.",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Erro: Por favor, insira seu nome de usuário ou e-mail e senha.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Erro: Por favor, insira seu token de autenticação.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Erro: Nome de usuário ou senha inválidos.",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "Erro: Página inválida. Por favor, abra a página de destino.",

@@ -11,14 +11,6 @@
     "message": "En savoir plus.",
     "description": "Text for the learn more link"
   },
-  "auth_factor_token": {
-    "message": "Jeton d'authentification",
-    "description": "Text for the auth factor token input"
-  },
-  "2fa_token_sent": {
-    "message": "Un jeton 2FA a été envoyé à votre e-mail",
-    "description": "Text for the 2FA token sent message"
-  },
   "find_bluesky_users": {
     "message": "Trouver des utilisateurs Bluesky",
     "description": "Text for the find bluesky users button"
@@ -27,37 +19,13 @@
     "message": "Recherche d'utilisateurs Bluesky",
     "description": "Text for the finding bluesky users message"
   },
-  "password": {
-    "message": "Mot de passe",
-    "description": "Text for the password input"
-  },
   "handle_or_email": {
     "message": "Handle",
     "description": "Text for the handle input"
   },
-  "recommended_to_use_app_password": {
-    "message": "Nous recommandons d'utiliser le [Mot de passe d'application](https://bsky.app/settings/app-passwords).",
-    "description": "Text for the recommended to use app password message"
-  },
-  "error_enter_password": {
-    "message": "Erreur : Veuillez saisir votre mot de passe.",
-    "description": "Text for the error message when the password is not entered"
-  },
   "error_enter_identifier": {
     "message": "Erreur : Veuillez saisir votre handle.",
     "description": "Text for the error message when the handle is not entered"
-  },
-  "error_enter_identifier_and_password": {
-    "message": "Erreur : Veuillez saisir votre identifiant ou e-mail et mot de passe.",
-    "description": "Text for the error message when the handle or email and password are not entered"
-  },
-  "error_enter_auth_factor_token": {
-    "message": "Erreur : Veuillez saisir votre jeton d'authentification.",
-    "description": "Text for the error message when the auth factor token is not entered"
-  },
-  "error_invalid_identifier_or_password": {
-    "message": "Erreur : Identifiant ou mot de passe invalide.",
-    "description": "Text for the error message when the handle or password is invalid"
   },
   "error_invalid_page": {
     "message": "Erreur : Page invalide. Veuillez ouvrir la page cible.",

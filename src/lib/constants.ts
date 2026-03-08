@@ -28,7 +28,7 @@ export const MESSAGE_NAME_TO_ACTION_MODE_MAP = {
 
 const STORAGE_PREFIX = "sky_follower_bridge_storage";
 export const STORAGE_KEYS = {
-  BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_password`,
+  BSKY_USER_ID: `${STORAGE_PREFIX}_bsky_user_id`,
   BSKY_CLIENT_SESSION: `${STORAGE_PREFIX}_bsky_client_session`,
   BSKY_OAUTH_SUB: `${STORAGE_PREFIX}_bsky_oauth_sub`,
   BSKY_MESSAGE_NAME: `${STORAGE_PREFIX}_bsky_message_name`,

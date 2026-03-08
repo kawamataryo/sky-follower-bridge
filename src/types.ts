@@ -51,6 +51,10 @@ export type CrawledUserInfo = {
 
 export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE];
 
+export type OAuthSessionData = {
+  sub: string;
+};
+
 export interface IService {
   messageName: MessageName;
   crawledUserCells: Set<HTMLElement>;
