@@ -26,6 +26,8 @@ function IndexPopup() {
     errorMessage: authMessage,
     isAuthenticated,
     isAuthenticatedLoading,
+    service,
+    setService,
     login,
     logout,
     displayName,
@@ -60,6 +62,8 @@ function IndexPopup() {
           isShowAuthFactorTokenInput={isShowAuthFactorTokenInput}
           authMethod={authMethod}
           setAuthMethod={setAuthMethod}
+          service={service}
+          setService={setService}
           onSubmit={login}
         />
       ) : (

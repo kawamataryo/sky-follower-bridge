@@ -27,6 +27,10 @@
     "message": "핸들 또는 이메일",
     "description": "Text for the handle or email input on App Password tab"
   },
+  "service_url": {
+    "message": "서비스 URL",
+    "description": "Text for the service URL input on App Password tab"
+  },
   "error_enter_identifier": {
     "message": "오류: 핸들을 입력하세요.",
     "description": "Text for the error message when the handle is not entered"
