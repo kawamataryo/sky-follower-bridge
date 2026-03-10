@@ -45,9 +45,9 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ![alt text](/images/instagram-open-extension.png)
 
-### 3. Bluesky에 로그인
+### 3. Bluesky 로그인
 
-Bluesky 핸들(또는 이메일)과 [앱 비밀번호](https://bsky.app/settings/app-passwords)를 입력하세요.
+**v3.0.0부터** 브라우저에서 로그인(OAuth, 권장) 또는 App Password로 로그인할 수 있습니다. 자세한 내용은 [시작하기](/ko/get-started)를 참조하세요.
 
 ::: tip
 로그인 오류가 발생하면, [문제 해결 가이드](/ko/troubleshooting)를 참조하세요.

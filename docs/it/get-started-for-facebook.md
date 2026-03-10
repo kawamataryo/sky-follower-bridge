@@ -41,7 +41,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Accedi a Bluesky
 
-Inserisci il tuo handle di Bluesky (o email) e [password dell'app](https://bsky.app/settings/app-passwords).
+**Dalla v3.0.0** puoi accedere nel browser (OAuth, consigliato) o con App Password. Consulta la [Guida introduttiva](/it/get-started) per i dettagli.
 
 ::: tip
 Se incontri errori di accesso, consulta la [Guida alla risoluzione dei problemi](/troubleshooting).

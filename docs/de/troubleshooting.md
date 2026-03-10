@@ -2,7 +2,13 @@
 
 ## Authentifizierungsfehler
 
-### Anmeldeprobleme
+::: info Im Browser anmelden (OAuth) — ab v3.0.0
+Ab **v3.0.0** können Sie sich im Browser anmelden (OAuth), indem Sie den Tab „Bluesky“ wählen, Ihren Handle eingeben und auf „Sign in with Bluesky“ klicken. Ein Browserfenster öffnet sich zur Anmeldung; ein App-Passwort ist nicht erforderlich. Bei Problemen versuchen Sie den Tab „App Password“ (siehe [Anmeldeprobleme](#anmeldeprobleme-app-password-methode) unten).
+:::
+
+### Anmeldeprobleme (App-Password-Methode)
+
+Das Folgende gilt, wenn Sie sich mit dem Tab **App Password** anmelden. Bei **Anmeldung im Browser (OAuth)** (v3.0.0+) beachten Sie den Hinweis am Anfang dieses Abschnitts.
 
 **Fehlermeldung:**  
 <span class="error-message">Error: Invalid identifier or password</span>

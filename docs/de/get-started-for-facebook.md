@@ -39,9 +39,9 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ![alt text](/images/instagram-open-extension.png)
 
-### 3. Melden Sie sich bei Bluesky an
+### 3. Bei Bluesky anmelden
 
-Geben Sie Ihren Bluesky-Handle (oder E-Mail) und [App-Passwort](https://bsky.app/settings/app-passwords) ein.
+**Ab v3.0.0** können Sie sich im Browser anmelden (OAuth, empfohlen) oder mit App Password. Details finden Sie in der [Anleitung Erste Schritte](/de/get-started).
 
 ::: tip
 Wenn Sie Anmeldefehler erhalten, lesen Sie bitte den [Fehlerbehebungsleitfaden](/troubleshooting).

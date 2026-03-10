@@ -41,7 +41,7 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. 登录 Bluesky
 
-输入您的 Bluesky 句柄（或电子邮件）和[应用密码](https://bsky.app/settings/app-passwords)。
+**自 v3.0.0 起**可使用浏览器登录（OAuth，推荐）或 App Password 登录。详见[入门指南](/zh/get-started)。
 
 ::: tip
 如果遇到登录错误，请参阅[故障排除指南](/troubleshooting)。

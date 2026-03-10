@@ -61,7 +61,14 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Inicia sesión en Bluesky
 
-Ingresa tu identificador de Bluesky (o correo electrónico) y [Contraseña de la aplicación](https://bsky.app/settings/app-passwords).
+**Desde la v3.0.0** puedes iniciar sesión con cualquiera de estos métodos:
+
+- **Bluesky (iniciar sesión en el navegador)** (recomendado, OAuth): Ingresa tu handle y haz clic en "Sign in with Bluesky". Se abrirá una ventana del navegador para iniciar sesión. No se requiere contraseña de aplicación.
+- **App Password**: Cambia a la pestaña "App Password" e ingresa tu handle de Bluesky (o correo electrónico) y [Contraseña de la aplicación](https://bsky.app/settings/app-passwords).
+
+::: info Nota de versión
+El inicio de sesión en el navegador (OAuth) está disponible desde la **v3.0.0**. En versiones anteriores solo está disponible el método App Password.
+:::
 
 ::: tip
 Si encuentras errores de inicio de sesión, consulta la [Guía de solución de problemas](/troubleshooting).
