@@ -27,6 +27,10 @@
     "message": "Handle oder E-Mail",
     "description": "Text for the handle or email input on App Password tab"
   },
+  "service_url": {
+    "message": "Service URL",
+    "description": "Text for the service URL input on App Password tab"
+  },
   "error_enter_identifier": {
     "message": "Fehler: Bitte geben Sie Ihren Handle ein.",
     "description": "Text for the error message when the handle is not entered"

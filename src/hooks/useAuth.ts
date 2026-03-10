@@ -29,6 +29,7 @@ export const useAuth = () => {
   const [isShowAuthFactorTokenInput, setIsShowAuthFactorTokenInput] =
     useState(false);
   const [authMethod, setAuthMethod] = useState<AuthMethod>("oauth");
+  const [service, setService] = useState(`https://${BSKY_DOMAIN}`);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticatedLoading, setIsAuthenticatedLoading] = useState(true);
   const [displayName, setDisplayName] = useState("");
@@ -218,7 +219,7 @@ export const useAuth = () => {
         identifier: formattedIdentifier,
         password,
         authFactorToken: authFactorToken || undefined,
-        service: `https://${BSKY_DOMAIN}`,
+        service,
         authMethod: "app-password",
       },
     });
@@ -308,6 +309,8 @@ export const useAuth = () => {
     isAuthenticatedLoading,
     displayName,
     avatar,
+    service,
+    setService,
     login,
     logout,
   };

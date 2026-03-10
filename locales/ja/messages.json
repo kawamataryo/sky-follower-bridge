@@ -27,6 +27,10 @@
     "message": "ハンドルまたはメールアドレス",
     "description": "Text for the handle or email input on App Password tab"
   },
+  "service_url": {
+    "message": "サービスURL",
+    "description": "Text for the service URL input on App Password tab"
+  },
   "error_enter_identifier": {
     "message": "エラー: ハンドルを入力してください。",
     "description": "Text for the error message when the handle is not entered"
