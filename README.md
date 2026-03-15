@@ -9,7 +9,7 @@
 <a href="https://www.producthunt.com/posts/sky-follower-bridge?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-sky&#0045;follower&#0045;bridge" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=666851&theme=light" alt="Sky&#0032;Follower&#0032;Bridge - Migrate&#0032;your&#0032;social&#0032;connections&#0032;from&#0032;𝕏&#0032;to&#0032;Bluesky | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 
-Instantly find and follow the same users from your 𝕏(Twitter), Instagram, TikTok, and Threads follows on Bluesky.
+Instantly find and follow the same users from your 𝕏(Twitter), Instagram, TikTok, and Threads follows on Bluesky. As of v3.1.0, the extension supports **self-hosted Bluesky PDS** servers.
 
 https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67-4d0a-ac18-f3a3e0c7adf9
 
@@ -34,7 +34,7 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 2. Use the `Alt + B` shortcut or click on the toolbar icon to launch the Sky Follower Bridge extension.
 3. Sign in to Bluesky:
    - **Bluesky (OAuth)** (recommended): Enter your handle and click "Sign in with Bluesky". A browser window will open for secure OAuth login.
-   - **App Password**: Switch to the "App Password" tab and enter your email or handle plus an [app password](https://bsky.app/settings/app-passwords).
+   - **App Password**: Switch to the "App Password" tab and enter your handle or email, [app password](https://bsky.app/settings/app-passwords), and **Service URL** (e.g. `https://bsky.social`). For a **self-hosted PDS**, enter your PDS URL in the Service URL field (e.g. `https://your-pds.example.com`).
 4. Press the `Finding Bluesky Users` btn.
 5. Bluesky users will appear in the Modal.
 6. Click the "Follow" button to follow them on Bluesky.
@@ -55,73 +55,4 @@ https://github.com/kawamataryo/sky-follower-bridge/assets/11070996/67bdd228-dc67
 
 ## Development
 
-### Environment Variables
-
-- `PLASMO_PUBLIC_BSKY_DOMAIN`: The Bluesky domain to use (default: "bsky.social")
-
-## Building for Custom PDS Servers
-
-If you want to use this extension with a custom PDS (Personal Data Server) instead of the default bsky.social, you have two options:
-
-### Option 1: Using .env file
-
-1. Clone the repository:
-```bash
-git clone https://github.com/kawamataryo/sky-follower-bridge.git
-cd sky-follower-bridge
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Create a `.env` file in the root directory:
-```bash
-echo "PLASMO_PUBLIC_BSKY_DOMAIN=bsky.social" > .env
-```
-
-4. Build the extension:
-```bash
-# For Chrome
-npm run build
-npm run package
-
-# For Firefox
-npm run build:firefox
-npm run package:firefox
-```
-
-### Option 2: Using environment variable directly
-
-You can also pass the domain directly during build:
-
-```bash
-# For Chrome
-PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run build
-PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run package
-
-# For Firefox
-PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run build:firefox
-PLASMO_PUBLIC_BSKY_DOMAIN=your-custom-domain.com npm run package:firefox
-```
-
-### Loading the Built Extension
-
-After building, you can load the extension:
-
-**For Chrome/Edge:**
-1. Go to `chrome://extensions/` (or `edge://extensions/`)
-2. Enable "Developer mode" in the top right
-3. Click "Load unpacked" 
-4. Select the `build/chrome-mv3-prod` directory
-
-**For Firefox:**
-1. Go to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on"
-3. Select the zip file from the `build` directory
-
-### Notes
-- The built extension will be in the `build` directory
-- When using a custom PDS, users will need to use handles in the format `username.your-custom-domain.com`
-- Make sure your custom PDS server is compatible with the AT Protocol
+See [CLAUDE.md](./CLAUDE.md) for development setup and architecture.

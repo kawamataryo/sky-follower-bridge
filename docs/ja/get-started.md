@@ -61,13 +61,24 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Blueskyにサインイン
 
-あなたのBlueskyハンドル（またはメール）と[アプリパスワード](https://bsky.app/settings/app-passwords)を入力してください。
+- **Bluesky（OAuth）**（推奨）：ハンドルを入力し「Sign in with Bluesky」でOAuthログイン。
+- **App Password**：「App Password」タブに切り替え、ハンドル（またはメール）、[アプリパスワード](https://bsky.app/settings/app-passwords)、**Service URL**（既定: `https://bsky.social`）を入力。self-hosted PDS の場合は Service URL に PDS のURLを入力してください。
 
 ::: tip
 ログインエラーが発生した場合は、[トラブルシューティングガイド](/ja/troubleshooting)を参照してください。
 :::
 
-![enter-credentials](/images/enter-credentials.png)
+![App PasswordタブとService URL](/images/app-password-service-url.png)
+
+#### Self-hosted PDS（v3.1.0以降）
+
+bsky.social ではなく self-hosted の Bluesky PDS（Personal Data Server）を使う場合：
+
+1. 拡張機能を開き、**App Password** タブに切り替えます。
+2. ハンドル（またはメール）、アプリパスワード、**Service URL** に PDS のURL（例: `https://your-pds.example.com`）を入力します。
+3. Login をクリックします。
+
+PDS が AT Protocol 互換であることを確認してください。
 
 ### 4. 検索を開始
 

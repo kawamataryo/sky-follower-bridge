@@ -61,13 +61,24 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. 登录 Bluesky
 
-输入您的 Bluesky 句柄（或电子邮件）和 [App password](https://bsky.app/settings/app-passwords)。
+- **Bluesky（OAuth）**（推荐）：输入您的句柄并点击「Sign in with Bluesky」进行 OAuth 登录。
+- **App Password**：切换到「App Password」标签页，输入句柄（或电子邮件）、[App password](https://bsky.app/settings/app-passwords) 和 **Service URL**（默认：`https://bsky.social`）。若使用自托管 PDS，请在 Service URL 中填写您的 PDS 地址。
 
 ::: tip
 如果遇到登录错误，请参阅 [故障排除指南](/troubleshooting)。
 :::
 
-![enter-credentials](/images/enter-credentials.png)
+![App Password 标签页与 Service URL](/images/app-password-service-url.png)
+
+#### 自托管 PDS（v3.1.0+）
+
+若您使用自托管的 Bluesky PDS（Personal Data Server）而非 bsky.social：
+
+1. 打开扩展，切换到 **App Password** 标签页。
+2. 输入句柄（或电子邮件）、应用密码，并在 **Service URL** 中填写 PDS 地址（例如 `https://your-pds.example.com`）。
+3. 点击 Login。
+
+请确保您的 PDS 兼容 AT Protocol。
 
 ### 4. 开始搜索
 

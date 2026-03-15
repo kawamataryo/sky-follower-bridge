@@ -61,13 +61,24 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Connectez-vous à Bluesky
 
-Entrez votre identifiant Bluesky (ou email) et [App password](https://bsky.app/settings/app-passwords).
+- **Bluesky (OAuth)** (recommandé) : Saisissez votre handle et cliquez sur « Sign in with Bluesky » pour la connexion OAuth.
+- **App Password** : Passez à l’onglet « App Password » et saisissez votre handle ou e-mail, [mot de passe d’application](https://bsky.app/settings/app-passwords) et **Service URL** (par défaut : `https://bsky.social`). Pour un PDS self-hosted, saisissez l’URL de votre PDS dans le champ Service URL.
 
 ::: tip
-Si vous rencontrez des erreurs de connexion, veuillez consulter le [Guide de dépannage](/troubleshooting).
+Si vous rencontrez des erreurs de connexion, consultez le [Guide de dépannage](/troubleshooting).
 :::
 
-![enter-credentials](/images/enter-credentials.png)
+![Onglet App Password avec Service URL](/images/app-password-service-url.png)
+
+#### PDS self-hosted (v3.1.0+)
+
+Si vous utilisez un PDS Bluesky self-hosted (Personal Data Server) au lieu de bsky.social :
+
+1. Ouvrez l’extension et passez à l’onglet **App Password**.
+2. Saisissez votre handle (ou e-mail), mot de passe d’application et dans **Service URL** l’URL de votre PDS (ex. `https://your-pds.example.com`).
+3. Cliquez sur Login.
+
+Vérifiez que votre PDS est compatible avec l’AT Protocol.
 
 ### 4. Commencez la recherche
 

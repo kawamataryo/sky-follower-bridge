@@ -35,6 +35,50 @@ Wir empfehlen die Verwendung der Chrome Web Store-Version, da sie immer auf dem 
 Sky Follower Bridge ist nur für Desktop-Browser verfügbar. Mobile Browser werden nicht unterstützt.
 :::
 
+## Nutzung
+
+### 1. Navigieren Sie zu 𝕏 (Twitter)
+
+Besuchen Sie eine dieser Seiten auf X:
+- Ihre Folgen-Seite: [x.com/following](https://x.com/following)
+- Ihre blockierten Nutzer: [x.com/settings/blocked/all](https://x.com/settings/blocked/all)
+- Die Mitglieder-Seite einer öffentlichen Liste: `x.com/i/lists/<list_id>/members`
+
+![following-page](/images/following-page.png)
+
+### 2. Sky Follower Bridge starten
+
+Drücken Sie `Alt + B` oder klicken Sie auf das Erweiterungs-Symbol in der Browser-Leiste.
+
+::: tip
+Bei Firefox funktioniert `Alt + B` ggf. nicht. Klicken Sie in dem Fall auf das Erweiterungs-Symbol.
+
+https://support.mozilla.org/en-US/kb/extensions-button
+:::
+
+![Open Extension](/images/open-extension.png)
+
+### 3. Bei Bluesky anmelden
+
+- **Bluesky (OAuth)** (empfohlen): Handle eingeben und „Sign in with Bluesky“ für die OAuth-Anmeldung klicken.
+- **App Password**: Zum Tab **App Password** wechseln und Handle (oder E-Mail), [App-Passwort](https://bsky.app/settings/app-passwords) sowie **Service URL** eingeben (Standard: `https://bsky.social`). Bei self-hosted PDS die PDS-URL im Feld Service URL eintragen.
+
+::: tip
+Bei Anmeldefehlern siehe [Anleitung zur Fehlerbehebung](/de/troubleshooting).
+:::
+
+![App-Password-Tab mit Service URL](/images/app-password-service-url.png)
+
+#### Self-hosted PDS (v3.1.0+)
+
+Wenn Sie einen self-hosted Bluesky PDS (Personal Data Server) statt bsky.social nutzen:
+
+1. Erweiterung öffnen und zum Tab **App Password** wechseln.
+2. Handle (oder E-Mail), App-Passwort und unter **Service URL** Ihre PDS-URL eintragen (z. B. `https://your-pds.example.com`).
+3. Auf Login klicken.
+
+Ihr PDS muss mit dem AT Protocol kompatibel sein.
+
 ### 4. Suche starten
 
 Klicken Sie auf "Find Bluesky Users", um den Scan zu starten. Die Erweiterung sucht nach passenden Bluesky-Profilen, indem sie die Bluesky-API überprüft.

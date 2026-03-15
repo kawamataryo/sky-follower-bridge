@@ -60,13 +60,24 @@ https://support.mozilla.org/en-US/kb/extensions-button
 
 ### 3. Bluesky 로그인
 
-Bluesky 핸들(또는 이메일)과 [앱 비밀번호](https://bsky.app/settings/app-passwords)를 입력하세요.
+- **Bluesky (OAuth)** (권장): 핸들을 입력하고 "Sign in with Bluesky"를 클릭하여 OAuth 로그인합니다.
+- **App Password**: "App Password" 탭으로 전환한 뒤 핸들(또는 이메일), [앱 비밀번호](https://bsky.app/settings/app-passwords), **Service URL**(기본값: `https://bsky.social`)을 입력하세요. 셀프 호스팅 PDS를 사용하는 경우 Service URL 필드에 PDS URL을 입력하세요.
 
 ::: tip
 로그인 오류가 발생한 경우 [문제 해결 가이드](/ko/troubleshooting)를 참조하세요.
 :::
 
-![enter-credentials](/images/enter-credentials.png)
+![App Password 탭과 Service URL](/images/app-password-service-url.png)
+
+#### 셀프 호스팅 PDS (v3.1.0+)
+
+bsky.social 대신 셀프 호스팅 Bluesky PDS(Personal Data Server)를 사용하는 경우:
+
+1. 확장 프로그램을 열고 **App Password** 탭으로 전환하세요.
+2. 핸들(또는 이메일), 앱 비밀번호, **Service URL**에 PDS URL(예: `https://your-pds.example.com`)을 입력하세요.
+3. Login을 클릭하세요.
+
+PDS가 AT Protocol과 호환되는지 확인하세요.
 
 ### 4. 검색 시작
 
