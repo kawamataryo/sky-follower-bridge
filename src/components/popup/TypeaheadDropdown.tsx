@@ -65,9 +65,7 @@ export const TypeaheadDropdown = ({
           </li>
         ))}
       {!isSearching && suggestions.length === 0 && (
-        <li className="px-3 py-3 text-xs text-center opacity-60">
-          No results
-        </li>
+        <li className="px-3 py-3 text-xs text-center opacity-60">No results</li>
       )}
     </ul>
   );
