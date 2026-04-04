@@ -1,5 +1,7 @@
 import type { AuthMethod } from "~hooks/useAuth";
+import { useTypeaheadSearch } from "~hooks/useTypeaheadSearch";
 import { BSKY_DOMAIN } from "~lib/constants";
+import { TypeaheadDropdown } from "./TypeaheadDropdown";
 
 interface AuthFormProps {
   isLoading: boolean;
@@ -14,7 +16,7 @@ interface AuthFormProps {
   setAuthMethod: (value: AuthMethod) => void;
   service: string;
   setService: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e?: React.FormEvent, identifierOverride?: string) => void;
 }
 
 export const AuthForm = ({
@@ -32,6 +34,23 @@ export const AuthForm = ({
   setService,
   onSubmit,
 }: AuthFormProps) => {
+  const {
+    suggestions,
+    isSearching,
+    showDropdown,
+    activeIndex,
+    onInputChange,
+    onSelect,
+    onClose,
+    onFocus,
+    onKeyDown,
+  } = useTypeaheadSearch({
+    identifier,
+    setIdentifier,
+    onLogin: (handle) => onSubmit(undefined, handle),
+    authMethod,
+  });
+
   return (
     <div className="mt-5">
       <div role="tablist" className="tabs tabs-bordered tabs-sm">
@@ -74,14 +93,28 @@ export const AuthForm = ({
               ? chrome.i18n.getMessage("handle_or_email")
               : chrome.i18n.getMessage("handle")}
           </div>
-          <input
-            type="text"
-            name="identifier"
-            placeholder={`your-username.${BSKY_DOMAIN}`}
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            className="input input-bordered input-sm w-full max-w-xs focus:outline-none mt-1"
-          />
+          <div className="relative">
+            <input
+              type="text"
+              name="identifier"
+              placeholder={`your-username.${BSKY_DOMAIN}`}
+              value={identifier}
+              onChange={(e) => onInputChange(e.target.value)}
+              onKeyDown={onKeyDown}
+              onFocus={onFocus}
+              onBlur={() => setTimeout(onClose, 150)}
+              autoComplete="off"
+              className="input input-bordered input-sm w-full max-w-xs focus:outline-none mt-1"
+            />
+            {authMethod === "oauth" && showDropdown && (
+              <TypeaheadDropdown
+                suggestions={suggestions}
+                isSearching={isSearching}
+                activeIndex={activeIndex}
+                onSelect={onSelect}
+              />
+            )}
+          </div>
         </label>
 
         {authMethod === "app-password" && (

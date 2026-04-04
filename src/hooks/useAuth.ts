@@ -146,11 +146,14 @@ export const useAuth = () => {
     [applyProfile],
   );
 
-  const login = async (e?: React.FormEvent) => {
+  const login = async (e?: React.FormEvent, identifierOverride?: string) => {
     if (e) {
       e.preventDefault();
     }
-    if (!validateForm()) {
+    if (identifierOverride) {
+      setIdentifier(identifierOverride);
+    }
+    if (!identifierOverride && !validateForm()) {
       return;
     }
     await saveIdentifierToStorage();
@@ -162,7 +165,7 @@ export const useAuth = () => {
       if (authMethod === "app-password") {
         await loginWithAppPassword();
       } else {
-        await loginWithOAuth();
+        await loginWithOAuth(identifierOverride);
       }
     } catch (_e) {
       setErrorMessage(
@@ -174,9 +177,12 @@ export const useAuth = () => {
     }
   };
 
-  const loginWithOAuth = async () => {
+  const loginWithOAuth = async (identifierOverride?: string) => {
+    const rawIdentifier = identifierOverride ?? identifier;
     const formattedIdentifier = (
-      identifier.includes(".") ? identifier : `${identifier}.${BSKY_DOMAIN}`
+      rawIdentifier.includes(".")
+        ? rawIdentifier
+        : `${rawIdentifier}.${BSKY_DOMAIN}`
     ).replace(/^@/, "");
 
     const { session, profile, error } = await sendToBackground({
