@@ -18,7 +18,7 @@ const voices: Voice[] = [
     name: 'Bluesky',
     handle: '@bluesky.app',
     url: 'https://bsky.app/profile/bsky.app/post/3l6ovkgqtqj2o',
-    avatarUrl: 'https://cdn.bsky.app/img/avatar_thumbnail/plain/did:plc:z72i7hdynmk6r22z27h6tvur/bafkreihagr2cmvl2jt4mgx3sppwe2it3fwolkrbtjrhcnwjk4jdijhsoze@jpeg',
+    avatarUrl: 'https://cdn.bsky.app/img/avatar_thumbnail/plain/did:plc:z72i7hdynmk6r22z27h6tvur/bafkreihwihm6kpd6zuwhhlro75p5qks5qtrcu55jp3gddbfjsieiv7wuka@jpeg',
     content: 'Want to find your friends from other networks? Check out the Sky Follower Bridge Chrome extension built by an independent developer!',
   },
   {
@@ -41,13 +41,6 @@ const voices: Voice[] = [
     url: 'https://bsky.app/profile/gergely.pragmaticengineer.com/post/3lb5ndk2qgs2z',
     avatarUrl: 'https://cdn.bsky.app/img/avatar_thumbnail/plain/did:plc:3n5xhy6vl7smssmwxq5wgqa6/bafkreiff6ltslguxeg43g7etxnkhbetuzsvrkxonbpq6cle22k3xmsv5oi@jpeg',
     content: 'This is pretty incredible: almost half of the people I follow on Twitter/X are already here, on Bluesky! (I follow ~2,100 people there) Found using the Sky Follower Bridge extension, and (re-) followed them all.',
-  },
-  {
-    name: 'Prof. Farhana Sultana',
-    handle: '@farhanasultana.com',
-    url: 'https://bsky.app/profile/farhanasultana.com/post/3ldxbpfdl4k2z',
-    avatarUrl: 'https://cdn.bsky.app/img/avatar_thumbnail/plain/did:plc:lhxnyveivbrnaqrcpx66p4i6/bafkreibjheu3bivxswyjj7slv7csxaohav7qjewetp4pdtjf3ulhjzcq2q@jpeg',
-    content: 'I keep forgetting to run the Sky Follower Bridge to find Twitter mutuals who’ve arrived since I last ran it. I’m doing it and have found over 500 new mutuals.😮 Find your Twitter mutuals by using this nifty thing! ',
   },
   {
     name: 'Karen James',
