@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Firefox Add-on審査用ソースコードZIP作成スクリプト
-# このスクリプトは、Firefoxアドオンの審査に必要なソースコードのみを含むZIPファイルを作成します。
+# 拡張機能のビルドに必要なソースコードと設定ファイルのみを含むZIPファイルを作成します。
 
 set -e
 
@@ -21,31 +21,26 @@ fi
 
 echo "ソースコードZIPを作成中..."
 
-# zip作成（必要なファイルのみを含める）
+# zip作成（拡張機能のビルドに必要なファイルのみ）
 zip -r "$OUTPUT_FILE" \
     src/ \
     locales/ \
     assets/ \
-    scripts/ \
-    server/ \
-    .storybook/ \
+    scripts/remove_web_accessible_resources.js \
     package.json \
     package-lock.json \
     tsconfig.json \
-    tsconfig.script.json \
     tailwind.config.js \
     postcss.config.js \
-    biome.json \
     vite.config.ts \
-    lefthook.yml \
-    README.md \
-    LICENSE \
-    CONTRIBUTING.md \
     BUILD_INSTRUCTIONS.md \
+    LICENSE \
     -x "*.DS_Store" \
-    -x "*/__pycache__/*" \
-    -x "*.pyc" \
-    -x "*.log"
+    -x "*/__tests__/*" \
+    -x "*.test.ts" \
+    -x "*.test.tsx" \
+    -x "*.stories.ts" \
+    -x "*.stories.tsx"
 
 # ZIPファイルのサイズを表示
 ZIP_SIZE=$(ls -lh "$OUTPUT_FILE" | awk '{print $5}')
