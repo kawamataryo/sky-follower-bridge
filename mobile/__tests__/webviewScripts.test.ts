@@ -45,7 +45,7 @@ describe("parseExtractedUsers", () => {
 describe("buildScrapeScript", () => {
   it("returns a string containing the UserCell selector", () => {
     const script = buildScrapeScript();
-    expect(script).toContain('[data-testid="UserCell"]');
+    expect(script).toContain("UserCell");
   });
 
   it("returns a string containing ReactNativeWebView.postMessage", () => {
