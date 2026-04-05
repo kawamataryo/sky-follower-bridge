@@ -182,7 +182,15 @@ export default function ScanScreen() {
       <View style={isLoginPhase ? styles.webviewFull : styles.offscreen}>
         {isLoginPhase && (
           <View style={styles.webviewHeader}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.backButtonText}>← Back</Text>
+            </TouchableOpacity>
             <Text style={styles.webviewHeaderText}>Sign in to X to continue</Text>
+            <View style={styles.backButton} />
           </View>
         )}
         <WebView
@@ -296,11 +304,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webviewHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: colors.bg.secondary,
     paddingTop: 58,
     paddingBottom: spacing.md,
     paddingHorizontal: spacing.lg,
-    alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: colors.border.subtle,
   },
@@ -308,6 +318,14 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.bodySmall,
     fontWeight: typography.weights.medium,
     color: colors.text.secondary,
+  },
+  backButton: {
+    width: 60,
+  },
+  backButtonText: {
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.medium,
+    color: colors.accent.cyan,
   },
   webview: {
     flex: 1,
