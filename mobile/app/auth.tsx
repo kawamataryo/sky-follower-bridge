@@ -6,6 +6,7 @@ import {
   Animated,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -68,12 +69,12 @@ export default function AuthScreen() {
         style={styles.flex}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <Animated.View
-          style={[
-            styles.inner,
-            { opacity: fadeIn, transform: [{ translateY: slideUp }] },
-          ]}
+        <ScrollView
+          contentContainerStyle={styles.inner}
+          keyboardShouldPersistTaps="handled"
         >
+          <Animated.View style={{ opacity: fadeIn }}>
+
           {/* Step Indicator */}
           <View style={styles.stepContainer}>
             <View style={[styles.stepDot, styles.stepDotActive]} />
@@ -150,7 +151,8 @@ export default function AuthScreen() {
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-        </Animated.View>
+          </Animated.View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </LinearGradient>
   );
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inner: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     padding: spacing.xl,
   },
