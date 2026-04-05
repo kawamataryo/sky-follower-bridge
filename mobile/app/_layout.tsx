@@ -1,9 +1,20 @@
 import { Stack } from "expo-router";
+import { AuthProvider } from "~/contexts/AuthContext";
+import { ScanProvider } from "~/contexts/ScanContext";
 
 export default function RootLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-    </Stack>
+    <AuthProvider>
+      <ScanProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="auth" />
+          <Stack.Screen name="x-login-guide" />
+          <Stack.Screen name="x-login" />
+          <Stack.Screen name="scan" />
+          <Stack.Screen name="results" />
+        </Stack>
+      </ScanProvider>
+    </AuthProvider>
   );
 }
