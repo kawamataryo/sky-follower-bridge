@@ -1,6 +1,7 @@
 import { AtpAgent } from "@atproto/api";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { createAgentWithAppPassword, restoreAgent } from "~/lib/bskyAgent";
+import { loginWithOAuth } from "~/lib/bskyOAuth";
 import { clearSession, loadSession, saveSession } from "~/lib/sessionStorage";
 import type { SessionData } from "~/types";
 
@@ -15,6 +16,7 @@ type AuthState = {
     authFactorToken?: string;
     service?: string;
   }) => Promise<void>;
+  loginWithOAuth: (identifier: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -60,6 +62,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
+  const handleOAuthLogin = useCallback(async (identifier: string) => {
+    const { agent: newAgent, sub } = await loginWithOAuth(identifier);
+    const sessionData: SessionData = { authMethod: "oauth", sub };
+    await saveSession(sessionData);
+    setAgent(newAgent);
+    setHandle(newAgent.session?.handle ?? null);
+  }, []);
+
   const logout = useCallback(async () => {
     await clearSession();
     setAgent(null);
@@ -74,6 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoggedIn: agent !== null,
         handle,
         loginWithAppPassword,
+        loginWithOAuth: handleOAuthLogin,
         logout,
       }}
     >
