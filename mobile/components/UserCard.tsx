@@ -1,6 +1,8 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { BskyUser } from "~/types";
+import { colors, radius, spacing, typography } from "~/lib/theme";
 
 type Props = {
   user: BskyUser;
@@ -8,9 +10,9 @@ type Props = {
 };
 
 const MATCH_TYPE_LABELS: Record<string, { label: string; color: string }> = {
-  handle: { label: "Handle match", color: "#3B82F6" },
-  display_name: { label: "Display name", color: "#F59E0B" },
-  description: { label: "Bio match", color: "#8B5CF6" },
+  handle: { label: "Handle match", color: colors.match.handle },
+  display_name: { label: "Display name", color: colors.match.display_name },
+  description: { label: "Bio match", color: colors.match.description },
 };
 
 export function UserCard({ user, onFollow }: Props) {
@@ -42,7 +44,10 @@ export function UserCard({ user, onFollow }: Props) {
         )}
         <Text style={styles.arrow}>→</Text>
         {user.avatar ? (
-          <Image source={{ uri: user.avatar }} style={styles.avatar} />
+          <Image
+            source={{ uri: user.avatar }}
+            style={[styles.avatar, styles.bskyAvatar]}
+          />
         ) : (
           <View style={[styles.avatar, styles.avatarPlaceholder]} />
         )}
@@ -66,24 +71,29 @@ export function UserCard({ user, onFollow }: Props) {
         )}
       </View>
 
-      <TouchableOpacity
-        style={[
-          styles.followButton,
-          isFollowing && styles.followingButton,
-          isLoading && styles.loadingButton,
-        ]}
-        onPress={handleFollow}
-        disabled={isFollowing || isLoading}
-      >
-        <Text
-          style={[
-            styles.followButtonText,
-            isFollowing && styles.followingButtonText,
-          ]}
+      {isFollowing ? (
+        <View style={styles.followingButton}>
+          <Text style={styles.followingButtonText}>Following</Text>
+        </View>
+      ) : (
+        <TouchableOpacity
+          style={[styles.followButton, isLoading && styles.loadingButton]}
+          onPress={handleFollow}
+          disabled={isLoading}
+          activeOpacity={0.85}
         >
-          {isFollowing ? "Following" : isLoading ? "..." : "Follow"}
-        </Text>
-      </TouchableOpacity>
+          <LinearGradient
+            colors={[...colors.gradient.button]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.followButtonGradient}
+          >
+            <Text style={styles.followButtonText}>
+              {isLoading ? "..." : "Follow"}
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -92,70 +102,89 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    padding: spacing.lg,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.md,
+    backgroundColor: colors.bg.card,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
   },
   avatarRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
   },
+  bskyAvatar: {
+    borderWidth: 2,
+    borderColor: colors.accent.cyan,
+  },
   avatarPlaceholder: {
-    backgroundColor: "#ddd",
+    backgroundColor: colors.bg.cardHover,
   },
   arrow: {
-    marginHorizontal: 4,
-    color: "#999",
-    fontSize: 12,
+    marginHorizontal: spacing.xs,
+    color: colors.accent.cyan,
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.bold,
   },
   info: {
     flex: 1,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   displayName: {
-    fontSize: 15,
-    fontWeight: "600",
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.semibold,
+    color: colors.text.primary,
   },
   handle: {
-    fontSize: 13,
-    color: "#666",
+    fontSize: typography.sizes.caption,
+    color: colors.text.secondary,
     marginTop: 1,
   },
   badge: {
     alignSelf: "flex-start",
-    paddingHorizontal: 6,
+    paddingHorizontal: spacing.sm,
     paddingVertical: 2,
-    borderRadius: 4,
-    marginTop: 4,
+    borderRadius: radius.sm,
+    marginTop: spacing.xs,
   },
   badgeText: {
-    fontSize: 11,
-    fontWeight: "600",
+    fontSize: typography.sizes.micro,
+    fontWeight: typography.weights.semibold,
   },
   followButton: {
-    backgroundColor: "#0085FF",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: radius.full,
+    overflow: "hidden",
   },
-  followingButton: {
-    backgroundColor: "#f0f0f0",
+  followButtonGradient: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
   },
   loadingButton: {
     opacity: 0.6,
   },
   followButtonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
+    color: colors.text.primary,
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.semibold,
+  },
+  followingButton: {
+    backgroundColor: colors.bg.card,
+    borderWidth: 1,
+    borderColor: colors.border.medium,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.full,
   },
   followingButtonText: {
-    color: "#666",
+    color: colors.text.secondary,
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.medium,
   },
 });

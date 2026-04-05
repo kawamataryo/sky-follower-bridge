@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -5,6 +6,7 @@ import { UserCard } from "~/components/UserCard";
 import { useAuth } from "~/contexts/AuthContext";
 import { useScan } from "~/contexts/ScanContext";
 import type { BskyUser } from "~/types";
+import { colors, radius, spacing, typography } from "~/lib/theme";
 
 export default function ResultsScreen() {
   const router = useRouter();
@@ -32,11 +34,13 @@ export default function ResultsScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>
           {matchedUsers.length} users found
         </Text>
+        <View style={styles.accentLine} />
       </View>
 
       <FlatList
@@ -46,63 +50,94 @@ export default function ResultsScreen() {
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyText}>No matching users found</Text>
+            <Text style={styles.emptyIcon}>🔍</Text>
+            <Text style={styles.emptyTitle}>No matches found</Text>
+            <Text style={styles.emptyText}>
+              We couldn't find any matching Bluesky accounts.
+            </Text>
           </View>
         }
       />
 
+      {/* Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button} onPress={handleScanAgain}>
-          <Text style={styles.buttonText}>Scan Again</Text>
+        <TouchableOpacity
+          style={styles.scanAgainButton}
+          onPress={handleScanAgain}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.scanAgainText}>Scan Again</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   header: {
-    padding: 24,
-    paddingBottom: 12,
+    paddingHorizontal: spacing.xl,
     paddingTop: 60,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    paddingBottom: spacing.lg,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: typography.sizes.h2,
+    fontWeight: typography.weights.bold,
+    color: colors.text.primary,
+    letterSpacing: typography.letterSpacing.tight,
+  },
+  accentLine: {
+    height: 3,
+    width: 40,
+    backgroundColor: colors.accent.cyan,
+    borderRadius: 2,
+    marginTop: spacing.sm,
   },
   list: {
     flexGrow: 1,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.md,
   },
   empty: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 48,
+    padding: spacing.xxxl,
+  },
+  emptyIcon: {
+    fontSize: 48,
+    marginBottom: spacing.lg,
+  },
+  emptyTitle: {
+    fontSize: typography.sizes.h3,
+    fontWeight: typography.weights.semibold,
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
   },
   emptyText: {
-    fontSize: 16,
-    color: "#888",
+    fontSize: typography.sizes.bodySmall,
+    color: colors.text.secondary,
+    textAlign: "center",
+    lineHeight: 20,
   },
   footer: {
-    padding: 24,
+    padding: spacing.xl,
     borderTopWidth: 1,
-    borderTopColor: "#f0f0f0",
+    borderTopColor: colors.border.subtle,
   },
-  button: {
-    backgroundColor: "#0085FF",
+  scanAgainButton: {
+    borderWidth: 1,
+    borderColor: colors.border.medium,
     paddingVertical: 14,
-    borderRadius: 12,
+    borderRadius: radius.lg,
     alignItems: "center",
+    backgroundColor: "transparent",
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+  scanAgainText: {
+    fontSize: typography.sizes.body,
+    fontWeight: typography.weights.semibold,
+    color: colors.text.secondary,
   },
 });

@@ -1,8 +1,9 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { CrawledUserInfo } from "~/types";
 import {
-  ActivityIndicator,
+  Animated,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -15,6 +16,7 @@ import { useAuth } from "~/contexts/AuthContext";
 import { useScan } from "~/contexts/ScanContext";
 import { X_FOLLOW_PAGE_URL } from "~/lib/constants";
 import { parseExtractedUsers, buildScrapeScript } from "~/lib/webviewScripts";
+import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 export default function ScanScreen() {
   const router = useRouter();
@@ -24,6 +26,86 @@ export default function ScanScreen() {
   const webviewRef = useRef<WebView>(null);
   const processingRef = useRef(false);
   const pendingUsers = useRef<CrawledUserInfo[]>([]);
+
+  const fadeIn = useRef(new Animated.Value(0)).current;
+  const slideUp = useRef(new Animated.Value(30)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const ringAnim1 = useRef(new Animated.Value(0.6)).current;
+  const ringAnim2 = useRef(new Animated.Value(0.4)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeIn, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideUp, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [fadeIn, slideUp]);
+
+  useEffect(() => {
+    if (status !== "completed") {
+      const pulse = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.15,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+      );
+
+      const ring1 = Animated.loop(
+        Animated.sequence([
+          Animated.timing(ringAnim1, {
+            toValue: 1,
+            duration: 1500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(ringAnim1, {
+            toValue: 0.3,
+            duration: 1500,
+            useNativeDriver: true,
+          }),
+        ]),
+      );
+
+      const ring2 = Animated.loop(
+        Animated.sequence([
+          Animated.timing(ringAnim2, {
+            toValue: 0.8,
+            duration: 2000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(ringAnim2, {
+            toValue: 0.2,
+            duration: 2000,
+            useNativeDriver: true,
+          }),
+        ]),
+      );
+
+      pulse.start();
+      ring1.start();
+      ring2.start();
+
+      return () => {
+        pulse.stop();
+        ring1.stop();
+        ring2.stop();
+      };
+    }
+  }, [status, pulseAnim, ringAnim1, ringAnim2]);
 
   const handleMessage = useCallback(
     async (event: WebViewMessageEvent) => {
@@ -60,44 +142,94 @@ export default function ScanScreen() {
     router.push("/results");
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>
-          {status === "completed" ? "Scan Complete" : "Scanning..."}
-        </Text>
+  const isComplete = status === "completed";
 
-        {status !== "completed" && (
-          <ActivityIndicator
-            size="small"
-            color="#0085FF"
-            style={styles.spinner}
-          />
-        )}
+  return (
+    <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
+      <Animated.View
+        style={[
+          styles.content,
+          { opacity: fadeIn, transform: [{ translateY: slideUp }] },
+        ]}
+      >
+        {/* Step Indicator */}
+        <View style={styles.stepContainer}>
+          <View style={styles.stepDot} />
+          <View style={styles.stepDot} />
+          <View style={[styles.stepDot, styles.stepDotActive]} />
+        </View>
+        <Text style={styles.stepLabel}>STEP 3 OF 3</Text>
+
+        {/* Scan Icon with Pulsing Rings */}
+        <View style={styles.scanIconWrapper}>
+          {!isComplete && (
+            <>
+              <Animated.View
+                style={[
+                  styles.pulseRing,
+                  styles.pulseRingOuter,
+                  { opacity: ringAnim2, transform: [{ scale: pulseAnim }] },
+                ]}
+              />
+              <Animated.View
+                style={[
+                  styles.pulseRing,
+                  styles.pulseRingInner,
+                  { opacity: ringAnim1 },
+                ]}
+              />
+            </>
+          )}
+          <View style={[styles.scanIcon, isComplete && styles.scanIconComplete]}>
+            <Text style={styles.scanIconText}>
+              {isComplete ? "✓" : "⟳"}
+            </Text>
+          </View>
+        </View>
+
+        <Text style={styles.title}>
+          {isComplete ? "Scan Complete" : "Scanning..."}
+        </Text>
 
         <ScanProgress
           scannedCount={scannedCount}
           matchedCount={matchedUsers.length}
         />
 
-        {status === "completed" ? (
+        {isComplete ? (
           <TouchableOpacity
             style={styles.button}
             onPress={handleViewResults}
+            activeOpacity={0.85}
           >
-            <Text style={styles.buttonText}>
-              View {matchedUsers.length} matched users
-            </Text>
+            <LinearGradient
+              colors={[...colors.gradient.button]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.buttonGradient}
+            >
+              <Text style={styles.buttonText}>
+                View {matchedUsers.length} matched users
+              </Text>
+            </LinearGradient>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            style={[styles.button, styles.stopButton]}
+            style={styles.stopButton}
             onPress={handleStop}
+            activeOpacity={0.85}
           >
-            <Text style={styles.buttonText}>Stop Scanning</Text>
+            <LinearGradient
+              colors={[...colors.gradient.danger]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.buttonGradient}
+            >
+              <Text style={styles.buttonText}>Stop Scanning</Text>
+            </LinearGradient>
           </TouchableOpacity>
         )}
-      </View>
+      </Animated.View>
 
       {/* Off-screen WebView for scraping */}
       <View style={styles.offscreen}>
@@ -113,42 +245,117 @@ export default function ScanScreen() {
           thirdPartyCookiesEnabled
         />
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   content: {
     flex: 1,
     justifyContent: "center",
-    padding: 24,
+    alignItems: "center",
+    padding: spacing.xl,
+  },
+  stepContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  stepDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.border.medium,
+  },
+  stepDotActive: {
+    backgroundColor: colors.accent.cyan,
+    ...shadows.glow,
+  },
+  stepLabel: {
+    fontSize: typography.sizes.micro,
+    fontWeight: typography.weights.semibold,
+    color: colors.accent.cyan,
+    letterSpacing: typography.letterSpacing.extraWide,
+    marginBottom: spacing.xxl,
+  },
+  scanIconWrapper: {
+    width: 120,
+    height: 120,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: spacing.xl,
+  },
+  pulseRing: {
+    position: "absolute",
+    borderRadius: 999,
+    borderWidth: 2,
+    borderColor: colors.accent.cyan,
+  },
+  pulseRingOuter: {
+    width: 120,
+    height: 120,
+  },
+  pulseRingInner: {
+    width: 90,
+    height: 90,
+  },
+  scanIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.bg.card,
+    borderWidth: 2,
+    borderColor: colors.accent.cyan,
+    alignItems: "center",
+    justifyContent: "center",
+    ...shadows.glow,
+  },
+  scanIconComplete: {
+    borderColor: colors.status.success,
+    shadowColor: colors.status.success,
+  },
+  scanIconText: {
+    fontSize: 24,
+    color: colors.text.primary,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: typography.sizes.h1,
+    fontWeight: typography.weights.bold,
+    color: colors.text.primary,
+    letterSpacing: typography.letterSpacing.tight,
     textAlign: "center",
-    marginBottom: 8,
-  },
-  spinner: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   button: {
-    backgroundColor: "#0085FF",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
+    width: "100%",
+    borderRadius: radius.lg,
+    overflow: "hidden",
+    ...shadows.button,
   },
   stopButton: {
-    backgroundColor: "#FF3B30",
+    width: "100%",
+    borderRadius: radius.lg,
+    overflow: "hidden",
+    shadowColor: colors.status.error,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  buttonGradient: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 16,
+    paddingHorizontal: spacing.xl,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: typography.sizes.body,
+    fontWeight: typography.weights.semibold,
+    color: colors.text.primary,
   },
   offscreen: {
     position: "absolute",

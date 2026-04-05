@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { WebViewNavigation } from "react-native-webview";
 import { X_LOGIN_URL } from "~/lib/constants";
+import { colors, spacing, typography } from "~/lib/theme";
 
 const X_HOME_PATTERNS = [
   /^https:\/\/(x|twitter)\.com\/home/,
@@ -32,11 +33,26 @@ export default function XLoginScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Dark status bar area */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Signing in to X</Text>
+        {isLoading && (
+          <ActivityIndicator
+            size="small"
+            color={colors.accent.cyan}
+            style={styles.headerSpinner}
+          />
+        )}
+      </View>
+
+      {/* Loading overlay */}
       {isLoading && (
         <View style={styles.loading}>
-          <ActivityIndicator size="large" color="#0085FF" />
+          <ActivityIndicator size="large" color={colors.accent.cyan} />
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
       )}
+
       <WebView
         ref={webviewRef}
         source={{ uri: X_LOGIN_URL }}
@@ -55,6 +71,26 @@ export default function XLoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.bg.primary,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.bg.secondary,
+    paddingTop: 54,
+    paddingBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border.subtle,
+  },
+  headerText: {
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.medium,
+    color: colors.text.secondary,
+  },
+  headerSpinner: {
+    marginLeft: spacing.sm,
   },
   webview: {
     flex: 1,
@@ -63,7 +99,12 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.bg.overlay,
     zIndex: 1,
+  },
+  loadingText: {
+    fontSize: typography.sizes.bodySmall,
+    color: colors.text.secondary,
+    marginTop: spacing.md,
   },
 });

@@ -1,7 +1,9 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
+  Animated,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -11,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useAuth } from "~/contexts/AuthContext";
+import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 export default function AuthScreen() {
   const router = useRouter();
@@ -18,6 +21,25 @@ export default function AuthScreen() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const fadeIn = useRef(new Animated.Value(0)).current;
+  const slideUp = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeIn, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideUp, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [fadeIn, slideUp]);
 
   const handleLogin = async () => {
     if (!identifier.trim() || !password.trim()) {
@@ -41,90 +63,202 @@ export default function AuthScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.inner}>
-        <Text style={styles.title}>Login to Bluesky</Text>
-        <Text style={styles.subtitle}>
-          Use your handle and an App Password
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Handle (e.g. alice.bsky.social)"
-          value={identifier}
-          onChangeText={setIdentifier}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="App Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <TouchableOpacity
-          style={[styles.button, isLoading && styles.buttonDisabled]}
-          onPress={handleLogin}
-          disabled={isLoading}
+    <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Animated.View
+          style={[
+            styles.inner,
+            { opacity: fadeIn, transform: [{ translateY: slideUp }] },
+          ]}
         >
-          <Text style={styles.buttonText}>
-            {isLoading ? "Logging in..." : "Login"}
+          {/* Step Indicator */}
+          <View style={styles.stepContainer}>
+            <View style={[styles.stepDot, styles.stepDotActive]} />
+            <View style={styles.stepDot} />
+            <View style={styles.stepDot} />
+          </View>
+          <Text style={styles.stepLabel}>STEP 1 OF 3</Text>
+
+          <Text style={styles.title}>Connect Bluesky</Text>
+          <Text style={styles.subtitle}>
+            Use your handle and an App Password
           </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+
+          {/* Handle Input */}
+          <View
+            style={[
+              styles.inputContainer,
+              focusedField === "handle" && styles.inputContainerFocused,
+            ]}
+          >
+            <Text style={styles.inputPrefix}>@</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="alice.bsky.social"
+              placeholderTextColor={colors.text.tertiary}
+              value={identifier}
+              onChangeText={setIdentifier}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onFocus={() => setFocusedField("handle")}
+              onBlur={() => setFocusedField(null)}
+            />
+          </View>
+
+          {/* Password Input */}
+          <View
+            style={[
+              styles.inputContainer,
+              focusedField === "password" && styles.inputContainerFocused,
+            ]}
+          >
+            <TextInput
+              style={[styles.input, styles.inputFull]}
+              placeholder="App Password"
+              placeholderTextColor={colors.text.tertiary}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              autoCapitalize="none"
+              autoCorrect={false}
+              onFocus={() => setFocusedField("password")}
+              onBlur={() => setFocusedField(null)}
+            />
+          </View>
+          <Text style={styles.hint}>
+            Generate an App Password in Bluesky Settings → Privacy & Security
+          </Text>
+
+          {/* Sign In Button */}
+          <TouchableOpacity
+            style={[styles.button, isLoading && styles.buttonDisabled]}
+            onPress={handleLogin}
+            disabled={isLoading}
+            activeOpacity={0.85}
+          >
+            <LinearGradient
+              colors={[...colors.gradient.button]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.buttonGradient}
+            >
+              <Text style={styles.buttonText}>
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Animated.View>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+  },
+  flex: {
+    flex: 1,
   },
   inner: {
     flex: 1,
     justifyContent: "center",
-    padding: 24,
+    padding: spacing.xl,
+  },
+  stepContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  stepDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.border.medium,
+  },
+  stepDotActive: {
+    backgroundColor: colors.accent.cyan,
+    ...shadows.glow,
+  },
+  stepLabel: {
+    fontSize: typography.sizes.micro,
+    fontWeight: typography.weights.semibold,
+    color: colors.accent.cyan,
+    letterSpacing: typography.letterSpacing.extraWide,
+    marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 4,
+    fontSize: typography.sizes.h1,
+    fontWeight: typography.weights.bold,
+    color: colors.text.primary,
+    letterSpacing: typography.letterSpacing.tight,
+    marginBottom: spacing.xs,
   },
   subtitle: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 24,
+    fontSize: typography.sizes.bodySmall,
+    color: colors.text.secondary,
+    marginBottom: spacing.xl,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.bg.input,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
+    marginBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+  },
+  inputContainerFocused: {
+    borderColor: colors.accent.blue,
+    shadowColor: colors.accent.blue,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  inputPrefix: {
+    fontSize: typography.sizes.body,
+    color: colors.text.tertiary,
+    marginRight: spacing.xs,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
-    padding: 14,
-    fontSize: 16,
-    marginBottom: 12,
+    flex: 1,
+    fontSize: typography.sizes.body,
+    color: colors.text.primary,
+    paddingVertical: 14,
+  },
+  inputFull: {
+    paddingLeft: 0,
+  },
+  hint: {
+    fontSize: typography.sizes.caption,
+    color: colors.text.tertiary,
+    marginBottom: spacing.xl,
+    marginTop: -spacing.xs,
   },
   button: {
-    backgroundColor: "#0085FF",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 8,
+    borderRadius: radius.lg,
+    overflow: "hidden",
+    marginTop: spacing.sm,
+    ...shadows.button,
   },
   buttonDisabled: {
     opacity: 0.6,
   },
+  buttonGradient: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 16,
+    paddingHorizontal: spacing.xl,
+  },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: typography.sizes.body,
+    fontWeight: typography.weights.semibold,
+    color: colors.text.primary,
   },
 });
