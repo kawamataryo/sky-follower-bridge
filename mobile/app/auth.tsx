@@ -1,9 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   Alert,
-  Animated,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -22,25 +21,6 @@ export default function AuthScreen() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-
-  const fadeIn = useRef(new Animated.Value(0)).current;
-  const slideUp = useRef(new Animated.Value(30)).current;
-
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeIn, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideUp, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeIn, slideUp]);
 
   const handleLogin = async () => {
     if (!identifier.trim() || !password.trim()) {
@@ -72,9 +52,8 @@ export default function AuthScreen() {
         <ScrollView
           contentContainerStyle={styles.inner}
           keyboardShouldPersistTaps="handled"
+          bounces={false}
         >
-          <Animated.View style={{ opacity: fadeIn }}>
-
           {/* Step Indicator */}
           <View style={styles.stepContainer}>
             <View style={[styles.stepDot, styles.stepDotActive]} />
@@ -89,12 +68,7 @@ export default function AuthScreen() {
           </Text>
 
           {/* Handle Input */}
-          <View
-            style={[
-              styles.inputContainer,
-              focusedField === "handle" && styles.inputContainerFocused,
-            ]}
-          >
+          <View style={styles.inputContainer}>
             <Text style={styles.inputPrefix}>@</Text>
             <TextInput
               style={styles.input}
@@ -104,18 +78,13 @@ export default function AuthScreen() {
               onChangeText={setIdentifier}
               autoCapitalize="none"
               autoCorrect={false}
-              onFocus={() => setFocusedField("handle")}
-              onBlur={() => setFocusedField(null)}
+              keyboardAppearance="dark"
+              returnKeyType="next"
             />
           </View>
 
           {/* Password Input */}
-          <View
-            style={[
-              styles.inputContainer,
-              focusedField === "password" && styles.inputContainerFocused,
-            ]}
-          >
+          <View style={styles.inputContainer}>
             <TextInput
               style={[styles.input, styles.inputFull]}
               placeholder="App Password"
@@ -125,8 +94,9 @@ export default function AuthScreen() {
               secureTextEntry
               autoCapitalize="none"
               autoCorrect={false}
-              onFocus={() => setFocusedField("password")}
-              onBlur={() => setFocusedField(null)}
+              keyboardAppearance="dark"
+              returnKeyType="done"
+              onSubmitEditing={handleLogin}
             />
           </View>
           <Text style={styles.hint}>
@@ -151,7 +121,6 @@ export default function AuthScreen() {
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-          </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -214,14 +183,6 @@ const styles = StyleSheet.create({
     borderColor: colors.border.subtle,
     marginBottom: spacing.md,
     paddingHorizontal: spacing.lg,
-  },
-  inputContainerFocused: {
-    borderColor: colors.accent.blue,
-    shadowColor: colors.accent.blue,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
   },
   inputPrefix: {
     fontSize: typography.sizes.body,
