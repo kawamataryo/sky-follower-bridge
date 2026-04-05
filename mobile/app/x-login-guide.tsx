@@ -69,7 +69,7 @@ export default function XLoginGuideScreen() {
         {/* Continue Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/x-login")}
+          onPress={() => router.push("/scan")}
           activeOpacity={0.85}
         >
           <LinearGradient

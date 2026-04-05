@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CrawledUserInfo } from "~/types";
 import {
   Animated,
@@ -10,13 +10,23 @@ import {
   View,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import type { WebViewMessageEvent } from "react-native-webview";
+import type { WebViewMessageEvent, WebViewNavigation } from "react-native-webview";
 import { ScanProgress } from "~/components/ScanProgress";
 import { useAuth } from "~/contexts/AuthContext";
 import { useScan } from "~/contexts/ScanContext";
-import { X_FOLLOW_PAGE_URL } from "~/lib/constants";
+import { X_FOLLOW_PAGE_URL, X_LOGIN_URL } from "~/lib/constants";
 import { parseExtractedUsers, buildScrapeScript } from "~/lib/webviewScripts";
 import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
+
+type Phase = "x_login" | "scanning" | "completed";
+
+const X_LOGGED_IN_PATTERNS = [
+  /^https:\/\/(x|twitter)\.com\/home/,
+  /^https:\/\/(x|twitter)\.com\/$/,
+  /^https:\/\/(x|twitter)\.com\/?(\?|#|$)/,
+];
+
+const X_FOLLOWING_PATTERN = /^https:\/\/(x|twitter)\.com\/[^/]+\/(verified_follow|follow)/;
 
 export default function ScanScreen() {
   const router = useRouter();
@@ -26,30 +36,17 @@ export default function ScanScreen() {
   const webviewRef = useRef<WebView>(null);
   const processingRef = useRef(false);
   const pendingUsers = useRef<CrawledUserInfo[]>([]);
+  const hasStartedScan = useRef(false);
 
-  const fadeIn = useRef(new Animated.Value(0)).current;
-  const slideUp = useRef(new Animated.Value(30)).current;
+  const [phase, setPhase] = useState<Phase>("x_login");
+
+  // Pulse animation for scanning state
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const ringAnim1 = useRef(new Animated.Value(0.6)).current;
   const ringAnim2 = useRef(new Animated.Value(0.4)).current;
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeIn, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideUp, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeIn, slideUp]);
-
-  useEffect(() => {
-    if (status !== "completed") {
+    if (phase === "scanning") {
       const pulse = Animated.loop(
         Animated.sequence([
           Animated.timing(pulseAnim, {
@@ -64,7 +61,6 @@ export default function ScanScreen() {
           }),
         ]),
       );
-
       const ring1 = Animated.loop(
         Animated.sequence([
           Animated.timing(ringAnim1, {
@@ -79,7 +75,6 @@ export default function ScanScreen() {
           }),
         ]),
       );
-
       const ring2 = Animated.loop(
         Animated.sequence([
           Animated.timing(ringAnim2, {
@@ -94,18 +89,52 @@ export default function ScanScreen() {
           }),
         ]),
       );
-
       pulse.start();
       ring1.start();
       ring2.start();
-
       return () => {
         pulse.stop();
         ring1.stop();
         ring2.stop();
       };
     }
-  }, [status, pulseAnim, ringAnim1, ringAnim2]);
+  }, [phase, pulseAnim, ringAnim1, ringAnim2]);
+
+  const handleNavigationStateChange = useCallback(
+    (navState: WebViewNavigation) => {
+      if (phase !== "x_login") return;
+
+      const isLoggedIn = X_LOGGED_IN_PATTERNS.some((p) => p.test(navState.url));
+      if (isLoggedIn) {
+        // Logged in — navigate to following page
+        setPhase("scanning");
+        setStatus("scanning");
+        webviewRef.current?.injectJavaScript(
+          `window.location.href = ${JSON.stringify(X_FOLLOW_PAGE_URL)}; true;`,
+        );
+      }
+
+      // If already on a following page (user was already logged in)
+      if (X_FOLLOWING_PATTERN.test(navState.url) && !hasStartedScan.current) {
+        hasStartedScan.current = true;
+        setPhase("scanning");
+        setStatus("scanning");
+        webviewRef.current?.injectJavaScript(buildScrapeScript());
+      }
+    },
+    [phase, setStatus],
+  );
+
+  const handleLoadEnd = useCallback(() => {
+    // When following page loads, inject scrape script
+    if (phase === "scanning" && !hasStartedScan.current) {
+      hasStartedScan.current = true;
+      // Small delay to let page render
+      setTimeout(() => {
+        webviewRef.current?.injectJavaScript(buildScrapeScript());
+      }, 2000);
+    }
+  }, [phase]);
 
   const handleMessage = useCallback(
     async (event: WebViewMessageEvent) => {
@@ -125,6 +154,7 @@ export default function ScanScreen() {
           processingRef.current = false;
         }
       } else if (message.type === "scroll_end") {
+        setPhase("completed");
         setStatus("completed");
       }
     },
@@ -135,6 +165,7 @@ export default function ScanScreen() {
     webviewRef.current?.injectJavaScript(
       'window.postMessage(JSON.stringify({type:"stop_scan"})); true;',
     );
+    setPhase("completed");
     setStatus("completed");
   };
 
@@ -142,116 +173,153 @@ export default function ScanScreen() {
     router.push("/results");
   };
 
-  const isComplete = status === "completed";
+  const isLoginPhase = phase === "x_login";
+  const isComplete = phase === "completed";
 
   return (
-    <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
-      <Animated.View
-        style={[
-          styles.content,
-          { opacity: fadeIn, transform: [{ translateY: slideUp }] },
-        ]}
-      >
-        {/* Step Indicator */}
-        <View style={styles.stepContainer}>
-          <View style={styles.stepDot} />
-          <View style={styles.stepDot} />
-          <View style={[styles.stepDot, styles.stepDotActive]} />
-        </View>
-        <Text style={styles.stepLabel}>STEP 3 OF 3</Text>
-
-        {/* Scan Icon with Pulsing Rings */}
-        <View style={styles.scanIconWrapper}>
-          {!isComplete && (
-            <>
-              <Animated.View
-                style={[
-                  styles.pulseRing,
-                  styles.pulseRingOuter,
-                  { opacity: ringAnim2, transform: [{ scale: pulseAnim }] },
-                ]}
-              />
-              <Animated.View
-                style={[
-                  styles.pulseRing,
-                  styles.pulseRingInner,
-                  { opacity: ringAnim1 },
-                ]}
-              />
-            </>
-          )}
-          <View style={[styles.scanIcon, isComplete && styles.scanIconComplete]}>
-            <Text style={styles.scanIconText}>
-              {isComplete ? "✓" : "⟳"}
-            </Text>
+    <View style={styles.container}>
+      {/* WebView — full screen during login, off-screen during scan */}
+      <View style={isLoginPhase ? styles.webviewFull : styles.offscreen}>
+        {isLoginPhase && (
+          <View style={styles.webviewHeader}>
+            <Text style={styles.webviewHeaderText}>Sign in to X to continue</Text>
           </View>
-        </View>
-
-        <Text style={styles.title}>
-          {isComplete ? "Scan Complete" : "Scanning..."}
-        </Text>
-
-        <ScanProgress
-          scannedCount={scannedCount}
-          matchedCount={matchedUsers.length}
-        />
-
-        {isComplete ? (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleViewResults}
-            activeOpacity={0.85}
-          >
-            <LinearGradient
-              colors={[...colors.gradient.button]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.buttonGradient}
-            >
-              <Text style={styles.buttonText}>
-                View {matchedUsers.length} matched users
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.stopButton}
-            onPress={handleStop}
-            activeOpacity={0.85}
-          >
-            <LinearGradient
-              colors={[...colors.gradient.danger]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.buttonGradient}
-            >
-              <Text style={styles.buttonText}>Stop Scanning</Text>
-            </LinearGradient>
-          </TouchableOpacity>
         )}
-      </Animated.View>
-
-      {/* Off-screen WebView for scraping */}
-      <View style={styles.offscreen}>
         <WebView
           ref={webviewRef}
-          source={{ uri: X_FOLLOW_PAGE_URL }}
-          injectedJavaScript={buildScrapeScript()}
+          source={{ uri: X_LOGIN_URL }}
+          style={styles.webview}
+          onNavigationStateChange={handleNavigationStateChange}
+          onLoadEnd={handleLoadEnd}
           onMessage={handleMessage}
-          onLoadStart={() => setStatus("scanning")}
           javaScriptEnabled
           domStorageEnabled
           sharedCookiesEnabled
           thirdPartyCookiesEnabled
         />
       </View>
-    </LinearGradient>
+
+      {/* Scanning / Complete overlay */}
+      {!isLoginPhase && (
+        <LinearGradient colors={[...colors.gradient.aurora]} style={styles.overlay}>
+          <View style={styles.content}>
+            {/* Step Indicator */}
+            <View style={styles.stepContainer}>
+              <View style={styles.stepDot} />
+              <View style={styles.stepDot} />
+              <View style={[styles.stepDot, styles.stepDotActive]} />
+            </View>
+            <Text style={styles.stepLabel}>STEP 3 OF 3</Text>
+
+            {/* Scan Icon with Pulsing Rings */}
+            <View style={styles.scanIconWrapper}>
+              {!isComplete && (
+                <>
+                  <Animated.View
+                    style={[
+                      styles.pulseRing,
+                      styles.pulseRingOuter,
+                      { opacity: ringAnim2, transform: [{ scale: pulseAnim }] },
+                    ]}
+                  />
+                  <Animated.View
+                    style={[
+                      styles.pulseRing,
+                      styles.pulseRingInner,
+                      { opacity: ringAnim1 },
+                    ]}
+                  />
+                </>
+              )}
+              <View style={[styles.scanIcon, isComplete && styles.scanIconComplete]}>
+                <Text style={styles.scanIconText}>
+                  {isComplete ? "✓" : "⟳"}
+                </Text>
+              </View>
+            </View>
+
+            <Text style={styles.title}>
+              {isComplete ? "Scan Complete" : "Scanning..."}
+            </Text>
+
+            <ScanProgress
+              scannedCount={scannedCount}
+              matchedCount={matchedUsers.length}
+            />
+
+            {isComplete ? (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleViewResults}
+                activeOpacity={0.85}
+              >
+                <LinearGradient
+                  colors={[...colors.gradient.button]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.buttonText}>
+                    View {matchedUsers.length} matched users
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.stopButton}
+                onPress={handleStop}
+                activeOpacity={0.85}
+              >
+                <LinearGradient
+                  colors={[...colors.gradient.danger]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.buttonText}>Stop Scanning</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+          </View>
+        </LinearGradient>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.bg.primary,
+  },
+  webviewFull: {
+    flex: 1,
+  },
+  webviewHeader: {
+    backgroundColor: colors.bg.secondary,
+    paddingTop: 58,
+    paddingBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border.subtle,
+  },
+  webviewHeaderText: {
+    fontSize: typography.sizes.bodySmall,
+    fontWeight: typography.weights.medium,
+    color: colors.text.secondary,
+  },
+  webview: {
+    flex: 1,
+  },
+  offscreen: {
+    position: "absolute",
+    left: -9999,
+    width: 400,
+    height: 800,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
   },
   content: {
     flex: 1,
@@ -356,11 +424,5 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.body,
     fontWeight: typography.weights.semibold,
     color: colors.text.primary,
-  },
-  offscreen: {
-    position: "absolute",
-    left: -9999,
-    width: 1,
-    height: 1,
   },
 });
