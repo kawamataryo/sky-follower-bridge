@@ -20,11 +20,20 @@ import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 type Phase = "x_login" | "scanning" | "completed";
 
-const X_LOGGED_IN_PATTERNS = [
-  /^https:\/\/(x|twitter)\.com\/home/,
-  /^https:\/\/(x|twitter)\.com\/$/,
-  /^https:\/\/(x|twitter)\.com\/?(\?|#|$)/,
+// Detect login completion: user is on x.com but NOT in login/auth flow
+const X_LOGIN_FLOW_PATTERNS = [
+  /\/i\/flow\/login/,
+  /\/i\/flow\/signup/,
+  /\/login/,
+  /\/account\/access/,
+  /\/oauth/,
 ];
+
+const isOnXButNotLoginFlow = (url: string): boolean => {
+  const isXDomain = /^https:\/\/(x|twitter)\.com/.test(url);
+  const isLoginFlow = X_LOGIN_FLOW_PATTERNS.some((p) => p.test(url));
+  return isXDomain && !isLoginFlow;
+};
 
 const X_FOLLOWING_PATTERN = /^https:\/\/(x|twitter)\.com\/[^/]+\/(verified_follow|follow)/;
 
@@ -104,8 +113,7 @@ export default function ScanScreen() {
     (navState: WebViewNavigation) => {
       if (phase !== "x_login") return;
 
-      const isLoggedIn = X_LOGGED_IN_PATTERNS.some((p) => p.test(navState.url));
-      if (isLoggedIn) {
+      if (isOnXButNotLoginFlow(navState.url)) {
         // Logged in — navigate to following page
         setPhase("scanning");
         setStatus("scanning");
