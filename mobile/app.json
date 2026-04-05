@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Sky Follower Bridge",
+    "slug": "sky-follower-bridge",
+    "version": "1.0.0",
+    "scheme": "sky-follower-bridge",
+    "platforms": ["ios", "android"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "ios": {
+      "bundleIdentifier": "dev.sky-follower-bridge.mobile"
+    },
+    "android": {
+      "package": "dev.sky_follower_bridge.mobile"
+    }
+  }
+}
