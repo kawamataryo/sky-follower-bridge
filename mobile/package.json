@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@atproto/api": "^0.19.6",
+    "base-64": "^1.0.0",
     "expo": "~54.0.33",
     "expo-auth-session": "~7.0.10",
     "expo-crypto": "~15.0.8",
@@ -27,6 +28,7 @@
     "react-native-webview": "13.15.0"
   },
   "devDependencies": {
+    "@types/base-64": "^1.0.2",
     "@types/react": "~19.1.0",
     "happy-dom": "^20.8.9",
     "typescript": "~5.9.2",

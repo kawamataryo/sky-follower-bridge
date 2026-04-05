@@ -1,4 +1,5 @@
 import * as AuthSession from "expo-auth-session";
+import { decode as base64Decode } from "base-64";
 import * as WebBrowser from "expo-web-browser";
 import { AtpAgent } from "@atproto/api";
 import {
@@ -101,7 +102,7 @@ export async function loginWithOAuth(identifier: string): Promise<{
 
   const agent = new AtpAgent({ service: authServer });
   await agent.resumeSession({
-    did: tokenResult.idToken ? JSON.parse(atob(tokenResult.idToken.split(".")[1])).sub : "",
+    did: tokenResult.idToken ? JSON.parse(base64Decode(tokenResult.idToken.split(".")[1])).sub : "",
     handle: identifier,
     accessJwt: tokenResult.accessToken,
     refreshJwt: tokenResult.refreshToken || "",

@@ -14,8 +14,8 @@ export function parseExtractedUsers(
 export function buildScrapeScript(): string {
   return `
     (function() {
-      const SELECTOR = '${USER_CELL_SELECTOR}';
-      const BSKY_DOMAIN = '${BSKY_DOMAIN}';
+      const SELECTOR = ${JSON.stringify(USER_CELL_SELECTOR)};
+      const BSKY_DOMAIN = ${JSON.stringify(BSKY_DOMAIN)};
       const crawledAccountNames = new Set();
       let isRunning = false;
       let checkEndCount = 0;
@@ -119,5 +119,5 @@ export function buildScrapeScript(): string {
 }
 
 export function buildNavigateScript(url: string): string {
-  return `window.location.href = '${url}'; true;`;
+  return `window.location.href = ${JSON.stringify(url)}; true;`;
 }

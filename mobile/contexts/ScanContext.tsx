@@ -58,13 +58,11 @@ export function ScanProvider({ children }: { children: React.ReactNode }) {
               });
 
               for (const candidate of candidates) {
-                if (matchedDids.current.has(candidate.did)) continue;
-
                 const { isSimilar, type } = isSimilarUser(
                   crawledUser,
                   candidate,
                 );
-                if (isSimilar) {
+                if (isSimilar && !matchedDids.current.has(candidate.did)) {
                   matchedDids.current.add(candidate.did);
                   const bskyUser = profileToBskyUser(
                     candidate,

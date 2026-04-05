@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { BskyUser } from "~/types";
 
 type Props = {
@@ -25,7 +25,8 @@ export function UserCard({ user, onFollow }: Props) {
       await onFollow(user);
       setIsFollowing(true);
     } catch (e) {
-      console.error("Follow error:", e);
+      const message = e instanceof Error ? e.message : "Follow failed";
+      Alert.alert("Error", message);
     } finally {
       setIsLoading(false);
     }

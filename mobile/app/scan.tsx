@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { useCallback, useRef } from "react";
+import type { CrawledUserInfo } from "~/types";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -21,6 +22,8 @@ export default function ScanScreen() {
   const { status, scannedCount, matchedUsers, setStatus, processUsers } =
     useScan();
   const webviewRef = useRef<WebView>(null);
+  const processingRef = useRef(false);
+  const pendingUsers = useRef<CrawledUserInfo[]>([]);
 
   const handleMessage = useCallback(
     async (event: WebViewMessageEvent) => {
@@ -30,7 +33,15 @@ export default function ScanScreen() {
       if (!message) return;
 
       if (message.type === "users") {
-        await processUsers(message.payload, agent);
+        pendingUsers.current.push(...message.payload);
+        if (!processingRef.current) {
+          processingRef.current = true;
+          while (pendingUsers.current.length > 0) {
+            const batch = pendingUsers.current.splice(0, pendingUsers.current.length);
+            await processUsers(batch, agent);
+          }
+          processingRef.current = false;
+        }
       } else if (message.type === "scroll_end") {
         setStatus("completed");
       }
