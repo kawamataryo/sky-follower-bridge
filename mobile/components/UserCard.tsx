@@ -1,4 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { BskyUser } from "~/types";
@@ -16,6 +17,7 @@ const MATCH_TYPE_LABELS: Record<string, { label: string; color: string }> = {
 };
 
 export function UserCard({ user, onFollow }: Props) {
+  const router = useRouter();
   const [isFollowing, setIsFollowing] = useState(user.isFollowing);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +37,11 @@ export function UserCard({ user, onFollow }: Props) {
   };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => router.push({ pathname: "/profile", params: { did: user.did } })}
+      activeOpacity={0.7}
+    >
       <View style={styles.avatarRow}>
         {user.originalAvatar ? (
           <Image source={{ uri: user.originalAvatar }} style={styles.avatar} />
@@ -94,7 +100,7 @@ export function UserCard({ user, onFollow }: Props) {
           </LinearGradient>
         </TouchableOpacity>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

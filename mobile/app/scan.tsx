@@ -1,9 +1,11 @@
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CrawledUserInfo } from "~/types";
 import {
   Animated,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,6 +21,13 @@ import { parseExtractedUsers, buildScrapeScript } from "~/lib/webviewScripts";
 import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 type Phase = "x_login" | "scanning" | "completed";
+
+// Use a real mobile browser user agent to prevent X from blocking WebView
+const MOBILE_USER_AGENT = Platform.select({
+  ios: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+  android: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+  default: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+});
 
 // Detect login completion: user is on x.com but NOT in login/auth flow
 const X_LOGIN_FLOW_PATTERNS = [
@@ -36,6 +45,25 @@ const isOnXButNotLoginFlow = (url: string): boolean => {
 };
 
 const X_FOLLOWING_PATTERN = /^https:\/\/(x|twitter)\.com\/[^/]+\/(verified_follow|follow)/;
+
+// Injected script to poll for URL changes (SPA navigations don't trigger onNavigationStateChange)
+const URL_CHANGE_POLL_SCRIPT = `
+(function() {
+  if (window.__urlPollStarted) return;
+  window.__urlPollStarted = true;
+  var lastUrl = location.href;
+  setInterval(function() {
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      window.ReactNativeWebView.postMessage(JSON.stringify({
+        type: "url_change",
+        url: location.href
+      }));
+    }
+  }, 500);
+})();
+true;
+`;
 
 export default function ScanScreen() {
   const router = useRouter();
@@ -134,6 +162,9 @@ export default function ScanScreen() {
   );
 
   const handleLoadEnd = useCallback(() => {
+    // Always inject URL polling script to detect SPA navigations
+    webviewRef.current?.injectJavaScript(URL_CHANGE_POLL_SCRIPT);
+
     // When following page loads, inject scrape script
     if (phase === "scanning" && !hasStartedScan.current) {
       hasStartedScan.current = true;
@@ -144,8 +175,42 @@ export default function ScanScreen() {
     }
   }, [phase]);
 
+  const phaseRef = useRef<Phase>("x_login");
+  // Keep phaseRef in sync with phase state
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
+
+  const handleUrlChange = useCallback(
+    (url: string) => {
+      if (phaseRef.current !== "x_login") return;
+
+      if (isOnXButNotLoginFlow(url)) {
+        setPhase("scanning");
+        setStatus("scanning");
+        webviewRef.current?.injectJavaScript(
+          `window.location.href = ${JSON.stringify(X_FOLLOW_PAGE_URL)}; true;`,
+        );
+      }
+    },
+    [setStatus],
+  );
+
   const handleMessage = useCallback(
     async (event: WebViewMessageEvent) => {
+      let data: { type: string; [key: string]: unknown };
+      try {
+        data = JSON.parse(event.nativeEvent.data);
+      } catch {
+        return;
+      }
+
+      // Handle URL change from polling script
+      if (data.type === "url_change") {
+        handleUrlChange(data.url as string);
+        return;
+      }
+
       if (!agent) return;
 
       const message = parseExtractedUsers(event.nativeEvent.data);
@@ -166,7 +231,7 @@ export default function ScanScreen() {
         setStatus("completed");
       }
     },
-    [agent, processUsers, setStatus],
+    [agent, processUsers, setStatus, handleUrlChange],
   );
 
   const handleStop = () => {
@@ -203,15 +268,27 @@ export default function ScanScreen() {
         )}
         <WebView
           ref={webviewRef}
-          source={{ uri: X_LOGIN_URL }}
+          source={{ uri: "https://x.com" }}
           style={styles.webview}
+          userAgent={MOBILE_USER_AGENT}
           onNavigationStateChange={handleNavigationStateChange}
           onLoadEnd={handleLoadEnd}
           onMessage={handleMessage}
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn("WebView error:", nativeEvent);
+          }}
+          onHttpError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn("WebView HTTP error:", nativeEvent.statusCode, nativeEvent.url);
+          }}
           javaScriptEnabled
           domStorageEnabled
           sharedCookiesEnabled
           thirdPartyCookiesEnabled
+          allowsBackForwardNavigationGestures
+          setSupportMultipleWindows={false}
+          mediaPlaybackRequiresUserAction={false}
         />
       </View>
 
@@ -248,9 +325,11 @@ export default function ScanScreen() {
                 </>
               )}
               <View style={[styles.scanIcon, isComplete && styles.scanIconComplete]}>
-                <Text style={styles.scanIconText}>
-                  {isComplete ? "✓" : "⟳"}
-                </Text>
+                <Ionicons
+                  name={isComplete ? "checkmark-sharp" : "search-outline"}
+                  size={26}
+                  color={isComplete ? colors.status.success : colors.accent.cyan}
+                />
               </View>
             </View>
 
@@ -411,10 +490,6 @@ const styles = StyleSheet.create({
   scanIconComplete: {
     borderColor: colors.status.success,
     shadowColor: colors.status.success,
-  },
-  scanIconText: {
-    fontSize: 24,
-    color: colors.text.primary,
   },
   title: {
     fontSize: typography.sizes.h1,

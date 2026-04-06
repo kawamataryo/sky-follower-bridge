@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -12,17 +13,40 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { TypeaheadDropdown } from "~/components/TypeaheadDropdown";
 import { useAuth } from "~/contexts/AuthContext";
 import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 export default function AuthScreen() {
   const router = useRouter();
-  const { loginWithAppPassword } = useAuth();
+  const { loginWithAppPassword, loginWithOAuth } = useAuth();
+
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showAppPassword, setShowAppPassword] = useState(false);
+  const [showTypeahead, setShowTypeahead] = useState(false);
 
-  const handleLogin = async () => {
+  const handleOAuthLogin = async (handleOverride?: string) => {
+    const handle = handleOverride || identifier.trim();
+    if (!handle) {
+      Alert.alert("Error", "Please enter your Bluesky handle.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await loginWithOAuth(handle);
+      router.replace("/x-login-guide");
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "OAuth login failed";
+      Alert.alert("Login Error", message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAppPasswordLogin = async () => {
     if (!identifier.trim() || !password.trim()) {
       Alert.alert("Error", "Please enter your identifier and app password.");
       return;
@@ -64,10 +88,10 @@ export default function AuthScreen() {
 
           <Text style={styles.title}>Connect Bluesky</Text>
           <Text style={styles.subtitle}>
-            Use your handle and an App Password
+            Sign in to your Bluesky account to get started
           </Text>
 
-          {/* Handle Input */}
+          {/* Handle Input (shared by both methods) */}
           <View style={styles.inputContainer}>
             <Text style={styles.inputPrefix}>@</Text>
             <TextInput
@@ -79,48 +103,122 @@ export default function AuthScreen() {
               autoCapitalize="none"
               autoCorrect={false}
               keyboardAppearance="dark"
-              returnKeyType="next"
+              returnKeyType={showAppPassword ? "next" : "done"}
+              onSubmitEditing={showAppPassword ? undefined : () => handleOAuthLogin()}
+              onFocus={() => !showAppPassword && setShowTypeahead(true)}
+              onBlur={() => setTimeout(() => setShowTypeahead(false), 200)}
             />
           </View>
 
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, styles.inputFull]}
-              placeholder="App Password"
-              placeholderTextColor={colors.text.tertiary}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardAppearance="dark"
-              returnKeyType="done"
-              onSubmitEditing={handleLogin}
+          {/* Typeahead dropdown (OAuth mode only) */}
+          {!showAppPassword && (
+            <TypeaheadDropdown
+              query={identifier}
+              visible={showTypeahead && !isLoading}
+              onSelect={(handle) => {
+                setIdentifier(handle);
+                setShowTypeahead(false);
+                handleOAuthLogin(handle);
+              }}
             />
-          </View>
-          <Text style={styles.hint}>
-            Generate an App Password in Bluesky Settings → Privacy & Security
-          </Text>
+          )}
 
-          {/* Sign In Button */}
-          <TouchableOpacity
-            style={[styles.button, isLoading && styles.buttonDisabled]}
-            onPress={handleLogin}
-            disabled={isLoading}
-            activeOpacity={0.85}
-          >
-            <LinearGradient
-              colors={[...colors.gradient.button]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.buttonGradient}
-            >
-              <Text style={styles.buttonText}>
-                {isLoading ? "Signing in..." : "Sign In"}
+          {/* OAuth Button (primary) */}
+          {!showAppPassword && (
+            <>
+              <TouchableOpacity
+                style={[styles.oauthButton, isLoading && styles.buttonDisabled]}
+                onPress={() => handleOAuthLogin()}
+                disabled={isLoading}
+                activeOpacity={0.85}
+              >
+                <LinearGradient
+                  colors={[...colors.gradient.button]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.oauthButtonGradient}
+                >
+                  <Ionicons
+                    name="log-in-outline"
+                    size={20}
+                    color={colors.text.primary}
+                    style={styles.oauthIcon}
+                  />
+                  <Text style={styles.oauthButtonText}>
+                    {isLoading ? "Signing in..." : "Sign in with Bluesky"}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <Text style={styles.oauthHint}>
+                You'll be redirected to Bluesky to authorize this app
               </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+
+              {/* App Password fallback link */}
+              <TouchableOpacity
+                style={styles.fallbackLink}
+                onPress={() => setShowAppPassword(true)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.fallbackText}>
+                  Use App Password instead
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+
+          {/* App Password section (fallback) */}
+          {showAppPassword && (
+            <>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={[styles.input, styles.inputFull]}
+                  placeholder="App Password"
+                  placeholderTextColor={colors.text.tertiary}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="dark"
+                  returnKeyType="done"
+                  onSubmitEditing={handleAppPasswordLogin}
+                />
+              </View>
+              <Text style={styles.hint}>
+                Generate an App Password in Bluesky Settings → Privacy & Security
+              </Text>
+
+              <TouchableOpacity
+                style={[styles.oauthButton, isLoading && styles.buttonDisabled]}
+                onPress={handleAppPasswordLogin}
+                disabled={isLoading}
+                activeOpacity={0.85}
+              >
+                <LinearGradient
+                  colors={[...colors.gradient.button]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.oauthButtonGradient}
+                >
+                  <Text style={styles.oauthButtonText}>
+                    {isLoading ? "Signing in..." : "Sign In"}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              {/* Back to OAuth link */}
+              <TouchableOpacity
+                style={styles.fallbackLink}
+                onPress={() => setShowAppPassword(false)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.fallbackText}>
+                  ← Back to OAuth sign in
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -198,13 +296,7 @@ const styles = StyleSheet.create({
   inputFull: {
     paddingLeft: 0,
   },
-  hint: {
-    fontSize: typography.sizes.caption,
-    color: colors.text.tertiary,
-    marginBottom: spacing.xl,
-    marginTop: -spacing.xs,
-  },
-  button: {
+  oauthButton: {
     borderRadius: radius.lg,
     overflow: "hidden",
     marginTop: spacing.sm,
@@ -213,15 +305,41 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     opacity: 0.6,
   },
-  buttonGradient: {
+  oauthButtonGradient: {
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 16,
     paddingHorizontal: spacing.xl,
+    gap: spacing.sm,
   },
-  buttonText: {
+  oauthIcon: {
+    marginRight: spacing.xs,
+  },
+  oauthButtonText: {
     fontSize: typography.sizes.body,
     fontWeight: typography.weights.semibold,
     color: colors.text.primary,
+  },
+  oauthHint: {
+    fontSize: typography.sizes.caption,
+    color: colors.text.tertiary,
+    textAlign: "center",
+    marginTop: spacing.md,
+  },
+  hint: {
+    fontSize: typography.sizes.caption,
+    color: colors.text.tertiary,
+    marginBottom: spacing.xl,
+    marginTop: -spacing.xs,
+  },
+  fallbackLink: {
+    alignItems: "center",
+    marginTop: spacing.xl,
+    paddingVertical: spacing.sm,
+  },
+  fallbackText: {
+    fontSize: typography.sizes.bodySmall,
+    color: colors.text.tertiary,
   },
 });

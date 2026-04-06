@@ -13,6 +13,7 @@ export default function RootLayout() {
           <Stack.Screen name="x-login" />
           <Stack.Screen name="scan" />
           <Stack.Screen name="results" />
+          <Stack.Screen name="profile" />
         </Stack>
       </ScanProvider>
     </AuthProvider>

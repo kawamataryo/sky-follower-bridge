@@ -1,17 +1,37 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { UserCard } from "~/components/UserCard";
+import { UserGroupCard } from "~/components/UserGroupCard";
 import { useAuth } from "~/contexts/AuthContext";
 import { useScan } from "~/contexts/ScanContext";
 import type { BskyUser } from "~/types";
 import { colors, radius, spacing, typography } from "~/lib/theme";
 
+type UserGroup = {
+  key: string;
+  users: BskyUser[];
+};
+
 export default function ResultsScreen() {
   const router = useRouter();
   const { agent } = useAuth();
   const { matchedUsers, reset } = useScan();
+
+  // Group users by originalHandle
+  const groups = useMemo<UserGroup[]>(() => {
+    const map = new Map<string, BskyUser[]>();
+    for (const user of matchedUsers) {
+      const key = user.originalHandle || user.did;
+      const existing = map.get(key);
+      if (existing) {
+        existing.push(user);
+      } else {
+        map.set(key, [user]);
+      }
+    }
+    return Array.from(map.entries()).map(([key, users]) => ({ key, users }));
+  }, [matchedUsers]);
 
   const handleFollow = useCallback(
     async (user: BskyUser) => {
@@ -27,8 +47,8 @@ export default function ResultsScreen() {
   };
 
   const renderItem = useCallback(
-    ({ item }: { item: BskyUser }) => (
-      <UserCard user={item} onFollow={handleFollow} />
+    ({ item }: { item: UserGroup }) => (
+      <UserGroupCard users={item.users} onFollow={handleFollow} />
     ),
     [handleFollow],
   );
@@ -40,13 +60,18 @@ export default function ResultsScreen() {
         <Text style={styles.title}>
           {matchedUsers.length} users found
         </Text>
+        {groups.length !== matchedUsers.length && (
+          <Text style={styles.subtitle}>
+            {groups.length} X accounts matched
+          </Text>
+        )}
         <View style={styles.accentLine} />
       </View>
 
       <FlatList
-        data={matchedUsers}
+        data={groups}
         renderItem={renderItem}
-        keyExtractor={(item) => item.did}
+        keyExtractor={(item) => item.key}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.empty}>
@@ -88,6 +113,11 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     letterSpacing: typography.letterSpacing.tight,
   },
+  subtitle: {
+    fontSize: typography.sizes.bodySmall,
+    color: colors.text.secondary,
+    marginTop: spacing.xs,
+  },
   accentLine: {
     height: 3,
     width: 40,
@@ -96,7 +126,6 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   list: {
-    flexGrow: 1,
     paddingTop: spacing.sm,
     paddingBottom: spacing.md,
   },

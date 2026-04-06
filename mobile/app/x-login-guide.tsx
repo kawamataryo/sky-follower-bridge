@@ -2,10 +2,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useAuth } from "~/contexts/AuthContext";
 import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
 
 export default function XLoginGuideScreen() {
   const router = useRouter();
+  const { logout, handle } = useAuth();
 
   const fadeIn = useRef(new Animated.Value(0)).current;
   const slideUp = useRef(new Animated.Value(30)).current;
@@ -81,6 +83,20 @@ export default function XLoginGuideScreen() {
             <Text style={styles.buttonText}>Continue to X</Text>
             <Text style={styles.buttonArrow}>→</Text>
           </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Switch account */}
+        <TouchableOpacity
+          style={styles.switchAccount}
+          onPress={() => {
+            logout();
+            router.replace("/");
+          }}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.switchAccountText}>
+            Signed in as @{handle} · Switch account
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     </LinearGradient>
@@ -223,5 +239,13 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.h3,
     color: colors.text.primary,
     marginLeft: spacing.xs,
+  },
+  switchAccount: {
+    alignItems: "center",
+    marginTop: spacing.xl,
+  },
+  switchAccountText: {
+    fontSize: typography.sizes.caption,
+    color: colors.text.tertiary,
   },
 });
