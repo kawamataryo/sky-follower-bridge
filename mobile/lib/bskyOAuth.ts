@@ -1,116 +1,84 @@
-import * as AuthSession from "expo-auth-session";
-import { decode as base64Decode } from "base-64";
-import * as WebBrowser from "expo-web-browser";
-import { AtpAgent } from "@atproto/api";
-import {
-  BSKY_DOMAIN,
-  BSKY_OAUTH_CLIENT_ID,
-  BSKY_OAUTH_REDIRECT_URI,
-  BSKY_OAUTH_SCOPE,
-} from "./constants";
+import { Agent } from "@atproto/api";
+import { expoOAuthClient } from "~/lib/bskyOAuthClient";
 
-WebBrowser.maybeCompleteAuthSession();
+export type OAuthLoginErrorCode =
+  | "cancelled"
+  | "handle_resolution_failed"
+  | "network"
+  | "auth_server_unavailable"
+  | "token_exchange_failed"
+  | "browser_failed"
+  | "unknown";
 
-const MOBILE_REDIRECT_URI = AuthSession.makeRedirectUri({
-  scheme: "sky-follower-bridge",
-  path: "oauth-callback",
-});
+export class OAuthLoginError extends Error {
+  public readonly code: OAuthLoginErrorCode;
+  public readonly cause?: unknown;
 
-function buildServerCallbackUri(): string {
-  const url = new URL(BSKY_OAUTH_REDIRECT_URI);
-  url.searchParams.set("redirect_uri", MOBILE_REDIRECT_URI);
-  return url.toString();
+  constructor(code: OAuthLoginErrorCode, message: string, cause?: unknown) {
+    super(message);
+    this.name = "OAuthLoginError";
+    this.code = code;
+    this.cause = cause;
+  }
 }
 
-export async function resolveAuthorizationServer(
-  identifier: string,
-): Promise<string> {
-  const agent = new AtpAgent({ service: `https://${BSKY_DOMAIN}` });
-  try {
-    const did = identifier.startsWith("did:")
-      ? identifier
-      : (await agent.resolveHandle({ handle: identifier })).data.did;
+function normalizeError(e: unknown): OAuthLoginError {
+  if (e instanceof OAuthLoginError) return e;
 
-    const didDoc = await fetch(
-      did.startsWith("did:web:")
-        ? `https://${did.replace("did:web:", "")}/.well-known/did.json`
-        : `https://plc.directory/${did}`,
-    );
-    const doc = await didDoc.json();
-    const pdsEndpoint =
-      doc.service?.find(
-        (s: { id: string }) => s.id === "#atproto_pds",
-      )?.serviceEndpoint || `https://${BSKY_DOMAIN}`;
+  const rawMessage = e instanceof Error ? e.message : String(e);
+  const msg = rawMessage.toLowerCase();
 
-    const prm = await fetch(
-      `${pdsEndpoint}/.well-known/oauth-protected-resource`,
-    );
-    const prmData = await prm.json();
-    return prmData.authorization_servers?.[0] || `https://${BSKY_DOMAIN}`;
-  } catch {
-    return `https://${BSKY_DOMAIN}`;
+  if (msg.includes("cancel")) {
+    return new OAuthLoginError("cancelled", rawMessage, e);
   }
+  if (msg.includes("resolve handle") || msg.includes("handle not found")) {
+    return new OAuthLoginError("handle_resolution_failed", rawMessage, e);
+  }
+  if (e instanceof TypeError && msg.includes("network")) {
+    return new OAuthLoginError("network", rawMessage, e);
+  }
+  if (msg.includes("authorization server") || msg.includes("metadata")) {
+    return new OAuthLoginError("auth_server_unavailable", rawMessage, e);
+  }
+  if (msg.includes("token")) {
+    return new OAuthLoginError("token_exchange_failed", rawMessage, e);
+  }
+  if (msg.includes("browser") || msg.includes("webbrowser")) {
+    return new OAuthLoginError("browser_failed", rawMessage, e);
+  }
+  return new OAuthLoginError("unknown", rawMessage, e);
 }
 
 export async function loginWithOAuth(identifier: string): Promise<{
-  agent: AtpAgent;
+  agent: Agent;
   sub: string;
+  handle: string;
 }> {
-  const authServer = await resolveAuthorizationServer(identifier);
-
-  const asMeta = await fetch(
-    `${authServer}/.well-known/oauth-authorization-server`,
-  );
-  const asMetaData = await asMeta.json();
-
-  const discovery: AuthSession.DiscoveryDocument = {
-    authorizationEndpoint: asMetaData.authorization_endpoint,
-    tokenEndpoint: asMetaData.token_endpoint,
-  };
-
-  const redirectUri = buildServerCallbackUri();
-
-  const request = new AuthSession.AuthRequest({
-    clientId: BSKY_OAUTH_CLIENT_ID,
-    scopes: [BSKY_OAUTH_SCOPE],
-    redirectUri,
-    usePKCE: true,
-    responseType: AuthSession.ResponseType.Code,
-  });
-
-  const result = await request.promptAsync(discovery);
-
-  if (result.type !== "success" || !result.params.code) {
-    throw new Error(
-      result.type === "error"
-        ? result.params.error_description || "OAuth failed"
-        : "OAuth cancelled",
-    );
+  let session: Awaited<ReturnType<typeof expoOAuthClient.signIn>>;
+  try {
+    session = await expoOAuthClient.signIn(identifier);
+  } catch (e) {
+    throw normalizeError(e);
   }
 
-  const tokenResult = await AuthSession.exchangeCodeAsync(
-    {
-      clientId: BSKY_OAUTH_CLIENT_ID,
-      code: result.params.code,
-      redirectUri,
-      extraParams: {
-        code_verifier: request.codeVerifier || "",
-      },
-    },
-    discovery,
+  if (!session.sub) {
+    throw new OAuthLoginError("unknown", "OAuth session has empty sub");
+  }
+
+  // OAuthSession は SessionManager を duck-type で満たすので Agent に直接渡せる。
+  // cf. 拡張版 src/lib/bskyClient.ts の createAgentFromOAuthSession
+  const agent = new Agent(
+    session as unknown as ConstructorParameters<typeof Agent>[0],
   );
 
-  const agent = new AtpAgent({ service: authServer });
-  await agent.resumeSession({
-    did: tokenResult.idToken ? JSON.parse(base64Decode(tokenResult.idToken.split(".")[1])).sub : "",
-    handle: identifier,
-    accessJwt: tokenResult.accessToken,
-    refreshJwt: tokenResult.refreshToken || "",
-    active: true,
-  });
+  // OAuth 経路では AtpAgent のような session.handle が無いので getProfile で解決する。
+  let handle: string;
+  try {
+    const profile = await agent.getProfile({ actor: session.sub });
+    handle = profile.data.handle;
+  } catch (e) {
+    throw normalizeError(e);
+  }
 
-  return {
-    agent,
-    sub: agent.session?.did || "",
-  };
+  return { agent, sub: session.sub, handle };
 }
