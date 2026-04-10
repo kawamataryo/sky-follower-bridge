@@ -22,6 +22,10 @@ export class OAuthLoginError extends Error {
   }
 }
 
+// TODO(@atproto/oauth-client-expo@0.0.10): this classifier relies on English
+// substring matching against error.message because the package has no public
+// error-code contract. Re-examine when upgrading past 0.0.10 — the shape may
+// stabilize with typed error classes.
 function normalizeError(e: unknown): OAuthLoginError {
   if (e instanceof OAuthLoginError) return e;
 

@@ -77,11 +77,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const handleOAuthLogin = useCallback(async (identifier: string) => {
+    // loginWithOAuth throws OAuthLoginError("unknown") if sub is empty,
+    // so we can trust `sub` here without an extra guard.
     const { agent: newAgent, sub, handle: newHandle } =
       await loginWithOAuth(identifier);
-    if (!sub) {
-      throw new Error("OAuth login returned empty sub");
-    }
     const sessionData: SessionData = { authMethod: "oauth", sub };
     await saveSession(sessionData);
     setAgent(newAgent);

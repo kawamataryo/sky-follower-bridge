@@ -60,12 +60,14 @@ export async function restoreAgent(
   );
 
   // OAuth セッションは handle を直接持たないので getProfile で解決する。
-  // 失敗時は MMKV の session も purge して呼び出し側に再ログインさせる。
+  // ただし起動時のネットワーク不調など一過性の失敗で有効な MMKV セッションを
+  // 破壊するのは UX が悪いので、失敗時は handle を空のまま agent を返す。
+  // 本当に失効しているなら次回 API 呼び出しで真の auth エラーとして表面化する。
   try {
     const profile = await agent.getProfile({ actor: sessionData.sub });
     return { agent, handle: profile.data.handle };
-  } catch {
-    await expoOAuthClient.revoke(sessionData.sub).catch(() => {});
-    return null;
+  } catch (e) {
+    console.warn("getProfile failed during OAuth restore:", e);
+    return { agent, handle: "" };
   }
 }

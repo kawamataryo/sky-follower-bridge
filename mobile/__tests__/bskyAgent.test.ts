@@ -23,16 +23,23 @@ vi.mock("@atproto/api", () => {
     constructor(_opts: { service: string }) {
       super({});
     }
-    resumeSession = vi.fn(async (session: { handle: string; did: string }) => {
+    async resumeSession(session: {
+      handle: string;
+      did: string;
+    }): Promise<void> {
       this.session = session;
-    });
+    }
+    async login(_opts: unknown): Promise<{ data: unknown }> {
+      // Default impl — override via vi.spyOn in tests that need it
+      return { data: {} };
+    }
   }
   return { Agent, AtpAgent };
 });
 
-import { Agent } from "@atproto/api";
+import { Agent, AtpAgent } from "@atproto/api";
 import { expoOAuthClient } from "~/lib/bskyOAuthClient";
-import { restoreAgent } from "~/lib/bskyAgent";
+import { createAgentWithAppPassword, restoreAgent } from "~/lib/bskyAgent";
 import type { SessionData } from "~/types";
 
 describe("restoreAgent (OAuth branch)", () => {
@@ -107,7 +114,7 @@ describe("restoreAgent (OAuth branch)", () => {
     expect(expoOAuthClient.restore).not.toHaveBeenCalled();
   });
 
-  it("returns null when getProfile fails after successful restore", async () => {
+  it("returns agent with empty handle (and preserves session) when getProfile fails after successful restore", async () => {
     vi.mocked(expoOAuthClient.restore).mockResolvedValue({
       sub: "did:plc:abc123",
       serverMetadata: { issuer: "https://bsky.social" },
@@ -123,8 +130,95 @@ describe("restoreAgent (OAuth branch)", () => {
     };
 
     const result = await restoreAgent(sessionData);
-    expect(result).toBeNull();
-    // OAuth session was restored locally but profile fetch failed → revoke MMKV
-    expect(expoOAuthClient.revoke).toHaveBeenCalledWith("did:plc:abc123");
+    // Don't destroy a valid MMKV session over a transient getProfile failure.
+    // Next real API call will surface a true auth failure if the session is expired.
+    expect(result).not.toBeNull();
+    expect(result?.handle).toBe("");
+    expect(expoOAuthClient.revoke).not.toHaveBeenCalled();
+  });
+});
+
+describe("restoreAgent (app-password branch)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns agent and handle when resumeSession succeeds", async () => {
+    const sessionData: SessionData = {
+      authMethod: "app-password",
+      service: "https://bsky.social",
+      session: JSON.stringify({
+        handle: "bob.bsky.social",
+        did: "did:plc:bob",
+        accessJwt: "jwt",
+        refreshJwt: "rjwt",
+        active: true,
+      }),
+    };
+
+    const result = await restoreAgent(sessionData);
+
+    expect(result).not.toBeNull();
+    expect(result?.handle).toBe("bob.bsky.social");
+  });
+
+  it("propagates resumeSession failures", async () => {
+    const sessionData: SessionData = {
+      authMethod: "app-password",
+      service: "https://bsky.social",
+      session: JSON.stringify({
+        handle: "bob.bsky.social",
+        did: "did:plc:bob",
+        accessJwt: "jwt",
+        refreshJwt: "rjwt",
+        active: true,
+      }),
+    };
+
+    const spy = vi
+      .spyOn(AtpAgent.prototype, "resumeSession")
+      .mockRejectedValueOnce(new Error("expired"));
+
+    try {
+      await expect(restoreAgent(sessionData)).rejects.toThrow("expired");
+    } finally {
+      spy.mockRestore();
+    }
+  });
+});
+
+describe("createAgentWithAppPassword", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns agent and sessionData on successful login", async () => {
+    const spy = vi
+      .spyOn(AtpAgent.prototype, "login")
+      .mockResolvedValueOnce({
+        data: {
+          handle: "carol.bsky.social",
+          did: "did:plc:carol",
+          accessJwt: "jwt",
+          refreshJwt: "rjwt",
+          active: true,
+        },
+      } as never);
+
+    try {
+      const result = await createAgentWithAppPassword({
+        identifier: "carol.bsky.social",
+        password: "app-pass-1234",
+      });
+
+      expect(result.sessionData.authMethod).toBe("app-password");
+      if (result.sessionData.authMethod === "app-password") {
+        expect(result.sessionData.service).toBe("https://bsky.social");
+        const parsed = JSON.parse(result.sessionData.session);
+        expect(parsed.handle).toBe("carol.bsky.social");
+      }
+    } finally {
+      spy.mockRestore();
+    }
   });
 });
