@@ -8,7 +8,10 @@ const USER_CELL_SELECTOR_MAP = {
     '[data-testid="primaryColumn"] [data-testid="UserCell"]',
   [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_LIST_MEMBERS_PAGE]:
     '[data-testid="cellInnerDiv"] [data-testid="UserCell"]',
-  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: '[data-testid="UserCell"]',
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_BLOCK_PAGE]: 
+    '[data-testid="UserCell"]',
+  [MESSAGE_NAMES.SEARCH_BSKY_USER_ON_REPOST_PAGE]:
+  '[data-testid="tweet"]:has([data-testid="socialContext"])',
 };
 const LIST_PAGE_SCROLL_TARGET_SELECTOR = 'div[data-viewportview="true"]';
 
@@ -54,7 +57,10 @@ export class XService implements IService {
   }
 
   extractUserData(userCell: Element): CrawledUserInfo {
-    const anchors = Array.from(userCell.querySelectorAll("a"));
+    const userNameEl = userCell.querySelector('[data-testid="User-Name"]');
+    const anchors = userNameEl
+      ? Array.from(userNameEl.querySelectorAll("a"))
+      : Array.from(userCell.querySelectorAll("a"));
     const [avatarEl, displayNameEl] = anchors;
     const accountName = avatarEl?.getAttribute("href")?.replace("/", "") ?? "";
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
