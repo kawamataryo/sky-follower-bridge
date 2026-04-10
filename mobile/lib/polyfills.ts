@@ -19,6 +19,14 @@ declare global {
   }
 }
 
+function makeError(name: string, message: string): Error {
+  if (typeof DOMException !== "undefined") {
+    return new DOMException(message, name);
+  }
+  return Object.assign(new Error(message), { name });
+}
+
+// AbortSignal.timeout(ms) — used by verifyIssuer in @atproto/oauth-client
 if (
   typeof AbortSignal !== "undefined" &&
   typeof (AbortSignal as unknown as { timeout?: unknown }).timeout !== "function"
@@ -27,16 +35,27 @@ if (
     (ms: number): AbortSignal => {
       const controller = new AbortController();
       setTimeout(() => {
-        const reason =
-          typeof DOMException !== "undefined"
-            ? new DOMException("The operation timed out.", "TimeoutError")
-            : Object.assign(new Error("The operation timed out."), {
-                name: "TimeoutError",
-              });
-        controller.abort(reason);
+        controller.abort(makeError("TimeoutError", "The operation timed out."));
       }, ms);
       return controller.signal;
     };
+}
+
+// AbortSignal.prototype.throwIfAborted() — used throughout @atproto/oauth-client
+// for cooperative cancellation. Hermes (RN 0.81) does not implement it.
+if (
+  typeof AbortSignal !== "undefined" &&
+  typeof (AbortSignal.prototype as unknown as { throwIfAborted?: unknown })
+    .throwIfAborted !== "function"
+) {
+  (
+    AbortSignal.prototype as unknown as { throwIfAborted: () => void }
+  ).throwIfAborted = function throwIfAborted(this: AbortSignal): void {
+    if (this.aborted) {
+      const reason = (this as unknown as { reason?: unknown }).reason;
+      throw reason ?? makeError("AbortError", "The operation was aborted.");
+    }
+  };
 }
 
 export {};
