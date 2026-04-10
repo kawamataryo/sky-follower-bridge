@@ -1,3 +1,7 @@
+// Must be imported BEFORE @atproto/oauth-client-expo so the AbortSignal.timeout
+// polyfill is in place when the package's runtime helpers are evaluated.
+import "~/lib/polyfills";
+
 import { ExpoOAuthClient } from "@atproto/oauth-client-expo";
 import type { OAuthSession } from "@atproto/oauth-client-expo";
 import clientMetadata from "~/assets/oauth-client-metadata.json";
