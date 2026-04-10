@@ -11,14 +11,6 @@ export const BSKY_PROFILE_LABEL = {
 
 export const BSKY_DOMAIN = "bsky.social";
 
-export const BSKY_OAUTH_CLIENT_ID =
-  "https://server.sky-follower-bridge.dev/oauth/client-metadata.json";
-
-export const BSKY_OAUTH_REDIRECT_URI =
-  "https://server.sky-follower-bridge.dev/oauth/callback";
-
-export const BSKY_OAUTH_SCOPE = "atproto transition:generic";
-
 export const X_FOLLOW_PAGE_URL = "https://x.com/following";
 export const X_LOGIN_URL = "https://x.com/i/flow/login";
 
