@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useRef, useState } from "react";
-import type { AppBskyActorDefs, AtpAgent } from "@atproto/api";
+import type { Agent, AppBskyActorDefs } from "@atproto/api";
 import { isSimilarUser } from "~/lib/bskyHelpers";
 import { searchBskyUser } from "~/lib/fuzzySearch";
 import { wait } from "~/lib/utils";
@@ -11,7 +11,7 @@ type ScanState = {
   scannedCount: number;
   matchedUsers: BskyUser[];
   setStatus: (status: ScanStatus) => void;
-  processUsers: (users: CrawledUserInfo[], agent: AtpAgent) => Promise<void>;
+  processUsers: (users: CrawledUserInfo[], agent: Agent) => Promise<void>;
   reset: () => void;
 };
 
@@ -45,7 +45,7 @@ export function ScanProvider({ children }: { children: React.ReactNode }) {
   const matchedDids = useRef(new Set<string>());
 
   const processUsers = useCallback(
-    async (users: CrawledUserInfo[], agent: AtpAgent) => {
+    async (users: CrawledUserInfo[], agent: Agent) => {
       for (let i = 0; i < users.length; i += SCAN_BATCH_SIZE) {
         const batch = users.slice(i, i + SCAN_BATCH_SIZE);
 

@@ -1,4 +1,4 @@
-import type { AppBskyActorDefs, AtpAgent } from "@atproto/api";
+import type { Agent, AppBskyActorDefs } from "@atproto/api";
 import type { CrawledUserInfo } from "~/types";
 import { isImpersonationUser } from "./bskyHelpers";
 import { isOneSymbol } from "./utils";
@@ -30,7 +30,7 @@ export async function searchBskyUser({
   agent,
   userData,
 }: {
-  agent: AtpAgent;
+  agent: Agent;
   userData: CrawledUserInfo;
 }): Promise<ProfileView[]> {
   const searchTerms = buildSearchTerms(userData);

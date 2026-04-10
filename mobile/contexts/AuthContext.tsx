@@ -1,12 +1,13 @@
-import { AtpAgent } from "@atproto/api";
+import { Agent } from "@atproto/api";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { createAgentWithAppPassword, restoreAgent } from "~/lib/bskyAgent";
 import { loginWithOAuth } from "~/lib/bskyOAuth";
+import { expoOAuthClient } from "~/lib/bskyOAuthClient";
 import { clearSession, loadSession, saveSession } from "~/lib/sessionStorage";
 import type { SessionData } from "~/types";
 
 type AuthState = {
-  agent: AtpAgent | null;
+  agent: Agent | null;
   isLoading: boolean;
   isLoggedIn: boolean;
   handle: string | null;
@@ -23,7 +24,7 @@ type AuthState = {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [agent, setAgent] = useState<AtpAgent | null>(null);
+  const [agent, setAgent] = useState<Agent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [handle, setHandle] = useState<string | null>(null);
 
@@ -31,15 +32,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       try {
         const session = await loadSession();
-        if (session) {
-          const restored = await restoreAgent(session);
-          if (restored) {
-            setAgent(restored);
-            setHandle(restored.session?.handle ?? null);
+        if (!session) return;
+
+        // sub 空値ガード: 旧バグの残骸データで restore を走らせない
+        if (session.authMethod === "oauth" && !session.sub) {
+          await clearSession();
+          return;
+        }
+
+        const restored = await restoreAgent(session);
+        if (restored) {
+          setAgent(restored.agent);
+          setHandle(restored.handle || null);
+        } else {
+          // restore 失敗時は secure-store マーカーもクリア
+          await clearSession();
+          if (session.authMethod === "oauth" && session.sub) {
+            await expoOAuthClient.revoke(session.sub).catch(() => {});
           }
         }
       } catch (e) {
         console.error("Session restore failed:", e);
+        await clearSession().catch(() => {});
       } finally {
         setIsLoading(false);
       }
@@ -63,14 +77,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const handleOAuthLogin = useCallback(async (identifier: string) => {
-    const { agent: newAgent, sub } = await loginWithOAuth(identifier);
+    const { agent: newAgent, sub, handle: newHandle } =
+      await loginWithOAuth(identifier);
+    if (!sub) {
+      throw new Error("OAuth login returned empty sub");
+    }
     const sessionData: SessionData = { authMethod: "oauth", sub };
     await saveSession(sessionData);
     setAgent(newAgent);
-    setHandle(newAgent.session?.handle ?? null);
+    setHandle(newHandle);
   }, []);
 
   const logout = useCallback(async () => {
+    // 先に現在のセッション情報を読む (clearSession 後は読めないため)
+    const current = await loadSession();
+    if (current?.authMethod === "oauth" && current.sub) {
+      // MMKV purge + revoke は best-effort
+      await expoOAuthClient.revoke(current.sub).catch(() => {});
+    }
     await clearSession();
     setAgent(null);
     setHandle(null);
