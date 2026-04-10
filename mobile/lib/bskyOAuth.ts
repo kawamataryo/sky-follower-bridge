@@ -60,11 +60,8 @@ export async function loginWithOAuth(identifier: string): Promise<{
 }> {
   let session: Awaited<ReturnType<typeof expoOAuthClient.signIn>>;
   try {
-    console.log("[oauth] signIn starting for", identifier);
     session = await expoOAuthClient.signIn(identifier);
-    console.log("[oauth] signIn resolved, sub=", session?.sub);
   } catch (e) {
-    console.error("[oauth] signIn failed:", e);
     throw normalizeError(e);
   }
 
@@ -83,9 +80,7 @@ export async function loginWithOAuth(identifier: string): Promise<{
   try {
     const profile = await agent.getProfile({ actor: session.sub });
     handle = profile.data.handle;
-    console.log("[oauth] getProfile resolved handle=", handle);
   } catch (e) {
-    console.error("[oauth] getProfile failed:", e);
     throw normalizeError(e);
   }
 
