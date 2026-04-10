@@ -1,0 +1,30 @@
+> wrangler deploy --minify
+
+
+ ⛅️ wrangler 3.105.1 (update available 4.81.1)
+------------------------------------------------------
+--------------------------------------------------------
+
+▲ [WARNING] The version of Wrangler you are using is n
+▲ [WARNING] The version of Wrangler you are using is now out-of-date.
+
+  Please update to the latest version to prevent criti
+  Please update to the latest version to prevent critical errors.
+  Run `npm install --save-dev wrangler@4` to update to
+  Run `npm install --save-dev wrangler@4` to update to the latest version.
+  After installation, run Wrangler with `npx wrangler`
+  After installation, run Wrangler with `npx wrangler`.
+
+
+Total Upload: 1985.14 KiB / gzip: 789.83 KiB
+Worker Startup Time: 34 ms
+Your worker has access to the following bindings:
+- Vars:
+  - OAUTH_REDIRECT_URI: "https://server.sky-follower-b
+  - OAUTH_REDIRECT_URI: "https://server.sky-follower-bridge.de..TH  - OAUTH_REDIRECT_URI: "https://server.sky-follower-bridge.de..N_REDIRECT_URIS: "https://behhbpbpmailcnfbjagknjngnfdoj..."
+  - OAUTH_EXTENSION_REDIRECT_URI: "https://behhbpbpmai
+  - OAUTH_EXTENSION_REDIRECT_URI: "https://behhbpbpmailcnfbjagknjngnfdoj..."
+Uploaded lp (3.87 sec)
+Deployed lp triggers (0.25 sec)
+  https://lp.ba068082.workers.dev
+Current Version ID: 8f26b59a-9dc7-4618-a600-a8428f9378
