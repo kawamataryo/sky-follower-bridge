@@ -15,7 +15,19 @@ import {
 } from "react-native";
 import { TypeaheadDropdown } from "~/components/TypeaheadDropdown";
 import { useAuth } from "~/contexts/AuthContext";
+import { OAuthLoginError } from "~/lib/bskyOAuth";
 import { colors, radius, shadows, spacing, typography } from "~/lib/theme";
+
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+  handle_resolution_failed:
+    "Handle not found. Please check the spelling and try again.",
+  auth_server_unavailable:
+    "Couldn't reach the Bluesky authorization server. Please try again later.",
+  token_exchange_failed: "Authentication failed. Please try again.",
+  browser_failed: "Couldn't open the browser. Please try again.",
+  network: "Network error. Please check your connection.",
+  unknown: "Login failed. Please try again.",
+};
 
 export default function AuthScreen() {
   const router = useRouter();
@@ -39,8 +51,18 @@ export default function AuthScreen() {
       await loginWithOAuth(handle);
       router.replace("/x-login-guide");
     } catch (e) {
-      const message = e instanceof Error ? e.message : "OAuth login failed";
-      Alert.alert("Login Error", message);
+      if (e instanceof OAuthLoginError) {
+        // cancelled はユーザー意図のためサイレントに戻す
+        if (e.code === "cancelled") {
+          return;
+        }
+        const message =
+          OAUTH_ERROR_MESSAGES[e.code] ?? OAUTH_ERROR_MESSAGES.unknown;
+        Alert.alert("Login Error", message);
+      } else {
+        const message = e instanceof Error ? e.message : "OAuth login failed";
+        Alert.alert("Login Error", message);
+      }
     } finally {
       setIsLoading(false);
     }
