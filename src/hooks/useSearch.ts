@@ -32,7 +32,7 @@ export const useSearch = () => {
   const retrySearch = async () => {
     clearErrorMessage();
     setIsLoading(true);
-    await new Promise((r) => setTimeout(r, 3000));
+    await new Promise((r) => setTimeout(r, 5000));
     await searchBskyUser();
   };
 
@@ -97,6 +97,10 @@ export const useSearch = () => {
       .with(
         P.when((url) => TARGET_URLS_REGEX.FACEBOOK.test(url)),
         () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_FACEBOOK_PAGE,
+      )
+      .with(
+        P.when((url) => TARGET_URLS_REGEX.REPOST.test(url)),
+        () => MESSAGE_NAMES.SEARCH_BSKY_USER_ON_REPOST_PAGE,
       )
       .run();
 
