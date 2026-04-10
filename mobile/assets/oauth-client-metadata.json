@@ -1,0 +1,13 @@
+{
+  "client_id": "https://server.sky-follower-bridge.dev/oauth/mobile/client-metadata.json",
+  "client_name": "Sky Follower Bridge Mobile",
+  "client_uri": "https://server.sky-follower-bridge.dev",
+  "policy_uri": "https://server.sky-follower-bridge.dev/privacy-policy",
+  "redirect_uris": ["dev.sky-follower-bridge.mobile:/oauth-callback"],
+  "scope": "atproto transition:generic",
+  "token_endpoint_auth_method": "none",
+  "response_types": ["code"],
+  "grant_types": ["authorization_code", "refresh_token"],
+  "application_type": "native",
+  "dpop_bound_access_tokens": true
+}
