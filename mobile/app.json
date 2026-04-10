@@ -3,7 +3,7 @@
     "name": "Sky Follower Bridge",
     "slug": "sky-follower-bridge",
     "version": "1.0.0",
-    "scheme": "dev.sky-follower-bridge.mobile",
+    "scheme": "dev.sky-follower-bridge.server",
     "platforms": ["ios", "android"],
     "plugins": [
       "expo-router",

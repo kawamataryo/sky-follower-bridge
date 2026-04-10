@@ -1,6 +1,7 @@
 import { ExpoOAuthClient } from "@atproto/oauth-client-expo";
 import type { OAuthSession } from "@atproto/oauth-client-expo";
 import clientMetadata from "~/assets/oauth-client-metadata.json";
+import { BSKY_DOMAIN } from "./constants";
 
 let instance: ExpoOAuthClient | null = null;
 
@@ -8,6 +9,10 @@ function getClient(): ExpoOAuthClient {
   if (!instance) {
     instance = new ExpoOAuthClient({
       clientMetadata: clientMetadata as never,
+      // XRPC handle resolution via com.atproto.identity.resolveHandle.
+      // RN に DNS/DoH がないため URL 文字列で XrpcHandleResolver に委譲する
+      // (拡張版と同じ構成: src/lib/bskyOAuthClient.ts の handleResolver)。
+      handleResolver: `https://${BSKY_DOMAIN}`,
     });
   }
   return instance;

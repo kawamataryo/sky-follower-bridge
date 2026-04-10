@@ -22,7 +22,10 @@ export function createMobileOAuthClientMetadata(): MobileOAuthClientMetadata {
     client_name: "Sky Follower Bridge Mobile",
     client_uri: origin,
     policy_uri: `${origin}/privacy-policy`,
-    redirect_uris: ["dev.sky-follower-bridge.mobile:/oauth-callback"],
+    // AT Protocol OAuth spec: private-use URI scheme must be the reverse-FQDN
+    // of the client_id host. client_id host = server.sky-follower-bridge.dev
+    // → scheme = dev.sky-follower-bridge.server
+    redirect_uris: ["dev.sky-follower-bridge.server:/oauth-callback"],
     scope: "atproto transition:generic",
     token_endpoint_auth_method: "none",
     response_types: ["code"],

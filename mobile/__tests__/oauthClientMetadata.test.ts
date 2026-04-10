@@ -18,10 +18,13 @@ describe("OAuth client metadata canonical consistency", () => {
     expect(metadata.application_type).toBe("native");
   });
 
-  it("uses custom scheme redirect URI with single slash", () => {
+  it("uses custom scheme redirect URI with single slash (reverse-FQDN of client_id host)", () => {
     const metadata = createMobileOAuthClientMetadata();
+    // AT Protocol OAuth spec requires the scheme to be the reverse-FQDN of
+    // client_id's host. client_id = https://server.sky-follower-bridge.dev/...
+    // → scheme = dev.sky-follower-bridge.server
     expect(metadata.redirect_uris).toEqual([
-      "dev.sky-follower-bridge.mobile:/oauth-callback",
+      "dev.sky-follower-bridge.server:/oauth-callback",
     ]);
   });
 

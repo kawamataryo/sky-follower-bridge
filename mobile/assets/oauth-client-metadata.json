@@ -3,7 +3,7 @@
   "client_name": "Sky Follower Bridge Mobile",
   "client_uri": "https://server.sky-follower-bridge.dev",
   "policy_uri": "https://server.sky-follower-bridge.dev/privacy-policy",
-  "redirect_uris": ["dev.sky-follower-bridge.mobile:/oauth-callback"],
+  "redirect_uris": ["dev.sky-follower-bridge.server:/oauth-callback"],
   "scope": "atproto transition:generic",
   "token_endpoint_auth_method": "none",
   "response_types": ["code"],
