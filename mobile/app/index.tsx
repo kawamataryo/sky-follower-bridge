@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import {
   ActivityIndicator,
   Animated,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -58,18 +59,28 @@ export default function WelcomeScreen() {
 
   if (isLoading) {
     return (
-      <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
+      <LinearGradient
+        colors={[...colors.gradient.aurora]}
+        style={styles.container}
+      >
         <ActivityIndicator size="large" color={colors.accent.cyan} />
       </LinearGradient>
     );
   }
 
   return (
-    <LinearGradient colors={[...colors.gradient.aurora]} style={styles.container}>
+    <LinearGradient
+      colors={[...colors.gradient.aurora]}
+      style={styles.container}
+    >
       {/* Aurora glow effect */}
       <Animated.View style={[styles.glowOrb, { opacity: glowOpacity }]}>
         <LinearGradient
-          colors={["rgba(0, 133, 255, 0.15)", "rgba(0, 194, 255, 0.08)", "transparent"]}
+          colors={[
+            "rgba(0, 133, 255, 0.15)",
+            "rgba(0, 194, 255, 0.08)",
+            "transparent",
+          ]}
           style={styles.glowGradient}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
@@ -78,17 +89,14 @@ export default function WelcomeScreen() {
 
       <View style={styles.content}>
         {/* Logo / Brand */}
-        <Animated.View style={[styles.logoContainer, { transform: [{ scale: logoScale }] }]}>
-          <View style={styles.iconCircle}>
-            <LinearGradient
-              colors={[...colors.gradient.accent]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.iconGradient}
-            >
-              <Text style={styles.iconText}>SFB</Text>
-            </LinearGradient>
-          </View>
+        <Animated.View
+          style={[styles.logoContainer, { transform: [{ scale: logoScale }] }]}
+        >
+          <Image
+            source={require("~/assets/icon.png")}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
         </Animated.View>
 
         <Animated.View
@@ -157,23 +165,9 @@ const styles = StyleSheet.create({
   logoContainer: {
     marginBottom: spacing.xxl,
   },
-  iconCircle: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    overflow: "hidden",
-    ...shadows.glow,
-  },
-  iconGradient: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  iconText: {
-    fontSize: typography.sizes.h2,
-    fontWeight: typography.weights.heavy,
-    color: colors.text.inverse,
-    letterSpacing: typography.letterSpacing.wide,
+  logoImage: {
+    width: 112,
+    height: 112,
   },
   textContainer: {
     alignItems: "center",

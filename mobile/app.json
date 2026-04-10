@@ -5,18 +5,26 @@
     "version": "1.0.0",
     "scheme": "dev.sky-follower-bridge.server",
     "platforms": ["ios", "android"],
-    "plugins": [
-      "expo-router",
-      "expo-secure-store"
-    ],
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a0f"
+    },
+    "plugins": ["expo-router", "expo-secure-store"],
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
     },
     "ios": {
       "bundleIdentifier": "dev.sky-follower-bridge.mobile"
     },
     "android": {
-      "package": "dev.sky_follower_bridge.mobile"
+      "package": "dev.sky_follower_bridge.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
     }
   }
 }
