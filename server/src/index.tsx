@@ -5,6 +5,7 @@ import { OG_FONT } from "./constants";
 import { generateLandingHtml } from "./lib/generateLandingHtml";
 import { googleFont } from "./lib/getFonts";
 import { OgImage } from "./lib/ogImage";
+import { createMobileOAuthClientMetadata } from "./lib/mobileOAuthClientMetadata";
 
 const app = new Hono();
 const cacheSeconds = 60 * 60 * 24 * 7;
@@ -105,6 +106,12 @@ app.get("/oauth/client-metadata.json", (c) => {
       "Cache-Control": "no-store",
     },
   );
+});
+
+app.get("/oauth/mobile/client-metadata.json", (c) => {
+  return c.json(createMobileOAuthClientMetadata(), 200, {
+    "Cache-Control": "no-store",
+  });
 });
 
 app.get("/oauth/callback", (c) => {
