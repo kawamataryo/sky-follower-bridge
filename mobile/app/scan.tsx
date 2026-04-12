@@ -46,6 +46,8 @@ const isOnXButNotLoginFlow = (url: string): boolean => {
 
 const X_FOLLOWING_PATTERN = /^https:\/\/(x|twitter)\.com\/[^/]+\/(verified_follow|follow)/;
 
+const IN_WEBVIEW_URL_PATTERN = /^https:\/\/([^.]+\.)*(x|twitter)\.com(\/|$)/;
+
 // Injected script to poll for URL changes (SPA navigations don't trigger onNavigationStateChange)
 const URL_CHANGE_POLL_SCRIPT = `
 (function() {
@@ -234,6 +236,18 @@ export default function ScanScreen() {
     [agent, processUsers, setStatus, handleUrlChange],
   );
 
+  // Block any top-level navigation that tries to leave x.com/twitter.com.
+  // Without this, cross-site redirects (especially non-http schemes like
+  // app deep links) fall through to RN WebView's default handler, which
+  // calls Linking.openURL and kicks the user out to Safari.
+  const handleShouldStartLoadWithRequest = useCallback(
+    (request: { url: string }): boolean => {
+      if (request.url === "about:blank") return true;
+      return IN_WEBVIEW_URL_PATTERN.test(request.url);
+    },
+    [],
+  );
+
   const handleStop = () => {
     webviewRef.current?.injectJavaScript(
       'window.postMessage(JSON.stringify({type:"stop_scan"})); true;',
@@ -268,9 +282,14 @@ export default function ScanScreen() {
         )}
         <WebView
           ref={webviewRef}
-          source={{ uri: "https://x.com" }}
+          // Start on the login flow URL. Starting at https://x.com/ caused
+          // isOnXButNotLoginFlow() to match on the initial navigation
+          // callback, flipping phase to "scanning" before the user even
+          // saw the login page.
+          source={{ uri: X_LOGIN_URL }}
           style={styles.webview}
           userAgent={MOBILE_USER_AGENT}
+          onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
           onNavigationStateChange={handleNavigationStateChange}
           onLoadEnd={handleLoadEnd}
           onMessage={handleMessage}

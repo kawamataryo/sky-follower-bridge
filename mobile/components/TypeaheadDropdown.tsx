@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
+const BSKY_DEFAULT_AVATAR_URI =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJub25lIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgZmlsbD0iIzAwNzBmZiI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMTIiIGN5PSI5LjUiIHI9IjMuNSIgZmlsbD0iI2ZmZiI+PC9jaXJjbGU+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjZmZmIiBkPSJNIDEyLjA1OCAyMi43ODQgQyA5LjQyMiAyMi43ODQgNy4wMDcgMjEuODM2IDUuMTM3IDIwLjI2MiBDIDUuNjY3IDE3Ljk4OCA4LjUzNCAxNi4yNSAxMS45OSAxNi4yNSBDIDE1LjQ5NCAxNi4yNSAxOC4zOTEgMTguMDM2IDE4Ljg2NCAyMC4zNTcgQyAxNy4wMSAyMS44NzQgMTQuNjQgMjIuNzg0IDEyLjA1OCAyMi43ODQgWiI+PC9wYXRoPjwvc3ZnPg==";
 import { BSKY_DOMAIN } from "~/lib/constants";
 import { colors, radius, spacing, typography } from "~/lib/theme";
 
@@ -108,11 +111,10 @@ export function TypeaheadDropdown({ query, visible, onSelect }: Props) {
             onPress={() => onSelect(actor.handle)}
             activeOpacity={0.7}
           >
-            {actor.avatar ? (
-              <Image source={{ uri: actor.avatar }} style={styles.avatar} />
-            ) : (
-              <View style={[styles.avatar, styles.avatarPlaceholder]} />
-            )}
+            <Image
+              source={{ uri: actor.avatar || BSKY_DEFAULT_AVATAR_URI }}
+              style={styles.avatar}
+            />
             <View style={styles.info}>
               <Text style={styles.displayName} numberOfLines={1}>
                 {actor.displayName || actor.handle}

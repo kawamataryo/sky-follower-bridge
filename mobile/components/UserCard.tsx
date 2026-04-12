@@ -5,6 +5,9 @@ import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-na
 import type { BskyUser } from "~/types";
 import { colors, radius, spacing, typography } from "~/lib/theme";
 
+const BSKY_DEFAULT_AVATAR_URI =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJub25lIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgZmlsbD0iIzAwNzBmZiI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMTIiIGN5PSI5LjUiIHI9IjMuNSIgZmlsbD0iI2ZmZiI+PC9jaXJjbGU+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjZmZmIiBkPSJNIDEyLjA1OCAyMi43ODQgQyA5LjQyMiAyMi43ODQgNy4wMDcgMjEuODM2IDUuMTM3IDIwLjI2MiBDIDUuNjY3IDE3Ljk4OCA4LjUzNCAxNi4yNSAxMS45OSAxNi4yNSBDIDE1LjQ5NCAxNi4yNSAxOC4zOTEgMTguMDM2IDE4Ljg2NCAyMC4zNTcgQyAxNy4wMSAyMS44NzQgMTQuNjQgMjIuNzg0IDEyLjA1OCAyMi43ODQgWiI+PC9wYXRoPjwvc3ZnPg==";
+
 type Props = {
   user: BskyUser;
   onFollow: (user: BskyUser) => Promise<void>;
@@ -49,14 +52,10 @@ export function UserCard({ user, onFollow }: Props) {
           <View style={[styles.avatar, styles.avatarPlaceholder]} />
         )}
         <Text style={styles.arrow}>→</Text>
-        {user.avatar ? (
-          <Image
-            source={{ uri: user.avatar }}
-            style={[styles.avatar, styles.bskyAvatar]}
-          />
-        ) : (
-          <View style={[styles.avatar, styles.avatarPlaceholder]} />
-        )}
+        <Image
+          source={{ uri: user.avatar || BSKY_DEFAULT_AVATAR_URI }}
+          style={[styles.avatar, styles.bskyAvatar]}
+        />
       </View>
 
       <View style={styles.info}>
