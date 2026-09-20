@@ -3,12 +3,20 @@
 # Firefox Add-on審査用ソースコードZIP作成スクリプト
 # 拡張機能のビルドに必要なソースコードと設定ファイルのみを含むZIPファイルを作成します。
 
-set -e
+set -euo pipefail
 
 # プロジェクトのルートディレクトリに移動
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_ROOT"
+
+# Fail rather than silently submit an incomplete source archive.
+for required in src locales assets scripts/remove_web_accessible_resources.js package.json package-lock.json tsconfig.json tailwind.config.js postcss.config.js vite.config.ts BUILD_INSTRUCTIONS.md LICENSE; do
+    if [ ! -e "$required" ]; then
+        echo "Missing required reviewer source: $required" >&2
+        exit 1
+    fi
+done
 
 # 出力ファイル名
 OUTPUT_FILE="source_code.zip"

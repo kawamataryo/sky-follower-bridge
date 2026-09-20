@@ -1,0 +1,123 @@
+name: Publish Firefox
+
+on:
+  push:
+    tags: ['firefox-v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Exact package.json version to release'
+        required: true
+        type: string
+      submit:
+        description: 'Submit to AMO (false only builds release artifacts)'
+        default: false
+        type: boolean
+  pull_request:
+    paths:
+      - '.github/workflows/publish-firefox.yml'
+      - 'scripts/firefox_package.py'
+      - 'scripts/test_firefox_package.py'
+      - 'scripts/create_source_zip.sh'
+      - 'BUILD_INSTRUCTIONS.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firefox-amo-release
+  cancel-in-progress: false
+
+env:
+  WEB_EXT_VERSION: '10.6.0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check release version and source
+        id: version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            test "$GITHUB_REF_NAME" = "firefox-v$VERSION"
+            git merge-base --is-ancestor HEAD origin/main
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            test "$GITHUB_REF" = "refs/heads/main"
+            test "$REQUESTED_VERSION" = "$VERSION"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check:ci
+      - run: npx vitest run
+      - run: python3 -m unittest discover -s scripts -p test_firefox_package.py
+      - run: npm run build:firefox
+      - name: Mozilla package validation
+        run: npx --yes "web-ext@$WEB_EXT_VERSION" lint --source-dir build/firefox-mv3-prod --no-config-discovery
+      - name: Package extension and reviewer sources
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir release
+          python3 scripts/firefox_package.py build/firefox-mv3-prod release/firefox.zip --version "$VERSION"
+          bash scripts/create_source_zip.sh
+          mv source_code.zip release/source_code.zip
+          (cd release && sha256sum firefox.zip source_code.zip > SHA256SUMS)
+      - name: Verify reviewer source archive builds independently
+        run: |
+          mkdir "$RUNNER_TEMP/firefox-reviewer-source"
+          unzip -q release/source_code.zip -d "$RUNNER_TEMP/firefox-reviewer-source"
+          cd "$RUNNER_TEMP/firefox-reviewer-source"
+          npm ci
+          npm run build:firefox
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firefox-${{ steps.version.outputs.version }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.submit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: firefox-amo
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          name: firefox-${{ needs.build.outputs.version }}
+          path: release
+      - name: Prepare validated artifact and publishing tool
+        run: |
+          (cd release && sha256sum --check SHA256SUMS)
+          unzip -q release/firefox.zip -d extension
+          npm install --prefix "$RUNNER_TEMP/firefox-tools" --no-save "web-ext@$WEB_EXT_VERSION"
+      - name: Submit listed version with reviewer sources
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          test -n "$WEB_EXT_API_KEY" || { echo 'Set AMO_API_KEY in firefox-amo'; exit 1; }
+          test -n "$WEB_EXT_API_SECRET" || { echo 'Set AMO_API_SECRET in firefox-amo'; exit 1; }
+          "$RUNNER_TEMP/firefox-tools/node_modules/.bin/web-ext" sign \
+            --source-dir extension --channel listed \
+            --upload-source-code release/source_code.zip \
+            --approval-timeout 0 --no-input --no-config-discovery
+          echo "Firefox $VERSION submitted to AMO. Submission is not confirmation of public availability; check the Developer Hub review status." >> "$GITHUB_STEP_SUMMARY"

@@ -83,4 +83,7 @@ store authentication setup, ZIP-only dry runs, and release commands.
 
 Publishing a `chrome-v<package.json version>` tag from a commit on `main` submits that
 version for review. Google approval is still required before it reaches users.
-Firefox publishing remains a separate manual process.
+Firefox uses [Publish Firefox](.github/workflows/publish-firefox.yml) with
+`firefox-v<version>` tags. See [Firefox release setup](scripts/FIREFOX_RELEASE.md)
+for AMO credentials, reviewer source submission, and dry runs. Chrome and Firefox
+are independent releases so either store can be retried separately.
