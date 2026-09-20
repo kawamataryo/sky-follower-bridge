@@ -77,18 +77,10 @@ When you modify the code, the change is automatically reflected.
 
 ## Release
 
-When the version file of [changesets](https://github.com/changesets/changesets) is merged into master, a new version is released to each extension store with a [GitHub Actions job](https://github.com/kawamataryo/sky-follower-bridge/blob/main/.github/workflows/publish.yml).
+Chrome releases are built, checked, and submitted by [Publish Chrome](.github/workflows/publish-chrome.yml).
+See [Chrome release setup and operations](scripts/CHROME_RELEASE.md) for the one-time
+store authentication setup, ZIP-only dry runs, and release commands.
 
-1. add version file
-
-```bash
-npx changeset add
-```
-
-2. git push
-
-```bash
-git add .changesets
-git commit -m "🛠️ add changesets"
-git push origin master
-```
+Publishing a `chrome-v<package.json version>` tag from a commit on `main` submits that
+version for review. Google approval is still required before it reaches users.
+Firefox publishing remains a separate manual process.

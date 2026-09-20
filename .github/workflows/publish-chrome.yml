@@ -1,0 +1,111 @@
+name: Publish Chrome
+
+on:
+  push:
+    tags: ['chrome-v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Exact package.json version to release (for example 3.2.1)'
+        required: true
+        type: string
+      submit:
+        description: 'Upload and submit for review (false only builds the ZIP)'
+        default: false
+        type: boolean
+  pull_request:
+    paths:
+      - '.github/workflows/publish-chrome.yml'
+      - 'scripts/chrome_webstore.py'
+      - 'scripts/test_chrome_webstore.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chrome-webstore-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check release version and source
+        id: version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            test "$GITHUB_REF_NAME" = "chrome-v$VERSION"
+            git merge-base --is-ancestor HEAD origin/main
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            test "$GITHUB_REF" = "refs/heads/main"
+            test "$REQUESTED_VERSION" = "$VERSION"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check:ci
+      - run: npx vitest run
+      - run: python3 -m unittest discover -s scripts -p test_chrome_webstore.py
+      - run: npm run build
+      - name: Package and validate
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python3 -m zipfile -c chrome.zip build/chrome-mv3-prod/*
+          python3 scripts/chrome_webstore.py chrome.zip --version "$VERSION" --validate-only
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chrome-${{ steps.version.outputs.version }}
+          path: chrome.zip
+          if-no-files-found: error
+          retention-days: 30
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.submit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: chrome-webstore
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: chrome-${{ needs.build.outputs.version }}
+      - name: Check authentication configuration
+        env:
+          PROVIDER: ${{ vars.CWS_WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.CWS_SERVICE_ACCOUNT }}
+          PUBLISHER: ${{ vars.CWS_PUBLISHER_ID }}
+        run: |
+          test -n "$PROVIDER" || { echo 'Set CWS_WORKLOAD_IDENTITY_PROVIDER'; exit 1; }
+          test -n "$SERVICE_ACCOUNT" || { echo 'Set CWS_SERVICE_ACCOUNT'; exit 1; }
+          test -n "$PUBLISHER" || { echo 'Set CWS_PUBLISHER_ID'; exit 1; }
+      - uses: google-github-actions/auth@v3
+        id: auth
+        with:
+          workload_identity_provider: ${{ vars.CWS_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.CWS_SERVICE_ACCOUNT }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/chromewebstore
+          create_credentials_file: false
+      - name: Upload and submit for review
+        env:
+          CWS_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          CWS_PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: python3 scripts/chrome_webstore.py chrome.zip --version "$VERSION"
