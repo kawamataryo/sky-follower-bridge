@@ -22,7 +22,7 @@ export const config: PlasmoCSConfig = {
     "https://www.tiktok.com/*",
     "https://www.facebook.com/*",
   ],
-  all_frames: true,
+  all_frames: false,
 };
 
 export const getStyle = () => {

@@ -1,30 +1,19 @@
-import { findFirstScrollableElements } from "~lib/utils";
 import type { CrawledUserInfo, IService, MessageName } from "~types";
-
-const SCROLL_TARGET_SELECTOR = '[role="dialog"]';
-
-const searchUserCells = (userCell: HTMLElement): HTMLElement[] => {
-  if (!userCell) {
-    return [];
-  }
-  const cellTextCount = (userCell.innerText ?? "").split("\n").length;
-  const hasAvatar = !!userCell.querySelector("img");
-  if (1 <= cellTextCount && cellTextCount <= 3 && hasAvatar) {
-    return [userCell];
-  }
-  if (userCell.children.length === 0) {
-    return [];
-  }
-  return Array.from(userCell.children).flatMap(searchUserCells);
-};
+import {
+  getInstagramList,
+  getInstagramRows,
+  readInstagramRow,
+} from "./instagramDom";
 
 export class InstagramService implements IService {
   messageName: MessageName;
   crawledUserCells: Set<HTMLElement>;
+  private crawledUserProfiles: Set<string>;
 
   constructor(messageName: MessageName) {
     this.messageName = messageName;
     this.crawledUserCells = new Set();
+    this.crawledUserProfiles = new Set();
   }
 
   async processExtractedData(user: CrawledUserInfo): Promise<CrawledUserInfo> {
@@ -49,18 +38,20 @@ export class InstagramService implements IService {
   }
 
   isTargetPage(): [boolean, string] {
-    return [true, ""];
+    return getInstagramList()
+      ? [true, ""]
+      : [false, chrome.i18n.getMessage("error_invalid_page_in_instagram")];
   }
 
   extractUserData(userCell: Element): CrawledUserInfo {
-    const [_accountName, displayName] =
-      (userCell as HTMLElement).innerText?.split("\n").map((t) => t.trim()) ??
-      [];
+    const {
+      username: _accountName,
+      displayName,
+      avatar: avatarSrc,
+    } = readInstagramRow(userCell);
     const accountName = _accountName.replaceAll(".", "");
     const accountNameRemoveUnderscore = accountName.replaceAll("_", ""); // bsky does not allow underscores in handle, so remove them.
     const accountNameReplaceUnderscore = accountName.replaceAll("_", "-");
-    const avatarElement = userCell.querySelector("img");
-    const avatarSrc = avatarElement?.getAttribute("src") ?? "";
 
     return {
       accountName,
@@ -75,36 +66,24 @@ export class InstagramService implements IService {
   }
 
   getCrawledUsers(): CrawledUserInfo[] {
-    const userCells = searchUserCells(
-      document.querySelector(SCROLL_TARGET_SELECTOR),
-    );
-    let newUserCellsSet: Set<HTMLElement>;
-
-    if (
-      typeof this.crawledUserCells.difference === "function" &&
-      typeof this.crawledUserCells.union === "function"
-    ) {
-      newUserCellsSet = new Set(userCells).difference(this.crawledUserCells);
-      this.crawledUserCells = this.crawledUserCells.union(newUserCellsSet);
-    } else {
-      newUserCellsSet = new Set(
-        Array.from(userCells).filter(
-          (userCell) => !this.crawledUserCells.has(userCell),
-        ),
-      );
-      for (const userCell of newUserCellsSet) {
-        this.crawledUserCells.add(userCell);
-      }
-    }
-
-    const newUserCells = Array.from(newUserCellsSet);
-    return newUserCells.map((userCell) => this.extractUserData(userCell));
+    const target = getInstagramList();
+    if (!target) return [];
+    return getInstagramRows(target.list)
+      .map((row) => {
+        this.crawledUserCells.add(row);
+        return this.extractUserData(row);
+      })
+      .filter((user) => {
+        const key = user.originalProfileLink.toLowerCase();
+        if (!user.accountName || this.crawledUserProfiles.has(key))
+          return false;
+        this.crawledUserProfiles.add(key);
+        return true;
+      });
   }
 
   getScrollTarget() {
-    return findFirstScrollableElements(
-      document.querySelector<HTMLElement>(SCROLL_TARGET_SELECTOR),
-    );
+    return getInstagramList()?.viewport ?? null;
   }
 
   async scrollToBottom(): Promise<void> {
@@ -117,15 +96,23 @@ export class InstagramService implements IService {
   }
 
   checkEnd(): boolean {
-    const scrollTarget = this.getScrollTarget();
-    if (!scrollTarget) {
-      return true;
-    }
-
-    const hasReachedEnd =
-      scrollTarget.scrollTop + scrollTarget.clientHeight >=
-      scrollTarget.scrollHeight;
-
-    return hasReachedEnd;
+    const target = getInstagramList();
+    if (!target) return true;
+    // The caller checks completion after scrolling and waiting for new rows.
+    // Give newly loaded rows another pass even if the viewport is at the end.
+    if (
+      getInstagramRows(target.list).some((row) => {
+        const user = this.extractUserData(row);
+        return (
+          user.accountName &&
+          !this.crawledUserProfiles.has(user.originalProfileLink.toLowerCase())
+        );
+      })
+    )
+      return false;
+    if (target.viewport.querySelector('[role="progressbar"]')) return false;
+    const { viewport, list } = target;
+    const listBottom = list.getBoundingClientRect().bottom;
+    return listBottom <= viewport.getBoundingClientRect().bottom + 1;
   }
 }

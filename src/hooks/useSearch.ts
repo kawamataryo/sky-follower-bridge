@@ -1,4 +1,3 @@
-import { sendToContentScript } from "@plasmohq/messaging";
 import consola from "consola";
 import { useState } from "react";
 import { match, P } from "ts-pattern";
@@ -16,6 +15,7 @@ import {
   STORAGE_KEYS,
   TARGET_URLS_REGEX,
 } from "~lib/constants";
+import { startContentScan } from "~lib/startContentScan";
 import { isFirefox } from "~lib/utils";
 import { useErrorMessage } from "./useErrorMessage";
 
@@ -49,7 +49,7 @@ export const useSearch = () => {
       e.preventDefault();
     }
 
-    const { url: currentUrl } = await getChromeActiveTab();
+    const { id: tabId, url: currentUrl } = await getChromeActiveTab();
 
     if (!Object.values(TARGET_URLS_REGEX).some((r) => r.test(currentUrl))) {
       if (!isFirefox() && currentUrl?.includes("https://x.com/")) {
@@ -106,9 +106,10 @@ export const useSearch = () => {
     setIsLoading(true);
 
     try {
-      const { hasError, message: errorMessage } = await sendToContentScript({
-        name: messageName,
-      });
+      const { hasError, message: errorMessage } = await startContentScan(
+        tabId,
+        messageName,
+      );
       if (hasError) {
         if (errorMessage.includes("Invalid page")) {
           setErrorMessage(errorMessage, DOCUMENT_LINK.PAGE_ERROR);

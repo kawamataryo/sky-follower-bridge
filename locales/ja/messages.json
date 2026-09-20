@@ -43,6 +43,10 @@
     "message": "エラー: 問題が発生しました。ウェブページをリロードして再試行してください。",
     "description": "Text for the error message when something went wrong"
   },
+  "error_invalid_page_in_instagram": {
+    "message": "Instagramのプロフィールで「フォロー中」または「フォロワー」の一覧を開いてから、もう一度検索してください。",
+    "description": "Shown when the Instagram relationship list is not open"
+  },
   "error_invalid_page_in_threads": {
     "message": "エラー: 無効なページです。フォロワー/フォロー中一覧を開いてください。",
     "description": "Text for the error message when the page is invalid in threads"

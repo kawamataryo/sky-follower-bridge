@@ -43,7 +43,8 @@ export const TARGET_URLS_REGEX = {
   LIST: /^https:\/\/(twitter|x)\.com\/[^/]+\/lists\/[^/]+\/members/,
   BLOCK: /^https:\/\/(twitter|x)\.com\/settings\/blocked/,
   THREADS: /^https:\/\/www\.threads\.(net|com)/,
-  INSTAGRAM: /^https:\/\/www\.instagram\.com\/[^/]+\/(followers|following)\/?/,
+  INSTAGRAM:
+    /^https:\/\/www\.instagram\.com\/(?!accounts(?:[/?#]|$)|explore(?:[/?#]|$)|direct(?:[/?#]|$)|reels?(?:[/?#]|$)|p(?:[/?#]|$))[^/?#]+(?:\/(?:followers|following))?\/?(?:[?#].*)?$/,
   TIKTOK: /^https:\/\/www\.tiktok\.com/,
   FACEBOOK: /^https:\/\/www\.facebook\.com\/friends\/list/,
 } as const;
