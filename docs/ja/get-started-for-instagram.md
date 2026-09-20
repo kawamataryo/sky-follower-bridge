@@ -23,13 +23,15 @@ Instagramのフォロータブのいずれかにアクセスしてください�
 
 ![open-account-settings](/images/instagram-open-account.png)
 
-- 2. フォロー中のテキストをクリック
+- 2. 「フォロー中」または「フォロワー」をクリック
 
 ![alt text](/images/instagram-click-followings.png)
 
 - 3. ダイアログを表示
 
 ![click-following](/images/instagram-show-dialog.png)
+
+一覧を開いたまま検索してください。URLがプロフィールページのままでも問題ありません。手動でURLを変更する必要はありません。一覧の下に表示されるおすすめアカウントは検索対象に含まれません。
 
 ### 2. Sky Follower Bridgeを起動
 

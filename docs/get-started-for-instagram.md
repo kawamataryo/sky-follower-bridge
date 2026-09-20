@@ -28,13 +28,15 @@ Visit any of Instagram following tab:
 
 ![open-account-settings](/images/instagram-open-account.png)
 
-- 2. Click following text
+- 2. Click Following or Followers
 
 ![alt text](/images/instagram-click-followings.png)
 
 - 3. Show dialog
 
 ![click-following](/images/instagram-show-dialog.png)
+
+Keep this list open while scanning. The URL may remain on your profile page; you do not need to change it manually. Suggested accounts below the list are excluded.
 
 ### 2. Launch Sky Follower Bridge
 

@@ -43,6 +43,10 @@
     "message": "Error: Something went wrong. Please reload the web page and try again.",
     "description": "Text for the error message when something went wrong"
   },
+  "error_invalid_page_in_instagram": {
+    "message": "Please open the Following or Followers list on an Instagram profile, then try again.",
+    "description": "Shown when the Instagram relationship list is not open"
+  },
   "error_invalid_page_in_threads": {
     "message": "Error: Invalid page. please open the followers or following view.",
     "description": "Text for the error message when the page is invalid in threads"
