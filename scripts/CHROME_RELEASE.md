@@ -77,3 +77,23 @@ ordinary pushes and pull requests do not submit to the store.
 Only the production Chrome build is packed. Private support exports, browser
 profiles, and source files outside that build directory are not included.
 Firefox releases and logged-in real-site testing are outside this workflow.
+
+## Configured publisher (2026-09-20)
+
+- Google Cloud project: `sky-follower-bridge` (`510417285895`).
+- Publisher: `5ba868b7-4268-4b3c-8252-058515f9efb4` (RyoKawamata).
+- Service account: `sfb-chrome-ci@sky-follower-bridge.iam.gserviceaccount.com`,
+  registered in the Chrome Web Store publisher settings.
+- Provider: `projects/510417285895/locations/global/workloadIdentityPools/sfb-chrome-release/providers/github`.
+- GitHub environment: `chrome-webstore`; all three `CWS_*` variables above are set.
+- The provider requires repository ID `642846986`, owner ID `11070996`, the
+  `chrome-webstore` environment, `main` or a `chrome-v*` tag, and the
+  `.github/workflows/publish-chrome.yml` workflow. The service-account binding is
+  scoped to `attribute.repository_id/642846986` in this dedicated pool.
+- No service-account private key was created. The account has no project-wide role.
+
+The authenticated Developer Dashboard shows **3.2.1 already publicly published**,
+with its last-update date displayed as 2026-05-22. Earlier cached public-store data
+showing 3.2.0 was stale. Do not upload 3.2.1 again. The registration and GitHub
+configuration are complete; the first GitHub OIDC authentication must still be
+verified after this workflow is merged into main.
